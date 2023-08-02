@@ -9,7 +9,7 @@ const Navbar = ({ open, setOpen, date, setDate }) => {
 
     ////////////////////////////////////// states /////////////////////////////////////
     const [state, setState] = useState({ right: false });
-    
+
     ////////////////////////////////////// variables ///////////////////////////////////
     const drawerWidth = 240;
 
@@ -53,7 +53,7 @@ const Navbar = ({ open, setOpen, date, setDate }) => {
             <Divider />
             <List>
                 {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <>
+                    <React.Fragment key={index} >
                         <ListItem key={text} disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
@@ -63,7 +63,7 @@ const Navbar = ({ open, setOpen, date, setDate }) => {
                             </ListItemButton>
                         </ListItem>
                         <Divider />
-                    </>
+                    </React.Fragment>
                 ))}
             </List>
         </Box>

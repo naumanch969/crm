@@ -1,0 +1,5 @@
+export { default as person1 } from './person1.jpeg'
+export { default as person2 } from './person2.jpeg'
+export { default as person3 } from './person3.jpeg'
+export { default as person4 } from './person4.jpeg'
+export { default as person5 } from './person5.jpeg'

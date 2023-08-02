@@ -15,55 +15,55 @@ const Sidebar = ({ open, setOpen, date, setDate, DrawerHeader }) => {
     const drawerWidth = 240;
     const links = [
         {
-            id: 1,
+            _id: 1,
             title: 'DashBoard',
             link: '/',
             icon: <HomeOutlined />
         },
         {
-            id: 2,
+            _id: 2,
             title: 'Leads',
             link: '/leads',
             icon: <PeopleAltOutlined />
         },
         {
-            id: 3,
+            _id: 3,
             title: 'To Do Tasks',
             link: '/tasks',
             icon: <AssignmentOutlined />
         },
         {
-            id: 4,
+            _id: 4,
             title: 'User',
             link: '/user',
             icon: <AccountCircleOutlined />
         },
         {
-            id: 5,
+            _id: 5,
             title: 'Authorization',
             link: '/auths',
             icon: <LockOutlined />
         },
         {
-            id: 6,
+            _id: 6,
             title: 'Cash Book',
             link: '/cashbook',
             icon: <LocalAtmOutlined />
         },
         {
-            id: 7,
+            _id: 7,
             title: 'Sales',
             link: '/sales',
             icon: <ShoppingCartOutlined />
         },
         {
-            id: 8,
+            _id: 8,
             title: 'Vouchers',
             link: '/voucher',
             icon: <CardGiftcardOutlined />
         },
         {
-            id: 9,
+            _id: 9,
             title: 'Report',
             link: '/report',
             icon: <SummarizeOutlined />
@@ -151,18 +151,18 @@ const Sidebar = ({ open, setOpen, date, setDate, DrawerHeader }) => {
             </DrawerHeader>
             <Divider />
             <List>
-                {links.map((text) => (
-                    <>
+                {links.map((text, index) => (
+                    <div key={index} className='' >
                         <ListItem
-                            key={text.id}
+                            key={text._id}
                             disablePadding
                             sx={{ display: 'block' }}
                             className={clsx({
                                 'hover:text-sky-400 hover:border-l-4 hover:border-l-sky-400 transition-all': true,
-                                'text-sky-600 border-l-4 border-l-sky-600': selectedItem === text.id,
-                                'text-gray-500': selectedItem !== text.id,
+                                'text-sky-600 border-l-4 border-l-sky-600': selectedItem === text._id,
+                                'text-gray-500': selectedItem !== text._id,
                             })}
-                            onClick={() => handleItemClick(text.id)}
+                            onClick={() => handleItemClick(text._id)}
                         >
                             <Link to={text.link}>
                                 <CustomListItem
@@ -173,11 +173,11 @@ const Sidebar = ({ open, setOpen, date, setDate, DrawerHeader }) => {
                                     }}
                                     className={clsx({
                                         'hover:text-sky-400 hover:border-l-4 hover:border-l-sky-400 transition-all': true,
-                                        'text-sky-600 border-l-4 border-l-sky-600': selectedItem === text.id,
-                                        'text-gray-500': selectedItem !== text.id,
+                                        'text-sky-600 border-l-4 border-l-sky-600': selectedItem === text._id,
+                                        'text-gray-500': selectedItem !== text._id,
                                     })}
-                                    onClick={() => handleItemClick(text.id)}
-                                    selected={selectedItem === text.id}
+                                    onClick={() => handleItemClick(text._id)}
+                                    selected={selectedItem === text._id}
                                 >
                                     <ListItemIcon
                                         sx={{
@@ -193,7 +193,7 @@ const Sidebar = ({ open, setOpen, date, setDate, DrawerHeader }) => {
                             </Link>
                         </ListItem>
                         <Divider />
-                    </>
+                    </div>
                 ))}
             </List>
         </CustomDrawer>

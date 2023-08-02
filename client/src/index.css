@@ -3,12 +3,14 @@
 @tailwind utilities;
 
 @layer base {
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
+
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -28,4 +30,37 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+
+
+/* lead board scrollbar */
+
+.leadBoard::-webkit-scrollbar {
+  width: 5px;
+}
+
+.leadBoard::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.leadBoard::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.leadBoard::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Custom styles for the Droppable placeholder */
+.custom-placeholder {
+  background-color: #f7f7f7;
+  /* Customize the background color here */
+  border: 2px dashed #cccccc;
+  /* Add a dashed border or other styles as needed */
+  border-radius: 4px;
+  /* Add border radius for rounded corners, if desired */
+  /* Add any other custom styles to make the placeholder stand out */
 }

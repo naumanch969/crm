@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route, Outlet } from 'react-router-dom';
 import Header from './Components/Header/Header';
-import { DashBoard, Leads, Tasks, Users, Authorizations, CashBook, Sales, Vouchers, Report, Login, Signup } from './Pages'
+import { DashBoard, Leads, Tasks, Users, Authorizations, CashBook, Sales, Vouchers, Report, Login, Signup, CreateUser } from './Pages'
 
 const App = () => {
 
@@ -23,6 +23,7 @@ const App = () => {
           <Route path='/leads' element={<Leads />} />
           <Route path='/tasks' element={<Tasks />} />
           <Route path='/user' element={<Users />} />
+          <Route path='/user/create' element={<CreateUser />} />
           <Route path='/auths' element={<Authorizations />} />
           <Route path='/cashbook' element={<CashBook />} />
           <Route path='/sales' element={<Sales />} />

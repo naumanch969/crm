@@ -25,7 +25,7 @@ const Header = () => {
 
   ////////////////////////////////////// components //////////////////////////////////
   const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
+    display: 'flex',      
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
@@ -40,10 +40,13 @@ const Header = () => {
 
       <Navbar open={open} setOpen={setOpen} date={date} setDate={setDate} />
       <Sidebar open={open} setOpen={setOpen} date={date} setDate={setDate} DrawerHeader={DrawerHeader} />
-      <Box className='bg-gray-100' component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <main
+        // style={{ height: 'calc(100vh - 64px)' }}
+        className='bg-lighter-gray p-[2rem] flex-grow-[1] '
+      >
         <DrawerHeader />
         <Outlet />
-      </Box>
+      </main>
 
     </Box>
   )
