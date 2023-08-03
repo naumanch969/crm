@@ -400,7 +400,7 @@ const Header = () => {
           ))}
         </List>
       </Drawer>
-      <Box className='bg-gray-100' component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box className='bg-gray-50' component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <Outlet />
       </Box>

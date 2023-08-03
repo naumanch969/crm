@@ -1,6 +1,13 @@
 import { CreditCard } from 'react-bootstrap-icons'
-import { Box, Card, CardContent, Chip } from '@mui/material'
-import React, {PureComponent} from 'react'
+import { Box, Card, CardContent, Chip, ListItemButton } from '@mui/material'
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Sector, Cell } from 'recharts';
 
@@ -92,23 +99,137 @@ function DashBoard() {
 
     
 const data1 = [
-  { name: 'Successful', value: 600 },
-  { name: 'Unsuccessful', value: 200 },
-  { name: 'Under Process', value: 300 },
-  { name: 'Declined', value: 100 },
-  { name: 'Remaining', value: 300 },
+  { name: 'Successful', value: 6 },
+  { name: 'Unsuccessful', value: 2 },
+  { name: 'Under Process', value: 3 },
+  { name: 'Declined', value: 1 },
+  { name: 'Remaining', value: 3 },
 ];
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'rgb(220 38 38)'];
 
 // <-------------------------------------------------------------->
 
-// <----------------------- Bottom Box --------------------------->
+// <---------------------- Latest Activity ----------------------->
 
 const allData = [
-  
+  {
+    id: 1,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
+  {
+    id: 2,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
+  {
+    id: 3,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
+  {
+    id: 4,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
+  {
+    id: 5,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
+  {
+    id: 6,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
+  {
+    id: 7,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
+  {
+    id: 8,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
+  {
+    id: 9,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
+  {
+    id: 10,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
+  {
+    id: 11,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
+  {
+    id: 12,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
+  {
+    id: 13,
+    name:'henry',
+    time:2,
+    description:'This is demo Description',
+  },
 ]
 
 // <-------------------------------------------------------------->
+
+// <------------------------ Projects ---------------------------->
+
+const Projectsdata = [
+  {
+    id: 1,
+    action:'Not Started',
+    assigned:0,
+  },
+  {
+    id: 2,
+    action:'In Progress',
+    assigned:3,
+  },
+  {
+    id: 3,
+    action:'On Hold',
+    assigned:1,
+  },
+  {
+    id: 4,
+    action:'Completed',
+    assigned:5,
+  },
+]
+
+// <------------------------------------------------------------>
+
+const currentYear = new Date().getFullYear();
+
+let IncomeSum = data.reduce(function(prev, current) {
+  return prev + +current.Income
+}, 0);
+
+let ExpensesSum = data.reduce(function(prev, current) {
+  return prev + +current.Expenses
+}, 0);
 
   return (
     <div className='h-auto'>
@@ -182,9 +303,9 @@ const allData = [
             </LineChart>
           </ResponsiveContainer>
           <div className='columns-3 mt-2'>
-            <div className='flex justify-center font-extralight text-3xl'>2023</div>
-            <div className='flex justify-center font-extralight text-3xl'>$32400</div>
-            <div className='flex justify-center font-extralight text-3xl'>$12000</div>
+            <div className='flex justify-center font-extralight text-3xl'>{currentYear}</div>
+            <div className='flex justify-center font-extralight text-3xl'>${IncomeSum}</div>
+            <div className='flex justify-center font-extralight text-3xl'>${ExpensesSum}</div>
           </div>
           <div className='columns-3'>
             <div className='flex justify-center text-sm font-thin text-gray-600'>Period</div>
@@ -224,14 +345,79 @@ const allData = [
 
       </Box>
 
-      <Box className='w-full h-auto bg-white rounded-lg mt-5'>
+    <Box className='flex'>
 
-        <div className='flex justify-center text-xl p-4'>Latest Activty</div>
-        <Box className='w-11/12 bg-gray-100 h-96 rounded-lg ml-12'>
-            
+      <Box className='w-full h-auto bg-white rounded-lg mt-5 pb-4'>
+
+        <div className='flex justify-center text-xl pt-4'>Latest Activty</div>
+        <Box className='w-full max-h-96 p-1 rounded-lg overflow-scroll'>
+          <List sx={{ width: '100%' }}>
+          {allData.map((item, index) => (
+          <>
+            <ListItemButton key={item.id} alignItems="flex-start">
+              <ListItemAvatar>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+              </ListItemAvatar>
+              <ListItemText
+                primary={item.name}
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      sx={{ display: 'inline' }}
+                      component="span"
+                      variant="body2"
+                      color="text.primary"
+                    >
+                      {item.description} — &nbsp;
+                    </Typography>
+                    {item.time} Hours Ago
+                  </React.Fragment>
+                }
+              />
+            </ListItemButton>
+            <Divider variant="inset" component="li" />
+          </>
+          ))}
+          </List>
         </Box>
 
       </Box>
+
+      <Box className='w-7/12 h-full bg-white mt-5 ml-5 p-2'>
+        <div className='flex justify-center text-xl'>Projects</div>
+        <Box className='w-full max-h-96 p-1 rounded-lg overflow-scroll'>
+          <List sx={{ width: '100%' }}>
+          {Projectsdata.map((item, index) => (
+          <>
+            <ListItemButton key={item.id} alignItems="flex-start">
+              <ListItemAvatar>
+                <Avatar sx={{ backgroundColor:'orange' }} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+              </ListItemAvatar>
+              <ListItemText
+                primary={item.action}
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      sx={{ font:'light' }}
+                      component="span"
+                      variant="body2"
+                    >
+                      {"Assigned to me : "}
+                    </Typography>
+                    {item.assigned} 
+                  </React.Fragment>
+                }
+              />
+            </ListItemButton>
+            <Divider variant="inset" component="li" />
+          </>
+          ))}
+          </List>
+        </Box>
+      </Box>
+
+    </Box>
+    
     </div>
   )
 }
