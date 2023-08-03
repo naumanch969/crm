@@ -211,6 +211,7 @@ const Leads = () => {
         },
     ])
 
+
     return (
         <div className='w-full h-fit bg-inherit flex flex-col gap-[2rem]  ' >
             <Topbar view={view} setView={setView} />

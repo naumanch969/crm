@@ -32,11 +32,11 @@ export const getSales = async (req, res, next) => {
 export const createSale = async (req, res, next) => {
     try {
 
-        const { leadId, supplierName, net, received, branch, psf, fop, staff, invoiseNumber } = req.body
-        if (!leadId || !supplierName || !net || !received || !branch || !psf || !fop || !staff || !invoiseNumber)
+        const { leadId, supplierName, net, received, branch, psf, fop, staff, invoiceNumber } = req.body
+        if (!leadId || !supplierName || !net || !received || !branch || !psf || !fop || !staff || !invoiceNumber)
             return next(createError(400, 'Make sure to provide all the fields'))
 
-        const newSale = await Sale.create({ leadId, supplierName, net, received, branch, psf, fop, staff, invoiseNumber })
+        const newSale = await Sale.create({ leadId, supplierName, net, received, branch, psf, fop, staff, invoiceNumber })
         res.status(200).json({ result: newSale, message: 'sale created successfully', success: true })
 
     } catch (err) {

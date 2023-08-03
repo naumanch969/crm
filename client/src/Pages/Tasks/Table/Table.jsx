@@ -4,49 +4,22 @@ import { DataGrid } from '@mui/x-data-grid';
 import { DeleteOutline, Edit, EditAttributes, EditOutlined, More, MoreOutlined, PanoramaFishEye, ViewAgenda } from '@mui/icons-material';
 import { Eye } from 'react-bootstrap-icons';
 import EditModal from './EditModal';
+import React from 'react'
 import DeleteModal from './DeleteModal';
 
 
-const Table = ({ leads }) => {
+const Table = ({ tasks }) => {
 
     const [openEditModal, setOpenEditModal] = useState(false)
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
     const columns = [
-        { field: 'title', headerName: 'Title', width: 200, editable: true, },
-        { field: 'contact', headerName: 'Contact', width: 150, editable: true, },
-        { field: 'created', headerName: 'Date', width: 150 },
+        { field: 'title', headerName: 'Title', width: 150, },
+        { field: 'description', headerName: 'Description', width: 300 },
+        { field: 'dueDate', headerName: 'Due Date', width: 150 },
+        { field: 'createdAt', headerName: 'Created At', width: 150 },
         {
-            field: 'assigned', headerName: 'Assigned', width: 150, renderCell: (params) => (
-                <AvatarGroup max={2} >
-                    {
-                        params.row.assigned.map((user, index) => (
-                            <Tooltip placement='top' key={index} title={user.name} >
-                                <Avatar src={user.image} className='' />
-                            </Tooltip>
-                        ))
-                    }
-                </AvatarGroup>
-            )
-        },
-        {
-            field: 'status', headerName: 'Status', width: 120, renderCell: (params) => {
-                const { status } = params.row
-
-                return (
-                    <span className={`
-                    ${status == 'completed' ? 'border-green-500 text-green-500' : status == 'pending' ? 'border-red-500 text-red-500' : ''}
-                     border-[1px] rounded-[6px] px-[4px] py-[2px]  `} >{status}</span>
-                )
-            }
-        },
-        {
-            field: 'value', headerName: 'Value', width: 120, renderCell: (params) => (
-                <span className='' >${params.row.value}</span>
-            )
-        },
-        {
-            field: "action", headerName: "Action", width: 200, renderCell: (params) => (
+            field: "action", headerName: "Action", width: 150, renderCell: (params) => (
                 <div className='flex gap-[4px] ' >
                     <Tooltip placement='top' title='Edit' >
                         <button onClick={() => setOpenEditModal(true)} className='cursor-pointer ' ><EditOutlined /></button>
@@ -54,13 +27,11 @@ const Table = ({ leads }) => {
                     <Tooltip placement='top' title='Delete' >
                         <button onClick={() => setOpenDeleteModal(true)} className='cursor-pointer ' ><DeleteOutline /></button>
                     </Tooltip>
-                    <Tooltip placement='top' title='View' >
-                        <button className='cursor-pointer ' ><Eye /></button>
-                    </Tooltip>
                 </div>
             ),
         },
     ];
+
 
 
     const handleDelete = () => {
@@ -74,7 +45,7 @@ const Table = ({ leads }) => {
             <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} handleDelete={handleDelete} />
 
             <DataGrid
-                rows={leads}
+                rows={tasks}
                 columns={columns}
                 initialState={{
                     pagination: {
@@ -88,6 +59,7 @@ const Table = ({ leads }) => {
                 checkboxSelection
                 disableRowSelectionOnClick
             />
+
         </div>
     );
 }

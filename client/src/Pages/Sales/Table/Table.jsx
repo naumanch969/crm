@@ -8,46 +8,29 @@ import React from 'react'
 import DeleteModal from './DeleteModal';
 
 
-const Table = ({ users }) => {
+const Table = ({ sales }) => {
 
-    const [changePassword, setChangePassword] = useState('')
     const [openEditModal, setOpenEditModal] = useState(false)
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
     const columns = [
         {
-            field: 'image', headerName: 'Photo', width: 100, renderCell: (params) => (
-                <img src={params.row.image} alt="" className='w-[2rem] h-[2rem] rounded-full object-cover ' />
+            field: 'sr', headerName: 'Sr.', width: 80, renderCell: (params) => (
+                <>{params.id}</>
             )
         },
-        { field: 'userName', headerName: 'User Name', width: 150, },
-        { field: 'password', headerName: 'Password', width: 150 },
+        { field: 'invoiceNumber', headerName: 'Inv No.', width: 150, },
+        { field: 'createdAt', headerName: 'Date', width: 150 },
+        { field: 'supplierName', headerName: 'Supplier', width: 150 },
+        { field: 'leadId', headerName: 'Lead ID', width: 150 },
+        { field: 'net', headerName: 'Net', width: 100 },
+        { field: 'received', headerName: 'Received', width: 150 },
+        { field: 'psf', headerName: 'PSF', width: 100 },
+        { field: 'fop', headerName: 'FOP', width: 100 },
+        { field: 'branch', headerName: 'Branch', width: 100 },
+        { field: 'staff', headerName: 'Staff', width: 120 },
         {
-            field: 'changePassword', headerName: 'Change Password', width: 150, renderCell: (params) => (
-                <React.Fragment>
-                    <input type="password" value={changePassword} onChange={(e) => setChangePassword(e.target.value)} />
-                </React.Fragment>
-            )
-        },
-        { field: 'email', headerName: 'Email', width: 150 },
-        { field: 'officialNumber', headerName: 'Office No.', width: 150 },
-        { field: 'phone', headerName: 'Mobile Number', width: 150 },
-        { field: 'cnic', headerName: 'CNIC', width: 150 },
-        { field: 'branch', headerName: 'Branch', width: 150 },
-        {
-            field: 'activeStatus', headerName: 'Status', width: 150, renderCell: (params) => {
-                const { activeStatus } = params.row
-                return (
-                    <span className={`
-                ${activeStatus ? 'border-green-500 text-green-500' : 'border-red-500 text-red-500'}
-                border-[1px] rounded-[6px] px-[4px] py-[2px]
-                `}
-                    >{activeStatus ? 'Active' : 'Inactive'}</span>
-                )
-            }
-        },
-        {
-            field: "action", headerName: "Action", width: 200, renderCell: (params) => (
+            field: "action", headerName: "Action", width: 100, renderCell: (params) => (
                 <div className='flex gap-[4px] ' >
                     <Tooltip placement='top' title='Edit' >
                         <button onClick={() => setOpenEditModal(true)} className='cursor-pointer ' ><EditOutlined /></button>
@@ -60,14 +43,20 @@ const Table = ({ users }) => {
         },
     ];
 
+
+
+    const handleDelete = () => {
+        console.log('handleDelete')
+    }
+
     return (
         <div className='w-[61rem] h-auto overflow-x-scroll '>
 
             <EditModal open={openEditModal} setOpen={setOpenEditModal} />
-            <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} />
+            <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} handleDelete={handleDelete} />
 
             <DataGrid
-                rows={users}
+                rows={sales}
                 columns={columns}
                 initialState={{
                     pagination: {
@@ -81,6 +70,7 @@ const Table = ({ users }) => {
                 checkboxSelection
                 disableRowSelectionOnClick
             />
+
         </div>
     );
 }
