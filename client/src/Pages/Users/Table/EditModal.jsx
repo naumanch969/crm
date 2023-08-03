@@ -24,7 +24,7 @@ const EditModal = ({ open, setOpen }) => {
 
         <div className="bg-neutral-800 p-[8px] text-white flex justify-between items-center sticky top-0 ">
           <h2 className='font-bold text-[24px] ' >Update User</h2>
-          <IconButton><Close className='text-white' /></IconButton>
+           <IconButton onClick={()=>setOpen(false)} ><Close className='text-white' /></IconButton>
         </div>
 
         <form onSubmit={handleSubmit} className='flex flex-col gap-[8px] w-full px-[2rem] py-[1rem] ' >

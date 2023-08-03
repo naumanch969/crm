@@ -10,7 +10,7 @@ const saleSchema = Schema({
     psf: { type: String, required: true },
     fop: { type: String, required: true },
     staff: { type: String, required: true },
-    invoiseNumber: { type: String, required: true },
+    invoiceNumber: { type: String, required: true },
 }, { timestamps: true })
 
 const saleModel = model('Sale', saleSchema)

@@ -14,11 +14,11 @@ const Topbar = ({ view, setView }) => {
     <div className='flex justify-between items-center ' >
 
       <div className='flex flex-col justify-start gap-[4px] '>
-        <h1 className='text-primary-blue text-[24px] ' >Leads</h1>
+        <h1 className='text-primary-blue text-[24px] ' >Users</h1>
         <div className='flex justify-start items-center gap-[8px] '>
           <span className='capitalize text-[15px] text-primary-gray ' >App</span>
           <KeyboardArrowRight className='text-primary-gray ' />
-          <span className='capitalize text-black '>Leads</span>
+          <span className='capitalize text-black '>Users</span>
         </div>
       </div>
 
@@ -30,12 +30,12 @@ const Topbar = ({ view, setView }) => {
           <input className='w-[7rem] text-primary-gray outline-none border-none bg-inherit h-full ' type="text" placeholder='Search' value={searchValue} onChange={e => setSearchValue(e.target.value)} />
         </div>
         <div className="flex justify-start items-center gap-[6px]">
-          <Tooltip placement='top' title='Show Archived Leads' >
+          <Tooltip placement='top' title='Show Archived Users' >
             <div className="w-[32px] h-[32px] flex justify-center items-center cursor-pointer bg-secondary-blue rounded-[4px] ">
               <Inventory2Outlined className='text-primary-blue ' />
             </div>
           </Tooltip>
-          <Tooltip placement='top' title='My Leads' >
+          <Tooltip placement='top' title='My Users' >
             <div className="w-[32px] h-[32px] flex justify-center items-center cursor-pointer bg-secondary-gray rounded-[4px] ">
               <PersonOutlineOutlined className='text-primary-gray ' />
             </div>
@@ -57,7 +57,7 @@ const Topbar = ({ view, setView }) => {
               <ArrowDropDown />
             </div>
           </Tooltip>
-          <Tooltip placement='top' title='Import Leads' >
+          <Tooltip placement='top' title='Import Users' >
             <div className="w-[32px] h-[32px] flex justify-center items-center cursor-pointer bg-secondary-gray rounded-[4px] ">
               <DownloadOutlined className='text-primary-gray ' />
             </div>
@@ -68,7 +68,7 @@ const Topbar = ({ view, setView }) => {
             </div>
           </Tooltip>
         </div>
-        <button onClick={() => navigate('/leads/create')} className="bg-primary-red text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-lg ">
+        <button onClick={() => navigate('/users/create')} className="bg-primary-red text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-lg ">
           <Add />
         </button>
       </div>

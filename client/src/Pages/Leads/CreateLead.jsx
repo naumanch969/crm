@@ -64,7 +64,6 @@ const CreateLead = () => {
 
             <form onSubmit={handleSubmit} className='flex flex-col gap-[24px] w-full ' >
 
-
                 <div className="flex flex-col rounded-[4px] border-[1px] border-gray-400 shadow-sm ">
                     <div className="px-[1rem] py-[8px] bg-neutral-600 text-white ">
                         <h4 className='font-medium text-[1rem] ' >CUSTOMER DETAILS</h4>
@@ -103,9 +102,6 @@ const CreateLead = () => {
                         </div>
                     </div>
                 </div>
-
-
-
 
                 <div className="flex flex-col gap-[1rem] rounded-[4px] border-[1px] border-gray-400 shadow-sm ">
                     {/* heading */}
@@ -340,8 +336,6 @@ const CreateLead = () => {
                         </div>
                     </div>
                 </div>
-
-
 
             </form>
 

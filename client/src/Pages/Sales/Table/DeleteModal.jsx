@@ -9,11 +9,11 @@ const DeleteModal = ({ open, setOpen, handleDelete }) => {
       onClose={() => setOpen(false)}
     >
       <DialogTitle id="alert-dialog-title">
-        Delete the Lead?
+        Delete the Task?
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Are you sure you want to delete this lead?
+          Are you sure you want to delete this task?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
