@@ -1,8 +1,14 @@
+import { Modal } from '@mui/material'
 import React from 'react'
 
-const DeleteModal = () => {
+const DeleteModal = ({ open, setOpen }) => {
   return (
-    <div>DeleteModal</div>
+    <Modal open={open} onClose={() => setOpen(false)} >
+      
+      <div className="">
+
+      </div>
+    </Modal>
   )
 }
 
