@@ -12,8 +12,13 @@ const leadSlice = createSlice({
         start: (state) => { state.isFetching = true; state.error = null; },
         end: (state) => { state.isFetching = false },
         error: (state, action) => { state.isFetching = false; state.error = action.payload; },
+        getLeadsReducer: (state, action) => { state.currentLead = action.payload},
+        getLeadReducer: (state, action) => { state.leads = action.payload},
+        createLeadReducer: (state, action) => { state.leads = [...state.leads, action.payload]},
+        updateLeadReducer: (state, action) => { state.leads = state.leads.map(m => m = m._id == action.payload._id ? action.payload : m)},
+        deleteLeadReducer: (state, action) => { state.leads = state.leads.filter(m => m._id != action.payload._id)},
     }
 })
 
-export const { start, end, error } = leadSlice.actions
+export const { start, end, error, getLeadsReducer, getLeadReducer, createLeadReducer, updateLeadReducer, deleteLeadReducer, } = leadSlice.actions
 export default leadSlice.reducer

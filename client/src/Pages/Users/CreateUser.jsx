@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 const CreateUser = () => {
 
-    const [userData, setUserData] = useState({ firstName: '', lastName: '', userName: '', email: '', password: '', cnic: '', phone: '', officialNumber: '', branch: '', gender: 'male', martialStatus: 'married', salaryType: '', activeStatus: false })
+    const [userData, setUserData] = useState({ firstName: '', lastName: '', username: '', email: '', password: '', cnic: '', phone: '', officialNumber: '', branch: '', gender: 'male', martialStatus: 'married', salaryType: '', activeStatus: false })
 
     const stats = [
         { title: 'Allowed Users', numbers: 100 },
@@ -28,7 +28,7 @@ const CreateUser = () => {
             <div className="flex justify-between gap-[24px] w-full">
                 {
                     stats.map((stat, index) => (
-                        <div key={index} className="flex flex-col items-center flex-[1] px-[2rem] py-[1rem] shadow-md rounded-[4px]  ">
+                        <div key={index} className="flex flex-col items-center flex-[1] px-[2rem] py-[1rem] shadow-box rounded-[4px]  ">
                             <span className='text-gray-500 font-semibold text-[20px] text-center ' >{stat.title}</span>
                             <span className='text-[22px] font-semibold ' >{stat.numbers}</span>
                         </div>
@@ -47,8 +47,8 @@ const CreateUser = () => {
                         </div>
                         {/* username */}
                         <div className="flex flex-col gap-[4px] ">
-                            <label className='text-black font-medium text-[16px] ' htmlFor="userName">User Name</label>
-                            <input type="text" onChange={handleChange} value={userData.userName} name="userName" id="userName" placeholder='User Name' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
+                            <label className='text-black font-medium text-[16px] ' htmlFor="username">User Name</label>
+                            <input type="text" onChange={handleChange} value={userData.username} name="username" id="username" placeholder='User Name' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
                         </div>
                         {/* email */}
                         <div className="flex flex-col gap-[4px] ">

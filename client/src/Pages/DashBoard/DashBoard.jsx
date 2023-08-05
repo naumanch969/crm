@@ -108,14 +108,15 @@ function DashBoard() {
 
   // <--------------------- Pie Chart ----------------------------->
 
+
   const data1 = [
-    { name: "Successful", value: 6 },
-    { name: "Unsuccessful", value: 2 },
-    { name: "Under Process", value: 3 },
-    { name: "Declined", value: 1 },
-    { name: "Remaining", value: 3 },
+    { name: 'Successful', value: 6 },
+    { name: 'Unsuccessful', value: 2 },
+    { name: 'Under Process', value: 3 },
+    { name: 'Declined', value: 1 },
+    { name: 'Remaining', value: 3 },
   ];
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "rgb(220 38 38)"];
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'rgb(220 38 38)'];
 
   // <-------------------------------------------------------------->
 
@@ -124,83 +125,83 @@ function DashBoard() {
   const allData = [
     {
       id: 1,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
     {
       id: 2,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
     {
       id: 3,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
     {
       id: 4,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
     {
       id: 5,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
     {
       id: 6,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
     {
       id: 7,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
     {
       id: 8,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
     {
       id: 9,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
     {
       id: 10,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
     {
       id: 11,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
     {
       id: 12,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
     {
       id: 13,
-      name: "henry",
+      name: 'henry',
       time: 2,
-      description: "This is demo Description",
+      description: 'This is demo Description',
     },
-  ];
+  ]
 
   // <-------------------------------------------------------------->
 
@@ -209,84 +210,78 @@ function DashBoard() {
   const Projectsdata = [
     {
       id: 1,
-      action: "Not Started",
+      action: 'Not Started',
       assigned: 0,
     },
     {
       id: 2,
-      action: "In Progress",
+      action: 'In Progress',
       assigned: 3,
     },
     {
       id: 3,
-      action: "On Hold",
+      action: 'On Hold',
       assigned: 1,
     },
     {
       id: 4,
-      action: "Completed",
+      action: 'Completed',
       assigned: 5,
     },
-  ];
+  ]
 
   // <------------------------------------------------------------>
 
   const currentYear = new Date().getFullYear();
 
   let IncomeSum = data.reduce(function (prev, current) {
-    return prev + +current.Income;
+    return prev + +current.Income
   }, 0);
 
   let ExpensesSum = data.reduce(function (prev, current) {
-    return prev + +current.Expenses;
+    return prev + +current.Expenses
   }, 0);
 
   return (
-    <div className="h-auto">
-      <Box className="w-auto columns-3">
-        <Link to="/cashbook">
-          <Card className="bg-white border-b-4 border-b-emerald-300">
-            <CardContent className="columns-2">
+    <div className='h-auto'>
+      <Box className='w-auto columns-3'>
+        <Link to='/cashbook'>
+          <Card className='bg-white border-b-4 border-b-emerald-300'>
+            <CardContent className='columns-2'>
               <div>
-                <p className="text-2xl font-Mulish">$200.00</p>
-                <p className="text-md font-Mulish text-slate-500 text-opacity-70">
-                  Payments - Today
-                </p>
+                <p className='text-2xl font-Mulish'>$200.00</p>
+                <p className='text-md font-Mulish text-slate-500 text-opacity-70'>Payments - Today</p>
               </div>
-              <div className="flex justify-end">
-                <CreditCard className="text-emerald-300" height={50} width={50} />
+              <div className='flex justify-end'>
+                <CreditCard className='text-emerald-300' height={50} width={50} />
               </div>
             </CardContent>
           </Card>
         </Link>
 
-        <Link to="/cashbook">
-          <Card className="bg-white border-b-4 border-b-sky-400">
-            <CardContent className="columns-2">
+        <Link to='/cashbook'>
+          <Card className='bg-white border-b-4 border-b-sky-400'>
+            <CardContent className='columns-2'>
               <div>
-                <p className="text-2xl font-Mulish">$1500.00</p>
-                <p className="text-md font-Mulish text-slate-500 text-opacity-70">
-                  Payments - This Month
-                </p>
+                <p className='text-2xl font-Mulish'>$1500.00</p>
+                <p className='text-md font-Mulish text-slate-500 text-opacity-70'>Payments - This Month</p>
               </div>
-              <div className="flex justify-end">
-                <CreditCard className="text-sky-400" height={50} width={50} />
+              <div className='flex justify-end'>
+                <CreditCard className='text-sky-400' height={50} width={50} />
               </div>
             </CardContent>
           </Card>
         </Link>
 
-        <Link to="/cashbook">
-          <Card className="bg-white border-b-4 border-b-amber-400">
-            <CardContent className="columns-2">
+        <Link to='/cashbook'>
+          <Card className='bg-white border-b-4 border-b-amber-400'>
+            <CardContent className='columns-2'>
               <div>
-                <p className="text-2xl font-Mulish">$23000.00</p>
-                <p className="text-md font-Mulish text-slate-500 text-opacity-70">
-                  Payments - This Year
-                </p>
+                <p className='text-2xl font-Mulish'>$23000.00</p>
+                <p className='text-md font-Mulish text-slate-500 text-opacity-70'>Payments - This Year</p>
               </div>
-              <div className="flex justify-end">
-                <CreditCard className="text-amber-400" height={50} width={50} />
+              <div className='flex justify-end'>
+                <CreditCard className='text-amber-400' height={50} width={50} />
               </div>
             </CardContent>
           </Card>
@@ -346,37 +341,26 @@ function DashBoard() {
             <Tooltip />
           </PieChart>
           <div>
-            <Chip
-              style={{ backgroundColor: "#0088FE", color: "white", margin: "4px" }}
-              label="Successful"
-            />
-            <Chip
-              style={{ backgroundColor: "#00C49F", color: "white", margin: "4px" }}
-              label="Unsuccessful"
-            />
-            <Chip
-              style={{ backgroundColor: "#FFBB28", color: "white", margin: "4px" }}
-              label="Under Process"
-            />
-            <Chip
-              style={{ backgroundColor: "#FF8042", color: "white", margin: "4px" }}
-              label="Declined"
-            />
-            <Chip
-              style={{ backgroundColor: "rgb(220 38 38)", color: "white", margin: "4px" }}
-              label="Remaining"
-            />
+            <Chip style={{ backgroundColor: '#0088FE', color: 'white', margin: '4px' }} label="Successful" />
+            <Chip style={{ backgroundColor: '#00C49F', color: 'white', margin: '4px' }} label="Unsuccessful" />
+            <Chip style={{ backgroundColor: '#FFBB28', color: 'white', margin: '4px' }} label="Under Process" />
+            <Chip style={{ backgroundColor: '#FF8042', color: 'white', margin: '4px' }} label="Declined" />
+            <Chip style={{ backgroundColor: 'rgb(220 38 38)', color: 'white', margin: '4px' }} label="Remaining" />
           </div>
+
         </Box>
+
       </Box>
 
-      <Box className="flex">
-        <Box className="w-full h-auto bg-white rounded-lg mt-5 pb-4">
-          <div className="flex justify-center text-xl pt-4">Latest Activty</div>
-          <Box className="w-full max-h-96 p-1 rounded-lg overflow-scroll">
-            <List sx={{ width: "100%" }}>
+      <Box className='flex'>
+
+        <Box className='w-full h-auto bg-white rounded-lg mt-5 pb-4'>
+
+          <div className='flex justify-center text-xl pt-4'>Latest Activty</div>
+          <Box className='w-full max-h-96 p-1 rounded-lg overflow-scroll'>
+            <List sx={{ width: '100%' }}>
               {allData.map((item, index) => (
-                <>
+                <React.Fragment key={index} >
                   <ListItemButton key={item.id} alignItems="flex-start">
                     <ListItemAvatar>
                       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -386,10 +370,11 @@ function DashBoard() {
                       secondary={
                         <React.Fragment>
                           <Typography
-                            sx={{ display: "inline" }}
+                            sx={{ display: 'inline' }}
                             component="span"
                             variant="body2"
-                            color="text.primary">
+                            color="text.primary"
+                          >
                             {item.description} — &nbsp;
                           </Typography>
                           {item.time} Hours Ago
@@ -398,31 +383,32 @@ function DashBoard() {
                     />
                   </ListItemButton>
                   <Divider variant="inset" component="li" />
-                </>
+                </React.Fragment>
               ))}
             </List>
           </Box>
+
         </Box>
 
-        <Box className="w-7/12 h-full bg-white mt-5 ml-5 p-2">
-          <div className="flex justify-center text-xl">Projects</div>
-          <Box className="w-full max-h-96 p-1 rounded-lg overflow-scroll">
-            <List sx={{ width: "100%" }}>
+        <Box className='w-7/12 h-full bg-white mt-5 ml-5 p-2'>
+          <div className='flex justify-center text-xl'>Projects</div>
+          <Box className='w-full max-h-96 p-1 rounded-lg overflow-scroll'>
+            <List sx={{ width: '100%' }}>
               {Projectsdata.map((item, index) => (
                 <>
                   <ListItemButton key={item.id} alignItems="flex-start">
                     <ListItemAvatar>
-                      <Avatar
-                        sx={{ backgroundColor: "orange" }}
-                        alt="Remy Sharp"
-                        src="/static/images/avatar/1.jpg"
-                      />
+                      <Avatar sx={{ backgroundColor: 'orange' }} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                     </ListItemAvatar>
                     <ListItemText
                       primary={item.action}
                       secondary={
                         <React.Fragment>
-                          <Typography sx={{ font: "light" }} component="span" variant="body2">
+                          <Typography
+                            sx={{ font: 'light' }}
+                            component="span"
+                            variant="body2"
+                          >
                             {"Assigned to me : "}
                           </Typography>
                           {item.assigned}
@@ -436,7 +422,9 @@ function DashBoard() {
             </List>
           </Box>
         </Box>
+
       </Box>
+
     </div>
   );
 }

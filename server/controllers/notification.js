@@ -32,8 +32,8 @@ export const createRequestNotification = async (req, res, next) => {
     try {
 
         const { firstName, lastName, username, phone, email, password } = req.body
-        if (!firstName || !lastName || !username || !email || !password) return createError(400, 'Make sure to provide all the fields')
-        if (!validator.isEmail(email)) return createError(400, 'Invalid Email Address')
+        if (!firstName || !lastName || !username || !email || !password) return next(createError(400, 'Make sure to provide all the fields'))
+        if (!validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
 
         const isAlreadySend = await Notification.findOne({ 'data.email': email })
         if (Boolean(isAlreadySend)) return res.status(201).json({ message: 'Your registeration request has already been sent to the admin for approval', success: true })

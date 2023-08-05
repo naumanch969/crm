@@ -10,6 +10,8 @@ import saleRoutes from './routes/sale.js'
 import taskRoutes from './routes/task.js'
 import meetingRoutes from './routes/meeting.js'
 import approvalRoutes from './routes/approval.js'
+import projectRoutes from './routes/project.js'
+import leadRoutes from './routes/lead.js'
 
 dotenv.config()
 const app = express()
@@ -20,7 +22,6 @@ const PORT = process.env.PORT || 4000
 app.use(cors())
 app.use(express.json())
 
-// 5160620247012743
 
 app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/user', userRoutes)
@@ -29,6 +30,8 @@ app.use('/api/v1/task', taskRoutes)
 app.use('/api/v1/meeting', meetingRoutes)
 app.use('/api/v1/approval', approvalRoutes)
 app.use('/api/v1/sale', saleRoutes)
+app.use('/api/v1/project', projectRoutes)
+app.use('/api/v1/lead', leadRoutes)
 
 console.log('just for checking the git pull.')
 

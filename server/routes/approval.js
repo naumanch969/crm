@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { getApproval, getApprovals, createRequestApproval, createVoucherApproval, createReceiptApproval, createRefundApproval, deleteApproval, deleteWholeCollection } from '../controllers/approval.js'
+import { getApproval, getApprovals, createRequestApproval, createVoucherApproval, createReceiptApproval, createRefundApproval, rejectRequestApproval, deleteApproval, deleteWholeCollection } from '../controllers/approval.js'
 
 const router = express.Router()
 
@@ -13,6 +13,8 @@ router.post('/create/request', createRequestApproval)
 router.post('/create/voucher', createVoucherApproval)
 router.post('/create/receipt', createReceiptApproval)
 router.post('/create/refund', createRefundApproval)
+router.post('/reject/request', rejectRequestApproval)
+
 
 // DELETE
 router.delete('/delete/:approvalId', deleteApproval)
