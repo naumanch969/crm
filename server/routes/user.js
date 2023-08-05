@@ -15,17 +15,17 @@ const verifyIsSameUser = (req, res, next) => {
 }
 
 // GET
-router.get('/get/all', verifyToken,  getUsers)
-router.get('/get/single/:userId', verifyToken, verifyIsSameUser, getUser) // verifyIsSameUser
-router.get('/get/clients', verifyToken, verifyEmployee, getClients)      // only clients // verifyEmployee
-router.get('/get/employees', verifyToken, verifyManager, getEmployees)   // all employees // verifyManager
+router.get('/get/all', verifyToken, getUsers)
+router.get('/get/single/:userId', verifyToken, verifyIsSameUser, getUser)
+router.get('/get/clients', verifyToken, verifyEmployee, getClients)
+router.get('/get/employees', verifyToken, verifyManager, getEmployees)
 
 // PUT
-router.put('/update-role/:userId', verifyToken, verifyManager, updateRole) // verifyManager
-router.put('/update/:userId', verifyToken, verifyIsSameUser, updateUser) // verifyManager
+router.put('/update-role/:userId', verifyToken, verifyManager, updateRole)
+router.put('/update/:userId', verifyToken, verifyIsSameUser, updateUser)
 
 // DELETE
-router.delete('/delete/:userId', verifyToken, verifyIsSameUser, deleteUser) // verifyManager
+router.delete('/delete/:userId', verifyToken, verifyIsSameUser, deleteUser)
 router.delete('/delete-whole-collection', deleteWholeCollection)
 
 export default router

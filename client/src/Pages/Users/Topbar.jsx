@@ -68,7 +68,7 @@ const Topbar = ({ view, setView }) => {
             </div>
           </Tooltip>
         </div>
-        <button onClick={() => navigate('/users/create')} className="bg-primary-red text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-lg ">
+        <button onClick={() => navigate('/user/create')} className="bg-primary-red text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-lg ">
           <Add />
         </button>
       </div>

@@ -2,30 +2,39 @@ import { Close } from '@mui/icons-material'
 import { IconButton, Modal } from '@mui/material'
 import { useState } from 'react'
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateSale } from '../../redux/action/sale'
 
 const EditModal = ({ open, setOpen }) => {
 
-  const [saleData, setSaleData] = useState(
-    { invoiceNumber: 0, createdAt: '', supplierName: '', leadId: '', net: 0, received: 0, psf: 0, fop: 0, branch: '', staff: '', },
-  )
+  //////////////////////////////////////// VARIABLES ///////////////////////////////////
+  const initialState = { invoiceNumber: 0, createdAt: '', supplierName: '', leadId: '', net: 0, received: 0, psf: 0, fop: 0, branch: '', staff: '', }
+  const dispatch = useDispatch()
+  const { currentSale: sale } = useSelector(state => state.sale)
+
+  //////////////////////////////////////// STATES ///////////////////////////////////
+  const [saleData, setSaleData] = useState(sale ?? initialState)
+
+  //////////////////////////////////////// FUNCTIONS ///////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(saleData)
+    dispatch(updateSale(saleData))
   }
-
   const handleChange = (e) => {
     setSaleData({ ...saleData, [e.target.name]: e.target.value })
   }
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   return (
-    <Modal open={open} onClose={() => setOpen(false)} className='w-screen h-screen flex justify-center items-center ' >
+    <Modal open={open} onClose={handleClose} className='w-screen h-screen flex justify-center items-center ' >
 
       <div className='w-[70vw] h-[80vh] max-h-[80vh] overflow-y-scroll overflow-x-hidden bg-white rounded-[4px] ' >
 
-
         <div className="bg-neutral-800 p-[8px] text-white flex justify-between items-center sticky top-0 ">
           <h2 className='font-bold text-[24px] ' >Update Sale</h2>
-          <IconButton onClick={() => setOpen(false)} ><Close className='text-white' /></IconButton>
+          <IconButton onClick={handleClose} ><Close className='text-white' /></IconButton>
         </div>
 
 
@@ -89,9 +98,6 @@ const EditModal = ({ open, setOpen }) => {
 
 
         </form>
-
-
-
 
       </div>
 

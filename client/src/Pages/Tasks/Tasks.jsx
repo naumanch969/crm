@@ -1,26 +1,31 @@
-import React, { useState } from 'react'
-import Table from './Table/Table'
+import React, { useEffect, useState } from 'react'
+import Table from './Table'
 import Topbar from './Topbar'
 import { person5 } from '../../assets'
+import { useDispatch, useSelector } from 'react-redux'
+import { getTasks } from '../../redux/action/task'
 
 function Tasks() {
 
+  ////////////////////////////////////// VARIABLES //////////////////////////////
+  const dispatch = useDispatch()
+  const { tasks, isFetching, error } = useSelector(state => state.task)
+
+  ////////////////////////////////////// STATES //////////////////////////////
   const [view, setView] = useState('table')
 
-  const tasks = [
-    { _id: '1', title: 'Random Text Generated', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quia animi iure tempore explicabo. Odio nulla adipisci facere quaerat ullam ut debitis minus, explicabo veniam! Alias eaque enim reiciendis quae tempore tempora, veniam ipsum', dueDate: '12/12/2022', createdAt: '12/12/2022' },
-    { _id: '2', title: 'Random Text Generated', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quia animi iure tempore explicabo. Odio nulla adipisci facere quaerat ullam ut debitis minus, explicabo veniam! Alias eaque enim reiciendis quae tempore tempora, veniam ipsum', dueDate: '12/12/2022', createdAt: '12/12/2022' },
-    { _id: '3', title: 'Random Text Generated', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quia animi iure tempore explicabo. Odio nulla adipisci facere quaerat ullam ut debitis minus, explicabo veniam! Alias eaque enim reiciendis quae tempore tempora, veniam ipsum', dueDate: '12/12/2022', createdAt: '12/12/2022' },
-    { _id: '4', title: 'Random Text Generated', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quia animi iure tempore explicabo. Odio nulla adipisci facere quaerat ullam ut debitis minus, explicabo veniam! Alias eaque enim reiciendis quae tempore tempora, veniam ipsum', dueDate: '12/12/2022', createdAt: '12/12/2022' },
-    { _id: '5', title: 'Random Text Generated', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quia animi iure tempore explicabo. Odio nulla adipisci facere quaerat ullam ut debitis minus, explicabo veniam! Alias eaque enim reiciendis quae tempore tempora, veniam ipsum', dueDate: '12/12/2022', createdAt: '12/12/2022' },
-    { _id: '6', title: 'Random Text Generated', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quia animi iure tempore explicabo. Odio nulla adipisci facere quaerat ullam ut debitis minus, explicabo veniam! Alias eaque enim reiciendis quae tempore tempora, veniam ipsum', dueDate: '12/12/2022', createdAt: '12/12/2022' },
-  ]
+  ////////////////////////////////////// USE EFFECTS //////////////////////////////
+  useEffect(() => {
+    dispatch(getTasks())
+  }, [])
+
+  ////////////////////////////////////// FUNCTION //////////////////////////////
 
   return (
     <div className='w-full h-fit bg-inherit flex flex-col gap-[2rem]  ' >
 
       <Topbar view={view} setView={setView} />
-      <Table tasks={tasks} />
+      <Table tasks={tasks} isFetching={isFetching} error={error} />
 
     </div>
   )

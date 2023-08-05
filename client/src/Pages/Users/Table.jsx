@@ -1,18 +1,40 @@
 import { useState } from 'react';
-import { Avatar, AvatarGroup, Tooltip } from '@mui/material';
+import { Avatar, AvatarGroup, Tooltip,CircularProgress } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { DeleteOutline, Edit, EditAttributes, EditOutlined, More, MoreOutlined, PanoramaFishEye, ViewAgenda } from '@mui/icons-material';
 import { Eye } from 'react-bootstrap-icons';
 import EditModal from './EditModal';
 import React from 'react'
 import DeleteModal from './DeleteModal';
+import { Link, useNavigate } from 'react-router-dom';
+import { getUserReducer } from '../../redux/reducer/user'
 
+const Table = ({ users, isFetching, error }) => {
 
-const Table = ({ users }) => {
+    //////////////////////////////////////// VARIABLES ///////////////////////////////////
+    const navigate = useNavigate()
 
+    //////////////////////////////////////// STATES ///////////////////////////////////
     const [changePassword, setChangePassword] = useState('')
     const [openEditModal, setOpenEditModal] = useState(false)
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
+    const [selectedUserId, setSelectedUserId] = useState(null)
+
+    //////////////////////////////////////// FUNCTIONS ///////////////////////////////////
+    const handleNavigateToUser = (user) => {
+        navigate(`/user/${params.row._id}`)
+        dispatch(getUserReducer(user))
+    }
+
+    const handleOpenEditModal = (user) => {
+        setOpenEditModal(true);
+        dispatch(getUserReducer(user))
+    }
+
+    const handleOpenDeleteModal = (userId) => {
+        setOpenDeleteModal(true);
+        setSelectedUserId(userId)
+    }
 
     const columns = [
         {
@@ -20,7 +42,11 @@ const Table = ({ users }) => {
                 <img src={params.row.image} alt="" className='w-[2rem] h-[2rem] rounded-full object-cover ' />
             )
         },
-        { field: 'userName', headerName: 'User Name', width: 150, },
+        {
+            field: 'username', headerName: 'User Name', width: 150, renderCell: (params) => (
+                <span onClick={() => handleNavigateToUser(params.row)} className='cursor-pointer text-blue-600' >{params.row.username}</span>
+            )
+        },
         { field: 'password', headerName: 'Password', width: 150 },
         {
             field: 'changePassword', headerName: 'Change Password', width: 150, renderCell: (params) => (
@@ -50,10 +76,10 @@ const Table = ({ users }) => {
             field: "action", headerName: "Action", width: 200, renderCell: (params) => (
                 <div className='flex gap-[4px] ' >
                     <Tooltip placement='top' title='Edit' >
-                        <button onClick={() => setOpenEditModal(true)} className='cursor-pointer ' ><EditOutlined /></button>
+                        <button onClick={() => handleOpenEditModal(params.row)} className='cursor-pointer ' ><EditOutlined /></button>
                     </Tooltip>
                     <Tooltip placement='top' title='Delete' >
-                        <button onClick={() => setOpenDeleteModal(true)} className='cursor-pointer ' ><DeleteOutline /></button>
+                        <button onClick={() => handleOpenDeleteModal(params.row._id)} className='cursor-pointer ' ><DeleteOutline /></button>
                     </Tooltip>
                 </div>
             ),
@@ -64,23 +90,38 @@ const Table = ({ users }) => {
         <div className='w-[61rem] h-auto overflow-x-scroll '>
 
             <EditModal open={openEditModal} setOpen={setOpenEditModal} />
-            <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} />
+            <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} userId={selectedUserId} />
 
-            <DataGrid
-                rows={users}
-                columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: {
-                            pageSize: 5,
+            {
+                isFetching
+                &&
+                <div className="w-full h-[11rem] flex justify-center items-center ">
+                    <CircularProgress />
+                </div>
+            }
+            {
+                error
+                &&
+                <div className="w-full h-[11rem] flex justify-center items-center ">
+                    <span className='text-red-500 ' >{error}</span>
+                </div>
+            }
+            {
+                (!isFetching && !error) &&
+                < DataGrid
+                    rows={users}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { pageSize: 5, }
                         },
-                    },
-                }}
-                getRowId={row => row._id}
-                pageSizeOptions={[10]}
-                checkboxSelection
-                disableRowSelectionOnClick
-            />
+                    }}
+                    getRowId={row => row._id}
+                    pageSizeOptions={[10]}
+                    checkboxSelection
+                    disableRowSelectionOnClick
+                />
+            }
         </div>
     );
 }
