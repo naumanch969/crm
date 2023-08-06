@@ -1,25 +1,34 @@
 import React, { useState } from 'react'
+import { createSale } from '../../redux/action/sale'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
 
 const CreateSale = () => {
 
-    const [saleData, setSaleData] = useState(
-        { invoiceNumber: 0, createdAt: '', supplierName: '', leadId: '', net: 0, received: 0, psf: 0, fop: 0, branch: '', staff: '', },
-    )
-
+    ////////////////////////////////////////// VARIABLES //////////////////////////////////
+    const dispatch = useDispatch()
+    const navigate= useNavigate()
+    // todo:remove the leadID and make it dynamic
+    const initialState = { invoiceNumber: 0,  supplierName: '', leadId: 'laedId', net: 0, received: 0, psf: 0, fop: 0, branch: '', staff: '', }
     const stats = [
         { title: 'Completed', numbers: 100 },
         { title: 'Pending', numbers: 0 },
         { title: 'Delayed', numbers: 0 },
         { title: 'Started', numbers: 0 },
     ]
+    const { isFetching } = useSelector(state => state.sale)
 
+    ////////////////////////////////////////// STATES /////////////////////////////////////
+    const [saleData, setSaleData] = useState(initialState)
 
+    ////////////////////////////////////////// USE EFFECTS /////////////////////////////////
+
+    ////////////////////////////////////////// FUNCTIONS ///////////////////////////////////
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(saleData)
+        dispatch(createSale(saleData, navigate))
     }
-
-
     const handleChange = (e) => {
         setSaleData({ ...saleData, [e.target.name]: e.target.value })
     }
@@ -38,14 +47,14 @@ const CreateSale = () => {
                 }
             </div>
 
-          
+
             <form onSubmit={handleSubmit} className='flex flex-col gap-[8px] w-full px-[2rem] py-[1rem] ' >
 
                 <div className="w-full flex gap-[3rem]  ">
                     <div className="flex-[1] flex flex-col gap-[1rem]  ">
                         {/* invoice number */}
                         <div className="flex flex-col gap-[4px] ">
-                            <label className='text-black font-medium text-[16px] ' htmlFor="invoiceNumber">First Name</label>
+                            <label className='text-black font-medium text-[16px] ' htmlFor="invoiceNumber">Invoice Number</label>
                             <input type="number" onChange={handleChange} value={saleData.invoiceNumber} name="invoiceNumber" id="invoiceNumber" placeholder='Invoice Number' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
                         </div>
                         {/* supplier name */}
@@ -74,12 +83,12 @@ const CreateSale = () => {
                         </div>
                         {/* fop */}
                         <div className="flex flex-col gap-[4px] ">
-                            <label className='text-black font-medium text-[16px] ' htmlFor="fop">Password</label>
+                            <label className='text-black font-medium text-[16px] ' htmlFor="fop">FOP</label>
                             <input type="number" onChange={handleChange} value={saleData.fop} name="fop" id="fop" placeholder='FOP' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
                         </div>
                         {/* branch */}
                         <div className="flex flex-col gap-[4px] ">
-                            <label className='text-black font-medium text-[16px] ' htmlFor="branch">CNIC</label>
+                            <label className='text-black font-medium text-[16px] ' htmlFor="branch">Branch</label>
                             <input type="text" onChange={handleChange} value={saleData.branch} name="branch" id="branch" placeholder='Branch' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
                         </div>
                         {/* staff */}
@@ -93,7 +102,7 @@ const CreateSale = () => {
 
                 <div className="w-full flex justify-end items-center">
                     <button type='submit' className='w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer ' >
-                        Save
+                        {isFetching ? 'Saving' : 'Save'}
                     </button>
                 </div>
 

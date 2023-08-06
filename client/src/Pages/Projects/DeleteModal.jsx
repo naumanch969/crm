@@ -1,19 +1,20 @@
 import { Modal, Dialog, DialogTitle, DialogContent, DialogActions, Button, DialogContentText } from '@mui/material'
 import React from 'react'
 import { deleteProject } from '../../redux/action/project'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const DeleteModal = ({ open, setOpen, projectId }) => {
 
   ////////////////////////////////////// VARIABLES ///////////////////////////////////////
   const dispatch = useDispatch()
-
+  const { isFetching } = useSelector(state => state.project)
+k
   ////////////////////////////////////// FUNCTIONS ///////////////////////////////////////
   const handleClose = () => {
-    dispatch(deleteProject(projectId))
     setOpen(false)
   }
   const handleDelete = () => {
+    dispatch(deleteProject(projectId))
     setOpen(false)
   }
 
@@ -33,7 +34,7 @@ const DeleteModal = ({ open, setOpen, projectId }) => {
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
         <Button onClick={handleDelete} autoFocus>
-          Delete
+          {isFetching ? 'Deleting' : 'Delete'}
         </Button>
       </DialogActions>
     </Dialog >

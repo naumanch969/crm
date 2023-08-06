@@ -1,12 +1,13 @@
 import { Modal, Dialog, DialogTitle, DialogContent, DialogActions, Button, DialogContentText } from '@mui/material'
 import React from 'react'
 import { deleteLead } from '../../redux/action/lead'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const DeleteModal = ({ open, setOpen, leadId }) => {
 
   ////////////////////////////////////// VARIABLES ///////////////////////////////////////
   const dispatch = useDispatch()
+  const { isFetching } = useSelector(state => state.lead)
 
   ////////////////////////////////////// FUNCTIONS ///////////////////////////////////////
   const handleClose = () => {
@@ -33,7 +34,7 @@ const DeleteModal = ({ open, setOpen, leadId }) => {
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
         <Button onClick={handleDelete} autoFocus>
-          Delete
+          {isFetching ? 'Deleting' : 'Delete'}
         </Button>
       </DialogActions>
     </Dialog >

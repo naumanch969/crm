@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Avatar, AvatarGroup, Tooltip,CircularProgress } from '@mui/material';
+import { Avatar, AvatarGroup, Tooltip, CircularProgress } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { DeleteOutline, Edit, EditAttributes, EditOutlined, More, MoreOutlined, PanoramaFishEye, ViewAgenda } from '@mui/icons-material';
 import { Eye } from 'react-bootstrap-icons';
@@ -91,7 +91,7 @@ const Table = ({ sales, isFetching, error }) => {
                     columns={columns}
                     initialState={{
                         pagination: {
-                            paginationModel: { pageSize: 5, }
+                            paginationModel: { pageSize: 10 }
                         },
                     }}
                     getRowId={row => row._id}

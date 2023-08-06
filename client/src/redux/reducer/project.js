@@ -15,7 +15,7 @@ const projectSlice = createSlice({
 
         getProjectReducer: (state, action) => { state.currentProject = action.payload },
         getProjectsReducer: (state, action) => { state.projects = action.payload },
-        createProjectReducer: (state, action) => { state.projects = [...state.projects, action.payload] },
+        createProjectReducer: (state, action) => { state.projects = [action.payload, ...state.projects] },
         updateProjectReducer: (state, action) => { state.projects = state.projects.map(s => s = s._id == action.payload._id ? action.payload : s) },
         deleteProjectReducer: (state, action) => { state.projects = state.projects.filter(s => s._id != action.payload._id) },
 

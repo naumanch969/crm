@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { createLead } from '../../redux/action/lead'
 
 const CreateLead = () => {
 
+    //////////////////////////////////////// VARIABLES ////////////////////////////////////
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const { isFetching } = useSelector(state => state.lead)
+
     //////////////////////////////////////// STATES ////////////////////////////////////
+    const [clientData, setClientData] = useState({ gender: 'male', firstName: '', lastName: '', phone: '', email: '', cnic: '', })
     const [leadData, setLeadData] = useState({
-        gender: 'Mr.',
-        name: '',
-        primaryPhone: '',
-        secondaryPhone: '',
-        location: '',
-        email: '',
         city: '',
         project: '',
         block: '',
@@ -21,7 +24,7 @@ const CreateLead = () => {
         minArea: 0,
         maxAreaUnit: 'squareFeet',
         maxArea: 0,
-        leadPriority: 'high',
+        priority: 'high',
         clientType: '',
         allocatedTo: '',
         beds: 0,
@@ -29,17 +32,21 @@ const CreateLead = () => {
     })
 
     //////////////////////////////////////// USE EFFECTS ////////////////////////////////
-    useEffect(() => {
-        console.log(leadData)
-    }, [leadData])
+
 
     //////////////////////////////////////// FUNCTIONS //////////////////////////////////
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(leadData)
+        const { gender, firstName, lastName, phone, email, cnic } = clientData
+        const { city, project, block, propertyType, homeType, minBudget, maxBudget, minAreaUnit, minArea, maxAreaUnit, maxArea, priority, clientType, allocatedTo, beds, source } = leadData
+        if (!gender || !firstName || !lastName || !phone || !email || !cnic || !city || !project || !block || !propertyType || !homeType || !minBudget || !maxBudget || !minAreaUnit || !minArea || !maxAreaUnit || !maxArea || !priority || !clientType || !allocatedTo || !beds || !source)
+            return alert('make sure to provide all the fields')
+
+        dispatch(createLead({ ...leadData, ...clientData }, 'onsite', navigate))
+
     }
 
-    const handleChange = (e) => {
+    const handleLeadDataChange = (e) => {
         const { name, value } = e.target
         name == 'source'
             ?
@@ -55,6 +62,12 @@ const CreateLead = () => {
             setLeadData(pre => ({ ...pre, [name]: value }))
     }
 
+    const handleClientDataChange = (e) => {
+        setClientData(pre => ({ ...pre, [e.target.name]: e.target.value }))
+    }
+
+
+
     return (
         <div className='flex flex-col gap-[1rem] bg-white px-[20px] py-[1rem] shadow-box rounded-[4px] ' >
 
@@ -64,41 +77,50 @@ const CreateLead = () => {
 
             <form onSubmit={handleSubmit} className='flex flex-col gap-[24px] w-full ' >
 
+                {/* client data */}
                 <div className="flex flex-col rounded-[4px] border-[1px] border-gray-400 shadow-sm ">
                     <div className="px-[1rem] py-[8px] bg-neutral-600 text-white ">
                         <h4 className='font-medium text-[1rem] ' >CUSTOMER DETAILS</h4>
                     </div>
-                    <div className="flex justify-between flex-wrap gap-[8px] p-[1rem] w-full ">
-                        {/* name */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[25%] ">
-                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="name">Name:</label>
-                            <div className="flex gap-[4px] ">
-                                <select name='gender' value={leadData.gender} onChange={handleChange} className='py-[4px] px-[8px] rounded-[4px] w-[40%] ' >
-                                    <option value="male">Mr.</option>
-                                    <option value="female">Mrs.</option>
-                                </select>
-                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] w-[60%] ' type="text" name="name" value={leadData.name} onChange={handleChange} placeholder="Enter Customer Name" />
+                    <div className="flex justify-start flex-wrap gap-[24px] p-[1rem] w-full ">
+                        {/* first name */}
+                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="firstName">First Name:</label>
+                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="firstName" value={clientData.firstName} onChange={handleClientDataChange} placeholder="Last Name" />
+                        </div>
+                        {/* last name */}
+                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="lastName">lastName:</label>
+                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="lastName" value={clientData.lastName} onChange={handleClientDataChange} placeholder="First Name" />
+                        </div>
+                        {/* gender */}
+                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="gender">Gender:</label>
+                            <div className="flex gap-[8px] py-[8px] ">
+                                <div className="flex gap-[2px] ">
+                                    <label className='text-gray-500 font-light text-[16px] ' htmlFor="male">Male</label>
+                                    <input type="radio" onChange={handleClientDataChange} value={clientData.gender} name="gender" id="male" />
+                                </div>
+                                <div className="flex gap-[2px] ">
+                                    <label className='text-gray-500 font-light text-[16px]  ' htmlFor="female">Female</label>
+                                    <input type="radio" onChange={handleClientDataChange} value={clientData.gender} name="gender" id="female" />
+                                </div>
                             </div>
                         </div>
-                        {/* primary phone */}
+                        {/* phone */}
                         <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="primaryPhone">Primary Phone:</label>
-                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="primaryPhone" value={leadData.primaryPhone} onChange={handleChange} placeholder="Enter Primary Phone" />
+                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="phone">phone:</label>
+                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="phone" value={clientData.phone} onChange={handleClientDataChange} placeholder="Phone" />
                         </div>
-                        {/* secondary phone */}
+                        {/* cnic */}
                         <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="secondaryPhone">Secondary Phone:</label>
-                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="secondaryPhone" value={leadData.secondaryPhone} onChange={handleChange} placeholder="Enter Secondary Phone" />
-                        </div>
-                        {/* location */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="location">Location:</label>
-                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="location" value={leadData.location} onChange={handleChange} placeholder="Enter Location" />
+                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="cnic">CNIC:</label>
+                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="cnic" value={clientData.cnic} onChange={handleClientDataChange} placeholder="Phone" />
                         </div>
                         {/* email */}
                         <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                             <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="email">Email:</label>
-                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="email" name="email" value={leadData.email} onChange={handleChange} placeholder="Enter Email" />
+                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="email" name="email" value={clientData.email} onChange={handleClientDataChange} placeholder="Enter Email" />
                         </div>
                     </div>
                 </div>
@@ -122,7 +144,7 @@ const CreateLead = () => {
                             {/* city */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="city">City:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='city' value={leadData.city} onChange={handleChange} >
+                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='city' value={leadData.city} onChange={handleLeadDataChange} >
                                     <option value="">-</option>
                                     <option value="lahore">Lahore</option>
                                     <option value="karachi">Karachi</option>
@@ -132,7 +154,7 @@ const CreateLead = () => {
                             {/* project */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="project">Project:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='project' value={leadData.project} onChange={handleChange} >
+                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='project' value={leadData.project} onChange={handleLeadDataChange} >
                                     <option value="">-</option>
                                     <option value="project1">Project1</option>
                                     <option value="project2">Project2</option>
@@ -142,7 +164,7 @@ const CreateLead = () => {
                             {/* block */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="block">Block:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='block' value={leadData.block} onChange={handleChange} >
+                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='block' value={leadData.block} onChange={handleLeadDataChange} >
                                     <option value="">-</option>
                                     <option value="block1">Block1</option>
                                     <option value="block2">Block2</option>
@@ -152,7 +174,7 @@ const CreateLead = () => {
                             {/* property type */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="propertyType">Property Type:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='propertyType' value={leadData.propertyType} onChange={handleChange} >
+                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='propertyType' value={leadData.propertyType} onChange={handleLeadDataChange} >
                                     <option value="">-</option>
                                     <option value="type1">Type1</option>
                                     <option value="type2">Type2</option>
@@ -162,7 +184,7 @@ const CreateLead = () => {
                             {/* home type */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="homeType">Home Types:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='homeType' value={leadData.homeType} onChange={handleChange} >
+                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='homeType' value={leadData.homeType} onChange={handleLeadDataChange} >
                                     <option value="">-</option>
                                     <option value="type1">Type1</option>
                                     <option value="type2">Type2</option>
@@ -172,17 +194,17 @@ const CreateLead = () => {
                             {/* min budget */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minBudget">MIN Budget:</label>
-                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="minBudget" value={leadData.minBudget} onChange={handleChange} />
+                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="minBudget" value={leadData.minBudget} onChange={handleLeadDataChange} />
                             </div>
                             {/* max budget */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxBudget">MAX Budget:</label>
-                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxBudget" value={leadData.maxBudget} onChange={handleChange} />
+                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxBudget" value={leadData.maxBudget} onChange={handleLeadDataChange} />
                             </div>
                             {/* min area unit */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minAreaUnit">Area:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='minAreaUnit' value={leadData.minAreaUnit} onChange={handleChange} >
+                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='minAreaUnit' value={leadData.minAreaUnit} onChange={handleLeadDataChange} >
                                     <option value="">Square Feet</option>
                                     <option value="unit1">unit1</option>
                                     <option value="unit2">unit2</option>
@@ -192,12 +214,12 @@ const CreateLead = () => {
                             {/* min area */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minArea">MIN Budget:</label>
-                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="minArea" value={leadData.minArea} onChange={handleChange} />
+                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="minArea" value={leadData.minArea} onChange={handleLeadDataChange} />
                             </div>
                             {/* max area unit */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxAreaUnit">Area:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='maxAreaUnit' value={leadData.maxAreaUnit} onChange={handleChange} >
+                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='maxAreaUnit' value={leadData.maxAreaUnit} onChange={handleLeadDataChange} >
                                     <option value="">Square Feet</option>
                                     <option value="unit1">unit1</option>
                                     <option value="unit2">unit2</option>
@@ -207,12 +229,12 @@ const CreateLead = () => {
                             {/* max area */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxArea">MAX Budget:</label>
-                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxArea" value={leadData.maxArea} onChange={handleChange} />
+                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxArea" value={leadData.maxArea} onChange={handleLeadDataChange} />
                             </div>
                             {/* lead priority */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="leadPriority">Lead Priority:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='leadPriority' value={leadData.leadPriority} onChange={handleChange} >
+                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="priority">Lead Priority:</label>
+                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='priority' value={leadData.priority} onChange={handleLeadDataChange} >
                                     <option value="high">High</option>
                                     <option value="moderate">Moderate</option>
                                     <option value="low">Low</option>
@@ -221,7 +243,7 @@ const CreateLead = () => {
                             {/* client type */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="clientType">Client Type:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='clientType' value={leadData.clientType} onChange={handleChange} >
+                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='clientType' value={leadData.clientType} onChange={handleLeadDataChange} >
                                     <option value="">Please Select</option>
                                     <option value="directClient">Direct Client</option>
                                     <option value="agent">Agent</option>
@@ -233,7 +255,7 @@ const CreateLead = () => {
                             {/* allocated to */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="allocatedTo">Allocated To:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='allocatedTo' value={leadData.allocatedTo} onChange={handleChange} >
+                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='allocatedTo' value={leadData.allocatedTo} onChange={handleLeadDataChange} >
                                     <option value="">-</option>
                                     <option value="user1">User1</option>
                                     <option value="user2">User2</option>
@@ -243,7 +265,7 @@ const CreateLead = () => {
                             {/* beds */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="beds">BEDS:</label>
-                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="beds" value={leadData.beds} onChange={handleChange} />
+                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="beds" value={leadData.beds} onChange={handleLeadDataChange} />
                             </div>
                         </div>
                         {/* source */}
@@ -251,79 +273,79 @@ const CreateLead = () => {
                             <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="source">Source:</label>
                             <div className="flex flex-wrap justify-start gap-[8px] w-full ">
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='smsLead' onChange={handleChange} id="smsLead" />
+                                    <input type="checkbox" name="source" value='smsLead' onChange={handleLeadDataChange} id="smsLead" />
                                     <label htmlFor="smsLead">SMS Lead</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='olx' onChange={handleChange} id="olx" />
+                                    <input type="checkbox" name="source" value='olx' onChange={handleLeadDataChange} id="olx" />
                                     <label htmlFor="olx">OLX</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='emailBlast' onChange={handleChange} id="emailBlast" />
+                                    <input type="checkbox" name="source" value='emailBlast' onChange={handleLeadDataChange} id="emailBlast" />
                                     <label htmlFor="emailBlast">Email Blast</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='clientReference' onChange={handleChange} id="clientReference" />
+                                    <input type="checkbox" name="source" value='clientReference' onChange={handleLeadDataChange} id="clientReference" />
                                     <label htmlFor="clientReference">Client Reference</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='googleAdword' onChange={handleChange} id="googleAdword" />
+                                    <input type="checkbox" name="source" value='googleAdword' onChange={handleLeadDataChange} id="googleAdword" />
                                     <label htmlFor="googleAdword">Google Adword</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='radio' onChange={handleChange} id="radio" />
+                                    <input type="checkbox" name="source" value='radio' onChange={handleLeadDataChange} id="radio" />
                                     <label htmlFor="radio">Radio</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='facebook' onChange={handleChange} id="facebook" />
+                                    <input type="checkbox" name="source" value='facebook' onChange={handleLeadDataChange} id="facebook" />
                                     <label htmlFor="facebook">Facebook</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='tv' onChange={handleChange} id="tv" />
+                                    <input type="checkbox" name="source" value='tv' onChange={handleLeadDataChange} id="tv" />
                                     <label htmlFor="tv">TV</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='personal' onChange={handleChange} id="personal" />
+                                    <input type="checkbox" name="source" value='personal' onChange={handleLeadDataChange} id="personal" />
                                     <label htmlFor="personal">Personal</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='newspaper' onChange={handleChange} id="newspaper" />
+                                    <input type="checkbox" name="source" value='newspaper' onChange={handleLeadDataChange} id="newspaper" />
                                     <label htmlFor="newspaper">Newspaper</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='emailLead' onChange={handleChange} id="emailLead" />
+                                    <input type="checkbox" name="source" value='emailLead' onChange={handleLeadDataChange} id="emailLead" />
                                     <label htmlFor="emailLead">Email Lead</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='youtube' onChange={handleChange} id="youtube" />
+                                    <input type="checkbox" name="source" value='youtube' onChange={handleLeadDataChange} id="youtube" />
                                     <label htmlFor="youtube">Youtube</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='walk' onChange={handleChange} id="walk-in" />
+                                    <input type="checkbox" name="source" value='walk' onChange={handleLeadDataChange} id="walk-in" />
                                     <label htmlFor="walk-in">Walk-In</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='billBoards' onChange={handleChange} id="billBoards" />
+                                    <input type="checkbox" name="source" value='billBoards' onChange={handleLeadDataChange} id="billBoards" />
                                     <label htmlFor="billBoards">Bill Boards</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='streamers' onChange={handleChange} id="streamers" />
+                                    <input type="checkbox" name="source" value='streamers' onChange={handleLeadDataChange} id="streamers" />
                                     <label htmlFor="streamers">Streamers</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='smsMarketing' onChange={handleChange} id="smsMarketing" />
+                                    <input type="checkbox" name="source" value='smsMarketing' onChange={handleLeadDataChange} id="smsMarketing" />
                                     <label htmlFor="smsMarketing">SMS Marketing</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='clientFacebook' onChange={handleChange} id="clientFacebook" />
+                                    <input type="checkbox" name="source" value='clientFacebook' onChange={handleLeadDataChange} id="clientFacebook" />
                                     <label htmlFor="clientFacebook">Client Facebook</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='other' onChange={handleChange} id="other" />
+                                    <input type="checkbox" name="source" value='other' onChange={handleLeadDataChange} id="other" />
                                     <label htmlFor="other">Other</label>
                                 </div>
                                 <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                                    <input type="checkbox" name="source" value='newpaperClassifieds' onChange={handleChange} id="newpaperClassifieds" />
+                                    <input type="checkbox" name="source" value='newpaperClassifieds' onChange={handleLeadDataChange} id="newpaperClassifieds" />
                                     <label htmlFor="newpaperClassifieds">Newpaper Classifieds</label>
                                 </div>
                             </div>
@@ -331,7 +353,7 @@ const CreateLead = () => {
                         {/* button */}
                         <div className="w-full flex justify-end items-center">
                             <button type='submit' className='w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer ' >
-                                Save
+                                {isFetching ? 'Saving' : 'Save'}
                             </button>
                         </div>
                     </div>

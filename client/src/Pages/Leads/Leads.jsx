@@ -8,10 +8,10 @@ function Leads() {
 
     ////////////////////////////////////// VARIABLES //////////////////////////////
     const dispatch = useDispatch()
-    const { leads: input_leads, isFetching, error } = useSelector(state => state.lead)
+    const { leads, isFetching, error } = useSelector(state => state.lead)
+    console.log(leads)
     ////////////////////////////////////// STATES //////////////////////////////
     const [view, setView] = useState('table')
-    const [leads, setLeads] = useState([...input_leads])
 
     ////////////////////////////////////// USE EFFECTS //////////////////////////////
     useEffect(() => {
@@ -24,13 +24,7 @@ function Leads() {
         <div className='w-full h-fit bg-inherit flex flex-col gap-[2rem]  ' >
 
             <Topbar view={view} setView={setView} />
-            {
-                view == 'table'
-                    ?
-                    <Table leads={leads} isFetching={isFetching} error={error} />
-                    :
-                    <Kanban leads={leads} setLeads={setLeads} />
-            }
+            <Table leads={leads} isFetching={isFetching} error={error} />
 
         </div>
     )

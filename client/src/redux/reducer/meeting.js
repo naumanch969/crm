@@ -14,7 +14,7 @@ const meetingSlice = createSlice({
         error: (state, action) => { state.isFetching = false; state.error = action.payload; },
         getMeetingReducer: (state, action) => { state.currentmeeting = action.payload },
         getMeetingsReducer: (state, action) => { state.meetings = action.payload },
-        createMeetingReducer: (state, action) => { state.meetings = [...state.meetings, action.payload] },
+        createMeetingReducer: (state, action) => { state.meetings = [action.payload, ...state.meetings] },
         updateMeetingReducer: (state, action) => { state.meetings = state.meetings.map(m => m = m._id == action.payload._id ? action.payload : m) },
         deleteMeetingReducer: (state, action) => { state.meetings = state.meetings.filter(m => m._id != action.payload._id) },
     }

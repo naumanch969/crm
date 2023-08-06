@@ -35,11 +35,11 @@ const approvalSlice = createSlice({
                     break;
             }
         },
-        createRequestApprovalReducer: (state, action) => { state.requestApprovals = [...state.requestApprovals, action.payload] },
-        rejectRequestApprovalReducer: (state, action) => { state.requestApprovals = [...state.requestApprovals, action.payload] },
-        createVoucherApprovalReducer: (state, action) => { state.voucherApprovals = [...state.requestApprovals, action.payload] },
-        createReceiptApprovalReducer: (state, action) => { state.receiptApprovals = [...state.requestApprovals, action.payload] },
-        createRefundApprovalReducer: (state, action) => { state.refundApprovals = [...state.requestApprovals, action.payload] },
+        createRequestApprovalReducer: (state, action) => { state.requestApprovals = [action.payload,...state.requestApprovals] },
+        rejectRequestApprovalReducer: (state, action) => { state.requestApprovals = [action.payload,...state.requestApprovals] },
+        createVoucherApprovalReducer: (state, action) => { state.voucherApprovals = [action.payload,...state.requestApprovals] },
+        createReceiptApprovalReducer: (state, action) => { state.receiptApprovals = [action.payload,...state.requestApprovals] },
+        createRefundApprovalReducer: (state, action) => { state.refundApprovals = [action.payload,...state.requestApprovals] },
         deleteApprovalReducer: (state, action) => {
             const { type, result } = action.payload
             switch (type) {

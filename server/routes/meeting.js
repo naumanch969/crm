@@ -6,17 +6,17 @@ import { verifyEmployee, verifyToken } from '../middleware/auth.js'
 const router = express.Router()
 
 // GET
-router.get('/get/single/:meetingId', verifyToken, verifyEmployee, getMeeting)
-router.get('/get/all', verifyToken, verifyEmployee, getMeetings)
+router.get('/get/single/:meetingId',  getMeeting)//verifyToken, verifyEmployee,
+router.get('/get/all',  getMeetings)//verifyToken, verifyEmployee,
 
 // POST
-router.post('/create', verifyToken, verifyEmployee, createMeeting)
+router.post('/create',  createMeeting)//verifyToken, verifyEmployee,
 
 // PUT
-router.put('/update/:meetingId', verifyToken, verifyEmployee, updateMeeting)
+router.put('/update/:meetingId',  updateMeeting)//verifyToken, verifyEmployee,
 
 // DELETE
-router.delete('/delete/:meetingId', verifyToken, verifyEmployee, deleteMeeting)
+router.delete('/delete/:meetingId',  deleteMeeting)//verifyToken, verifyEmployee,
 router.delete('/delete-whole-collection', deleteWholeCollection)
 
 export default router

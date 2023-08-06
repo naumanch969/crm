@@ -8,11 +8,13 @@ import React from 'react'
 import DeleteModal from './DeleteModal';
 import { Link, useNavigate } from 'react-router-dom';
 import { getUserReducer } from '../../redux/reducer/user'
+import { useDispatch } from 'react-redux';
 
 const Table = ({ users, isFetching, error }) => {
 
     //////////////////////////////////////// VARIABLES ///////////////////////////////////
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     //////////////////////////////////////// STATES ///////////////////////////////////
     const [changePassword, setChangePassword] = useState('')
@@ -22,13 +24,13 @@ const Table = ({ users, isFetching, error }) => {
 
     //////////////////////////////////////// FUNCTIONS ///////////////////////////////////
     const handleNavigateToUser = (user) => {
-        navigate(`/user/${params.row._id}`)
+        navigate(`/user/${user._id}`)
         dispatch(getUserReducer(user))
     }
 
     const handleOpenEditModal = (user) => {
-        setOpenEditModal(true);
         dispatch(getUserReducer(user))
+        setOpenEditModal(true);
     }
 
     const handleOpenDeleteModal = (userId) => {
@@ -57,7 +59,7 @@ const Table = ({ users, isFetching, error }) => {
         },
         { field: 'email', headerName: 'Email', width: 150 },
         { field: 'officialNumber', headerName: 'Office No.', width: 150 },
-        { field: 'phone', headerName: 'Mobile Number', width: 150 },
+        { field: 'phone', headerName: 'Phone', width: 150 },
         { field: 'cnic', headerName: 'CNIC', width: 150 },
         { field: 'branch', headerName: 'Branch', width: 150 },
         {

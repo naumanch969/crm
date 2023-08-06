@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { start, end, error, registerReducer, loginReducer, logoutReducer, getUserReducer, getClientsReducer, getEmployeesReducer, updateRoleReducer, updateUserReducer, deleteUserReducer, } from '../reducer/user'
+import { start, end, error, registerReducer, loginReducer, logoutReducer, getUserReducer, getClientsReducer, getEmployeesReducer, createClientReducer, createEmployeeReducer, updateRoleReducer, updateUserReducer, deleteUserReducer, } from '../reducer/user'
 
 
 export const register = (userData) => async (dispatch) => {
@@ -66,6 +66,27 @@ export const getUser = (userId) => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
+export const createClient = (clientData) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.createClient(clientData)
+        dispatch(createClientReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const createEmployee = (employeeData, navigate) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.createEmployee(employeeData)
+        dispatch(createEmployeeReducer(data.result))
+        navigate('/user')
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
 export const updateRole = (userId, role) => async (dispatch) => {
     try {
         dispatch(start())
@@ -76,7 +97,7 @@ export const updateRole = (userId, role) => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const updateUser = (userId, userData,role) => async (dispatch) => {
+export const updateUser = (userId, userData, role) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.updateUser(userId, userData)

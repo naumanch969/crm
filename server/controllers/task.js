@@ -3,12 +3,10 @@ import { createError } from '../utils/error.js'
 
 export const createTask = async (req, res, next) => {
     try {
-        console.log('this')
         const { title, description, dueDate, priority } = req.body
-        console.log(title, description, dueDate, priority)
         if (!title || !description || !dueDate || !priority) return next(createError(400, 'Make sure to provide all the fields'))
 
-        const newTask = await Task.create({ userId: req.user._id, title, description, dueDate, priority })
+        const newTask = await Task.create({ userId: req?.user?._id, title, description, dueDate, priority })
         res.status(200).json({ result: newTask, message: 'task created successfully', success: true })
 
     } catch (err) {
@@ -23,6 +21,8 @@ export const getTask = async (req, res, next) => {
         const { taskId } = req.params
 
         const findedTask = await Task.findById(taskId)
+        if (!findedTask) return next(createError(400, 'Task not exist'))
+
         res.status(200).json({ result: findedTask, message: 'Task fetched successfully', success: true })
 
     } catch (err) {

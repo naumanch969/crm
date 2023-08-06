@@ -32,12 +32,11 @@ export const getProjects = async (req, res, next) => {
 export const createProject = async (req, res, next) => {
     try {
 
-        const { city, project, block, propertyType, homeType, minBudget, maxBudget, minAreaUnit, minArea, maxAreaUnit, maxArea, leadPriority, clientType, allocatedTo, beds, supplier, } = req.body
-        console.log(city, project, block, propertyType, homeType, minBudget, maxBudget, minAreaUnit, minArea, maxAreaUnit, maxArea, leadPriority, clientType, allocatedTo, beds, supplier)
-        if (!city || !project || !block || !propertyType || !homeType || !minBudget || !maxBudget || !minAreaUnit || !minArea || !maxAreaUnit || !maxArea || !leadPriority || !clientType || !allocatedTo || !beds || !supplier)
+        const { title, city, block, propertyType, homeType, price, area, areaUnit, priority, beds } = req.body
+        if (!title || !city || !block || !propertyType || !homeType || !price || !area || !areaUnit || !priority || !beds)
             return next(createError(400, 'Make sure to provide all the fields'))
 
-        const newProject = await Project.create({ city, project, block, propertyType, homeType, minBudget, maxBudget, minAreaUnit, minArea, maxAreaUnit, maxArea, leadPriority, clientType, allocatedTo, beds, supplier, })
+        const newProject = await Project.create(req.body)
         res.status(200).json({ result: newProject, message: 'project created successfully', success: true })
 
     } catch (err) {

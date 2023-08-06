@@ -5,17 +5,17 @@ import { verifyEmployee, verifyManager, verifyToken } from '../middleware/auth.j
 const router = express.Router()
 
 // GET
-router.get('/get/single/:projectId',  getProject)
-router.get('/get/all', verifyToken, verifyEmployee, getProjects)
+router.get('/get/single/:projectId', getProject)
+router.get('/get/all', getProjects)//verifyToken, verifyEmployee,
 
 // POST
-router.post('/create', verifyToken, verifyManager, createProject)
+router.post('/create', createProject)//verifyToken, verifyManager,
 
 // PUT
-router.put('/update/:projectId', verifyToken, verifyManager, updateProject)
+router.put('/update/:projectId', updateProject)//verifyToken, verifyManager,
 
 // DELETE
-router.delete('/delete/:projectId', verifyToken, verifyManager, deleteProject)
+router.delete('/delete/:projectId', deleteProject)//verifyToken, verifyManager,
 router.delete('/delete-whole-collection', deleteWholeCollection)
 
 export default router
