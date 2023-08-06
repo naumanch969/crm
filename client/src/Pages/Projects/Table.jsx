@@ -1,39 +1,78 @@
 import { useState } from 'react';
-import { Avatar, AvatarGroup, Tooltip ,CircularProgress} from '@mui/material';
+import { Avatar, AvatarGroup, Tooltip, CircularProgress } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { DeleteOutline, Edit, EditAttributes, EditOutlined, More, MoreOutlined, PanoramaFishEye, ViewAgenda, VisibilityOff } from '@mui/icons-material';
 import { Eye } from 'react-bootstrap-icons';
 import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
 import { useDispatch } from 'react-redux';
-import { getLeadReducer } from '../../redux/reducer/lead';
+import { getProjectReducer } from '../../redux/reducer/project';
 
 
-const Table = ({ leads, isFetching, error }) => {
-    
- //////////////////////////////////////// VARIABLES ///////////////////////////////////
- const dispatch = useDispatch()
+const Table = ({ projects, isFetching, error }) => {
 
- //////////////////////////////////////// STATES ///////////////////////////////////
- const [openEditModal, setOpenEditModal] = useState(false)
- const [openDeleteModal, setOpenDeleteModal] = useState(false)
- const [selectedLeadId, setSelectedLeadId] = useState(null)
+    //////////////////////////////////////// VARIABLES ////////////////////////////////
+    const dispatch = useDispatch()
 
+    //////////////////////////////////////// STATES ///////////////////////////////////
+    const [openEditModal, setOpenEditModal] = useState(false)
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
+    const [selectedProjectId, setSelectedProjectId] = useState(null)
 
- //////////////////////////////////////// FUNCTIONS ///////////////////////////////////
- const handleOpenEditModal = (lead) => {
-     setOpenEditModal(true);
-     dispatch(getLeadReducer(lead))
- }
- const handleOpenDeleteModal = (leadId) => {
-     setOpenDeleteModal(true);
-     setSelectedLeadId(leadId)
- }
+    // city,project,block,propertyType,homeType,minBudget,maxBudget,minAreaUnit,minArea,maxAreaUnit,maxArea,leadPriority,clientType,allocatedTo,beds,images,
+
+    //////////////////////////////////////// FUNCTIONS ////////////////////////////////
+    const handleOpenEditModal = (project) => {
+        setOpenEditModal(true);
+        dispatch(getProjectReducer(project))
+    }
+    const handleOpenDeleteModal = (projectId) => {
+        setOpenDeleteModal(true);
+        setSelectedProjectId(projectId)
+    }
 
     const columns = [
-        { field: 'title', headerName: 'Title', width: 200, editable: true, },
-        { field: 'contact', headerName: 'Contact', width: 150, editable: true, },
-        { field: 'created', headerName: 'Date', width: 150 },
+        { field: 'city', headerName: 'City', width: 200, editable: true, },
+        { field: 'project', headerName: 'Project', width: 150, editable: true, },
+        { field: 'block', headerName: 'Block', width: 150 },
+        { field: 'propertyType', headerName: 'Property Type', width: 150 },
+        { field: 'homeType', headerName: 'Home Type', width: 150 },
+        { field: 'beds', headerName: 'Beds', width: 150 },
+        { field: 'leadPriority', headerName: 'Priority', width: 150 },
+        { field: 'clientType', headerName: 'Client Type', width: 150 },
+        { field: 'allocatedTo', headerName: 'Allocated To', width: 150 },
+        {
+            field: 'minBudget', headerName: 'Min Budget', width: 150, renderCell: (params) => (
+                <span className="">
+                    {params.row.minBudget}
+                    <small>{params.row.minBudgetUnit}</small>
+                </span>
+            )
+        },
+        {
+            field: 'maxBudget', headerName: 'Max Budget', width: 150, renderCell: (params) => (
+                <span className="">
+                    {params.row.maxBudget}
+                    <small>{params.row.maxBudgetUnit}</small>
+                </span>
+            )
+        },
+        {
+            field: 'minArea', headerName: 'Min Arae', width: 150, renderCell: (params) => (
+                <span className="">
+                    {params.row.minArea}
+                    <small>{params.row.minAreaUnit}</small>
+                </span>
+            )
+        },
+        {
+            field: 'maxArea', headerName: 'Max Area', width: 150, renderCell: (params) => (
+                <span className="">
+                    {params.row.minAreaUnit}
+                    <small>{params.row.maxAreaUnit}</small>
+                </span>
+            )
+        },
         {
             field: 'assigned', headerName: 'Assigned', width: 150, renderCell: (params) => (
                 <AvatarGroup max={2} >
@@ -67,7 +106,7 @@ const Table = ({ leads, isFetching, error }) => {
             field: "action", headerName: "Action", width: 200, renderCell: (params) => (
                 <div className='flex gap-[4px] ' >
                     <Tooltip placement='top' title='Edit' >
-                        <button onClick={() =>handleOpenEditModal(params.row)} className='cursor-pointer ' ><EditOutlined /></button>
+                        <button onClick={() => handleOpenEditModal(params.row)} className='cursor-pointer ' ><EditOutlined /></button>
                     </Tooltip>
                     <Tooltip placement='top' title='Delete' >
                         <button onClick={() => handleOpenDeleteModal(params.row._id)} className='cursor-pointer ' ><DeleteOutline /></button>
@@ -89,7 +128,7 @@ const Table = ({ leads, isFetching, error }) => {
         <div className='w-[61rem] h-auto overflow-x-scroll '>
 
             <EditModal open={openEditModal} setOpen={setOpenEditModal} />
-            <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} leadId={selectedLeadId} />
+            <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} projectId={selectedProjectId} />
 
             {
                 isFetching
@@ -108,7 +147,7 @@ const Table = ({ leads, isFetching, error }) => {
             {
                 (!isFetching && !error) &&
                 < DataGrid
-                    rows={leads}
+                    rows={projects}
                     columns={columns}
                     initialState={{
                         pagination: {

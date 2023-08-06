@@ -15,8 +15,8 @@ const leadSlice = createSlice({
         getLeadsReducer: (state, action) => { state.currentLead = action.payload},
         getLeadReducer: (state, action) => { state.leads = action.payload},
         createLeadReducer: (state, action) => { state.leads = [...state.leads, action.payload]},
-        updateLeadReducer: (state, action) => { state.leads = state.leads.map(m => m = m._id == action.payload._id ? action.payload : m)},
-        deleteLeadReducer: (state, action) => { state.leads = state.leads.filter(m => m._id != action.payload._id)},
+        updateLeadReducer: (state, action) => { state.leads = state.leads.map(l => l = l._id == action.payload._id ? action.payload : l)},
+        deleteLeadReducer: (state, action) => { state.leads = state.leads.filter(l => l._id != action.payload._id)},
     }
 })
 

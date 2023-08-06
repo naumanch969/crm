@@ -1,16 +1,16 @@
 import { Modal, Dialog, DialogTitle, DialogContent, DialogActions, Button, DialogContentText } from '@mui/material'
 import React from 'react'
-import { deleteLead } from '../../redux/action/lead'
+import { deleteProject } from '../../redux/action/project'
 import { useDispatch } from 'react-redux'
 
-const DeleteModal = ({ open, setOpen, leadId }) => {
+const DeleteModal = ({ open, setOpen, projectId }) => {
 
   ////////////////////////////////////// VARIABLES ///////////////////////////////////////
   const dispatch = useDispatch()
 
   ////////////////////////////////////// FUNCTIONS ///////////////////////////////////////
   const handleClose = () => {
-    dispatch(deleteLead(leadId))
+    dispatch(deleteProject(projectId))
     setOpen(false)
   }
   const handleDelete = () => {
@@ -27,7 +27,7 @@ const DeleteModal = ({ open, setOpen, leadId }) => {
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Are you sure you want to delete this lead?
+          Are you sure you want to delete this project?
         </DialogContentText>
       </DialogContent>
       <DialogActions>

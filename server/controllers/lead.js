@@ -7,7 +7,7 @@ export const getLead = async (req, res, next) => {
 
         const { leadId } = req.params
         const findedLead = await Lead.findById(leadId)
-        if(!findedLead) return next(createError(400,'Lead not exist'))
+        if (!findedLead) return next(createError(400, 'Lead not exist'))
 
         res.status(200).json({ result: findedLead, message: 'lead created successfully', success: true })
 
@@ -32,9 +32,9 @@ export const getLeads = async (req, res, next) => {
 export const createLead = async (req, res, next) => {
     try {
 
-        const {  } = req.body
-       
-        const newLead = await Lead.create({ })
+        const { ...data } = req.body
+
+        const newLead = await Lead.create(data)
         res.status(200).json({ result: newLead, message: 'lead created successfully', success: true })
 
     } catch (err) {
@@ -47,7 +47,7 @@ export const updateLead = async (req, res, next) => {
 
         const { leadId } = req.params
         const findedLead = await Lead.findById(leadId)
-        if(!findedLead) return next(createError(400,'Lead not exist'))
+        if (!findedLead) return next(createError(400, 'Lead not exist'))
 
         const updatedLead = await Lead.findByIdAndUpdate(leadId, { $set: req.body }, { new: true })
         res.status(200).json({ result: updatedLead, message: 'lead updated successfully', success: true })
@@ -62,7 +62,7 @@ export const deleteLead = async (req, res, next) => {
 
         const { leadId } = req.params
         const findedLead = await Lead.findById(leadId)
-        if(!findedLead) return next(createError(400,'Lead not exist'))
+        if (!findedLead) return next(createError(400, 'Lead not exist'))
 
         const deletedLead = await Lead.findByIdAndDelete(leadId)
         res.status(200).json({ result: deletedLead, message: 'lead deleted successfully', success: true })

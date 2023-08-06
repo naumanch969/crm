@@ -10,17 +10,17 @@ const DeleteModal = ({ open, setOpen, leadId }) => {
 
   ////////////////////////////////////// FUNCTIONS ///////////////////////////////////////
   const handleClose = () => {
-    dispatch(deleteLead(leadId))
     setOpen(false)
   }
   const handleDelete = () => {
+    dispatch(deleteLead(leadId))
     setOpen(false)
   }
 
   return (
     <Dialog
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={handleClose}
     >
       <DialogTitle id="alert-dialog-title">
         Delete the User?

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Avatar, AvatarGroup, Tooltip ,CircularProgress} from '@mui/material';
+import { Avatar, AvatarGroup, Tooltip, CircularProgress } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { DeleteOutline, Edit, EditAttributes, EditOutlined, More, MoreOutlined, PanoramaFishEye, ViewAgenda, VisibilityOff } from '@mui/icons-material';
 import { Eye } from 'react-bootstrap-icons';
@@ -10,30 +10,34 @@ import { getLeadReducer } from '../../redux/reducer/lead';
 
 
 const Table = ({ leads, isFetching, error }) => {
-    
- //////////////////////////////////////// VARIABLES ///////////////////////////////////
- const dispatch = useDispatch()
 
- //////////////////////////////////////// STATES ///////////////////////////////////
- const [openEditModal, setOpenEditModal] = useState(false)
- const [openDeleteModal, setOpenDeleteModal] = useState(false)
- const [selectedLeadId, setSelectedLeadId] = useState(null)
+    //////////////////////////////////////// VARIABLES ///////////////////////////////////
+    const dispatch = useDispatch()
+
+    //////////////////////////////////////// STATES ///////////////////////////////////
+    const [openEditModal, setOpenEditModal] = useState(false)
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
+    const [selectedLeadId, setSelectedLeadId] = useState(null)
 
 
- //////////////////////////////////////// FUNCTIONS ///////////////////////////////////
- const handleOpenEditModal = (lead) => {
-     setOpenEditModal(true);
-     dispatch(getLeadReducer(lead))
- }
- const handleOpenDeleteModal = (leadId) => {
-     setOpenDeleteModal(true);
-     setSelectedLeadId(leadId)
- }
+    //////////////////////////////////////// FUNCTIONS ///////////////////////////////////
+    const handleOpenEditModal = (lead) => {
+        setOpenEditModal(true);
+        dispatch(getLeadReducer(lead))
+    }
+    const handleOpenDeleteModal = (leadId) => {
+        setOpenDeleteModal(true);
+        setSelectedLeadId(leadId)
+    }
 
     const columns = [
-        { field: 'title', headerName: 'Title', width: 200, editable: true, },
-        { field: 'contact', headerName: 'Contact', width: 150, editable: true, },
-        { field: 'created', headerName: 'Date', width: 150 },
+        { field: 'name', headerName: 'Name', width: 200, editable: true, },
+        { field: 'primaryPhone', headerName: 'Primary Phone', width: 150, editable: true, },
+        {
+            field: 'createdAt', headerName: 'Date', width: 150, renderCell: (params) => (
+                <>{format(params.row.createdAt)}</>
+            )
+        },
         {
             field: 'assigned', headerName: 'Assigned', width: 150, renderCell: (params) => (
                 <AvatarGroup max={2} >
@@ -67,7 +71,7 @@ const Table = ({ leads, isFetching, error }) => {
             field: "action", headerName: "Action", width: 200, renderCell: (params) => (
                 <div className='flex gap-[4px] ' >
                     <Tooltip placement='top' title='Edit' >
-                        <button onClick={() =>handleOpenEditModal(params.row)} className='cursor-pointer ' ><EditOutlined /></button>
+                        <button onClick={() => handleOpenEditModal(params.row)} className='cursor-pointer ' ><EditOutlined /></button>
                     </Tooltip>
                     <Tooltip placement='top' title='Delete' >
                         <button onClick={() => handleOpenDeleteModal(params.row._id)} className='cursor-pointer ' ><DeleteOutline /></button>
@@ -81,9 +85,6 @@ const Table = ({ leads, isFetching, error }) => {
     ];
 
 
-    const handleDelete = () => {
-        console.log('handleDelete')
-    }
 
     return (
         <div className='w-[61rem] h-auto overflow-x-scroll '>

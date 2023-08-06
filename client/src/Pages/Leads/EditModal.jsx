@@ -2,42 +2,31 @@ import { Close } from '@mui/icons-material'
 import { IconButton, Modal } from '@mui/material'
 import { useState } from 'react'
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateLead } from '../../redux/action/lead'
 
 const EditModal = ({ open, setOpen }) => {
 
-  const [leadData, setLeadData] = useState({
-    gender: 'Mr.',
-    name: '',
-    primaryPhone: '',
-    secondaryPhone: '',
-    location: '',
-    email: '',
-    city: '',
-    project: '',
-    block: '',
-    propertyType: 'Homes',
-    homeType: 'House',
-    minBudget: 0,
-    maxBudget: 0,
-    minAreaUnit: 'squareFeet',
-    minArea: 0,
-    maxAreaUnit: 'squareFeet',
-    maxArea: 0,
-    leadPriority: 'high',
-    clientType: '',
-    allocatedTo: '',
-    beds: 0,
-    source: []
-  })
+  ////////////////////////////////////// VARIABLES  /////////////////////////////////////
+  const dispatch = useDispatch()
+  const { currentLead: lead } = useSelector(state => state.lead)
+  const initialState = { gender: 'Mr.', name: '', primaryPhone: '', secondaryPhone: '', location: '', email: '', city: '', project: '', block: '', propertyType: 'Homes', homeType: 'House', minBudget: 0, maxBudget: 0, minAreaUnit: 'squareFeet', minArea: 0, maxAreaUnit: 'squareFeet', maxArea: 0, leadPriority: 'high', clientType: '', allocatedTo: '', beds: 0, source: [] }
 
+  ////////////////////////////////////// STATES  /////////////////////////////////////
+  const [leadData, setLeadData] = useState(lead ?? initialState)
+
+  ////////////////////////////////////// USE EFFECTS  /////////////////////////////////////
+
+  ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(leadData)
+    dispatch(updateLead(lead._id, leadData))
   }
-
   const handleChange = (e) => {
     setLeadData({ ...leadData, [e.target.name]: e.target.value })
   }
+
+
 
   return (
     <Modal open={open} onClose={() => setOpen(false)} className='w-screen h-screen flex justify-center items-center ' >

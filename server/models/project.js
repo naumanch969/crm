@@ -15,8 +15,8 @@ const projectSchema = Schema({
     leadPriority: { type: String, required: true },     // define enum
     clientType: { type: String, required: true },       // define enum
     allocatedTo: { type: String, required: true },
-    beds: { type: String, required: true },
-    supplier: { type: String, required: true },         // make type to be ObjectId of User
+    beds: { type: String, required: false },
+    images: { type: Array, required: false }
 }, { timestamps: true })
 
 const projectModel = model('Project', projectSchema)
