@@ -73,13 +73,12 @@ export const createRefundApproval = (data) => API.post(`/approval/create/refund`
 export const deleteApproval = (approvalId) => API.delete(`/approval/delete/${approvalId}`)
 
 
-// LEAD
-export const getLeads = () => API.get(`/`)
-export const getLead = () => API.get(`/`)
-export const createLead = () => API.get(`/`)
-export const updateLead = () => API.get(`/`)
-export const deleteLead = () => API.get(`/`)
-
+// LEAD 
+export const getLead = (leadId)=>API.get(`/lead/get/single/${leadId}`) 
+export const getLeads = ()=>API.get(`/lead/get/all`) 
+export const createLead = (leadData)=>API.post(`/lead/create`) 
+export const updateLead = (leadId, leadData)=>API.put(`/lead/update/${leadId}`, leadData) 
+export const deleteLead = (leadId)=>API.delete(`/lead/delete/${leadId}`) 
 
 // PROJECT
 export const getProject = (projectId) => API.get(`/project/get/single/${projectId}`)

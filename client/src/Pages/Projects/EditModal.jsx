@@ -5,7 +5,7 @@ import React from 'react'
 
 const EditModal = ({ open, setOpen }) => {
 
-  const [leadData, setLeadData] = useState({
+  const [projectData, setProjectData] = useState({
     gender: 'Mr.',
     name: '',
     primaryPhone: '',
@@ -23,7 +23,7 @@ const EditModal = ({ open, setOpen }) => {
     minArea: 0,
     maxAreaUnit: 'squareFeet',
     maxArea: 0,
-    leadPriority: 'high',
+    projectPriority: 'high',
     clientType: '',
     allocatedTo: '',
     beds: 0,
@@ -32,11 +32,11 @@ const EditModal = ({ open, setOpen }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(leadData)
+    console.log(projectData)
   }
 
   const handleChange = (e) => {
-    setLeadData({ ...leadData, [e.target.name]: e.target.value })
+    setProjectData({ ...projectData, [e.target.name]: e.target.value })
   }
 
   return (
@@ -45,7 +45,7 @@ const EditModal = ({ open, setOpen }) => {
       <div className='w-[70vw] h-[80vh] max-h-[80vh] overflow-y-scroll overflow-x-hidden bg-white rounded-[4px] ' >
 
         <div className="bg-neutral-800 p-[8px] text-white flex justify-between items-center sticky top-0 ">
-          <h2 className='font-bold text-[24px] ' >Update Lead</h2>
+          <h2 className='font-bold text-[24px] ' >Update Project</h2>
           <IconButton onClick={() => setOpen(false)} ><Close className='text-white' /></IconButton>
         </div>
 
@@ -60,32 +60,32 @@ const EditModal = ({ open, setOpen }) => {
               <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="name">Name:</label>
                 <div className="flex gap-[4px] ">
-                  <select name='gender' value={leadData.gender} onChange={handleChange} className='py-[4px] px-[8px] rounded-[4px] w-[40%] ' >
+                  <select name='gender' value={projectData.gender} onChange={handleChange} className='py-[4px] px-[8px] rounded-[4px] w-[40%] ' >
                     <option value="male">Mr.</option>
                     <option value="female">Mrs.</option>
                   </select>
-                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] w-[60%] ' type="text" name="name" value={leadData.name} onChange={handleChange} placeholder="Enter Customer Name" />
+                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] w-[60%] ' type="text" name="name" value={projectData.name} onChange={handleChange} placeholder="Enter Customer Name" />
                 </div>
               </div>
               {/* primary phone */}
               <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="primaryPhone">Primary Phone:</label>
-                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="primaryPhone" value={leadData.primaryPhone} onChange={handleChange} placeholder="Enter Primary Phone" />
+                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="primaryPhone" value={projectData.primaryPhone} onChange={handleChange} placeholder="Enter Primary Phone" />
               </div>
               {/* secondary phone */}
               <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="secondaryPhone">Secondary Phone:</label>
-                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="secondaryPhone" value={leadData.secondaryPhone} onChange={handleChange} placeholder="Enter Secondary Phone" />
+                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="secondaryPhone" value={projectData.secondaryPhone} onChange={handleChange} placeholder="Enter Secondary Phone" />
               </div>
               {/* location */}
               <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="location">Location:</label>
-                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="text" name="location" value={leadData.location} onChange={handleChange} placeholder="Enter Location" />
+                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="text" name="location" value={projectData.location} onChange={handleChange} placeholder="Enter Location" />
               </div>
               {/* email */}
               <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="email">Email:</label>
-                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="email" name="email" value={leadData.email} onChange={handleChange} placeholder="Enter Email" />
+                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="email" name="email" value={projectData.email} onChange={handleChange} placeholder="Enter Email" />
               </div>
             </div>
           </div>
@@ -109,7 +109,7 @@ const EditModal = ({ open, setOpen }) => {
                 {/* city */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="city">City:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='city' value={leadData.city} onChange={handleChange} >
+                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='city' value={projectData.city} onChange={handleChange} >
                     <option value="">-</option>
                     <option value="lahore">Lahore</option>
                     <option value="karachi">Karachi</option>
@@ -119,7 +119,7 @@ const EditModal = ({ open, setOpen }) => {
                 {/* project */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="project">Project:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='project' value={leadData.project} onChange={handleChange} >
+                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='project' value={projectData.project} onChange={handleChange} >
                     <option value="">-</option>
                     <option value="project1">Project1</option>
                     <option value="project2">Project2</option>
@@ -129,7 +129,7 @@ const EditModal = ({ open, setOpen }) => {
                 {/* block */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="block">Block:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='block' value={leadData.block} onChange={handleChange} >
+                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='block' value={projectData.block} onChange={handleChange} >
                     <option value="">-</option>
                     <option value="block1">Block1</option>
                     <option value="block2">Block2</option>
@@ -139,7 +139,7 @@ const EditModal = ({ open, setOpen }) => {
                 {/* property type */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="propertyType">Property Type:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='propertyType' value={leadData.propertyType} onChange={handleChange} >
+                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='propertyType' value={projectData.propertyType} onChange={handleChange} >
                     <option value="">-</option>
                     <option value="type1">Type1</option>
                     <option value="type2">Type2</option>
@@ -149,7 +149,7 @@ const EditModal = ({ open, setOpen }) => {
                 {/* home type */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="homeType">Home Types:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='homeType' value={leadData.homeType} onChange={handleChange} >
+                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='homeType' value={projectData.homeType} onChange={handleChange} >
                     <option value="">-</option>
                     <option value="type1">Type1</option>
                     <option value="type2">Type2</option>
@@ -159,17 +159,17 @@ const EditModal = ({ open, setOpen }) => {
                 {/* min budget */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minBudget">MIN Budget:</label>
-                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="minBudget" value={leadData.minBudget} onChange={handleChange} />
+                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="minBudget" value={projectData.minBudget} onChange={handleChange} />
                 </div>
                 {/* max budget */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxBudget">MAX Budget:</label>
-                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="maxBudget" value={leadData.maxBudget} onChange={handleChange} />
+                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="maxBudget" value={projectData.maxBudget} onChange={handleChange} />
                 </div>
                 {/* min area unit */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minAreaUnit">Area:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='minAreaUnit' value={leadData.minAreaUnit} onChange={handleChange} >
+                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='minAreaUnit' value={projectData.minAreaUnit} onChange={handleChange} >
                     <option value="">Square Feet</option>
                     <option value="unit1">unit1</option>
                     <option value="unit2">unit2</option>
@@ -179,12 +179,12 @@ const EditModal = ({ open, setOpen }) => {
                 {/* min area */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minArea">MIN Budget:</label>
-                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="minArea" value={leadData.minArea} onChange={handleChange} />
+                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="minArea" value={projectData.minArea} onChange={handleChange} />
                 </div>
                 {/* max area unit */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxAreaUnit">Area:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='maxAreaUnit' value={leadData.maxAreaUnit} onChange={handleChange} >
+                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='maxAreaUnit' value={projectData.maxAreaUnit} onChange={handleChange} >
                     <option value="">Square Feet</option>
                     <option value="unit1">unit1</option>
                     <option value="unit2">unit2</option>
@@ -194,12 +194,12 @@ const EditModal = ({ open, setOpen }) => {
                 {/* max area */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxArea">MAX Budget:</label>
-                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="maxArea" value={leadData.maxArea} onChange={handleChange} />
+                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="maxArea" value={projectData.maxArea} onChange={handleChange} />
                 </div>
-                {/* lead priority */}
+                {/* project priority */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
-                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="leadPriority">Lead Priority:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='leadPriority' value={leadData.leadPriority} onChange={handleChange} >
+                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="projectPriority">Project Priority:</label>
+                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='projectPriority' value={projectData.projectPriority} onChange={handleChange} >
                     <option value="high">High</option>
                     <option value="moderate">Moderate</option>
                     <option value="low">Low</option>
@@ -208,7 +208,7 @@ const EditModal = ({ open, setOpen }) => {
                 {/* client type */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="clientType">Client Type:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='clientType' value={leadData.clientType} onChange={handleChange} >
+                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='clientType' value={projectData.clientType} onChange={handleChange} >
                     <option value="">Please Select</option>
                     <option value="directClient">Direct Client</option>
                     <option value="agent">Agent</option>
@@ -220,7 +220,7 @@ const EditModal = ({ open, setOpen }) => {
                 {/* allocated to */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="allocatedTo">Allocated To:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='allocatedTo' value={leadData.allocatedTo} onChange={handleChange} >
+                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' name='allocatedTo' value={projectData.allocatedTo} onChange={handleChange} >
                     <option value="">-</option>
                     <option value="user1">User1</option>
                     <option value="user2">User2</option>
@@ -230,7 +230,7 @@ const EditModal = ({ open, setOpen }) => {
                 {/* beds */}
                 <div className="flex flex-col justify-start gap-[4px] w-[31%] ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="beds">BEDS:</label>
-                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="beds" value={leadData.beds} onChange={handleChange} />
+                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] min-h-[40px] ' type="number" name="beds" value={projectData.beds} onChange={handleChange} />
                 </div>
               </div>
               {/* source */}
@@ -238,8 +238,8 @@ const EditModal = ({ open, setOpen }) => {
                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="source">Source:</label>
                 <div className="flex flex-wrap justify-start gap-[8px] w-full ">
                   <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                    <input type="checkbox" name="source" value='smsLead' onChange={handleChange} id="smsLead" />
-                    <label htmlFor="smsLead">SMS Lead</label>
+                    <input type="checkbox" name="source" value='smsProject' onChange={handleChange} id="smsProject" />
+                    <label htmlFor="smsProject">SMS Project</label>
                   </div>
                   <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
                     <input type="checkbox" name="source" value='olx' onChange={handleChange} id="olx" />
@@ -278,8 +278,8 @@ const EditModal = ({ open, setOpen }) => {
                     <label htmlFor="newspaper">Newspaper</label>
                   </div>
                   <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
-                    <input type="checkbox" name="source" value='emailLead' onChange={handleChange} id="emailLead" />
-                    <label htmlFor="emailLead">Email Lead</label>
+                    <input type="checkbox" name="source" value='emailProject' onChange={handleChange} id="emailProject" />
+                    <label htmlFor="emailProject">Email Project</label>
                   </div>
                   <div className="text-gray-500 flex justify-start items-center gap-[4px] min-w-[12rem] w-[15%] ">
                     <input type="checkbox" name="source" value='youtube' onChange={handleChange} id="youtube" />

@@ -7,6 +7,7 @@ import userReducer from './reducer/user'
 import taskReducer from './reducer/task'
 import saleReducer from './reducer/sale'
 import leadReducer from './reducer/lead'
+import projectReducer from './reducer/project'
 
 
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     task: taskReducer,
     sale: saleReducer,
     lead: leadReducer,
+    project: projectReducer,
 })
 
 

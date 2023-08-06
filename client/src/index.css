@@ -54,13 +54,14 @@
   border-radius: 10px;
 }
 
-/* Custom styles for the Droppable placeholder */
 .custom-placeholder {
   background-color: #f7f7f7;
-  /* Customize the background color here */
   border: 2px dashed #cccccc;
-  /* Add a dashed border or other styles as needed */
   border-radius: 4px;
-  /* Add border radius for rounded corners, if desired */
-  /* Add any other custom styles to make the placeholder stand out */
+}
+
+
+/* react file base image */
+#filebase_image>input[type='file'] {
+  display: none;
 }

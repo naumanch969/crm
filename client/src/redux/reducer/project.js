@@ -22,5 +22,5 @@ const projectSlice = createSlice({
     }
 })
 
-export const { start, end, error, } = projectSlice.actions
+export const { start, end, error, getProjectReducer, getProjectsReducer, createProjectReducer, updateProjectReducer, deleteProjectReducer, } = projectSlice.actions
 export default projectSlice.reducer
