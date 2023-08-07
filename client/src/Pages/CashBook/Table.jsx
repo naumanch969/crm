@@ -96,7 +96,7 @@ const Table = () => {
 
   return (
     <div>
-      <div className="flex justify-center text-3xl underline mb-4 font-medium">Amounts In</div>
+      <div className="flex justify-Start text-3xl underline mb-4 font-medium">Amounts In</div>
       <div className="w-full h-auto bg-white rounded-lg">
         <div className="w-full h-auto">
           <DataGrid
@@ -113,7 +113,7 @@ const Table = () => {
         </div>
       </div>
 
-      <div className="flex justify-center text-3xl underline mb-4 font-medium mt-4">Amounts Out</div>
+      <div className="flex justify-start text-3xl underline mb-4 font-medium mt-4">Amounts Out</div>
       <div className="w-full h-auto bg-white rounded-lg">
         <div className="w-full h-auto">
           <DataGrid

@@ -1,8 +1,11 @@
 import React from 'react'
 import { Routes, Route, Outlet } from 'react-router-dom';
 import Header from './Components/Header/Header';
-import { DashBoard, Leads, CreateLead, Tasks, Users, CashBook, Sales, Vouchers, Report, Login, Signup, CreateUser, CreateTask, CreateSale, User, Request, Projects, CreateProject } from './Pages'
+import { DashBoard, Leads, CreateLead, Tasks, Users, CashBook, Sales, Vouchers, Report, CreateUser, CreateTask, CreateSale, User, Request, Projects, CreateProject } from './Pages'
 import ViewCashBook from './Pages/CashBook/ViewCashBook';
+import Login from './Pages/Auth/Login'
+import Signup from './Pages/Auth/Signup'
+
 
 const App = () => {
 

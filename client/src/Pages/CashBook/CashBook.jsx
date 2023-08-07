@@ -8,13 +8,19 @@ import {
   TrendingUp,
 } from "@mui/icons-material";
 import Cards from "./Cards";
-import Table from './Table'
+import Table from "./Table";
 
 function CashBook() {
+  let newDate = new Date();
+  let date = newDate.getDate();
+  let month = newDate.getMonth() + 1;
+  let year = newDate.getFullYear();
+
+  let CompleteDate = `${date} / ${month} / ${year}`;
+
   return (
     <div className="h-auto">
       <div className="flex justify-between items-center">
-
         <div className="flex flex-col justify-start gap-[4px] ">
           <h1 className="text-primary-blue text-[24px] ">Cashbook</h1>
           <div className="flex justify-start items-center gap-[8px] ">
@@ -25,35 +31,11 @@ function CashBook() {
         </div>
 
         <div className="flex justify-end items-center gap-[6px] ">
-          <div className="h-[32px] bg-secondary-gray rounded-[4px] flex ">
-            <div className="w-[2rem] text-primary-gray h-full flex justify-center items-center ">
-              <Search />
-            </div>
-            <input
-              className="w-[7rem] text-primary-gray outline-none border-none bg-inherit h-full "
-              type="text"
-              placeholder="Search"
-            />
+          <div className="flex justify-start items-center gap-[6px] text-2xl">
+            <span className="font-bold">Today's Date : </span>
+            {CompleteDate}
           </div>
-
-          <div className="flex justify-start items-center gap-[6px]">
-            <Tooltip arrow placement="top" title="Import Users">
-              <div className="w-[32px] h-[32px] flex justify-center items-center cursor-pointer bg-secondary-gray rounded-[4px] ">
-                <TrendingUp className="text-primary-gray " />
-              </div>
-            </Tooltip>
-            <Tooltip arrow placement="top" title="Filter">
-              <div className="w-[32px] h-[32px] flex justify-center items-center cursor-pointer bg-secondary-gray rounded-[4px] ">
-                <FilterAltOutlined className="text-primary-gray " />
-              </div>
-            </Tooltip>
-          </div>
-
-          <button className="bg-red-500 text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-lg hover:bg-red-600">
-            <Add />
-          </button>
         </div>
-
       </div>
 
       <div className="mt-10">
@@ -65,7 +47,9 @@ function CashBook() {
       </div>
 
       <div className="flex justify-center mt-5">
-        <Button variant="contained" color="error">Close Today's Cashbook</Button>
+        <Button variant="contained" color="error">
+          Close Today's Cashbook
+        </Button>
       </div>
     </div>
   );
