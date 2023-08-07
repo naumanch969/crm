@@ -1,5 +1,5 @@
 import React from "react";
-import { Tooltip } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import {
   Add,
   FilterAltOutlined,
@@ -8,6 +8,7 @@ import {
   TrendingUp,
 } from "@mui/icons-material";
 import Cards from "./Cards";
+import Table from './Table'
 
 function CashBook() {
   return (
@@ -57,6 +58,14 @@ function CashBook() {
 
       <div className="mt-10">
         <Cards />
+      </div>
+
+      <div className="mt-6">
+        <Table />
+      </div>
+
+      <div className="flex justify-center mt-5">
+        <Button variant="contained" color="error">Close Today's Cashbook</Button>
       </div>
     </div>
   );

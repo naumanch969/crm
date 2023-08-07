@@ -13,9 +13,6 @@ const Cards = () => {
               <p className="text-2xl font-Mulish">$200.00</p>
               <p className="text-md font-Mulish text-slate-500 text-opacity-70">Payments - Today</p>
             </div>
-            <div className="flex justify-end h-8 w-auto">
-              <CreditCard className="text-emerald-300" height={200} width={200} />
-            </div>
           </CardContent>
         </Card>
 
@@ -26,9 +23,6 @@ const Cards = () => {
               <p className="text-md font-Mulish text-slate-500 text-opacity-70">
                 Payments - This Month
               </p>
-            </div>
-            <div className="flex justify-end">
-              <CreditCard className="text-sky-400" height={100} width={50} />
             </div>
           </CardContent>
         </Card>
@@ -41,9 +35,6 @@ const Cards = () => {
                 Payments - This Year
               </p>
             </div>
-            <div className="flex justify-end">
-              <CreditCard className="text-amber-400 w-20 h-20" />
-            </div>
           </CardContent>
         </Card>
 
@@ -54,9 +45,6 @@ const Cards = () => {
               <p className="text-md font-Mulish text-slate-500 text-opacity-70">
                 Payments - This Month
               </p>
-            </div>
-            <div className="flex justify-end">
-              <CreditCard className="text-sky-400" height={50} width={50} />
             </div>
           </CardContent>
         </Card>
