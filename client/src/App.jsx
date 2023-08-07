@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route, Outlet } from 'react-router-dom';
 import Header from './Components/Header/Header';
 import { DashBoard, Leads, CreateLead, Tasks, Users, CashBook, Sales, Vouchers, Report, Login, Signup, CreateUser, CreateTask, CreateSale, User, Request, Projects, CreateProject } from './Pages'
+import ViewCashBook from './Pages/CashBook/ViewCashBook';
 
 const App = () => {
 
@@ -31,6 +32,7 @@ const App = () => {
           <Route path='/user/:userId' element={<User />} />
           <Route path='/authorization/request' element={<Request />} />
           <Route path='/cashbook' element={<CashBook />} />
+          <Route path='/view/cashbook' element={<ViewCashBook />} />
           <Route path='/sales' element={<Sales />} />
           <Route path='/sales/create' element={<CreateSale />} />
           <Route path='/voucher' element={<Vouchers />} />

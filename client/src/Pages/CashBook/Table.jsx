@@ -4,16 +4,17 @@ import { Button, IconButton, Tooltip } from "@mui/material";
 import { Delete, DeleteOutline } from "@mui/icons-material";
 
 const columns1 = [
-  { field: "id", headerName: "ID", width: 100 },
-  { field: "user", headerName: "User", width: 170 },
-  { field: "time", headerName: "Time", width: 150 },
+  { field: "id", headerName: "ID", width: 70 },
+  { field: "user", headerName: "User", width: 140 },
+  { field: "time", headerName: "Time", width: 120 },
   { field: "paymenttype", headerName: "Type", width: 120 },
-  { field: "details", headerName: "Payment details", width: 300 },
+  { field: "details", headerName: "Payment details", width: 250 },
   { field: "amount", headerName: "Amount In", width: 130 },
+  { field: "branch", headerName: "Branch", width: 190 },
   {
     field: "action",
     headerName: "Action",
-    width: 150,
+    width: 100,
     renderCell: (params) => (
       <div className="flex gap-[4px] ">
         <Tooltip placement="top" title="Delete">
@@ -27,16 +28,17 @@ const columns1 = [
 ];
 
 const columns2 = [
-  { field: "id", headerName: "ID", width: 100 },
-  { field: "user", headerName: "User", width: 170 },
-  { field: "time", headerName: "Time", width: 150 },
+  { field: "id", headerName: "ID", width: 70 },
+  { field: "user", headerName: "User", width: 140 },
+  { field: "time", headerName: "Time", width: 120 },
   { field: "paymenttype", headerName: "Type", width: 120 },
-  { field: "details", headerName: "Payment details", width: 300 },
+  { field: "details", headerName: "Payment details", width: 250 },
   { field: "amount", headerName: "Amount Out", width: 130 },
+  { field: "branch", headerName: "Branch", width: 190 },
   {
     field: "action",
     headerName: "Action",
-    width: 150,
+    width: 100,
     renderCell: (params) => (
       <div className="flex gap-[4px] ">
         <Tooltip placement="top" title="Delete">
@@ -58,6 +60,7 @@ const Table = () => {
       paymenttype: "cash",
       details: "This is demo detail",
       amount: 2300,
+      branch:'Cavalary Branch',
     },
     {
       id: 2,
@@ -66,6 +69,7 @@ const Table = () => {
       paymenttype: "cash",
       details: "This is demo detail",
       amount: 2300,
+      branch:'Cavalary Branch',
     },
   ];
 
@@ -77,6 +81,7 @@ const Table = () => {
       paymenttype: "cash",
       details: "This is demo detail",
       amount: 1000,
+      branch:'Cavalary Branch',
     },
     {
       id: 2,
@@ -85,6 +90,7 @@ const Table = () => {
       paymenttype: "cash",
       details: "This is demo detail",
       amount: 800,
+      branch:'Cavalary Branch',
     },
   ];
 
