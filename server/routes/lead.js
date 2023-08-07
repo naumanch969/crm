@@ -1,21 +1,22 @@
 import express from 'express'
-import { createLead, getLead, getLeads, updateLead, deleteLead, deleteWholeCollection } from '../controllers/lead.js'
+import { createOnsiteLead, createOnlineLead, getLead, getLeads, updateLead, deleteLead, deleteWholeCollection } from '../controllers/lead.js'
 import { verifyEmployee, verifyManager, verifyToken } from '../middleware/auth.js'
 
 const router = express.Router()
 
 // GET
-router.get('/get/single/:leadId',  getLead)
-router.get('/get/all', verifyToken, verifyEmployee, getLeads)
+router.get('/get/single/:leadId', getLead)
+router.get('/get/all',  getLeads)//verifyToken, verifyEmployee,
 
 // POST
-router.post('/create', verifyToken, verifyManager, createLead)
+router.post('/create/onsite',  createOnsiteLead)//verifyToken, verifyManager,
+router.post('/create/online',  createOnlineLead)//verifyToken, verifyManager,
 
 // PUT
-router.put('/update/:leadId', verifyToken, verifyManager, updateLead)
+router.put('/update/:leadId',  updateLead)//verifyToken, verifyManager,
 
 // DELETE
-router.delete('/delete/:leadId', verifyToken, verifyManager, deleteLead)
+router.delete('/delete/:leadId',  deleteLead)//verifyToken, verifyManager,
 router.delete('/delete-whole-collection', deleteWholeCollection)
 
 export default router

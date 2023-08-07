@@ -7,6 +7,7 @@ import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
 import { useDispatch } from 'react-redux';
 import { getLeadReducer } from '../../redux/reducer/lead';
+import { format } from 'timeago.js'
 
 
 const Table = ({ leads, isFetching, error }) => {
@@ -19,7 +20,6 @@ const Table = ({ leads, isFetching, error }) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [selectedLeadId, setSelectedLeadId] = useState(null)
 
-
     //////////////////////////////////////// FUNCTIONS ///////////////////////////////////
     const handleOpenEditModal = (lead) => {
         setOpenEditModal(true);
@@ -30,43 +30,42 @@ const Table = ({ leads, isFetching, error }) => {
         setSelectedLeadId(leadId)
     }
 
+
     const columns = [
-        { field: 'name', headerName: 'Name', width: 200, editable: true, },
-        { field: 'primaryPhone', headerName: 'Primary Phone', width: 150, editable: true, },
+        {
+            field: 'clientId.phone', headerName: 'Phone', width: 150, editable: true, renderCell: (params) => (
+                <>{params.row.clientId.phone} </>
+            )
+        },
+        {
+            field: 'clientId.firstName', headerName: 'Name', width: 150, editable: true, renderCell: (params) => (
+                <>{params.row.clientId.firstName} {" "} {params.row.clientId.lastName}</>
+            )
+        },
         {
             field: 'createdAt', headerName: 'Date', width: 150, renderCell: (params) => (
                 <>{format(params.row.createdAt)}</>
             )
         },
+        { field: 'city', headerName: 'City', width: 150, },
+        { field: 'block', headerName: 'Block', width: 150, },
+        { field: 'beds', headerName: 'Beds', width: 150, },
+        { field: 'priority', headerName: 'Priority', width: 150, },
+        { field: 'clientType', headerName: 'Client Type', width: 150, },
+        { field: 'propertyType', headerName: 'Property Type', width: 150, },
+        { field: 'homeType', headerName: 'Home Type', width: 150, },
         {
-            field: 'assigned', headerName: 'Assigned', width: 150, renderCell: (params) => (
-                <AvatarGroup max={2} >
-                    {
-                        params.row.assigned.map((user, index) => (
-                            <Tooltip placement='top' key={index} title={user.name} >
-                                <Avatar src={user.image} className='' />
-                            </Tooltip>
-                        ))
-                    }
-                </AvatarGroup>
-            )
-        },
-        {
-            field: 'status', headerName: 'Status', width: 120, renderCell: (params) => {
-                const { status } = params.row
-
+            field: 'area', headerName: 'Area', width: 150, renderCell: (params) => {
+                const { minArea, minAreaUnit, maxArea, maxAreaUnit } = params.row
                 return (
-                    <span className={`
-                    ${status == 'completed' ? 'border-green-500 text-green-500' : status == 'pending' ? 'border-red-500 text-red-500' : ''}
-                     border-[1px] rounded-[6px] px-[4px] py-[2px]  `} >{status}</span>
+                    <div className="flex gap-[4px] ">
+                        <span className='flex gap-[2px] ' >{minArea} <small>{minAreaUnit}</small> </span>
+                        <span className='flex gap-[2px] ' >{maxArea} <small>{maxAreaUnit}</small> </span>
+                    </div>
                 )
             }
         },
-        {
-            field: 'value', headerName: 'Value', width: 120, renderCell: (params) => (
-                <span className='' >${params.row.value}</span>
-            )
-        },
+        { field: 'allocatedTo', headerName: 'Allocated To', width: 150, },
         {
             field: "action", headerName: "Action", width: 200, renderCell: (params) => (
                 <div className='flex gap-[4px] ' >

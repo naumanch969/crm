@@ -1,37 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createProject } from '../../redux/action/project'
 import { Clear, UploadFile } from '@mui/icons-material'
 import FileBase from 'react-file-base64'
+import { useNavigate } from 'react-router-dom'
 
 const CreateProject = () => {
 
     //////////////////////////////////////// VARIABLES ////////////////////////////////////
     const imageRef = useRef(null)
+    const navigate = useNavigate()
     const dispatch = useDispatch()
+    const { isFetching } = useSelector(state => state.project)
     const initialState = {
-        gender: 'Mr.',
-        name: '',
-        primaryPhone: '',
-        secondaryPhone: '',
-        location: '',
-        email: '',
+        title: '',
         city: '',
-        project: '',
         block: '',
         propertyType: 'Homes',
         homeType: 'House',
-        minBudget: 0,
-        maxBudget: 0,
-        minAreaUnit: 'squareFeet',
-        minArea: 0,
-        maxAreaUnit: 'squareFeet',
-        maxArea: 0,
-        projectPriority: 'high',
-        clientType: '',
-        allocatedTo: '',
+        price: 0,
+        area: 0,
+        areaUnit: 'squareFeet',
+        priority: 'high',
         beds: 0,
-        source: []
     }
 
     //////////////////////////////////////// STATES ////////////////////////////////////
@@ -44,7 +35,7 @@ const CreateProject = () => {
     //////////////////////////////////////// FUNCTIONS //////////////////////////////////
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(createProject({ ...projectData, images }))
+        dispatch(createProject({ ...projectData, images }, navigate))
     }
     const handleImageButtonClick = (e) => {
         e.preventDefault();
@@ -62,73 +53,27 @@ const CreateProject = () => {
         e.preventDefault()
         setImages(images.filter(i => i != img))
     }
-
     const handleChange = (e) => {
         setProjectData(pre => ({ ...pre, [e.target.name]: e.target.value }))
     }
+
+
 
     return (
         <div className='flex flex-col gap-[1rem] bg-white px-[20px] py-[1rem] shadow-box rounded-[4px] ' >
 
             <div className="p-[8px] flex justify-between items-center sticky top-0 ">
-                <h2 className='font-bold text-[24px] ' >Add Cutomer Detail</h2>
+                <h2 className='font-bold text-[24px] ' >Add Project Detail</h2>
             </div>
 
             <form onSubmit={handleSubmit} className='flex flex-col gap-[24px] w-full ' >
 
-                <div className="flex flex-col rounded-[4px] border-[1px] border-gray-400 shadow-sm ">
-                    <div className="px-[1rem] py-[8px] bg-neutral-600 text-white ">
-                        <h4 className='font-medium text-[1rem] ' >CUSTOMER DETAILS</h4>
-                    </div>
-                    <div className="flex justify-between flex-wrap gap-[8px] p-[1rem] w-full ">
-                        {/* name */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[25%] ">
-                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="name">Name:</label>
-                            <div className="flex gap-[4px] ">
-                                <select name='gender' value={projectData.gender} onChange={handleChange} className='py-[4px] px-[8px] rounded-[4px] w-[40%] ' >
-                                    <option value="male">Mr.</option>
-                                    <option value="female">Mrs.</option>
-                                </select>
-                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] w-[60%] ' type="text" name="name" value={projectData.name} onChange={handleChange} placeholder="Enter Customer Name" />
-                            </div>
-                        </div>
-                        {/* primary phone */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="primaryPhone">Primary Phone:</label>
-                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="primaryPhone" value={projectData.primaryPhone} onChange={handleChange} placeholder="Enter Primary Phone" />
-                        </div>
-                        {/* secondary phone */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="secondaryPhone">Secondary Phone:</label>
-                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="secondaryPhone" value={projectData.secondaryPhone} onChange={handleChange} placeholder="Enter Secondary Phone" />
-                        </div>
-                        {/* location */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="location">Location:</label>
-                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="location" value={projectData.location} onChange={handleChange} placeholder="Enter Location" />
-                        </div>
-                        {/* email */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                            <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="email">Email:</label>
-                            <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="email" name="email" value={projectData.email} onChange={handleChange} placeholder="Enter Email" />
-                        </div>
-                    </div>
-                </div>
-
                 <div className="flex flex-col gap-[1rem] rounded-[4px] border-[1px] border-gray-400 shadow-sm ">
                     {/* heading */}
                     <div className="px-[1rem] py-[8px] bg-neutral-600 text-white ">
-                        <h4 className='font-medium text-[1rem] ' >CUSTOMER REQUIREMENT</h4>
+                        <h4 className='font-medium text-[1rem] ' >Project Fields</h4>
                     </div>
                     <div className="flex flex-col gap-[2rem] p-[1rem] w-full ">
-                        {/* buttons */}
-                        <div className="flex gap-[8px] ">
-                            <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-white text-black ' >BUY</button>
-                            <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-neutral-400 text-gray-300 ' >RENT</button>
-                            <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-neutral-400 text-gray-300 ' >SELLER</button>
-                            <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-neutral-400 text-gray-300 ' >MORTGAGE</button>
-                            <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-neutral-400 text-gray-300 ' >LESSEE</button>
-                        </div>
                         {/* images */}
                         <div className="newHotelItem w-full flex flex-wrap justify-start md:items-start items-center gap-[1rem] ">
                             {
@@ -148,6 +93,11 @@ const CreateProject = () => {
                         </div>
                         {/* all inputs */}
                         <div className="flex justify-start flex-wrap gap-[24px] w-full ">
+                            {/* title */}
+                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="title">Title:</label>
+                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="title" value={projectData.title} onChange={handleChange} />
+                            </div>
                             {/* city */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="city">City:</label>
@@ -156,16 +106,6 @@ const CreateProject = () => {
                                     <option value="lahore">Lahore</option>
                                     <option value="karachi">Karachi</option>
                                     <option value="islamabad">Islamabad</option>
-                                </select>
-                            </div>
-                            {/* project */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="project">Project:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='project' value={projectData.project} onChange={handleChange} >
-                                    <option value="">-</option>
-                                    <option value="project1">Project1</option>
-                                    <option value="project2">Project2</option>
-                                    <option value="project3">Project3</option>
                                 </select>
                             </div>
                             {/* block */}
@@ -198,75 +138,33 @@ const CreateProject = () => {
                                     <option value="type3">Type3</option>
                                 </select>
                             </div>
-                            {/* min budget */}
+                            {/* price */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minBudget">MIN Budget:</label>
-                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="minBudget" value={projectData.minBudget} onChange={handleChange} />
+                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="price">Price:</label>
+                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="price" value={projectData.price} onChange={handleChange} />
                             </div>
-                            {/* max budget */}
+                            {/* area unit */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxBudget">MAX Budget:</label>
-                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxBudget" value={projectData.maxBudget} onChange={handleChange} />
-                            </div>
-                            {/* min area unit */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minAreaUnit">Area:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='minAreaUnit' value={projectData.minAreaUnit} onChange={handleChange} >
+                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="areaUnit">Area Unit:</label>
+                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='areaUnit' value={projectData.areaUnit} onChange={handleChange} >
                                     <option value="">Square Feet</option>
                                     <option value="unit1">unit1</option>
                                     <option value="unit2">unit2</option>
                                     <option value="unit3">unit3</option>
                                 </select>
                             </div>
-                            {/* min area */}
+                            {/* area */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minArea">MIN Budget:</label>
-                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="minArea" value={projectData.minArea} onChange={handleChange} />
+                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxArea">Area:</label>
+                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="area" value={projectData.area} onChange={handleChange} />
                             </div>
-                            {/* max area unit */}
+                            {/* priority */}
                             <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxAreaUnit">Area:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='maxAreaUnit' value={projectData.maxAreaUnit} onChange={handleChange} >
-                                    <option value="">Square Feet</option>
-                                    <option value="unit1">unit1</option>
-                                    <option value="unit2">unit2</option>
-                                    <option value="unit3">unit3</option>
-                                </select>
-                            </div>
-                            {/* max area */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxArea">MAX Budget:</label>
-                                <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxArea" value={projectData.maxArea} onChange={handleChange} />
-                            </div>
-                            {/* project priority */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="projectPriority">Project Priority:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='projectPriority' value={projectData.projectPriority} onChange={handleChange} >
+                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="priority">Project Priority:</label>
+                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='priority' value={projectData.priority} onChange={handleChange} >
                                     <option value="high">High</option>
                                     <option value="moderate">Moderate</option>
                                     <option value="low">Low</option>
-                                </select>
-                            </div>
-                            {/* client type */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="clientType">Client Type:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='clientType' value={projectData.clientType} onChange={handleChange} >
-                                    <option value="">Please Select</option>
-                                    <option value="directClient">Direct Client</option>
-                                    <option value="agent">Agent</option>
-                                    <option value="investor">Investor</option>
-                                    <option value="investmentFund">Investment Fund</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            {/* allocated to */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="allocatedTo">Allocated To:</label>
-                                <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='allocatedTo' value={projectData.allocatedTo} onChange={handleChange} >
-                                    <option value="">-</option>
-                                    <option value="user1">User1</option>
-                                    <option value="user2">User2</option>
-                                    <option value="user3">User3</option>
                                 </select>
                             </div>
                             {/* beds */}
@@ -278,7 +176,7 @@ const CreateProject = () => {
                         {/* button */}
                         <div className="w-full flex justify-end items-center">
                             <button type='submit' className='w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer ' >
-                                Save
+                                {isFetching ? 'Saving' : 'Save'}
                             </button>
                         </div>
                     </div>

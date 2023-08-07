@@ -1,6 +1,6 @@
 import Notification from '../models/notification.js'
 import { createError } from '../utils/error.js'
-
+import validator from 'validator'
 
 export const getNotification = async (req, res, next) => {
     try {
@@ -36,9 +36,9 @@ export const createRequestNotification = async (req, res, next) => {
         if (!validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
 
         const isAlreadySend = await Notification.findOne({ 'data.email': email })
-        if (Boolean(isAlreadySend)) return res.status(201).json({ message: 'Your registeration request has already been sent to the admin for approval', success: true })
+        if (Boolean(isAlreadySend)) return res.status(201).json({ message: 'Notification with this email already created', success: true })
 
-        await Notification.create({
+        const notification = await Notification.create({
             title: 'Registeration Approval',
             type: 'registeration-approval',
             description: 'Need approval for the registeration',
@@ -46,7 +46,7 @@ export const createRequestNotification = async (req, res, next) => {
         })
 
 
-        res.status(200).json({ message: 'Registeration request has been sent to the admin for approval', success: true })
+        res.status(200).json({ result: notification, message: 'Notification created successfully', success: true })
 
     } catch (err) {
         next(createError(500, err.message))

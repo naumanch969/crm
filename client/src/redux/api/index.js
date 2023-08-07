@@ -26,6 +26,8 @@ export const getUsers = () => API.get(`/user/get/all`)
 export const getClients = () => API.get(`/user/get/clients`)
 export const getEmployees = () => API.get(`/user/get/employees`)
 export const getUser = (userId) => API.get(`/user/get/single/${userId}`)
+export const createClient = (clientData) => API.post(`/user/create/client`, clientData)
+export const createEmployee = (employeeData) => API.post(`/user/create/employee`, employeeData)
 export const updateRole = (userId, role) => API.put(`/user/update-role/${userId}`, { role })
 export const updateUser = (userId, userData) => API.put(`/user/update/${userId}`, userData)
 export const deleteUser = (userId) => API.delete(`/user/delete/${userId}`)
@@ -43,7 +45,7 @@ export const deleteTask = (taskId) => API.delete(`/task/delete/${taskId}`)
 export const getSales = () => API.get(`/sale/get/all`)
 export const getSale = (saleId) => API.get(`/sale/get/single/${saleId}`)
 export const createSale = (saleData) => API.post(`/sale/create`, saleData)
-export const updateSale = (saleId) => API.put(`/sale/update/${saleId}`)
+export const updateSale = (saleId, saleData) => API.put(`/sale/update/${saleId}`, saleData)
 export const deleteSale = (saleId) => API.delete(`/sale/delete/${saleId}`)
 
 
@@ -74,11 +76,12 @@ export const deleteApproval = (approvalId) => API.delete(`/approval/delete/${app
 
 
 // LEAD 
-export const getLead = (leadId)=>API.get(`/lead/get/single/${leadId}`) 
-export const getLeads = ()=>API.get(`/lead/get/all`) 
-export const createLead = (leadData)=>API.post(`/lead/create`) 
-export const updateLead = (leadId, leadData)=>API.put(`/lead/update/${leadId}`, leadData) 
-export const deleteLead = (leadId)=>API.delete(`/lead/delete/${leadId}`) 
+export const getLead = (leadId) => API.get(`/lead/get/single/${leadId}`)
+export const getLeads = () => API.get(`/lead/get/all`)
+export const createOnsiteLead = (leadData) => API.post(`/lead/create/onsite`, leadData)
+export const createOnlineLead = (leadData) => API.post(`/lead/create/online`, leadData)
+export const updateLead = (leadId, leadData) => API.put(`/lead/update/${leadId}`, leadData)
+export const deleteLead = (leadId) => API.delete(`/lead/delete/${leadId}`)
 
 // PROJECT
 export const getProject = (projectId) => API.get(`/project/get/single/${projectId}`)

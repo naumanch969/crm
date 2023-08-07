@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Table from './Table'
 import Topbar from './Topbar'
 import { person5 } from '../../assets'
@@ -10,12 +10,12 @@ function Tasks() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch()
   const { tasks, isFetching, error } = useSelector(state => state.task)
-
+ 
   ////////////////////////////////////// STATES //////////////////////////////
   const [view, setView] = useState('table')
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
-  useEffect(() => {
+  useMemo(() => {
     dispatch(getTasks())
   }, [])
 

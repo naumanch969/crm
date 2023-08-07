@@ -19,8 +19,7 @@ const Table = ({ projects, isFetching, error }) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [selectedProjectId, setSelectedProjectId] = useState(null)
 
-    // city,project,block,propertyType,homeType,minBudget,maxBudget,minAreaUnit,minArea,maxAreaUnit,maxArea,leadPriority,clientType,allocatedTo,beds,images,
-
+ 
     //////////////////////////////////////// FUNCTIONS ////////////////////////////////
     const handleOpenEditModal = (project) => {
         setOpenEditModal(true);
@@ -32,74 +31,26 @@ const Table = ({ projects, isFetching, error }) => {
     }
 
     const columns = [
-        { field: 'city', headerName: 'City', width: 200, editable: true, },
-        { field: 'project', headerName: 'Project', width: 150, editable: true, },
+        { field: 'city', headerName: 'City', width: 120, editable: true, },
+        { field: 'title', headerName: 'Title', width: 150, editable: true, },
         { field: 'block', headerName: 'Block', width: 150 },
         { field: 'propertyType', headerName: 'Property Type', width: 150 },
         { field: 'homeType', headerName: 'Home Type', width: 150 },
         { field: 'beds', headerName: 'Beds', width: 150 },
-        { field: 'leadPriority', headerName: 'Priority', width: 150 },
-        { field: 'clientType', headerName: 'Client Type', width: 150 },
-        { field: 'allocatedTo', headerName: 'Allocated To', width: 150 },
+        { field: 'priority', headerName: 'Priority', width: 150 },
         {
-            field: 'minBudget', headerName: 'Min Budget', width: 150, renderCell: (params) => (
+            field: 'price', headerName: 'Price', width: 150, renderCell: (params) => (
                 <span className="">
-                    {params.row.minBudget}
-                    <small>{params.row.minBudgetUnit}</small>
+                    {params.row.price}
                 </span>
             )
         },
         {
-            field: 'maxBudget', headerName: 'Max Budget', width: 150, renderCell: (params) => (
+            field: 'area', headerName: 'Area', width: 150, renderCell: (params) => (
                 <span className="">
-                    {params.row.maxBudget}
-                    <small>{params.row.maxBudgetUnit}</small>
+                    {params.row.area}
+                    <small>{params.row.areaUnit}</small>
                 </span>
-            )
-        },
-        {
-            field: 'minArea', headerName: 'Min Arae', width: 150, renderCell: (params) => (
-                <span className="">
-                    {params.row.minArea}
-                    <small>{params.row.minAreaUnit}</small>
-                </span>
-            )
-        },
-        {
-            field: 'maxArea', headerName: 'Max Area', width: 150, renderCell: (params) => (
-                <span className="">
-                    {params.row.minAreaUnit}
-                    <small>{params.row.maxAreaUnit}</small>
-                </span>
-            )
-        },
-        {
-            field: 'assigned', headerName: 'Assigned', width: 150, renderCell: (params) => (
-                <AvatarGroup max={2} >
-                    {
-                        params.row.assigned.map((user, index) => (
-                            <Tooltip placement='top' key={index} title={user.name} >
-                                <Avatar src={user.image} className='' />
-                            </Tooltip>
-                        ))
-                    }
-                </AvatarGroup>
-            )
-        },
-        {
-            field: 'status', headerName: 'Status', width: 120, renderCell: (params) => {
-                const { status } = params.row
-
-                return (
-                    <span className={`
-                    ${status == 'completed' ? 'border-green-500 text-green-500' : status == 'pending' ? 'border-red-500 text-red-500' : ''}
-                     border-[1px] rounded-[6px] px-[4px] py-[2px]  `} >{status}</span>
-                )
-            }
-        },
-        {
-            field: 'value', headerName: 'Value', width: 120, renderCell: (params) => (
-                <span className='' >${params.row.value}</span>
             )
         },
         {
@@ -119,10 +70,6 @@ const Table = ({ projects, isFetching, error }) => {
         },
     ];
 
-
-    const handleDelete = () => {
-        console.log('handleDelete')
-    }
 
     return (
         <div className='w-[61rem] h-auto overflow-x-scroll '>
@@ -151,7 +98,7 @@ const Table = ({ projects, isFetching, error }) => {
                     columns={columns}
                     initialState={{
                         pagination: {
-                            paginationModel: { pageSize: 5, }
+                            paginationModel: { pageSize: 10, }
                         },
                     }}
                     getRowId={row => row._id}

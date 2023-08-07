@@ -1,6 +1,6 @@
 import { Close } from '@mui/icons-material'
 import { IconButton, Modal } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import React from 'react'
 import { updateUser } from '../../redux/action/user'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,27 +9,32 @@ const EditModal = ({ open, setOpen }) => {
 
   /////////////////////////////////////// VARIABLES ///////////////////////////////////////
   const dispatch = useDispatch()
-  const { currentUser: user, } = useSelector(state => state.user)
+  const { currentUser: user, isFetching, error, } = useSelector(state => state.user)
   const initialState = { firstName: '', lastName: '', username: '', email: '', password: '', cnic: '', phone: '', officialNumber: '', branch: '', gender: 'male', martialStatus: 'married', salaryType: '', activeStatus: false }
 
   /////////////////////////////////////// STATES ///////////////////////////////////////
-  const [userData, setUserData] = useState(user ?? initialState)
+  const [userData, setUserData] = useState(user)
 
   /////////////////////////////////////// USE EFFECT ///////////////////////////////////////
+  useEffect(() => {
+    setUserData(user)
+  }, [user])
 
   /////////////////////////////////////// FUNCTIONS ///////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(updateUser(user._id, userData, userData?.role))
+    setOpen(false)
   }
-
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value })
   }
-
   const handleClose = () => {
     setOpen(false)
   }
+
+
+
 
   return (
     <Modal open={open} onClose={handleClose} className='w-screen h-screen flex justify-center items-center ' >
@@ -122,13 +127,13 @@ const EditModal = ({ open, setOpen }) => {
               </div>
               {/* cnic */}
               <div className="flex flex-col gap-[4px] ">
-                <label className='text-black font-medium text-[16px] ' htmlFor="mobileNumber">CNIC</label>
+                <label className='text-black font-medium text-[16px] ' htmlFor="cnic">CNIC</label>
                 <input type="number" onChange={handleChange} value={userData?.cnic} name="cnic" id="cnic" placeholder='Mobile Number' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
               </div>
               {/* mobile number */}
               <div className="flex flex-col gap-[4px] ">
-                <label className='text-black font-medium text-[16px] ' htmlFor="mobileNumber">Mobile Number</label>
-                <input type="number" onChange={handleChange} value={userData?.mobileNumber} name="mobileNumber" id="mobileNumber" placeholder='Mobile Number' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
+                <label className='text-black font-medium text-[16px] ' htmlFor="phone">Phone</label>
+                <input type="number" onChange={handleChange} value={userData?.phone} name="phone" id="phone" placeholder='Mobile Number' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
               </div>
               {/* salary type */}
               <div className="flex flex-col gap-[4px] ">
@@ -152,7 +157,7 @@ const EditModal = ({ open, setOpen }) => {
 
           <div className="w-full flex justify-end items-center">
             <button type='submit' className='w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[12px] py-[4px] rounded-[4px] cursor-pointer ' >
-              Update
+              {isFetching ? 'Updating...' : 'Update'}
             </button>
           </div>
 

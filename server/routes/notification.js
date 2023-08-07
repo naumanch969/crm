@@ -5,11 +5,11 @@ import { getNotification, getNotifications, createRequestNotification, deleteNot
 const router = express.Router()
 
 // GET
-router.get('/get/single/:approvalId', getNotification)
+router.get('/get/single/:notificationId', getNotification)
 router.get('/get/all', getNotifications)
 
 // POST
-router.get('/create/request', createRequestNotification)
+router.post('/create/request', createRequestNotification)
 
 // DELETE
 router.delete('/delete/:notificationId', deleteNotification)

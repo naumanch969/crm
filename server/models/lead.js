@@ -2,30 +2,28 @@ import { Schema, model } from 'mongoose'
 
 const leadSchema = Schema({
 
-    gender: { type: String, requried: true },
-    name: { type: String, requried: true },
-    primaryPhone: { type: Number, requried: true },
-    secondaryPhone: { type: Number, requried: true },
-    location: { type: String, requried: true },
-    email: { type: String, requried: true },
-    city: { type: String, required: true },
-    project: { type: String, required: true },
-    block: { type: String, required: true },
-    propertyType: { type: String, required: true },
-    homeType: { type: String, required: true },         // define enum
-    minBudget: { type: Number, required: true, min: 0 },
-    maxBudget: { type: Number, required: true, min: 0 },
-    minAreaUnit: { type: String, required: true },      // define enum
-    minArea: { type: Number, required: true, min: 0 },
-    maxAreaUnit: { type: String, required: true },
-    maxArea: { type: Number, required: true, min: 0 },
-    leadPriority: { type: String, required: true },     // define enum
-    clientType: { type: String, required: true },       // define enum
-    allocatedTo: { type: String, required: true },
-    beds: { type: String, required: true },
+    clientId: { type: Schema.Types.ObjectId, ref: 'User' },
+    city: { type: String },
+    project: { type: String },
+    block: { type: String },
+    propertyType: { type: String },
+    homeType: { type: String },         // define enum
+    minBudget: { type: Number, min: 0 },
+    maxBudget: { type: Number, min: 0 },
+    minAreaUnit: { type: String },      // define enum
+    minArea: { type: Number, min: 0 },
+    maxAreaUnit: { type: String },
+    maxArea: { type: Number, min: 0 },
+    priority: { type: String },     // define enum
+    clientType: { type: String },       // define enum
+    allocatedTo: { type: String },
+    beds: { type: String },
+    // progress: { type: Number },
+    // status: { type: String, },
+    source: { type: Array },
 
     type: { type: String, required: false, default: 'onsite', enum: ['onsite', 'online'] },
-    projectId: { type: String, required: false }            // todo: replace with ObjectId
+    projectId: { type: Schema.Types.ObjectId, ref: 'Project', required: false }            // todo: replace with ObjectId
 
 }, { timestamps: true })
 

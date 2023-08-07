@@ -8,7 +8,7 @@ function RequestApprovals() {
 
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch()
-  const { approvals, isFetching, error } = useSelector(state => state.approval)
+  const { requestApprovals: approvals, isFetching, error } = useSelector(state => state.approval)
 
   ////////////////////////////////////// STATES //////////////////////////////
   const [view, setView] = useState('table')

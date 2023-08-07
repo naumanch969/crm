@@ -53,6 +53,35 @@ export const getEmployees = async (req, res, next) => {
     }
 }
 
+export const createClient = async (req, res, next) => {
+    try {
+
+        const findedUser = await User.findOne({ email: req.body.email })
+        if (Boolean(findedUser)) return next(createError(400, 'Email already exist'))
+
+        const result = await User.create({ ...req.body, role: 'client' })
+        res.status(200).json({ result, message: 'employees fetched seccessfully', success: true })
+
+    } catch (err) {
+        next(createError(500, err.message))
+
+    }
+}
+export const createEmployee = async (req, res, next) => {
+    try {
+
+        const findedUser = await User.findOne({ email: req.body.email })
+        if (Boolean(findedUser)) return next(createError(400, 'Email already exist'))
+
+        const result = await User.create({ ...req.body, role: 'employee' })
+        res.status(200).json({ result, message: 'employees fetched seccessfully', success: true })
+
+    } catch (err) {
+        next(createError(500, err.message))
+
+    }
+}
+
 export const updateRole = async (req, res, next) => {
     try {
 
@@ -78,7 +107,9 @@ export const updateUser = async (req, res, next) => {
         const findedUser = await User.findById(userId)
         if (!findedUser) return next(createError(400, 'User not exist'))
 
-        const updatedUser = await User.findByIdAndUpdate(userId, { $set: req.body }, { new: true })
+        const { _id, ...body } = req.body
+        console.log(body)
+        const updatedUser = await User.findByIdAndUpdate(userId, { $set: body }, { new: true })
         res.status(200).json({ result: updatedUser, message: 'User updated successfully', success: true })
 
     } catch (err) {

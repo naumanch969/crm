@@ -15,22 +15,23 @@ export const register = async (req, res, next) => {
         if (!firstName || !lastName || !username || !email || !phone || !password) return next(createError(400, 'Make sure to provide all the fields'))
         if (!validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
 
-        const findedUser = await User.find({ email })
+        const findedUser = await User.findOne({ email })
         if (Boolean(findedUser)) return next(createError(400, 'Email already exist'))
 
         const hashedPassword = await bcrypt.hash(password, 12)
+        console.log(findedUser)
 
-        const transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: { user: process.env.SENDER_EMAIL, pass: process.env.SENDER_EMAIL_PASSWORD }
-        });
-        const info = await transporter.sendMail({
-            from: process.env.SENDER_EMAIL,
-            to: email,
-            subject: "Registeration Successful",
-            html: "<b>Hello world?</b>",
-        });
-        transporter.sendMail(info)
+        // const transporter = nodemailer.createTransport({
+        //     service: 'Gmail',
+        //     auth: { user: process.env.SENDER_EMAIL, pass: process.env.SENDER_EMAIL_PASSWORD }
+        // });
+        // const info = await transporter.sendMail({
+        //     from: process.env.SENDER_EMAIL,
+        //     to: email,
+        //     subject: "Registeration Successful",
+        //     html: "<b>Hello world?</b>",
+        // });
+        // transporter.sendMail(info)
 
         const newUser = await User.create({ firstName, lastName, username, email, phone, password: hashedPassword })
         res.status(200).json({ result: newUser, message: 'User created successfully', success: true })
@@ -56,7 +57,7 @@ export const login = async (req, res, next) => {
 
         const token = jwt.sign({ _id: findedUser._id, role: findedUser.role }, process.env.JWT_SECRET)
 
-        res.status(201).json({ result: { ...findedUser, token }, message: 'User logged in successfully', success: true })
+        res.status(201).json({ result: { ...findedUser._doc, token }, message: 'User logged in successfully', success: true })
 
     } catch (err) {
         next(createError(500, err.message))

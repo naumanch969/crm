@@ -7,7 +7,7 @@ export const getSale = async (req, res, next) => {
 
         const { saleId } = req.params
         const findedSale = await Sale.findById(saleId)
-        if(!findedSale) return next(createError(400,'Sale not exist'))
+        if (!findedSale) return next(createError(400, 'Sale not exist'))
 
         res.status(200).json({ result: findedSale, message: 'sale created successfully', success: true })
 
@@ -21,7 +21,9 @@ export const getSales = async (req, res, next) => {
 
         const { new: new_query } = req.query
 
-        const findedSale = new_query ? await Sale.find().sort({ createdAt: -1 }).limit(10) : await Sale.find()
+        const findedSale = new_query
+            ? await Sale.find().sort({ createdAt: -1 }).limit(10)
+            : await Sale.find()
         res.status(200).json({ result: findedSale, message: 'sales fetched successfully', success: true })
 
     } catch (err) {
@@ -49,9 +51,12 @@ export const updateSale = async (req, res, next) => {
 
         const { saleId } = req.params
         const findedSale = await Sale.findById(saleId)
-        if(!findedSale) return next(createError(400,'Sale not exist'))
+        if (!findedSale) return next(createError(400, 'Sale not exist'))
+        console.log(saleId)
+        console.log(req.body)
 
         const updatedSale = await Sale.findByIdAndUpdate(saleId, { $set: req.body }, { new: true })
+        console.log(updatedSale)
         res.status(200).json({ result: updatedSale, message: 'sale updated successfully', success: true })
 
     } catch (err) {
@@ -64,7 +69,7 @@ export const deleteSale = async (req, res, next) => {
 
         const { saleId } = req.params
         const findedSale = await Sale.findById(saleId)
-        if(!findedSale) return next(createError(400,'Sale not exist'))
+        if (!findedSale) return next(createError(400, 'Sale not exist'))
 
         const deletedSale = await Sale.findByIdAndDelete(saleId)
         res.status(200).json({ result: deletedSale, message: 'sale deleted successfully', success: true })

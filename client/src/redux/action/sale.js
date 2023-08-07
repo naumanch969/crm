@@ -22,11 +22,12 @@ export const getSales = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const createSale = (saleData) => async (dispatch) => {
+export const createSale = (saleData, navigate) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.createSale(saleData)
         dispatch(createSaleReducer(data.result))
+        navigate('/sales')
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))
@@ -35,7 +36,9 @@ export const createSale = (saleData) => async (dispatch) => {
 export const updateSale = (saleId, saleData) => async (dispatch) => {
     try {
         dispatch(start())
+        console.log(saleData)
         const { data } = await api.updateSale(saleId, saleData)
+        console.log('data', data)
         dispatch(updateSaleReducer(data.result))
         dispatch(end())
     } catch (err) {

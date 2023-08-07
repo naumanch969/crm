@@ -12,7 +12,7 @@ const verifyIsSame = async (req, res, next) => {
         const findedTask = await Task.findById(taskId)
         if (!Boolean(findedTask)) return next(createError(400, 'task not exist'))
 
-        if (findedTask.userId == req.user._id || req.user.role == ('manager' || 'super-admin') ) next()
+        if (findedTask.userId == req.user._id || req.user.role == ('manager' || 'super-admin')) next()
         else next(createError(401, "This task isn't belong to you"))
     } catch (err) {
         next(createError(500, err.message))
@@ -21,17 +21,17 @@ const verifyIsSame = async (req, res, next) => {
 }
 
 // GET
-router.get('/get/all', verifyToken, getTasks)
-router.get('/get/single/:taskId', verifyToken, verifyEmployee, verifyIsSame, getTask)
+router.get('/get/all', getTasks)//verifyToken,
+router.get('/get/single/:taskId', getTask) // verifyToken, verifyEmployee, verifyIsSame,
 
 // POST
-router.post('/create', verifyToken, verifyEmployee, createTask)
+router.post('/create', createTask)//verifyToken, verifyEmployee,
 
 // PUT
-router.put('/update/:taskId', verifyToken, verifyIsSame, updateTask)
+router.put('/update/:taskId', updateTask)//verifyToken, verifyIsSame, 
 
 // DELETE
-router.delete('/delete/:taskId', verifyToken, verifyIsSame, deleteTask)
+router.delete('/delete/:taskId', deleteTask)//verifyToken, verifyIsSame, 
 router.delete('/delete-whole-collection', deleteWholeCollection)
 
 export default router

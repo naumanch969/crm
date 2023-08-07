@@ -22,11 +22,12 @@ export const getProjects = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const createProject = (projectData) => async (dispatch) => {
+export const createProject = (projectData, navigate) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.createProject(projectData)
         dispatch(createProjectReducer(data.result))
+        navigate('/projects')
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

@@ -6,6 +6,8 @@ export const getLeads = () => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.getLeads()
+
+        console.log(data.result)
         dispatch(getLeadsReducer(data.result))
         dispatch(end())
     } catch (err) {
@@ -22,12 +24,17 @@ export const getLead = (leadId) => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const createLead = (leadData) => async (dispatch) => {
+export const createLead = (leadData, type, navigate) => async (dispatch) => {
     try {
         dispatch(start())
-        console.log('leadData', leadData)
-        const { data } = await api.createLead(leadData)
+
+        const { data } = type == 'onsite'
+            ? await api.createOnsiteLead(leadData)
+            : await api.createOnlineLead(leadData)
+
         dispatch(createLeadReducer(data.result))
+        navigate('/leads')
+
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))
