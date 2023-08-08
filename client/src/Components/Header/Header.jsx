@@ -41,6 +41,7 @@ import {
   StarBorder,
   ExpandLess,
   ExpandMore,
+  Logout,
 } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
@@ -265,9 +266,14 @@ const Header = () => {
     },
     {
       id: 9,
-      title: 'Report',
-      link: '/report',
-      icon: <SummarizeOutlined />
+      title: 'Settings',
+      link: '/setting',
+      icon: <SettingsOutlined />
+    },{
+      id: 10,
+      title: 'Logout',
+      link: '/logout',
+      icon: <Logout />
     },
   ]
 

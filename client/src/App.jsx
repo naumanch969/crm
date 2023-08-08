@@ -5,6 +5,7 @@ import { DashBoard, Leads, CreateLead, Tasks, Users, CashBook, Sales, Vouchers, 
 import ViewCashBook from './Pages/CashBook/ViewCashBook';
 import Login from './Pages/Auth/Login'
 import Signup from './Pages/Auth/Signup'
+import CreateVouchers from './Pages/Vouchers/CreateVouchers';
 
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
           <Route path='/sales' element={<Sales />} />
           <Route path='/sales/create' element={<CreateSale />} />
           <Route path='/voucher' element={<Vouchers />} />
+          <Route path='/create/voucher' element={<CreateVouchers />} />
           <Route path='/report' element={<Report />} />
         </Route>
       </Routes>
