@@ -6,7 +6,6 @@ export const register = (userData) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.register(userData)
-        console.log('register data', data)
         dispatch(registerReducer(data.result))
         dispatch(end())
     } catch (err) {
@@ -17,7 +16,6 @@ export const login = (userData) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.login(userData)
-        console.log('login data', data)
         const { token, ...result } = data.result
         dispatch(loginReducer(result))
         Cookies.set('profile', token)

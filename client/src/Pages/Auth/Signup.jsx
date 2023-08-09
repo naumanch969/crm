@@ -2,7 +2,8 @@ import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { createRequestApproval } from '../../redux/action/approval'
+// import { createRequestApproval } from '../../redux/action/approval'
+import { register } from '../../redux/action/user'
 
 const Signup = () => {
 
@@ -23,7 +24,8 @@ const Signup = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!userData.firstName || !userData.lastName || !userData.username || !userData.phone || !userData.email || !userData.password) return alert('Make sure to provide all the fields')
-        dispatch(createRequestApproval(userData))
+        // dispatch(createRequestApproval(userData))
+        dispatch(register(userData))
     }
 
     return (
