@@ -6,14 +6,24 @@ import ViewCashBook from './Pages/CashBook/ViewCashBook';
 import Login from './Pages/Auth/Login'
 import Signup from './Pages/Auth/Signup'
 import CreateVouchers from './Pages/Vouchers/CreateVouchers';
+import ClientHeader from './Client Panel/Header/CleintHeader'
+import Dashboard from './Client Panel/Dashboard/Dashboard';
 
 
 const App = () => {
 
-  const Layout = () => {
+  const Layout1 = () => {
     return (
       <>
         <Header />
+      </>
+    )
+  }
+
+  const Layout2 = () => {
+    return (
+      <>
+        <ClientHeader />
       </>
     )
   }
@@ -23,7 +33,9 @@ const App = () => {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
-        <Route path='/' element={<Layout />}>
+
+        {/* Manager and Super Admin Routes */}
+        <Route path='/' element={<Layout1 />}>
           <Route path='/' element={<DashBoard />} />
           <Route path='/projects' element={<Projects />} />
           <Route path='/projects/create' element={<CreateProject />} />
@@ -43,6 +55,12 @@ const App = () => {
           <Route path='/create/voucher' element={<CreateVouchers />} />
           <Route path='/report' element={<Report />} />
         </Route>
+
+        {/* Client Panel Routes */}
+        <Route path='/' element={<Layout2 />}>
+          <Route path='/client/dashboard' element={<Dashboard />} />
+        </Route>
+
       </Routes>
     </div>
   )

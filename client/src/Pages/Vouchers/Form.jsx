@@ -20,14 +20,14 @@ function Form() {
                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
                   Issueing Date:
                 </label>
-                <input className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " type="text" />
+                <input className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " type="date" />
               </div>
               {/* Due Date */}
               <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
                   Due Date:
                 </label>
-                <input className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " type="text" />
+                <input className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " type="date" />
               </div>
               {/* Customer Name */}
               <div className="flex flex-col justify-start gap-[4px] w-[23%] ">

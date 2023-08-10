@@ -17,11 +17,11 @@ function CreateVouchers() {
       </div>
 
       <div>
-        <div className="text-2xl font-thin flex justify-center mt-10 text-gray-600">
+        <div className="text-2xl font-normal flex justify-center mt-10 text-gray-600">
           Create New Voucher
         </div>
 
-        <div className="mt-10">
+        <div className="mt-5">
             <Form />
         </div>
       </div>
