@@ -22,7 +22,7 @@ const Topbar = ({ view, setView }) => {
         </div>
       </div>
 
-      <div className='flex justify-end items-center gap-[6px] '>
+      <div className='flex justify-end items-center gap-[6px]'>
         <div className="h-[32px] bg-secondary-gray rounded-[4px] flex ">
           <div className="w-[2rem] text-primary-gray h-full flex justify-center items-center ">
             <Search />
