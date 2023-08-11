@@ -1,4 +1,3 @@
-import { CreditCard } from "react-bootstrap-icons";
 import { Box, Card, CardContent, Chip, ListItemButton } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -23,6 +22,7 @@ import {
   Sector,
   Cell,
 } from "recharts";
+import { CreditCard } from "@mui/icons-material";
 
 function DashBoard() {
   // <---------------------------- Line Chart ---------------------------------->
@@ -247,13 +247,13 @@ function DashBoard() {
       <Box className='w-auto columns-3'>
         <Link to='/cashbook'>
           <Card className='bg-white border-b-4 border-b-emerald-300'>
-            <CardContent className='columns-2'>
+            <CardContent className="flex-grow-[1] flex justify-between items-center">
               <div>
                 <p className='text-2xl font-Mulish'>$200.00</p>
                 <p className='text-md font-Mulish text-slate-500 text-opacity-70'>Payments - Today</p>
               </div>
-              <div className='flex justify-end'>
-                <CreditCard className='text-emerald-300' height={50} width={50} />
+              <div className="flex justify-end items-center">
+                <CreditCard sx={{ fontSize: "50px", fontWeight:'1px' }} className='text-emerald-300' />
               </div>
             </CardContent>
           </Card>
@@ -261,13 +261,13 @@ function DashBoard() {
 
         <Link to='/cashbook'>
           <Card className='bg-white border-b-4 border-b-sky-400'>
-            <CardContent className='columns-2'>
+            <CardContent className="flex-grow-[1] flex justify-between items-center">
               <div>
                 <p className='text-2xl font-Mulish'>$1500.00</p>
                 <p className='text-md font-Mulish text-slate-500 text-opacity-70'>Payments - This Month</p>
               </div>
-              <div className='flex justify-end'>
-                <CreditCard className='text-sky-400' height={50} width={50} />
+              <div className="flex justify-end items-center">
+                <CreditCard sx={{ fontSize: "50px" }} className='text-sky-400' />
               </div>
             </CardContent>
           </Card>
@@ -275,13 +275,13 @@ function DashBoard() {
 
         <Link to='/cashbook'>
           <Card className='bg-white border-b-4 border-b-amber-400'>
-            <CardContent className='columns-2'>
+            <CardContent className="flex-grow-[1] flex justify-between items-center">
               <div>
                 <p className='text-2xl font-Mulish'>$23000.00</p>
                 <p className='text-md font-Mulish text-slate-500 text-opacity-70'>Payments - This Year</p>
               </div>
-              <div className='flex justify-end'>
-                <CreditCard className='text-amber-400' height={50} width={50} />
+              <div className="flex justify-end items-center">
+                <CreditCard  sx={{ fontSize: "50px" }} className='text-amber-400' />
               </div>
             </CardContent>
           </Card>
