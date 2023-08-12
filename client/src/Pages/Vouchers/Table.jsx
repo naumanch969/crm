@@ -92,7 +92,7 @@ const Table = () => {
         <div className="flex gap-[4px] ">
           <Chip
             label="Approved"
-            style={{ backgroundColor: rows.id%2 == 0 ? "red" : "green", color:'white' }}
+            style={{ backgroundColor: rows.id % 2 == 0 ? "red" : "green", color: "white" }}
           />
         </div>
       ),
@@ -138,7 +138,9 @@ const Table = () => {
 
       <Dialog open={open} onClose={handleClose}>
         <DialogContent>
-          <DialogTitle className="border-b-2 border-b-black flex justify-center">Voucher Details</DialogTitle>
+          <DialogTitle className="border-b-2 border-b-black flex justify-center">
+            Voucher Details
+          </DialogTitle>
           <DialogContentText id="alert-dialog-description" className="p-10">
             <div className="font-bold">
               Voucher Number: <span className="font-thin ml-[30px]">000000</span>

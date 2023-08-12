@@ -2,7 +2,7 @@ import React from "react";
 import Cards from "./Cards";
 import Carousel from "./Carousel";
 
-const Dashboard = () => {
+const Home = () => {
   return (
     <div className="h-screen">
       <Cards />
@@ -12,4 +12,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Home;

@@ -71,7 +71,7 @@ const Carousel = () => {
           </div>
         </SwiperSlide>
       </Swiper>
-      <div className="flex justify-center pt-5">
+      <div className="flex justify-center pt-5 pb-5">
         <Link to="/client/contact">
           <Button variant="contained" color="primary">
             Quick Contact Us

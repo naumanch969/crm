@@ -24,12 +24,11 @@ import Login from "./Pages/Auth/Login";
 import Signup from "./Pages/Auth/Signup";
 import CreateVouchers from "./Pages/Vouchers/CreateVouchers";
 import ClientHeader from "./Client Panel/Header/ClientHeader";
-import Dashboard from "./Client Panel/Dashboard/Dashboard";
-import Contact from './Client Panel/Contact Us/Contact';
-import ClientProjects from './Client Panel/Your Projects/ClientProjects';
+import Contact from "./Client Panel/Contact Us/Contact";
+import ClientProjects from "./Client Panel/Your Projects/ClientProjects";
+import Home from "./Client Panel/Dashboard/Home";
 
 const App = () => {
-
   const Layout1 = () => {
     return (
       <>
@@ -76,7 +75,7 @@ const App = () => {
 
         {/* Client Panel Routes */}
         <Route path="/" element={<Layout2 />}>
-          <Route path="/client/dashboard" element={<Dashboard />} />
+          <Route path="/client/home" element={<Home />} />
           <Route path="/client/projects" element={<ClientProjects />} />
           <Route path="/client/contact" element={<Contact />} />
         </Route>

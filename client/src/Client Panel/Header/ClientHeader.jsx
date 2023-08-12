@@ -15,8 +15,8 @@ const ClientHeader = () => {
               </Link>
             </div>
             <div className="flex justify-end items-center gap-[40px] font-thin">
-              <Link className="text-black hover:text-sky-600" to="/client/dashboard">
-                DASHBOARD
+              <Link className="text-black hover:text-sky-600" to="/client/home">
+                HOME
               </Link>
               <Link className="text-black hover:text-sky-600" to="/client/projects">
                 YOUR PROJECTS

@@ -33,6 +33,13 @@ function CashBook() {
         <div className="flex justify-end items-center gap-[6px] ">
           <div className="flex justify-start items-center gap-[6px] text-2xl">
             <span className="font-bold">Today's Date : </span>
+            
+          </div>
+        </div>
+
+        <div className="flex justify-center items-center gap-[6px] ">
+          <div className="flex justify-start items-center gap-[6px] text-2xl">
+            <span className="font-bold">Today's Date : </span>
             {CompleteDate}
           </div>
         </div>
