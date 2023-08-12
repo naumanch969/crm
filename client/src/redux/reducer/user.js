@@ -14,9 +14,9 @@ const userSlice = createSlice({
         start: (state) => { state.isFetching = true; state.error = null; },
         end: (state) => { state.isFetching = false },
         error: (state, action) => { state.isFetching = false; state.error = action.payload; },
-        registerReducer: (state, action) => { state.users = [action.payload, ...state.users] },
+        registerReducer: (state, action) => { state.clients = [action.payload, ...state.clients] },
         loginReducer: (state, action) => { state.loggedUser = action.payload },
-        logoutReducer: (state, action) => { },
+        logoutReducer: (state, action) => { state.loggedUser = null },
         getUserReducer: (state, action) => { 
             console.log(action.payload)
             state.currentUser = action.payload },

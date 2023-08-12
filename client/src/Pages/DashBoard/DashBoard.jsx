@@ -243,7 +243,7 @@ function DashBoard() {
   }, 0);
 
   return (
-    <div className='h-auto'>
+    <div className='w-full h-auto'>
       <Box className='w-auto columns-3'>
         <Link to='/cashbook'>
           <Card className='bg-white border-b-4 border-b-emerald-300'>
@@ -395,7 +395,7 @@ function DashBoard() {
           <Box className='w-full max-h-96 p-1 rounded-lg overflow-scroll'>
             <List sx={{ width: '100%' }}>
               {Projectsdata.map((item, index) => (
-                <>
+                <React.Fragment key={index} >
                   <ListItemButton key={item.id} alignItems="flex-start">
                     <ListItemAvatar>
                       <Avatar sx={{ backgroundColor: 'orange' }} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -417,7 +417,7 @@ function DashBoard() {
                     />
                   </ListItemButton>
                   <Divider variant="inset" component="li" />
-                </>
+                </React.Fragment>
               ))}
             </List>
           </Box>

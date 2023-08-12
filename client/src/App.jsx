@@ -1,85 +1,67 @@
-import React from "react";
-import { Routes, Route, Outlet } from "react-router-dom";
-import Header from "./Components/Header/Header";
-import {
-  DashBoard,
-  Leads,
-  CreateLead,
-  Tasks,
-  Users,
-  CashBook,
-  Sales,
-  Vouchers,
-  Report,
-  CreateUser,
-  CreateTask,
-  CreateSale,
-  User,
-  Request,
-  Projects,
-  CreateProject,
-} from "./Pages";
-import ViewCashBook from "./Pages/CashBook/ViewCashBook";
-import Login from "./Pages/Auth/Login";
-import Signup from "./Pages/Auth/Signup";
-import CreateVouchers from "./Pages/Vouchers/CreateVouchers";
-import ClientHeader from "./Client Panel/Header/ClientHeader";
-import Contact from "./Client Panel/Contact Us/Contact";
-import ClientProjects from "./Client Panel/Your Projects/ClientProjects";
-import Home from "./Client Panel/Dashboard/Home";
+
+import React, { useEffect, useState } from 'react'
+import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import { DashBoard, Leads, CreateLead, Tasks, Users, CashBook, Sales, Vouchers, Report, Login, Register, CreateUser, CreateTask, CreateSale, User, Request, Projects, CreateProject } from './Pages'
+import { Navbar, Sidebar } from './Components'
+import { useSelector } from 'react-redux';
 
 const App = () => {
-  const Layout1 = () => {
-    return (
-      <>
-        <Header />
-      </>
-    );
-  };
 
-  const Layout2 = () => {
-    return (
-      <>
-        <ClientHeader />
-      </>
-    );
-  };
+  const { loggedUser } = useSelector(state => state.user)
+
+  const [showSidebar, setShowSidebar] = useState(true)
+
+  useEffect(() => {
+    if (window.innerWidth < 767) setShowSidebar(false)
+  }, [])
 
   return (
-    <div>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+    <div className='w-screen h-screen overflow-hidden bg-gray-100' >
 
-        {/* Manager and Super Admin Routes */}
-        <Route path="/" element={<Layout1 />}>
-          <Route path="/" element={<DashBoard />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/create" element={<CreateProject />} />
-          <Route path="/leads" element={<Leads />} />
-          <Route path="/leads/create" element={<CreateLead />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/tasks/create" element={<CreateTask />} />
-          <Route path="/user" element={<Users />} />
-          <Route path="/user/create" element={<CreateUser />} />
-          <Route path="/user/:userId" element={<User />} />
-          <Route path="/authorization/request" element={<Request />} />
-          <Route path="/cashbook" element={<CashBook />} />
-          <Route path="/view/cashbook" element={<ViewCashBook />} />
-          <Route path="/sales" element={<Sales />} />
-          <Route path="/sales/create" element={<CreateSale />} />
-          <Route path="/voucher" element={<Vouchers />} />
-          <Route path="/create/voucher" element={<CreateVouchers />} />
-          <Route path="/report" element={<Report />} />
-        </Route>
+      <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
 
-        {/* Client Panel Routes */}
-        <Route path="/" element={<Layout2 />}>
-          <Route path="/client/home" element={<Home />} />
-          <Route path="/client/projects" element={<ClientProjects />} />
-          <Route path="/client/contact" element={<Contact />} />
-        </Route>
-      </Routes>
+      {
+        !loggedUser
+          ?
+          <div style={{ height: "calc(100vh - 4rem)" }} className='flex justify-center items-center w-full overflow-y-scroll ' >
+            <Routes>
+              <Route exact path='/auth/register' element={<Register />} />
+              <Route exact path='/auth/login' element={<Login />} />
+              <Route path='/' element={<Navigate to='/auth/login' />} />
+              <Route path='/:anyotherRoutes' element={<Navigate to='/auth/login' />} />
+            </Routes>
+          </div>
+          :
+          <div style={{ height: "calc(100vh - 4rem)" }} className='flex w-full overflow-y-scroll ' >
+
+            <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+
+            <div className="flex-[9] px-[1rem] py-[1rem]  ">
+              <Routes>
+                <Route path='/' element={<DashBoard />} />
+                <Route path='/auth/register' element={<Navigate to='/' />} />
+                <Route path='/auth/login' element={<Navigate to='/' />} />
+                <Route path='/projects' element={<Projects />} />
+                <Route path='/projects/create' element={<CreateProject />} />
+                <Route path='/leads' element={<Leads />} />
+                <Route path='/leads/create' element={<CreateLead />} />
+                <Route path='/tasks' element={<Tasks />} />
+                <Route path='/tasks/create' element={<CreateTask />} />
+                <Route path='/users' element={<Users />} />
+                <Route path='/users/create' element={<CreateUser />} />
+                <Route path='/users/:userId' element={<User />} />
+                <Route path='/authorization/request' element={<Request />} />
+                <Route path='/cashbook' element={<CashBook />} />
+                <Route path='/sales' element={<Sales />} />
+                <Route path='/sales/create' element={<CreateSale />} />
+                <Route path='/voucher' element={<Vouchers />} />
+                <Route path='/report' element={<Report />} />
+              </Routes>
+            </div>
+
+          </div>
+      }
+
     </div>
   );
 };
