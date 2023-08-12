@@ -16,6 +16,7 @@ function Users() {
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
     dispatch(getEmployees())
+    dispatch(getClients())
   }, [])
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
@@ -24,7 +25,7 @@ function Users() {
     <div className='w-full h-fit bg-inherit flex flex-col gap-[2rem]  ' >
 
       <Topbar view={view} setView={setView} />
-      <Table users={employees} isFetching={isFetching} error={error} />
+      <Table users={clients} isFetching={isFetching} error={error} />
 
     </div>
   )

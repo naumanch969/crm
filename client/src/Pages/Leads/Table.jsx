@@ -12,6 +12,7 @@ import { format } from 'timeago.js'
 
 const Table = ({ leads, isFetching, error }) => {
 
+    console.log(leads)
     //////////////////////////////////////// VARIABLES ///////////////////////////////////
     const dispatch = useDispatch()
 
@@ -34,12 +35,12 @@ const Table = ({ leads, isFetching, error }) => {
     const columns = [
         {
             field: 'clientId.phone', headerName: 'Phone', width: 150, editable: true, renderCell: (params) => (
-                <>{params.row.clientId.phone} </>
+                <>{params.row.clientId?.phone} </>
             )
         },
         {
             field: 'clientId.firstName', headerName: 'Name', width: 150, editable: true, renderCell: (params) => (
-                <>{params.row.clientId.firstName} {" "} {params.row.clientId.lastName}</>
+                <>{params.row.clientId?.firstName} {" "} {params.row.clientId?.lastName}</>
             )
         },
         {

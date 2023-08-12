@@ -2,23 +2,25 @@ import * as api from '../api'
 import { start, end, error, registerReducer, loginReducer, logoutReducer, getUserReducer, getClientsReducer, getEmployeesReducer, createClientReducer, createEmployeeReducer, updateRoleReducer, updateUserReducer, deleteUserReducer, } from '../reducer/user'
 
 
-export const register = (userData) => async (dispatch) => {
+export const register = (userData, navigate) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.register(userData)
         dispatch(registerReducer(data.result))
+        navigate('/auth/login')
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))
     }
 }
-export const login = (userData) => async (dispatch) => {
+export const login = (userData, navigate) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.login(userData)
-        const { token, ...result } = data.result
+        const { token, _id, ...result } = data.result
+        navigate('/')
         dispatch(loginReducer(result))
-        Cookies.set('profile', token)
+        Cookies.set('profile', JSON.stringify(data))
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

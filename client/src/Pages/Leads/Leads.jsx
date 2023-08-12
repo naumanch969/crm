@@ -9,7 +9,7 @@ function Leads() {
     ////////////////////////////////////// VARIABLES //////////////////////////////
     const dispatch = useDispatch()
     const { leads, isFetching, error } = useSelector(state => state.lead)
-    console.log(leads)
+
     ////////////////////////////////////// STATES //////////////////////////////
     const [view, setView] = useState('table')
 

@@ -256,40 +256,6 @@ const Header = () => {
             </React.Fragment>
           ))}
 
-          <Tooltip title="Timer" arrow placement="bottom">
-            <IconButton className='hover:text-red-400' size="large" aria-label="menu">
-              <TimerOutlined />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Timer" arrow placement="bottom">
-            <IconButton className='hover:text-red-400' size="large" aria-label="menu">
-              <QuestionAnswerOutlined />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Settings" arrow placement="bottom">
-            <IconButton className='hover:text-red-400' size="large" aria-label="menu">
-              <SettingsOutlined />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Add User" arrow placement="bottom">
-            <IconButton className='hover:text-red-400' size="large" aria-label="menu">
-              <ControlPointDuplicateRounded />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Language" arrow placement="bottom">
-            <IconButton className='hover:text-red-400' size="large" aria-label="menu">
-              <Language />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Profile" arrow placement="bottom">
-            <Avatar className='m-2 cursor-pointer'>H</Avatar>
-          </Tooltip>
-
         </Toolbar>
       </AppBar>
 

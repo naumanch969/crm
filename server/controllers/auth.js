@@ -19,7 +19,6 @@ export const register = async (req, res, next) => {
         if (Boolean(findedUser)) return next(createError(400, 'Email already exist'))
 
         const hashedPassword = await bcrypt.hash(password, 12)
-        console.log(findedUser)
 
         // const transporter = nodemailer.createTransport({
         //     service: 'Gmail',
@@ -46,6 +45,7 @@ export const login = async (req, res, next) => {
     try {
 
         const { email, password: input_password } = req.body
+
         if (!email || !input_password) return next(createError(400, 'Make sure to provide all the fields'))
         if (!validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
 

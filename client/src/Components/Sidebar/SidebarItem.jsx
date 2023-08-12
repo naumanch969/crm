@@ -1,47 +1,44 @@
-import { useState } from "react"
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const SidebarItem = ({ item }) => {
-    const [open, setOpen] = useState(false)
+const SidebarItem = ({ item, child, openedMenu, setOpenedMenu }) => {
+    const isMenuOpen = openedMenu === item.title.toLowerCase();
 
-
-
-
-    {
-        if (item.childrens) {
-            return (
-                <>
-                    <div className={open ? "sidebar-item open" : "sidebar-item"} >
-                        <div className="sidebar-title" >
-                            <span>
-                                <p>{item.icon}</p>
-                                {item.title}
-                            </span>
-                            <p className="toggle-btn" onClick={() => setOpen(!open)} >up</p>
-                        </div>
-                        <div className="sidebar-content" >
-                            {
-                                item.childrens.map((child, index) => (
-                                    <SidebarItem key={index} item={child} />
-                                ))
-                            }
-                        </div>
-                    </div>
-                </>
-            )
-        }
-        else {
-            return (
-                <>
-                    <a href={item.path || "#"} className="sidebar-item plain" >
-                        {item.icon && <p>{item.icon}</p>}
-                        {item.title}
-                    </a>
-
-                </>
-            )
+    const handleMenuClick = (e) => {
+        e.stopPropagation(); // Prevent event propagation to parent elements
+        if (child) {
+            return; // Don't close when clicking on sub-link
         }
 
-    }
-}
+        if (isMenuOpen) {
+            setOpenedMenu('');
+        } else {
+            setOpenedMenu(item.title.toLowerCase());
+        }
+    };
 
-export default SidebarItem
+    return (
+        <div className={`${child ? 'pl-4 hover:bg-gray-300 ' : 'pl-2'} pr-2 py-2 transition-colors ${isMenuOpen ? 'bg-gray-200 text-gray-900' : ' text-gray-700'} hover:bg-gray-200 hover:text-gray-900`} >
+            <Link to={item.link} className="flex items-center justify-between cursor-pointer" onClick={handleMenuClick}>
+                <span className="flex items-center gap-2">
+                    {item.icon && <IconButton size="small">{item.icon}</IconButton>}
+                    {item.title}
+                </span>
+                {item.childrens?.length > 0 && (
+                    isMenuOpen ? <ExpandLess /> : <ExpandMore />
+                )}
+            </Link>
+            {item.childrens?.length > 0 && isMenuOpen && (
+                <div className="py-2 bg-gray-200">
+                    {item.childrens.map((child, index) => (
+                        <SidebarItem key={index} item={child} child={true} openedMenu={openedMenu} setOpenedMenu={setOpenedMenu} />
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default SidebarItem;

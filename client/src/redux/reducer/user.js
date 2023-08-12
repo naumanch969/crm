@@ -16,7 +16,7 @@ const userSlice = createSlice({
         error: (state, action) => { state.isFetching = false; state.error = action.payload; },
         registerReducer: (state, action) => { state.clients = [action.payload, ...state.clients] },
         loginReducer: (state, action) => { state.loggedUser = action.payload },
-        logoutReducer: (state, action) => { },
+        logoutReducer: (state, action) => { state.loggedUser = null },
         getUserReducer: (state, action) => { 
             console.log(action.payload)
             state.currentUser = action.payload },
