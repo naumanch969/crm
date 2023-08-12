@@ -2,7 +2,7 @@ import { Button } from '@mui/material'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { register } from '../../redux/action/user'
+import {  login } from '../../redux/action/user'
 import validator from 'email-validator'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 
@@ -38,7 +38,7 @@ const Login = () => {
         if (!password) return setInputError(pre => ({ ...pre, password: 'Password is required' }))
         if (password.length < 6) return setInputError(pre => ({ ...pre, password: 'Password must be of atleast 6 characters' }))
 
-        dispatch(register(userData, navigate))
+        dispatch(login(userData, navigate))
     }
 
     const handleToggleVisibility = (e) => {
