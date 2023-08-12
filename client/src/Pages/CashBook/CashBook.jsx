@@ -9,6 +9,7 @@ import {
 } from "@mui/icons-material";
 import Cards from "./Cards";
 import Table from "./Table";
+import { Link } from "react-router-dom";
 
 function CashBook() {
   let newDate = new Date();
@@ -30,18 +31,21 @@ function CashBook() {
           </div>
         </div>
 
-        <div className="flex justify-end items-center gap-[6px] ">
-          <div className="flex justify-start items-center gap-[6px] text-2xl">
-            <span className="font-bold">Today's Date : </span>
-            
-          </div>
-        </div>
-
         <div className="flex justify-center items-center gap-[6px] ">
           <div className="flex justify-start items-center gap-[6px] text-2xl">
             <span className="font-bold">Today's Date : </span>
             {CompleteDate}
           </div>
+        </div>
+
+        <div className="flex justify-end items-center gap-[6px] ">
+          <Tooltip placement="bottom" title="Create New Voucher" arrow>
+            <Link to="/create/cashbook">
+              <button className="bg-primary-red text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-lg ">
+                <Add />
+              </button>
+            </Link>
+          </Tooltip>
         </div>
       </div>
 
@@ -53,7 +57,7 @@ function CashBook() {
         <Table />
       </div>
 
-      <div className="flex justify-center mt-5">
+      <div className="flex justify-center mt-5 pb-5">
         <Button variant="contained" color="error">
           Close Today's Cashbook
         </Button>
