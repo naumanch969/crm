@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Button } from "@mui/material";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -5,6 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/action/user";
 import validator from "email-validator";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+=======
+import { Button } from '@mui/material'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import {  login } from '../../redux/action/user'
+import validator from 'email-validator'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+>>>>>>> 47635b9 (just for pullin)
 
 const Login = () => {
   /////////////////////////////////// VARIABLES /////////////////////////////////
@@ -44,10 +54,15 @@ const Login = () => {
     dispatch(login(userData, navigate));
   };
 
+<<<<<<< HEAD
   const handleToggleVisibility = (e) => {
     e.preventDefault();
     setShowPassword((pre) => !pre);
   };
+=======
+        dispatch(login(userData, navigate))
+    }
+>>>>>>> 47635b9 (just for pullin)
 
   return (
     <div className="py-[2rem] ">
