@@ -49,13 +49,12 @@ const Login = () => {
     setShowPassword((pre) => !pre);
   };
 
-
   return (
-    <div className="py-[2rem] ">
-      <div className="w-full h-full ">
-        <div className="flex justify-center pt-8">
-          <img className="w-41 h-11" src="/favicon/GrowLOGO.png" />
-        </div>
+    <div className="py-[8rem] ">
+      <div className="flex justify-center pb-8 ">
+        <img className="w-41 h-11" src="/favicon/GrowLOGO.png" />
+      </div>
+      <div className="w-full h-full bg-white">
         <div className="flex justify-center pt-6 pl-0 ml-0">
           <div className="w-96 h-auto shadow-xl rounded">
             <p className="text-xl text-slate-500 tracking-wide flex justify-center pt-6 font-Mulish">
@@ -91,11 +90,6 @@ const Login = () => {
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] "
                 />
-                <button
-                  onClick={handleToggleVisibility}
-                  className="absolute top-[50%] right-[4px] transform translate-y-[-50%] cursor-pointer">
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </button>
                 {inputError.password && (
                   <span className="text-[12px] text-red-600 ">{inputError.password}</span>
                 )}

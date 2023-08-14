@@ -147,8 +147,12 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     return (
         <>
             {/* desktop sidebar */}
-            <div style={{ height: 'calc(100vh - 4rem)' }} className={`flex-[2] shadow-none ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white sticky top-0 border-r-[1px] border-r-gray-300`} >
-                <div className='flex flex-col gap-[4px] w-full py-[8px] text-gray h-full overflow-y-scroll ' >
+            <div className={`flex-[2] shadow-none w-full ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white sticky top-0 left-0 z-[1000] border-r-[1px] border-r-gray-300`} >
+                
+                <div className='flex flex-col gap-[4px] w-56 py-[8px] text-gray h-full' >
+                    <div className=" border-b-[1px] border-b-gray-300 p-[7.5px]">
+                        {!showSidebar ? "" : <img className="h-10" src="/favicon/GrowLOGO.png" />}
+                    </div>
                     {
                         links.map((link, index) => (
                             <SidebarItem item={link} key={index} openedMenu={openedMenu} setOpenedMenu={setOpenedMenu} />
@@ -156,7 +160,6 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                     }
                 </div>
             </div>
-
 
             {/* mobile sidebar */}
             {

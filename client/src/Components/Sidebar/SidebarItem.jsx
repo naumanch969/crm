@@ -44,7 +44,6 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu }) => {
 
       {item.childrens?.length > 0 && isMenuOpen && (
         <div className="py-2">
-
           {item.childrens.map((child, index) => (
             <SidebarItem
               key={index}
@@ -54,7 +53,6 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu }) => {
               setOpenedMenu={setOpenedMenu}
             />
           ))}
-          
         </div>
       )}
     </div>
