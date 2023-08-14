@@ -1,7 +1,7 @@
 import SidebarItem from "./SidebarItem"
 import { Avatar, IconButton } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { Close, HomeOutlined, PeopleAltOutlined, AssignmentOutlined, AccountCircleOutlined, LockOutlined, LocalAtmOutlined, ShoppingCartOutlined, CardGiftcardOutlined, SummarizeOutlined, StarBorder, ExpandLess, ExpandMore, Create } from '@mui/icons-material'
+import { Close, HomeOutlined, PeopleAltOutlined, AssignmentOutlined, AccountCircleOutlined, LockOutlined, LocalAtmOutlined, ShoppingCartOutlined, CardGiftcardOutlined, SummarizeOutlined, StarBorder, ExpandLess, ExpandMore, Create, Today, OpenInNewOutlined, Money, AccountBalanceOutlined } from '@mui/icons-material'
 import { useState } from "react"
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
@@ -9,12 +9,14 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     //////////////////////////////////////// Variables ////////////////////////////////////////
     const links = [
         {
+            id:1,
             title: "Dashboard",
             link: "/",
             icon: <HomeOutlined />,
             childrens: []
         },
         {
+            id:2,
             title: "Leads",
             icon: <PeopleAltOutlined />,
             childrens: [
@@ -31,6 +33,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
+            id:3,
             title: "To Do Tasks",
             icon: <AssignmentOutlined />,
             childrens: [
@@ -47,6 +50,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
+            id:4,
             title: "User",
             icon: <AccountCircleOutlined />,
             childrens: [
@@ -63,6 +67,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
+            id : 5 ,
             title: "Authorization",
             icon: <LockOutlined />,
             childrens: [
@@ -79,6 +84,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
+            id:6,
             title: "Sales",
             icon: <ShoppingCartOutlined />,
             childrens: [
@@ -95,18 +101,31 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            title: 'Cash Book',
-            icon: <LocalAtmOutlined />,
-            link: '/cashbook',
-            childrens: []
+            id:7,
+            title: "Cash Book",
+            icon: <AccountBalanceOutlined />,
+            childrens: [
+                {
+                    title: "Today Cash Book",
+                    icon: <Today />,
+                    link: "/cashbook"
+                },
+                {
+                    title: "View Cash Book",
+                    icon: <OpenInNewOutlined />,
+                    link: "/view/cashbook"
+                },
+            ]
         },
         {
+            id:8,
             title: 'Vouchers',
             link: '/voucher',
             icon: <CardGiftcardOutlined />,
             childrens: []
         },
         {
+            id : 9 ,
             title: 'Report',
             link: '/report',
             icon: <SummarizeOutlined />,
@@ -115,7 +134,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     ]
 
     //////////////////////////////////////// States ////////////////////////////////////////
-    const [openedMenu, setOpenedMenu] = useState('');
+    const [openedMenu, setOpenedMenu] = useState(false);
 
     //////////////////////////////////////// UseEffects ////////////////////////////////////////
 
@@ -128,7 +147,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     return (
         <>
             {/* desktop sidebar */}
-            <div style={{ height: 'calc(100vh - 4rem)' }} className={`flex-[2] shadow-box ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white sticky top-0`} >
+            <div style={{ height: 'calc(100vh - 4rem)' }} className={`flex-[2] shadow-none ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white sticky top-0 border-r-[1px] border-r-gray-300`} >
                 <div className='flex flex-col gap-[4px] w-full py-[8px] text-gray h-full overflow-y-scroll ' >
                     {
                         links.map((link, index) => (
@@ -145,10 +164,10 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 <div className='absolute top-0 left-0 w-[14rem] bg-lighterBlue h-screen md:hidden flex z-[1100] ' >
                     <div className='wrapper flex flex-col w-full h-full overflow-y-scroll p-[1rem] ' >
 
-                        <div className='w-full flex justify-between items-center mb-[1rem] ' >
+                        <IconButton onClick={() => setShowSidebar(false)} className='w-full flex justify-between items-center mb-[1rem] ' >
                             <h3 className='md:text-[32px] sm:text-[28px] text-[24px] text-darkBlue font-bold ' >nanoadmin</h3>
-                            <IconButton className='' onClick={() => setShowSidebar(false)} ><Close /></IconButton>
-                        </div>
+                            <div ><Close /></div>
+                        </IconButton>
 
                         <div className="flex flex-col gap-[5px] ">
                             {

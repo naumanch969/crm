@@ -23,6 +23,7 @@ import {
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
 import CreateCashBook from "./Pages/CashBook/CreateCashBook";
+import ViewCashBook from "./Pages/CashBook/ViewCashBook";
 
 const App = () => {
   const { loggedUser } = useSelector((state) => state.user);
@@ -69,6 +70,7 @@ const App = () => {
               <Route path="/authorization/request" element={<Request />} />
               <Route path="/cashbook" element={<CashBook />} />
               <Route path="/create/cashbook" element={<CreateCashBook />} />
+              <Route path="/view/cashbook" element={<ViewCashBook />} />
               <Route path="/sales" element={<Sales />} />
               <Route path="/sales/create" element={<CreateSale />} />
               <Route path="/voucher" element={<Vouchers />} />

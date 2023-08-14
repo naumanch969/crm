@@ -8,55 +8,70 @@ import {
   SettingsOutlined,
   ControlPointDuplicateRounded,
 } from "@mui/icons-material";
-import { Avatar, IconButton, Tooltip } from "@mui/material";
+import { Avatar, IconButton, Tooltip, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const Navbar = ({ setShowSidebar }) => {
   const { loggedUser } = useSelector((state) => state.user);
 
+  const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+    var timer = setInterval(() => setDate(new Date()), 1000)
+
+    return function cleanup() {
+      clearInterval(timer)
+    }
+  })
+
   return (
-    <div className="w-full h-[4rem] bg-white sticky top-0 z-[1000] shadow-box ">
+    <div className="w-full h-[4rem] bg-white sticky top-0 z-[1000] shadow-none border-b-[1px] border-b-gray-300">
       <div className="wrapper h-full md:px-[24px] px-[1rem] flex items-center justify-between ">
         {/* left section */}
         <div className="left flex justify-start gap-[4px] ">
           <IconButton
             onClick={() => setShowSidebar((pre) => !pre)}
             className="md:hidden flex cursor-pointer ">
-            <Menu />
+            <Menu className="transition-all" />
           </IconButton>
           <img src="/favicon/GrowLOGO.png" />
         </div>
 
+        <div className="flex justify-center">
+          <Typography className='text-red-400' variant="h6"><TimerOutlined className='mb-1' /> {date.toLocaleTimeString()}</Typography>
+        </div>
+
         {/* right section */}
-        <div className="flex gap-[4px] ">
+        <div className="flex justify-end gap-5 ">
           <Tooltip title="Timer" arrow placement="bottom">
-            <IconButton className="hover:text-red-400" size="small" aria-label="menu">
+            <div className="hover:text-red-400 my-4 text-zinc-600 cursor-pointer" aria-label="menu">
               <TimerOutlined />
-            </IconButton>
+            </div>
           </Tooltip>
 
           <Tooltip title="Timer" arrow placement="bottom">
-            <IconButton className="hover:text-red-400" size="small" aria-label="menu">
+            <div className="hover:text-red-400 my-4 text-zinc-600 cursor-pointer" aria-label="menu">
               <QuestionAnswerOutlined />
-            </IconButton>
+            </div>
           </Tooltip>
 
           <Tooltip title="Settings" arrow placement="bottom">
-            <IconButton className="hover:text-red-400" size="small" aria-label="menu">
+            <div className="hover:text-red-400 my-4 text-zinc-600 cursor-pointer" aria-label="menu">
               <SettingsOutlined />
-            </IconButton>
+            </div>
           </Tooltip>
 
           <Tooltip title="Add User" arrow placement="bottom">
-            <IconButton className="hover:text-red-400" size="small" aria-label="menu">
+            <div className="hover:text-red-400 my-4 text-zinc-600 cursor-pointer" aria-label="menu">
               <ControlPointDuplicateRounded />
-            </IconButton>
+            </div>
           </Tooltip>
 
           <Tooltip title="Language" arrow placement="bottom">
-            <IconButton className="hover:text-red-400" size="small" aria-label="menu">
+            <div className="hover:text-red-400 my-4 text-zinc-600 cursor-pointer" aria-label="menu">
               <Language />
-            </IconButton>
+            </div>
           </Tooltip>
 
           <div className="flex items-center ">
