@@ -56,9 +56,14 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                     link: "/users/create"
                 },
                 {
-                    title: "Users",
+                    title: "Clients",
                     icon: <AccountCircleOutlined />,
-                    link: "/users"
+                    link: "/clients"
+                },
+                {
+                    title: "Employees",
+                    icon: <AccountCircleOutlined />,
+                    link: "/employees"
                 },
             ]
         },

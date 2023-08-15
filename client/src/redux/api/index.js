@@ -93,6 +93,8 @@ export const deleteProject = (projectId) => API.delete(`/project/delete/${projec
 
 // CASHBOOK
 export const getCashbook = (cashbookId) => API.get(`/cashbook/get/single/${cashbookId}`)
+export const getIncomeAndExpenses = (year) => API.get(`/cashbook/get/income_and_expenses`, { year })
+export const getPayments = () => API.get(`/cashbook/get/payments`)
 export const getCashbooks = (type) => API.get(`/cashbook/get/all?type=${type}`)
 export const createCashbook = (cashbookData) => API.post(`/cashbook/create`, cashbookData)
 export const deleteCashbook = (cashbookId) => API.delete(`/cashbook/delete/${cashbookId}`)

@@ -7,6 +7,7 @@ import DeleteModal from './DeleteModal'
 import { DeleteOutline, EditOutlined, VisibilityOff } from '@mui/icons-material'
 import { Tooltip } from 'recharts'
 import { Table } from '../../Components'
+import {format} from 'timeago.js'
 
 function Leads() {
 
@@ -42,6 +43,7 @@ function Leads() {
                 return (
                     <div className="flex gap-[4px] ">
                         <span className='flex gap-[2px] ' >{minArea} <small>{minAreaUnit}</small> </span>
+                        <span>-</span>
                         <span className='flex gap-[2px] ' >{maxArea} <small>{maxAreaUnit}</small> </span>
                     </div>
                 )
@@ -50,7 +52,7 @@ function Leads() {
         { field: 'allocatedTo', headerName: 'Allocated To', width: 150, },
         {
             field: "action", headerName: "Action", width: 200, renderCell: (params) => (
-                <div className='flex gap-[4px] ' >
+                <div className='flex gap-[4px] w-full h-full ' >
                     <Tooltip placement='top' title='Edit' >
                         <button onClick={() => handleOpenEditModal(params.row)} className='cursor-pointer ' ><EditOutlined /></button>
                     </Tooltip>

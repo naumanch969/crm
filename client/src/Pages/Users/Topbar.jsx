@@ -6,9 +6,9 @@ import { Path } from '../../utils';
 const Topbar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const title = pathname.split('/')[1];
   const pathArr = pathname.split('/').filter(item => item !== '');
   const showAddButton = !pathArr.includes('create');
+  const title =pathArr.includes('create') ? `Create ${pathname.split('/')[1].slice(0,-1)}` :pathname.split('/')[1] 
 
   const handleAddClick = () => {
     navigate(`${pathname}/create`);

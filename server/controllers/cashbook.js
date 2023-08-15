@@ -15,7 +15,144 @@ export const getCashbook = async (req, res, next) => {
     }
 }
 
+export const getIncomeAndExpenses = async (req, res, next) => {
+    try {
+        const currentYear = new Date().getFullYear();
+        const requestedYear = req.body.year || currentYear;
 
+        const pipeline = [
+            {
+                $group: {
+                    _id: {
+                        year: { $year: "$createdAt" },
+                        month: { $month: "$createdAt" },
+                    },
+                    income: {
+                        $sum: {
+                            $cond: [
+                                { $eq: ["$type", "in"] },
+                                { $toDouble: "$amountPaid" },
+                                0,
+                            ],
+                        },
+                    },
+                    expense: {
+                        $sum: {
+                            $cond: [
+                                { $eq: ["$type", "out"] },
+                                { $toDouble: "$amountPaid" },
+                                0,
+                            ],
+                        },
+                    },
+                },
+            },
+            {
+                $project: {
+                    _id: 0,
+                    year: "$_id.year",
+                    month: "$_id.month",
+                    income: 1,
+                    expense: 1,
+                },
+            },
+            {
+                $match: {
+                    $or: [
+                        { year: requestedYear },
+                        { year: { $lt: requestedYear } },
+                    ],
+                },
+            },
+            {
+                $sort: { year: 1, month: 1 },
+            },
+        ];
+
+        const result = await Cashbook.aggregate(pipeline);
+
+        const allMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const mergedArray = allMonths.map(month => {
+            const entry = result.find(item => item.month === allMonths.indexOf(month) + 1 && item.year === requestedYear);
+            return {
+                month,
+                income: entry ? entry.income : 0,
+                expense: entry ? entry.expense : 0,
+            };
+        });
+
+        res.json({ result: mergedArray, message: 'Income and Expense fetched successfully', success: true });
+
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
+export const getPaymentsStat = async (req, res, next) => {
+    try {
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+        const thisYearStart = new Date(today.getFullYear(), 0, 1);
+
+        const todayPayments = await Cashbook.aggregate([
+            {
+                $match: {
+                    createdAt: { $gte: today },
+                    type: 'in',
+                },
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalReceived: { $sum: { $toDouble: "$amountPaid" } },
+                },
+            },
+        ]);
+
+        const thisMonthPayments = await Cashbook.aggregate([
+            {
+                $match: {
+                    createdAt: { $gte: thisMonthStart },
+                    type: 'in',
+                },
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalReceived: { $sum: { $toDouble: "$amountPaid" } },
+                },
+            },
+        ]);
+
+        const thisYearPayments = await Cashbook.aggregate([
+            {
+                $match: {
+                    createdAt: { $gte: thisYearStart },
+                    type: 'in',
+                },
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalReceived: { $sum: { $toDouble: "$amountPaid" } },
+                },
+            },
+        ]);
+
+        const paymentsData = {
+            todayReceived: todayPayments.length > 0 ? todayPayments[0].totalReceived : 0,
+            thisMonthReceived: thisMonthPayments.length > 0 ? thisMonthPayments[0].totalReceived : 0,
+            thisYearReceived: thisYearPayments.length > 0 ? thisYearPayments[0].totalReceived : 0,
+        };
+
+        res.status(200).json({ result: paymentsData, message: 'payments stats fetched successfully', success: true });
+        
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
 export const getCashbooks = async (req, res, next) => {
     try {
 
@@ -42,11 +179,11 @@ export const getCashbooks = async (req, res, next) => {
 export const createCashbook = async (req, res, next) => {
     try {
 
-        const { customerName, paymentType, paymentDetail, AmountPaid, BranchNumber, type, } = req.body
-        if (!customerName || !paymentType || !paymentDetail || !AmountPaid || !BranchNumber || !type)
+        const { customerName, paymentType, paymentDetail, amountPaid, branchNumber, type, } = req.body
+        if (!customerName || !paymentType || !paymentDetail || !amountPaid || !branchNumber || !type)
             return next(createError(400, 'Make sure to provide all the fields'))
 
-        const newCashbook = await Cashbook.create({ customerName, paymentType, paymentDetail, AmountPaid, BranchNumber, type })
+        const newCashbook = await Cashbook.create({ customerName, paymentType, paymentDetail, amountPaid, branchNumber, type })
         res.status(200).json({ result: newCashbook, message: 'cashbook created successfully', success: true })
 
     } catch (err) {
