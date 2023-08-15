@@ -147,7 +147,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     return (
         <>
             {/* desktop sidebar */}
-            <div className={`flex-[2] shadow-none w-full ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white sticky top-0 left-0 z-[1000] border-r-[1px] border-r-gray-300`} >
+            <div className={`flex-[2] shadow-none w-full ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white sticky top-0 z-[1000] border-r-[1px] border-r-gray-300`} >
                 
                 <div className='flex flex-col gap-[4px] w-56 py-[8px] text-gray h-full' >
                     <div className=" border-b-[1px] border-b-gray-300 p-[7.5px]">

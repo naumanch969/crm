@@ -27,9 +27,8 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
   });
 
   return (
-    <div className="flex flex-col w-full sm:h-[4rem] h-[7rem] bg-white sticky top-0 z-[1000] sm:shadow-box ">
-
-      <div className="wrapper sm:h-full h-[4rem] md:px-[24px] sm:px-[1rem] px-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-neutral-900 sm:shadow-none shadow-box ">
+    <div className="flex flex-col w-full sm:h-[4rem] h-[7rem] bg-white sticky top-0 z-[1000] border-b-[1px] border-b-gray-300 ">
+      <div className="wrapper sm:h-full h-[4rem] md:px-[24px] sm:px-[1rem] px-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-gray-300 sm:shadow-none ">
         {/* left section */}
         <div className="flex justify-start gap-[4px] ">
           <IconButton
@@ -37,7 +36,11 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
             className="md:hidden flex cursor-pointer ">
             <Menu />
           </IconButton>
-          <img src="/favicon/GrowLOGO.png" />
+          <div>
+            <p className="text-red-400 mt-1 text-xl">
+              <TimerOutlined className="mb-1" /> {date.toLocaleTimeString()}
+            </p>
+          </div>
         </div>
 
         {/* right section */}
@@ -80,50 +83,8 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
             <Tooltip title="Profile" arrow placement="bottom">
               <Avatar className="m-2 cursor-pointer capitalize ">{loggedUser?.username[0]}</Avatar>
             </Tooltip>
-
-            <Tooltip title="Timer" arrow placement="bottom">
-              <div
-                className="hover:text-red-400 my-4 text-zinc-600 cursor-pointer"
-                aria-label="menu">
-                <QuestionAnswerOutlined />
-              </div>
-            </Tooltip>
-
-            <Tooltip title="Settings" arrow placement="bottom">
-              <div
-                className="hover:text-red-400 my-4 text-zinc-600 cursor-pointer"
-                aria-label="menu">
-                <SettingsOutlined />
-              </div>
-            </Tooltip>
-
-            <Tooltip title="Add User" arrow placement="bottom">
-              <div
-                className="hover:text-red-400 my-4 text-zinc-600 cursor-pointer"
-                aria-label="menu">
-                <ControlPointDuplicateRounded />
-              </div>
-            </Tooltip>
-
-            <Tooltip title="Language" arrow placement="bottom">
-              <div
-                className="hover:text-red-400 my-4 text-zinc-600 cursor-pointer"
-                aria-label="menu">
-                <Language />
-              </div>
-            </Tooltip>
-
-            <div className="flex items-center ">
-              <span className="capitalize ">{loggedUser?.username}</span>
-              <Tooltip title="Profile" arrow placement="bottom">
-                <Avatar className="m-2 cursor-pointer capitalize ">
-                  {loggedUser?.username[0]}
-                </Avatar>
-              </Tooltip>
-            </div>
           </div>
         </div>
-
       </div>
       <div className="flex-[9] px-[1rem] py-[1rem] ">
         <Outlet />
