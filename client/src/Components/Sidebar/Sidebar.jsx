@@ -1,7 +1,7 @@
 import SidebarItem from "./SidebarItem"
 import { Avatar, IconButton } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { Close, HomeOutlined, PeopleAltOutlined, AssignmentOutlined, AccountCircleOutlined, LockOutlined, LocalAtmOutlined, ShoppingCartOutlined, CardGiftcardOutlined, SummarizeOutlined, StarBorder, ExpandLess, ExpandMore, Create, Today, OpenInNewOutlined, Money, AccountBalanceOutlined } from '@mui/icons-material'
+import { Close, HomeOutlined, PeopleAltOutlined, AssignmentOutlined, AccountCircleOutlined, LockOutlined, LocalAtmOutlined, ShoppingCartOutlined, CardGiftcardOutlined, SummarizeOutlined, StarBorder, ExpandLess, ExpandMore, Create, Today, OpenInNewOutlined, Money, AccountBalanceOutlined, ReceiptLong, Receipt } from '@mui/icons-material'
 import { useState } from "react"
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
@@ -40,7 +40,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 {
                     title: "Create Task",
                     icon: <Create />,
-                    link: "/tasks"
+                    link: "tasks/create"
                 },
                 {
                     title: "My Tasks",
@@ -120,9 +120,19 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         {
             id:8,
             title: 'Vouchers',
-            link: '/voucher',
-            icon: <CardGiftcardOutlined />,
-            childrens: []
+            icon: <Receipt />,
+            childrens: [
+                {
+                    title: "All Vouchers",
+                    icon: <ReceiptLong />,
+                    link: "/voucher"
+                },
+                {
+                    title: "Create Voucher",
+                    icon: <Create />,
+                    link: "/voucher/create"
+                },
+            ]
         },
         {
             id : 9 ,
@@ -147,10 +157,10 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     return (
         <>
             {/* desktop sidebar */}
-            <div className={`flex-[2] shadow-none w-full ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white sticky top-0 z-[1000] border-r-[1px] border-r-gray-300`} >
+            <div className={`flex shadow-none h-full w-full ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white z-[1000] border-r-[1px] border-r-gray-300 border-b-[1px] border-b-gray-300`} >
                 
                 <div className='flex flex-col gap-[4px] w-56 py-[8px] text-gray h-full' >
-                    <div className=" border-b-[1px] border-b-gray-300 p-[7.5px]">
+                    <div className="border-b-[1px] border-b-gray-300 p-[7.5px]">
                         {!showSidebar ? "" : <img className="h-10" src="/favicon/GrowLOGO.png" />}
                     </div>
                     {

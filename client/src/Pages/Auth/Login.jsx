@@ -50,7 +50,7 @@ const Login = () => {
   };
 
   return (
-    <div className="py-[8rem] ">
+    <div className="py-[10%] ">
       <div className="flex justify-center pb-8 ">
         <img className="w-41 h-11" src="/favicon/GrowLOGO.png" />
       </div>

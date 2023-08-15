@@ -26,7 +26,7 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu }) => {
         isMenuOpen
           ? "text-sky-500 font-normal border-l-[4px] border-l-sky-500"
           : " text-gray-700 font-thin"
-      } hover:text-sky-500 hover:border-l-[4px] hover:border-l-sky-500  pr-2 transition-colors`}>
+      } hover:text-sky-500 hover:border-l-[4px] hover:border-l-sky-500  pr-2 transition-all`}>
       <Link
         to={item.link}
         className="flex items-center justify-between cursor-pointer py-[14px]"

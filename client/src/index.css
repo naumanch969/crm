@@ -26,31 +26,36 @@
   }
 }
 
-
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
+  
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: white;
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+  padding: 10px;
+  
+  cursor: pointer;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
+  background: #474747c0;
+  border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #2f2f2fc8;
+  transition: all;
+  transition-delay: 1s;
 }
 
 
 
 /* lead board scrollbar */
-
 .leadBoard::-webkit-scrollbar {
   width: 5px;
 }

@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
-const Navbar = ({ setShowSidebar, showSidebar }) => {
+const Navbar = ({ setShowSidebar }) => {
   const { loggedUser } = useSelector((state) => state.user);
 
   const [date, setDate] = useState(new Date());
@@ -27,13 +27,13 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
   });
 
   return (
-    <div className="flex flex-col w-full sm:h-[4rem] h-[7rem] bg-white sticky top-0 z-[1000] border-b-[1px] border-b-gray-300 ">
+    <div className="flex flex-col sticky w-full sm:h-[4rem] h-[7rem] md:sticky bg-white top-0 z-[2000] border-b-[1px] border-b-gray-300">
       <div className="wrapper sm:h-full h-[4rem] md:px-[24px] sm:px-[1rem] px-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-gray-300 sm:shadow-none ">
         {/* left section */}
-        <div className="flex justify-start gap-[4px] ">
+        <div className="flex justify-start gap-[4px] mt-1">
           <IconButton
             onClick={() => setShowSidebar((pre) => !pre)}
-            className="md:hidden flex cursor-pointer ">
+            className="md:hidden flex cursor-pointer hover:text-red-400">
             <Menu />
           </IconButton>
           <div>
@@ -44,9 +44,9 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
         </div>
 
         {/* right section */}
-        <div className="flex gap-[4px] ">
+        <div className="flex gap-[8px] mt-1">
           {/* icons */}
-          <div className="sm:flex items-center hidden gap-[4px] ">
+          <div className="sm:flex items-center hidden gap-[8px] ">
             <Tooltip title="Timer" arrow placement="bottom">
               <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
                 <TimerOutlined />
@@ -86,7 +86,7 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
           </div>
         </div>
       </div>
-      <div className="flex-[9] px-[1rem] py-[1rem] ">
+      <div className="flex-[4] px-[1rem] py-[1rem]">
         <Outlet />
       </div>
     </div>
