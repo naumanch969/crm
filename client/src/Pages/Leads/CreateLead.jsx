@@ -71,7 +71,7 @@ const CreateLead = () => {
     return (
         <div className='flex flex-col gap-[1rem] bg-white px-[20px] py-[1rem] shadow-box rounded-[4px] ' >
 
-            <div className="p-[8px] flex justify-between items-center sticky top-0 ">
+            <div className="p-[8px] flex justify-between items-center bg-white ">
                 <h2 className='font-bold text-[24px] ' >Add New Lead</h2>
             </div>
 
@@ -82,19 +82,19 @@ const CreateLead = () => {
                     <div className="px-[1rem] py-[8px] bg-neutral-600 text-white ">
                         <h4 className='font-medium text-[1rem] ' >CUSTOMER DETAILS</h4>
                     </div>
-                    <div className="flex justify-start flex-wrap gap-[24px] p-[1rem] w-full ">
+                    <div className="flex justify-start flex-wrap gap-[24px] w-full p-[1rem] ">
                         {/* first name */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                        <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                             <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="firstName">First Name:</label>
                             <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="firstName" value={clientData.firstName} onChange={handleClientDataChange} placeholder="Last Name" />
                         </div>
                         {/* last name */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                        <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                             <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="lastName">lastName:</label>
                             <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="lastName" value={clientData.lastName} onChange={handleClientDataChange} placeholder="First Name" />
                         </div>
                         {/* gender */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                        <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                             <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="gender">Gender:</label>
                             <div className="flex gap-[8px] py-[8px] ">
                                 <div className="flex gap-[2px] ">
@@ -108,17 +108,17 @@ const CreateLead = () => {
                             </div>
                         </div>
                         {/* phone */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                        <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                             <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="phone">phone:</label>
                             <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="phone" value={clientData.phone} onChange={handleClientDataChange} placeholder="Phone" />
                         </div>
                         {/* cnic */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                        <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                             <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="cnic">CNIC:</label>
                             <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="cnic" value={clientData.cnic} onChange={handleClientDataChange} placeholder="Phone" />
                         </div>
                         {/* email */}
-                        <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                        <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                             <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="email">Email:</label>
                             <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="email" name="email" value={clientData.email} onChange={handleClientDataChange} placeholder="Enter Email" />
                         </div>
@@ -132,7 +132,7 @@ const CreateLead = () => {
                     </div>
                     <div className="flex flex-col gap-[2rem] p-[1rem] w-full ">
                         {/* buttons */}
-                        <div className="flex gap-[8px] ">
+                        <div className="flex flex-wrap gap-[8px] ">
                             <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-white text-black ' >BUY</button>
                             <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-neutral-400 text-gray-300 ' >RENT</button>
                             <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-neutral-400 text-gray-300 ' >SELLER</button>
@@ -142,7 +142,7 @@ const CreateLead = () => {
                         {/* all inputs */}
                         <div className="flex justify-start flex-wrap gap-[24px] w-full ">
                             {/* city */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="city">City:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='city' value={leadData.city} onChange={handleLeadDataChange} >
                                     <option value="">-</option>
@@ -152,7 +152,7 @@ const CreateLead = () => {
                                 </select>
                             </div>
                             {/* project */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="project">Project:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='project' value={leadData.project} onChange={handleLeadDataChange} >
                                     <option value="">-</option>
@@ -162,7 +162,7 @@ const CreateLead = () => {
                                 </select>
                             </div>
                             {/* block */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="block">Block:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='block' value={leadData.block} onChange={handleLeadDataChange} >
                                     <option value="">-</option>
@@ -172,7 +172,7 @@ const CreateLead = () => {
                                 </select>
                             </div>
                             {/* property type */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="propertyType">Property Type:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='propertyType' value={leadData.propertyType} onChange={handleLeadDataChange} >
                                     <option value="">-</option>
@@ -182,7 +182,7 @@ const CreateLead = () => {
                                 </select>
                             </div>
                             {/* home type */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="homeType">Home Types:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='homeType' value={leadData.homeType} onChange={handleLeadDataChange} >
                                     <option value="">-</option>
@@ -192,17 +192,17 @@ const CreateLead = () => {
                                 </select>
                             </div>
                             {/* min budget */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minBudget">MIN Budget:</label>
                                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="minBudget" value={leadData.minBudget} onChange={handleLeadDataChange} />
                             </div>
                             {/* max budget */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxBudget">MAX Budget:</label>
                                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxBudget" value={leadData.maxBudget} onChange={handleLeadDataChange} />
                             </div>
                             {/* min area unit */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minAreaUnit">Area:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='minAreaUnit' value={leadData.minAreaUnit} onChange={handleLeadDataChange} >
                                     <option value="">Square Feet</option>
@@ -212,12 +212,12 @@ const CreateLead = () => {
                                 </select>
                             </div>
                             {/* min area */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minArea">MIN Budget:</label>
                                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="minArea" value={leadData.minArea} onChange={handleLeadDataChange} />
                             </div>
                             {/* max area unit */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxAreaUnit">Area:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='maxAreaUnit' value={leadData.maxAreaUnit} onChange={handleLeadDataChange} >
                                     <option value="">Square Feet</option>
@@ -227,12 +227,12 @@ const CreateLead = () => {
                                 </select>
                             </div>
                             {/* max area */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxArea">MAX Budget:</label>
                                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxArea" value={leadData.maxArea} onChange={handleLeadDataChange} />
                             </div>
                             {/* lead priority */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="priority">Lead Priority:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='priority' value={leadData.priority} onChange={handleLeadDataChange} >
                                     <option value="high">High</option>
@@ -241,7 +241,7 @@ const CreateLead = () => {
                                 </select>
                             </div>
                             {/* client type */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="clientType">Client Type:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='clientType' value={leadData.clientType} onChange={handleLeadDataChange} >
                                     <option value="">Please Select</option>
@@ -253,7 +253,7 @@ const CreateLead = () => {
                                 </select>
                             </div>
                             {/* allocated to */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="allocatedTo">Allocated To:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='allocatedTo' value={leadData.allocatedTo} onChange={handleLeadDataChange} >
                                     <option value="">-</option>
@@ -263,7 +263,7 @@ const CreateLead = () => {
                                 </select>
                             </div>
                             {/* beds */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] lg:w-[23%] md:w-[31%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="beds">BEDS:</label>
                                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="beds" value={leadData.beds} onChange={handleLeadDataChange} />
                             </div>

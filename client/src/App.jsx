@@ -1,25 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import {
-  DashBoard,
-  Leads,
-  CreateLead,
-  Tasks,
-  Users,
-  CashBook,
-  Sales,
-  Vouchers,
-  Report,
-  Login,
-  Register,
-  CreateUser,
-  CreateTask,
-  CreateSale,
-  User,
-  Request,
-  Projects,
-  CreateProject,
-} from "./Pages";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
+import { DashBoard, Leads, CreateLead, Tasks, Users, CashBook, Sales, Vouchers, Report, Login, Register, CreateUser, CreateTask, CreateSale, User, Request, Projects, CreateProject, } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
 import CreateCashBook from "./Pages/CashBook/CreateCashBook";
@@ -27,13 +8,20 @@ import ViewCashBook from "./Pages/CashBook/ViewCashBook";
 import CreateVouchers from "./Pages/Vouchers/CreateVouchers";
 
 const App = () => {
+
+  ///////////////////////////////////// VARIABLES ////////////////////////////////////////
   const { loggedUser } = useSelector((state) => state.user);
 
+  ///////////////////////////////////// STATES ////////////////////////////////////////
   const [showSidebar, setShowSidebar] = useState(true);
 
+  ///////////////////////////////////// USE EFFECTS ////////////////////////////////////////
   useEffect(() => {
-    if (window.innerWidth < 767) setShowSidebar(false);
-  }, []);
+    if (window.innerWidth < 768) setShowSidebar(false);
+    else setShowSidebar(true)
+  }, [window.innerWidth]);
+ 
+
 
   const Layout = () => {
     return (
@@ -85,7 +73,8 @@ const App = () => {
             </Route>
           </Routes>
         </div>
-      )}
+      )
+      }
     </div>
   );
 };

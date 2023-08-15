@@ -17,7 +17,7 @@ axios.interceptors.request.use((req) => {
 
 // AUTH
 export const register = (userData) => API.post(`/auth/register`, userData)
-export const login = (userData)=>API.post(`/auth/login`, userData)
+export const login = (userData) => API.post(`/auth/login`, userData)
 export const logout = () => API.post(`/auth/logout`)
 
 
@@ -89,3 +89,10 @@ export const getProjects = () => API.get(`/project/get/all`)
 export const createProject = (projectData) => API.post(`/project/create`, projectData)
 export const updateProject = (projectId, projectData) => API.put(`/project/update/${projectId}`, projectData)
 export const deleteProject = (projectId) => API.delete(`/project/delete/${projectId}`)
+
+
+// CASHBOOK
+export const getCashbook = (cashbookId) => API.get(`/cashbook/get/single/${cashbookId}`)
+export const getCashbooks = (type) => API.get(`/cashbook/get/all?type=${type}`)
+export const createCashbook = (cashbookData) => API.post(`/cashbook/create`, cashbookData)
+export const deleteCashbook = (cashbookId) => API.delete(`/cashbook/delete/${cashbookId}`)

@@ -12,6 +12,21 @@
 }
 
 
+/* for the height of screen */
+@media (max-width: 620px) {
+  /* If screen size is less than 620px */
+  .fullHeight {
+    height: calc(100vh - 7rem);
+  }
+}
+@media (min-width: 621px) {
+  /* If screen size is 620px or more */
+  .fullHeight {
+    height: calc(100vh - 4rem);
+  }
+}
+
+
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -65,3 +80,6 @@
 #filebase_image>input[type='file'] {
   display: none;
 }
+
+
+
