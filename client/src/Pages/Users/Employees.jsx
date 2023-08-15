@@ -9,12 +9,12 @@ import DeleteModal from './DeleteModal'
 import { Tooltip } from 'recharts'
 import { DeleteOutline, EditOutlined } from '@mui/icons-material'
 
-function Users() {
+function Employees() {
 
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { clients, employees, isFetching, error } = useSelector(state => state.user)
+  const { employees, isFetching, error } = useSelector(state => state.user)
   const columns = [
     {
       field: 'image', headerName: 'Photo', width: 100, renderCell: (params) => (
@@ -75,7 +75,6 @@ function Users() {
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
     dispatch(getEmployees())
-    dispatch(getClients())
   }, [])
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
@@ -104,7 +103,7 @@ function Users() {
 
       <Topbar view={view} setView={setView} />
       <Table
-        rows={clients}
+        rows={employees}
         columns={columns}
         rowsPerPage={5}
         isFetching={isFetching}
@@ -115,4 +114,4 @@ function Users() {
   )
 }
 
-export default Users
+export default Employees

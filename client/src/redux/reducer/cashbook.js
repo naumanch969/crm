@@ -7,6 +7,8 @@ const cashbookSlice = createSlice({
         error: null,
         cashbooksIn: [],
         cashbooksOut: [],
+        incomeAndExpenses: [],
+        payments: null,
         currentcashbook: null,
     },
     reducers: {
@@ -27,8 +29,14 @@ const cashbookSlice = createSlice({
                     break;
             }
         },
+        getIncomeAndExpensesReducer: (state, action) => {
+            state.incomeAndExpenses = action.payload
+        },
+        getPaymentsReducer: (state, action) => {
+            state.payments = action.payload
+        },
         createCashbookReducer: (state, action) => {
-             switch (action.payload.type) {
+            switch (action.payload.type) {
                 case 'in':
                     state.cashbooksIn = [action.payload, ...state.cashbooksIn]
                     break;
@@ -40,11 +48,11 @@ const cashbookSlice = createSlice({
             }
         },
         deleteCashbookReducer: (state, action) => {
-             switch (action.payload.type) {
+            switch (action.payload.type) {
                 case 'in':
                     state.cashbooksIn = state.cashbooksIn.filter(c => c._id != action.payload._id)
                     break;
-                    case 'out':
+                case 'out':
                     state.cashbooksIn = state.cashbooksIn.filter(c => c._id != action.payload._id)
                     break;
                 default:
@@ -54,5 +62,5 @@ const cashbookSlice = createSlice({
     }
 })
 
-export const { start, end, error, getCashbookReducer, getCashbooksReducer, createCashbookReducer, deleteCashbookReducer, } = cashbookSlice.actions
+export const { start, end, error, getCashbookReducer, getCashbooksReducer, getIncomeAndExpensesReducer, getPaymentsReducer, createCashbookReducer, deleteCashbookReducer, } = cashbookSlice.actions
 export default cashbookSlice.reducer

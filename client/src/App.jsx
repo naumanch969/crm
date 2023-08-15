@@ -1,25 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
-import {
-  DashBoard,
-  Leads,
-  CreateLead,
-  Tasks,
-  Users,
-  CashBook,
-  Sales,
-  Vouchers,
-  Report,
-  Login,
-  Register,
-  CreateUser,
-  CreateTask,
-  CreateSale,
-  User,
-  Request,
-  Projects,
-  CreateProject,
-} from "./Pages";
+import { DashBoard, Leads, CreateLead, Tasks,  CashBook, Sales, Vouchers, Report, Login, Register, CreateUser, CreateTask, CreateSale, User, Request, Projects, CreateProject, Employees, Clients, } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
 import CreateCashBook from "./Pages/CashBook/CreateCashBook";
@@ -76,7 +57,8 @@ const App = () => {
               <Route path="/leads/create" element={<CreateLead />} />
               <Route path="/tasks" element={<Tasks />} />
               <Route path="/tasks/create" element={<CreateTask />} />
-              <Route path="/users" element={<Users />} />
+              <Route path="/employees" element={<Employees />} />
+              <Route path="/clients" element={<Clients />} />
               <Route path="/users/create" element={<CreateUser />} />
               <Route path="/users/:userId" element={<User />} />
               <Route path="/authorization/request" element={<Request />} />
