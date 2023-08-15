@@ -12,6 +12,7 @@ import meetingRoutes from './routes/meeting.js'
 import approvalRoutes from './routes/approval.js'
 import projectRoutes from './routes/project.js'
 import leadRoutes from './routes/lead.js'
+import cashbookRoutes from './routes/cashbook.js'
 
 dotenv.config()
 const app = express()
@@ -32,6 +33,7 @@ app.use('/api/v1/approval', approvalRoutes)
 app.use('/api/v1/sale', saleRoutes)
 app.use('/api/v1/project', projectRoutes)
 app.use('/api/v1/lead', leadRoutes)
+app.use('/api/v1/cashbook', cashbookRoutes)
 
 console.log('just for checking the git pull.')
 

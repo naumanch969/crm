@@ -68,32 +68,14 @@ const Login = () => {
               onSubmit={handleSubmit}
               className="flex flex-col gap-[12px] w-auto pl-[2rem] pt-[1rem] ">
               <div className="flex flex-col ">
-                <input
-                  type="email"
-                  name="email"
-                  value={userData.email}
-                  onChange={handleChange}
-                  placeholder="Email"
-                  variant="standard"
-                  className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] "
-                />
+                <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="Email" className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] " />
                 {inputError.email && (
                   <span className="text-[12px] text-red-600 ">{inputError.email}</span>
                 )}
               </div>
-              <div className="flex flex-col relative w-full ">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={userData.password}
-                  onChange={handleChange}
-                  placeholder="Password"
-                  variant="standard"
-                  className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] "
-                />
-                <button
-                  onClick={handleToggleVisibility}
-                  className="absolute top-[50%] right-[4px] transform translate-y-[-50%] cursor-pointer">
+              <div className="flex flex-col relative w-fit ">
+                <input type={showPassword ? "text" : "password"} name="password" value={userData.password} onChange={handleChange} placeholder="Password" className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] " />
+                <button onClick={handleToggleVisibility} className="absolute top-[50%] right-[4px] transform translate-y-[-50%] cursor-pointer">
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </button>
                 {inputError.password && (

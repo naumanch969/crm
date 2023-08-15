@@ -8,9 +8,9 @@ const CreateSale = () => {
 
     ////////////////////////////////////////// VARIABLES //////////////////////////////////
     const dispatch = useDispatch()
-    const navigate= useNavigate()
+    const navigate = useNavigate()
     // todo:remove the leadID and make it dynamic
-    const initialState = { invoiceNumber: 0,  supplierName: '', leadId: 'laedId', net: 0, received: 0, psf: 0, fop: 0, branch: '', staff: '', }
+    const initialState = { invoiceNumber: 0, supplierName: '', leadId: 'laedId', net: 0, received: 0, psf: 0, fop: 0, branch: '', staff: '', }
     const stats = [
         { title: 'Completed', numbers: 100 },
         { title: 'Pending', numbers: 0 },
@@ -36,10 +36,10 @@ const CreateSale = () => {
     return (
         <div className='flex flex-col gap-[2rem] bg-white px-[20px] py-[1rem] shadow-box rounded-[4px] ' >
 
-            <div className="flex justify-between gap-[24px] w-full">
+            <div className="flex lg:flex-nowrap flex-wrap justify-between gap-[24px] w-full">
                 {
                     stats.map((stat, index) => (
-                        <div key={index} className="flex flex-col items-center flex-[1] px-[2rem] py-[1rem] shadow-md rounded-[4px]  ">
+                        <div key={index} className="flex flex-col items-center lg:flex-[1] sm:w-[47%] w-full px-[2rem] py-[1rem] shadow-box rounded-[4px]  ">
                             <span className='text-gray-500 font-semibold text-[20px] text-center ' >{stat.title}</span>
                             <span className='text-[22px] font-semibold ' >{stat.numbers}</span>
                         </div>
@@ -48,10 +48,10 @@ const CreateSale = () => {
             </div>
 
 
-            <form onSubmit={handleSubmit} className='flex flex-col gap-[8px] w-full px-[2rem] py-[1rem] ' >
+            <form onSubmit={handleSubmit} className='flex flex-col gap-[1rem] w-full md:px-[2rem] py-[1rem] ' >
 
-                <div className="w-full flex gap-[3rem]  ">
-                    <div className="flex-[1] flex flex-col gap-[1rem]  ">
+                <div className="w-full flex sm:flex-nowrap flex-wrap md:gap-[3rem] gap-[1rem]  ">
+                    <div className="sm:w-[47%] md:w-[47.5%] w-full flex flex-col gap-[1rem]  ">
                         {/* invoice number */}
                         <div className="flex flex-col gap-[4px] ">
                             <label className='text-black font-medium text-[16px] ' htmlFor="invoiceNumber">Invoice Number</label>
@@ -75,7 +75,7 @@ const CreateSale = () => {
                     </div>
 
 
-                    <div className="flex-[1] flex flex-col gap-[1rem]  ">
+                    <div className="sm:w-[47%] md:w-[47.5%] w-full flex flex-col gap-[1rem]  ">
                         {/* psf */}
                         <div className="flex flex-col gap-[4px] ">
                             <label className='text-black font-medium text-[16px] ' htmlFor="psf">PSF</label>

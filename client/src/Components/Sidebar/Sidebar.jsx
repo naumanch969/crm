@@ -138,15 +138,14 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 </div>
             </div>
 
-
             {/* mobile sidebar */}
             {
                 showSidebar &&
-                <div className='absolute top-0 left-0 w-[14rem] bg-lighterBlue h-screen md:hidden flex z-[1100] ' >
-                    <div className='wrapper flex flex-col w-full h-full overflow-y-scroll p-[1rem] ' >
+                <div className='absolute top-0 left-0 bg-white shadow-box w-[16rem] h-screen md:hidden flex z-[1100] ' >
+                    <div className='wrapper flex flex-col w-full h-full overflow-y-scroll p-[10px] ' >
 
                         <div className='w-full flex justify-between items-center mb-[1rem] ' >
-                            <h3 className='md:text-[32px] sm:text-[28px] text-[24px] text-darkBlue font-bold ' >nanoadmin</h3>
+                            <img src="/favicon/GrowLOGO.png" />
                             <IconButton className='' onClick={() => setShowSidebar(false)} ><Close /></IconButton>
                         </div>
 

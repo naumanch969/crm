@@ -1,6 +1,6 @@
 import { Close } from '@mui/icons-material'
 import { IconButton, Modal } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import React from 'react'
 import { updateTask } from '../../redux/action/task'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,18 +13,19 @@ const EditModal = ({ open, setOpen }) => {
   const { currentTask: task, isFetchinig, error } = useSelector(state => state.task)
 
   ///////////////////////////////////// STATES ////////////////////////////////////////
-  const [taskData, setTaskData] = useState({ ...task })
+  const [taskData, setTaskData] = useState(task)
 
   ///////////////////////////////////// USE EFFECTS ///////////////////////////////////
-
+  useEffect(() => {
+    setTaskData(task)
+  }, [task])
 
   ///////////////////////////////////// FUNCTIONS /////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!taskData?.title || !taskData?.description || !taskData?.dueDate || !taskData?.priority) return alert('Make sure to rovide all the fields')
-    dispatch(updateTask(taskData?._id, taskData))
+    dispatch(updateTask(taskData?._id, taskData, setOpen))
     dispatch(getTaskReducer(null))
-    setOpen(false)
   }
 
   const handleChange = (e) => {
@@ -38,7 +39,7 @@ const EditModal = ({ open, setOpen }) => {
   return (
     <Modal open={open} onClose={handleClose} className='w-screen h-screen flex justify-center items-center ' >
 
-      <div className='w-[30vw] h-[80vh] max-h-[80vh] overflow-y-scroll overflow-x-hidden bg-white rounded-[4px] ' >
+      <div className='lg:w-[30%] md:w-[40%] sm:w-[60%] w-[90%] h-[80vh] max-h-[80vh] overflow-y-scroll overflow-x-hidden bg-white rounded-[4px] ' >
 
 
         <div className="bg-neutral-800 p-[8px] text-white flex justify-between items-center sticky top-0 ">
@@ -46,7 +47,7 @@ const EditModal = ({ open, setOpen }) => {
           <IconButton onClick={handleClose} ><Close className='text-white' /></IconButton>
         </div>
 
-        <form onSubmit={handleSubmit} className='flex flex-col gap-[8px] w-full p-[8px] ' >
+        <form onSubmit={handleSubmit} className='flex flex-col gap-[8px] w-full p-[12px] ' >
 
           <div className=" flex flex-col gap-[1rem]  ">
             {/* title */}
@@ -78,7 +79,7 @@ const EditModal = ({ open, setOpen }) => {
 
           <div className="w-full flex justify-end items-center">
             <button type='submit' className='w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer ' >
-              {isFetchinig ? 'Updating' : 'Save'}
+              {isFetchinig ? 'Updating' : 'Update'}
             </button>
           </div>
 

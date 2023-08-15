@@ -1,46 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
-import {
-  DashBoard,
-  Leads,
-  CreateLead,
-  Tasks,
-  Users,
-  CashBook,
-  Sales,
-  Vouchers,
-  Report,
-  Login,
-  Register,
-  CreateUser,
-  CreateTask,
-  CreateSale,
-  User,
-  Request,
-  Projects,
-  CreateProject,
-} from "./Pages";
+import { DashBoard, Leads, CreateLead, Tasks, Users, CashBook, Sales, Vouchers, Report, Login, Register, CreateUser, CreateTask, CreateSale, User, Request, Projects, CreateProject, } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
 import CreateCashBook from "./Pages/CashBook/CreateCashBook";
 
 const App = () => {
+
+  ///////////////////////////////////// VARIABLES ////////////////////////////////////////
   const { loggedUser } = useSelector((state) => state.user);
 
+  ///////////////////////////////////// STATES ////////////////////////////////////////
   const [showSidebar, setShowSidebar] = useState(true);
 
+  ///////////////////////////////////// USE EFFECTS ////////////////////////////////////////
   useEffect(() => {
-    if (window.innerWidth < 767) setShowSidebar(false);
-  }, []);
+    if (window.innerWidth < 768) setShowSidebar(false);
+    else setShowSidebar(true)
+  }, [window.innerWidth]);
+ 
+
 
   return (
-    <div className="w-screen h-screen overflow-hidden bg-gray-100">
+    <div className="w-screen h-screen overflow-hidden bg-gray-200">
       <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
 
-      {!loggedUser ? (
-        <div
-          style={{ height: "calc(100vh - 4rem)" }}
-          className="flex justify-center items-center w-full overflow-y-scroll ">
+      {/* !loggedUser
+        ?
+        <div  className="fullHeight flex justify-center items-center w-full overflow-y-scroll ">
           <Routes>
             <Route exact path="/auth/register" element={<Register />} />
             <Route exact path="/auth/login" element={<Login />} />
@@ -48,11 +35,12 @@ const App = () => {
             <Route path="/:anyotherRoutes" element={<Navigate to="/auth/login" />} />
           </Routes>
         </div>
-      ) : (
-        <div style={{ height: "calc(100vh - 4rem)" }} className="flex w-full overflow-y-scroll ">
+        : */}
+      {
+        <div className="fullHeight flex w-full overflow-y-scroll pb-[2rem] ">
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
 
-          <div className="flex-[9] px-[1rem] py-[1rem]  ">
+          <div className="flex-[9] px-[1rem] py-[1rem] overflow-x-hidden ">
             <Routes>
               <Route path="/" element={<DashBoard />} />
               <Route path="/auth/register" element={<Navigate to="/" />} />
@@ -76,7 +64,7 @@ const App = () => {
             </Routes>
           </div>
         </div>
-      )}
+      }
     </div>
   );
 };
