@@ -12,6 +12,7 @@ import { Avatar, IconButton, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
+import Sidebar from "../Sidebar/Sidebar";
 
 const Navbar = ({ setShowSidebar }) => {
   const { loggedUser } = useSelector((state) => state.user);
@@ -86,7 +87,7 @@ const Navbar = ({ setShowSidebar }) => {
           </div>
         </div>
       </div>
-      <div className="flex-[4] px-[1rem] py-[1rem]">
+      <div className="px-[1rem] py-[1rem]">
         <Outlet />
       </div>
     </div>

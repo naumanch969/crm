@@ -26,7 +26,7 @@ const App = () => {
         <div className="h-screen">
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
-        <div className="w-screen h-full bg-gray-100">
+        <div className="w-screen h-full bg-gray-100 sticky">
           <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
       </>
@@ -36,7 +36,7 @@ const App = () => {
   return (
     <div className="w-screen h-screen bg-gray-100">
       {!loggedUser ? (
-        <div className="flex justify-center items-center w-full overflow-x-hidden ">
+        <div className="flex justify-center items-center w-full ">
           <Routes>
             <Route exact path="/auth/register" element={<Register />} />
             <Route exact path="/auth/login" element={<Login />} />
@@ -45,7 +45,7 @@ const App = () => {
           </Routes>
         </div>
       ) : (
-        <div className="flex w-screen overflow-y-scroll overflow-x-auto">
+        <div className="flex w-screen overflow-y-scroll ">
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<DashBoard />} />
