@@ -52,11 +52,8 @@ export const updateSale = async (req, res, next) => {
         const { saleId } = req.params
         const findedSale = await Sale.findById(saleId)
         if (!findedSale) return next(createError(400, 'Sale not exist'))
-        console.log(saleId)
-        console.log(req.body)
 
         const updatedSale = await Sale.findByIdAndUpdate(saleId, { $set: req.body }, { new: true })
-        console.log(updatedSale)
         res.status(200).json({ result: updatedSale, message: 'sale updated successfully', success: true })
 
     } catch (err) {

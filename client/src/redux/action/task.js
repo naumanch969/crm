@@ -47,9 +47,7 @@ export const updateTask = (taskId, taskData, setOpen) => async (dispatch) => {
 export const deleteTask = (taskId) => async (dispatch) => {
     try {
         dispatch(start())
-        console.log(taskId)
         const { data } = await api.deleteTask(taskId)
-        console.log(data)
         dispatch(deleteTaskReducer(data.result))
         dispatch(end())
     } catch (err) {

@@ -36,7 +36,6 @@ export const createRequestApproval = async (req, res, next) => {
     try {
 
         const { firstName, lastName, username, phone, email, password } = req.body
-        console.log(firstName, lastName, username, phone, email, password)
         if (!firstName || !lastName || !username || !email || !password) return next(createError(400, 'Make sure to provide all the fields'))
         if (!validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
 

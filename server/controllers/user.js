@@ -108,7 +108,6 @@ export const updateUser = async (req, res, next) => {
         if (!findedUser) return next(createError(400, 'User not exist'))
 
         const { _id, ...body } = req.body
-        console.log(body)
         const updatedUser = await User.findByIdAndUpdate(userId, { $set: body }, { new: true })
         res.status(200).json({ result: updatedUser, message: 'User updated successfully', success: true })
 

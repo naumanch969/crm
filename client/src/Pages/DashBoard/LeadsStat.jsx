@@ -1,18 +1,19 @@
 import { Box, Chip } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Cell, Pie, PieChart, Tooltip } from 'recharts'
+import { useDispatch, useSelector } from 'react-redux'
+import { getLeadsStat } from '../../redux/action/lead'
 
 const Leads = () => {
 
-    const leadsStat = [
-        { name: 'Successful', value: 6 },
-        { name: 'Unsuccessful', value: 2 },
-        { name: 'Under Process', value: 3 },
-        { name: 'Declined', value: 1 },
-        { name: 'Remaining', value: 3 },
-      ];
-      const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'rgb(220 38 38)'];
-    
+    const dispatch = useDispatch()
+    const { stats: leadsStat } = useSelector(state => state.lead)
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'rgb(220 38 38)'];
+
+    useEffect(() => {
+        dispatch(getLeadsStat())
+    }, [])
+
 
     return (
         <Box className="w-auto bg-white h-96 rounded-lg p-6 float-left ml-5">
@@ -28,7 +29,7 @@ const Leads = () => {
                     paddingAngle={5}
                     dataKey="value">
                     {leadsStat.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell key={index} fill={COLORS[index % COLORS.length]} />
                     ))}
                 </Pie>
                 <Tooltip />

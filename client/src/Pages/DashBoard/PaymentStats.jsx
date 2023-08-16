@@ -8,7 +8,6 @@ import { getPayments } from '../../redux/action/cashbook'
 const Stats = () => {
 
     const { payments } = useSelector(state => state.cashbook)
-    console.log(payments)
     const dispatch = useDispatch()
 
     useEffect(() => {

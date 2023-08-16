@@ -38,6 +38,39 @@ export const getLeads = async (req, res, next) => {
         next(createError(500, err.message))
     }
 }
+export const getLeadsStat = async (req, res, next) => {
+    try {
+
+        const leadStats = await Lead.aggregate([
+            {
+                $group: {
+                    _id: '$status',
+                    count: { $sum: 1 },
+                },
+            },
+            {
+                $project: {
+                    _id: 0,
+                    name: '$_id',
+                    value: '$count',
+                },
+            },
+        ]);
+
+        const statusEnum = ['Successful', 'Unsuccessful', 'Under Process', 'Declined', 'Remaining'];
+        const leadsStatArray = statusEnum.map(status => {
+            const stat = leadStats.find(stat => stat.name === status);
+            return {
+                name: status,
+                value: stat ? stat.value : 0,
+            };
+        });
+
+        res.status(200).json({ result: leadsStatArray, message: 'Leads stats fetched successfully', success: true });
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
 
 
 export const createOnsiteLead = async (req, res, next) => {
@@ -92,11 +125,12 @@ export const updateLead = async (req, res, next) => {
         if (!findedLead) return next(createError(400, 'Lead not exist'))
 
         // create new client
-        await User.findByIdAndUpdate(leadData.clientId._id, { gender, firstName, lastName, phone, email, cnic }, { new: true })
+        if (leadData?.clientId) {
+            await User.findByIdAndUpdate(leadData.clientId._id, { gender, firstName, lastName, phone, email, cnic }, { new: true })
+        }
 
         // create new lead
         const updatedLead = await Lead.findByIdAndUpdate(leadId, { $set: leadData }, { new: true }).populate('clientId').exec()
-        console.log(updatedLead)
         res.status(200).json({ result: updatedLead, message: 'lead updated successfully', success: true })
 
     } catch (err) {

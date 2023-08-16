@@ -25,9 +25,7 @@ export const getApprovals = (type) => async (dispatch) => {
 export const createRequestApproval = (userData) => async (dispatch) => {
     try {
         dispatch(start())
-        console.log('userData', userData)
         const { data } = await api.createRequestApproval(userData)  // userData = { firstName, lastName, username, phone, email, password}
-        console.log('createRequestApproval data', data.result)
         dispatch(createRequestApprovalReducer(data.result))
         dispatch(end())
     } catch (err) {
@@ -37,9 +35,7 @@ export const createRequestApproval = (userData) => async (dispatch) => {
 export const rejectRequestApproval = (email) => async (dispatch) => {
     try {
         dispatch(start())
-        console.log('userData', userData)
         const { data } = await api.rejectRequestApproval(email)  // userData = { firstName, lastName, username, phone, email, password}
-        console.log('rejectRequestApproval data', data.result)
         dispatch(rejectRequestApprovalReducer(data.result))
         dispatch(end())
     } catch (err) {

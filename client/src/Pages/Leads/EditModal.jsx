@@ -28,7 +28,6 @@ const EditModal = ({ open, setOpen }) => {
     const { gender, firstName, lastName, phone, email, cnic } = clientData
     const { city, project, block, propertyType, homeType, minBudget, maxBudget, minAreaUnit, minArea, maxAreaUnit, maxArea, clientType, allocatedTo, beds} = leadData
     // todo: add priority field as well in the condition
-    console.log(gender, firstName, lastName, phone, email, cnic)
     if (!gender || !firstName || !lastName || !phone || !email || !cnic || !city || !project || !block || !propertyType || !homeType || !minBudget || !maxBudget || !minAreaUnit || !minArea || !maxAreaUnit || !maxArea || !clientType || !allocatedTo || !beds )
       return alert('make sure to provide all the fields')
 
