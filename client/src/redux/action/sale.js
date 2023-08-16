@@ -36,9 +36,7 @@ export const createSale = (saleData, navigate) => async (dispatch) => {
 export const updateSale = (saleId, saleData) => async (dispatch) => {
     try {
         dispatch(start())
-        console.log(saleData)
         const { data } = await api.updateSale(saleId, saleData)
-        console.log('data', data)
         dispatch(updateSaleReducer(data.result))
         dispatch(end())
     } catch (err) {

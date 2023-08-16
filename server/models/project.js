@@ -11,7 +11,9 @@ const projectSchema = Schema({
     areaUnit: { type: String, required: true },
     priority: { type: String, required: true },     // define enum
     beds: { type: Number, required: false },
-    images: { type: Array, required: false }
+    images: { type: Array, required: false },
+    assignedTo: { type: Schema.Types.ObjectId, ref: 'User' },
+    status: { type: String, default: 'On Hold', enum: ['Not Started', 'Completed', 'In Progress', 'On Hold'] }
 }, { timestamps: true })
 
 const projectModel = model('Project', projectSchema)

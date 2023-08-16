@@ -1,13 +1,11 @@
 import * as api from '../api'
-import { start, end, error, getLeadsReducer, getLeadReducer, createLeadReducer, updateLeadReducer, deleteLeadReducer, } from '../reducer/lead'
+import { start, end, error, getLeadsReducer, getLeadReducer,getLeadsStatReducer, createLeadReducer, updateLeadReducer, deleteLeadReducer, } from '../reducer/lead'
 
 
 export const getLeads = () => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.getLeads()
-
-        console.log(data.result)
         dispatch(getLeadsReducer(data.result))
         dispatch(end())
     } catch (err) {
@@ -19,6 +17,16 @@ export const getLead = (leadId) => async (dispatch) => {
         dispatch(start())
         const { data } = await api.getLead(leadId)
         dispatch(getLeadReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const getLeadsStat = () => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getLeadsStat()
+        dispatch(getLeadsStatReducer(data.result))
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

@@ -6,6 +6,7 @@ const projectSlice = createSlice({
         isFetching: false,
         error: null,
         projects: [],
+        stats: [],
         currentproject: null,
     },
     reducers: {
@@ -15,6 +16,7 @@ const projectSlice = createSlice({
 
         getProjectReducer: (state, action) => { state.currentProject = action.payload },
         getProjectsReducer: (state, action) => { state.projects = action.payload },
+        getUserAssignedProjectsStatsReducer: (state, action) => { state.stats = action.payload },
         createProjectReducer: (state, action) => { state.projects = [action.payload, ...state.projects] },
         updateProjectReducer: (state, action) => { state.projects = state.projects.map(s => s = s._id == action.payload._id ? action.payload : s) },
         deleteProjectReducer: (state, action) => { state.projects = state.projects.filter(s => s._id != action.payload._id) },
@@ -22,5 +24,5 @@ const projectSlice = createSlice({
     }
 })
 
-export const { start, end, error, getProjectReducer, getProjectsReducer, createProjectReducer, updateProjectReducer, deleteProjectReducer, } = projectSlice.actions
+export const { start, end, error, getProjectReducer, getProjectsReducer,  getUserAssignedProjectsStatsReducer, createProjectReducer, updateProjectReducer, deleteProjectReducer, } = projectSlice.actions
 export default projectSlice.reducer

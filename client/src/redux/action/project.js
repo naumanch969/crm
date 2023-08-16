@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { start, end, error, getProjectReducer, getProjectsReducer, createProjectReducer, updateProjectReducer, deleteProjectReducer, } from '../reducer/project'
+import { start, end, error, getProjectReducer, getProjectsReducer, getUserAssignedProjectsStatsReducer, createProjectReducer, updateProjectReducer, deleteProjectReducer, } from '../reducer/project'
 
 
 export const getProject = (projectId) => async (dispatch) => {
@@ -17,6 +17,16 @@ export const getProjects = () => async (dispatch) => {
         dispatch(start())
         const { data } = await api.getProjects()
         dispatch(getProjectsReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const getUserAssignedProjectsStats = () => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getUserAssignedProjectsStats()
+        dispatch(getUserAssignedProjectsStatsReducer(data.result))
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

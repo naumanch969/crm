@@ -18,8 +18,8 @@ const leadSchema = Schema({
     clientType: { type: String },       // define enum
     allocatedTo: { type: String },
     beds: { type: String },
-    // progress: { type: Number },
-    // status: { type: String, },
+    progress: { type: Number },
+    status: { type: String, default: 'Remaining', enum: ['Successful', 'Unsuccessful', 'Under Process', 'Declined', 'Remaining'] },
     source: { type: Array },
 
     type: { type: String, required: false, default: 'onsite', enum: ['onsite', 'online'] },

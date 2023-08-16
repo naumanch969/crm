@@ -17,9 +17,7 @@ const userSlice = createSlice({
         registerReducer: (state, action) => { state.clients = [action.payload, ...state.clients] },
         loginReducer: (state, action) => { state.loggedUser = action.payload },
         logoutReducer: (state, action) => { state.loggedUser = null },
-        getUserReducer: (state, action) => { 
-            console.log(action.payload)
-            state.currentUser = action.payload },
+        getUserReducer: (state, action) => { state.currentUser = action.payload },
         getClientsReducer: (state, action) => { state.clients = action.payload },
         getEmployeesReducer: (state, action) => { state.employees = action.payload },
         createClientReducer: (state, action) => { state.clients = [action.payload, ...state.clients] },
@@ -51,5 +49,5 @@ const userSlice = createSlice({
     }
 })
 
-export const { start, end, error, registerReducer, loginReducer, logoutReducer, getUsersReducer, getUserReducer, getClientsReducer, getEmployeesReducer, createEmployeeReducer,createClientReducer, updateRoleReducer, updateUserReducer, deleteUserReducer, } = userSlice.actions
+export const { start, end, error, registerReducer, loginReducer, logoutReducer, getUsersReducer, getUserReducer, getClientsReducer, getEmployeesReducer, createEmployeeReducer, createClientReducer, updateRoleReducer, updateUserReducer, deleteUserReducer, } = userSlice.actions
 export default userSlice.reducer

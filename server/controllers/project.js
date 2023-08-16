@@ -29,6 +29,28 @@ export const getProjects = async (req, res, next) => {
     }
 }
 
+export const getUserAssignedProjectsStat = async (req, res, next) => {
+    try {
+
+        const userId = req.user?._id || '64d72779e91cd595455e8e06'
+
+        const projects = await Project.find({ assignedTo: userId });
+
+        const statusEnum = ['Not Started', 'Completed', 'In Progress', 'On Hold'];
+        const projectsStatArray = statusEnum.map(status => {
+            const count = projects.filter(project => project.status === status).length;
+            return {
+                action: status,
+                assigned: count,
+            };
+        });
+
+        res.status(200).json({ result: projectsStatArray, message: 'User projects stats fetched successfully', success: true });
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
+
 export const createProject = async (req, res, next) => {
     try {
 

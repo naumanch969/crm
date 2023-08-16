@@ -26,7 +26,6 @@ export const verifyEmployee = (req, res, next) => {
 
 export const verifySuperAdmin = (req, res, next) => {
     // verifyToken(rq, rs, () => {
-    //     console.log('rq', rq)
     //     if (rq.user.role == 'super-admin') next()
     //     else next(createError(401, 'Only super-admin can access this route'))
     // })

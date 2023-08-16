@@ -11,7 +11,6 @@ axios.interceptors.request.use((req) => {
         const token = JSON.parse(tokenString)
         req.headers.authtoken = token
     }
-    console.log(tokenString, req.body)
     return req
 })
 
@@ -78,6 +77,7 @@ export const deleteApproval = (approvalId) => API.delete(`/approval/delete/${app
 // LEAD 
 export const getLead = (leadId) => API.get(`/lead/get/single/${leadId}`)
 export const getLeads = () => API.get(`/lead/get/all`)
+export const getLeadsStat = () => API.get(`/lead/get/stats`)
 export const createOnsiteLead = (leadData) => API.post(`/lead/create/onsite`, leadData)
 export const createOnlineLead = (leadData) => API.post(`/lead/create/online`, leadData)
 export const updateLead = (leadId, leadData) => API.put(`/lead/update/${leadId}`, leadData)
@@ -86,6 +86,7 @@ export const deleteLead = (leadId) => API.delete(`/lead/delete/${leadId}`)
 // PROJECT
 export const getProject = (projectId) => API.get(`/project/get/single/${projectId}`)
 export const getProjects = () => API.get(`/project/get/all`)
+export const getUserAssignedProjectsStats = () => API.get(`/project/get/user_assigned_projects_stats`)
 export const createProject = (projectData) => API.post(`/project/create`, projectData)
 export const updateProject = (projectId, projectData) => API.put(`/project/update/${projectId}`, projectData)
 export const deleteProject = (projectId) => API.delete(`/project/delete/${projectId}`)

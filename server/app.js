@@ -35,8 +35,6 @@ app.use('/api/v1/project', projectRoutes)
 app.use('/api/v1/lead', leadRoutes)
 app.use('/api/v1/cashbook', cashbookRoutes)
 
-console.log('just for checking the git pull.')
-
 app.use((err, req, res, next) => {
     const message = err.message || 'Something went wrong.'
     const status = err.status || 500
