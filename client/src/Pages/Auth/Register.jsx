@@ -6,7 +6,7 @@ import { register } from '../../redux/action/user'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import validator from 'email-validator'
 
-const Signup = () => {
+const Register = () => {
 
     /////////////////////////////////// VARIABLES /////////////////////////////////
     const dispatch = useDispatch()
@@ -116,4 +116,4 @@ const Signup = () => {
     )
 }
 
-export default Signup
+export default Register

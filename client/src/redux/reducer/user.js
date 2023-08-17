@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 import { createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
@@ -8,7 +9,7 @@ const userSlice = createSlice({
         employees: [],
         clients: [],
         currentUser: null,
-        loggedUser: null
+        loggedUser: Cookies.get('crm_profile') ? JSON.parse(Cookies.get('crm_profile')) : null
     },
     reducers: {
         start: (state) => { state.isFetching = true; state.error = null; },

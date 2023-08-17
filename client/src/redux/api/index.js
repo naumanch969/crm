@@ -5,11 +5,12 @@ import Cookie from 'js-cookie'
 
 const API = axios.create({ baseURL })
 
-axios.interceptors.request.use((req) => {
-    const tokenString = Cookie.get(`profile`)
-    if (tokenString) {
-        const token = JSON.parse(tokenString)
-        req.headers.authtoken = token
+API.interceptors.request.use((req) => {
+    const profileString = Cookie.get(`crm_profile`)
+    if (profileString) {
+        const profile = JSON.parse(profileString)
+        console.log(profile.token)
+        req.headers.authtoken = profile.token
     }
     return req
 })

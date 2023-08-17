@@ -1,11 +1,12 @@
 import * as api from '../api'
-import { start, end, error, getLeadsReducer, getLeadReducer,getLeadsStatReducer, createLeadReducer, updateLeadReducer, deleteLeadReducer, } from '../reducer/lead'
+import { start, end, error, getLeadsReducer, getLeadReducer, getLeadsStatReducer, createLeadReducer, updateLeadReducer, deleteLeadReducer, } from '../reducer/lead'
 
 
 export const getLeads = () => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.getLeads()
+        console.log('data', data)
         dispatch(getLeadsReducer(data.result))
         dispatch(end())
     } catch (err) {
@@ -32,13 +33,26 @@ export const getLeadsStat = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const createLead = (leadData, type, navigate) => async (dispatch) => {
+export const createOnsiteLead = (leadData, navigate) => async (dispatch) => {
     try {
         dispatch(start())
 
-        const { data } = type == 'onsite'
-            ? await api.createOnsiteLead(leadData)
-            : await api.createOnlineLead(leadData)
+        const { data } = await api.createOnsiteLead(leadData)
+
+        dispatch(createLeadReducer(data.result))
+        navigate('/leads')
+
+        dispatch(getLeads())
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const createOnlineLead = (leadData, navigate) => async (dispatch) => {
+    try {
+        dispatch(start())
+
+        const { data } = await api.createOnlineLead(leadData)
 
         dispatch(createLeadReducer(data.result))
         navigate('/leads')

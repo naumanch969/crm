@@ -1,39 +1,61 @@
-import jwt from 'jsonwebtoken'
-import { createError } from '../utils/error.js'
+import jwt from 'jsonwebtoken';
+import { createError } from '../utils/error.js';
 
 export const verifyToken = async (req, res, next) => {
     try {
-        // const token = req.cookies.authtoken
-        // const token = req.headers.authtoken
-        // if (!token) return next(createError(401, 'token is required'))
+        const token = req.headers.authtoken;
+        if (!token) return next(createError(401, 'Token is required'))
 
-        // const decodedData = await jwt.verify(token, process.env.JWT_SECRET)
-        // req.user = decodedData
+        const decodedData = await jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decodedData;
 
-        next()
+        next();
     } catch (err) {
-        next(createError(500, err.message))
-
+        next(createError(401, 'Invalid token'));
     }
-}
+};
 
 export const verifyEmployee = (req, res, next) => {
-    // verifyToken(req, res, () => {
-    //     if (req.user.role == ('employee' || 'manager' || 'super-admin')) next()
-    //     else next(createError(401, 'Only employee, manager and super-admin can access this route'))
-    // })
-}
+    try {
+        verifyToken(req, res, () => {
+            const allowedRoles = ['employee', 'manager', 'super_admin'];
+            if (allowedRoles.includes(req.user.role)) {
+                next();
+            } else {
+                next(createError(403, 'Access denied'))
+            }
+        });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
+};
 
-export const verifySuperAdmin = (req, res, next) => {
-    // verifyToken(rq, rs, () => {
-    //     if (rq.user.role == 'super-admin') next()
-    //     else next(createError(401, 'Only super-admin can access this route'))
-    // })
-}
 
 export const verifyManager = (req, res, next) => {
-    // verifyToken(req, res, () => {
-    //     if (req.user.role == ('manager' || 'super-admin')) next()
-    //     else next(createError(401, 'Only manager and super-admin can access this route'))
-    // })
-}
+    try {
+        verifyToken(req, res, () => {
+            const allowedRoles = ['manager', 'super_admin'];
+            if (allowedRoles.includes(req.user.role)) {
+                next();
+            } else {
+                next(createError(403, 'Access denied'))
+            }
+        });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
+};
+
+export const verifySuperAdmin = (req, res, next) => {
+    try {
+        verifyToken(req, res, () => {
+            if (req.user.role === 'super_admin') {
+                next();
+            } else {
+                next(createError(403, 'Access denied'))
+            }
+        });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
+};

@@ -16,6 +16,7 @@ const DeleteModal = ({ open, setOpen, leadId }) => {
   const handleDelete = () => {
     dispatch(deleteLead(leadId))
     setOpen(false)
+
   }
 
   return (

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { createLead } from '../../redux/action/lead'
+import { createOnsiteLead, getLeads } from '../../redux/action/lead'
 import Topbar from './Topbar'
+import { getEmployees, register } from '../../redux/action/user'
+import { getProjects } from '../../redux/action/project'
 
 const CreateLead = () => {
 
@@ -10,6 +12,11 @@ const CreateLead = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { isFetching } = useSelector(state => state.lead)
+    const { projects } = useSelector(state => state.project)
+     const { employees, loggedUser } = useSelector(state => state.user)
+    const employeeNames = employees
+        .filter(employee => employee.username !== null && employee.username !== undefined)
+        .map(({ _id, username }) => ({ _id, username }));
 
     //////////////////////////////////////// STATES ////////////////////////////////////
     const [clientData, setClientData] = useState({ gender: 'male', firstName: '', lastName: '', phone: '', email: '', cnic: '', })
@@ -19,31 +26,40 @@ const CreateLead = () => {
         block: '',
         propertyType: 'Homes',
         homeType: 'House',
-        minBudget: 0,
-        maxBudget: 0,
+        minBudget: undefined,
+        maxBudget: undefined,
         minAreaUnit: 'squareFeet',
-        minArea: 0,
+        minArea: undefined,
         maxAreaUnit: 'squareFeet',
-        maxArea: 0,
+        maxArea: undefined,
         priority: 'high',
         clientType: '',
         allocatedTo: '',
-        beds: 0,
+        beds: undefined,
         source: []
     })
 
     //////////////////////////////////////// USE EFFECTS ////////////////////////////////
-
+    useEffect(() => {
+        if (employees.length === 0) {
+            dispatch(getEmployees());
+        }
+        if (projects.length === 0) {
+            dispatch(getProjects());
+        }
+    }, [employees, projects]);
 
     //////////////////////////////////////// FUNCTIONS //////////////////////////////////
     const handleSubmit = (e) => {
         e.preventDefault()
         const { gender, firstName, lastName, phone, email, cnic } = clientData
         const { city, project, block, propertyType, homeType, minBudget, maxBudget, minAreaUnit, minArea, maxAreaUnit, maxArea, priority, clientType, allocatedTo, beds, source } = leadData
-        if (!gender || !firstName || !lastName || !phone || !email || !cnic || !city || !project || !block || !propertyType || !homeType || !minBudget || !maxBudget || !minAreaUnit || !minArea || !maxAreaUnit || !maxArea || !priority || !clientType || !allocatedTo || !beds || !source)
-            return alert('make sure to provide all the fields')
+        if (!city || !project || !block || !propertyType || !homeType || !minBudget || !maxBudget || !minAreaUnit || !minArea || !maxAreaUnit || !maxArea || !priority || !clientType || !allocatedTo || !beds || !source)
+            return alert('make sure to provide all lead fields')
+        if (!gender || !firstName || !lastName || !phone || !email || !cnic)
+            return alert('make sure to provide all client fields')
 
-        dispatch(createLead({ ...leadData, ...clientData }, 'onsite', navigate))
+        dispatch(createOnsiteLead({ ...leadData, ...clientData }, navigate))
 
     }
 
@@ -218,7 +234,7 @@ const CreateLead = () => {
                                 </div>
                                 {/* min area */}
                                 <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
-                                    <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minArea">MIN Budget:</label>
+                                    <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minArea">MIN Area:</label>
                                     <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="minArea" value={leadData.minArea} onChange={handleLeadDataChange} />
                                 </div>
                                 {/* max area unit */}
@@ -233,7 +249,7 @@ const CreateLead = () => {
                                 </div>
                                 {/* max area */}
                                 <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
-                                    <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxArea">MAX Budget:</label>
+                                    <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxArea">MAX Area:</label>
                                     <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxArea" value={leadData.maxArea} onChange={handleLeadDataChange} />
                                 </div>
                                 {/* lead priority */}
@@ -262,9 +278,11 @@ const CreateLead = () => {
                                     <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="allocatedTo">Allocated To:</label>
                                     <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='allocatedTo' value={leadData.allocatedTo} onChange={handleLeadDataChange} >
                                         <option value="">-</option>
-                                        <option value="user1">User1</option>
-                                        <option value="user2">User2</option>
-                                        <option value="user3">User3</option>
+                                        {
+                                            employeeNames.map((employee, index) => (
+                                                <option value={employee._id} key={index} >{employee.username}</option>
+                                            ))
+                                        }
                                     </select>
                                 </div>
                                 {/* beds */}

@@ -7,7 +7,7 @@ const userSchema = Schema({
     email: { type: String, required: true, unique: true },
     phone: { type: String, required: true, unique: true },
     password: { type: String, required: false, },
-    role: { type: String, required: true, default: 'client', enum: ['client', 'employee', 'manager', 'super-admin'] },
+    role: { type: String, required: true, default: 'client', enum: ['client', 'employee', 'manager', 'super_admin'] },
     // below fields are not related to client (rather to employee,manager)
     officialNumber: { type: Number, required: false, },
     cnic: { type: String, required: false, },
