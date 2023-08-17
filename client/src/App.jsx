@@ -1,11 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
-import { DashBoard, Leads, CreateLead, Tasks,  CashBook, Sales, Vouchers, Report, Login, Register, CreateUser, CreateTask, CreateSale, User, Request, Projects, CreateProject, Employees, Clients, } from "./Pages";
+import {
+  DashBoard,
+  Leads,
+  CreateLead,
+  Tasks,
+  CashBook,
+  Sales,
+  Vouchers,
+  Report,
+  Login,
+  Register,
+  CreateUser,
+  CreateTask,
+  CreateSale,
+  User,
+  Request,
+  Projects,
+  CreateProject,
+  Employees,
+  Clients,
+} from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
 import CreateCashBook from "./Pages/CashBook/CreateCashBook";
 import ViewCashBook from "./Pages/CashBook/ViewCashBook";
 import CreateVouchers from "./Pages/Vouchers/CreateVouchers";
+import Home from "./Client Panel/Dashboard/Home";
+import ClientHeader from "./Client Panel/Header/ClientHeader";
+import ClientProjects from "./Client Panel/Your Projects/ClientProjects";
+import Contact from "./Client Panel/Contact Us/Contact";
 
 const App = () => {
   ///////////////////////////////////// VARIABLES ////////////////////////////////////////
@@ -23,15 +47,23 @@ const App = () => {
   const Layout = () => {
     return (
       <>
-        <div className="h-screen">
+        <div className="h-full">
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
-        <div className="w-screen h-full bg-gray-100 sticky">
+        <div className="w-full h-full bg-gray-100 sticky">
           <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
       </>
     );
   };
+
+  const ClientPanelLayout = () => {
+    return(
+      <>
+        <ClientHeader />
+      </>
+    )
+  }
 
   return (
     <div className="w-screen h-screen bg-gray-100">
@@ -45,7 +77,7 @@ const App = () => {
           </Routes>
         </div>
       ) : (
-        <div className="flex w-screen overflow-y-scroll ">
+        <div className="flex">
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<DashBoard />} />
@@ -74,6 +106,13 @@ const App = () => {
           </Routes>
         </div>
       )}
+      <Routes>
+        <Route path="/client" element={<ClientPanelLayout />}>
+          <Route path="/client/home" element={<Home />} />
+          <Route path="/client/projects" element={<ClientProjects />} />
+          <Route path="/client/contact" element={<Contact />} />
+        </Route>
+      </Routes>
     </div>
   );
 };

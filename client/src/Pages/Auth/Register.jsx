@@ -196,7 +196,7 @@ const Signup = () => {
                   name="password"
                   value={userData.password}
                   onChange={handleChange}
-                  onClick={changeBackgroundColor}
+                  onKeyDown={changeBackgroundColor}
                   placeholder="Password"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] "

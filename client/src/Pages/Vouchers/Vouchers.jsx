@@ -29,7 +29,7 @@ function Vouchers() {
             />
           </div>
           <Tooltip placement="bottom" title="Create New Voucher" arrow>
-            <Link to="/create/voucher">
+            <Link to="/voucher/create">
               <button className="bg-primary-red text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-lg ">
                 <Add />
               </button>

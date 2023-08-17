@@ -34,6 +34,23 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         },
         {
             id:3,
+            title: "Projects",
+            icon: <AccountBalanceOutlined />,
+            childrens: [
+                {
+                    title: "All Projects",
+                    icon: <Today />,
+                    link: "/projects"
+                },
+                {
+                    title: "Create Project",
+                    icon: <OpenInNewOutlined />,
+                    link: "/projects/create"
+                },
+            ]
+        },
+        {
+            id:4,
             title: "To Do Tasks",
             icon: <AssignmentOutlined />,
             childrens: [
@@ -50,7 +67,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            id:4,
+            id:5,
             title: "User",
             icon: <AccountCircleOutlined />,
             childrens: [
@@ -72,7 +89,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            id : 5 ,
+            id : 6 ,
             title: "Authorization",
             icon: <LockOutlined />,
             childrens: [
@@ -89,7 +106,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            id:6,
+            id:7,
             title: "Sales",
             icon: <ShoppingCartOutlined />,
             childrens: [
@@ -106,7 +123,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            id:7,
+            id:8,
             title: "Cash Book",
             icon: <AccountBalanceOutlined />,
             childrens: [
@@ -123,7 +140,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            id:8,
+            id:9,
             title: 'Vouchers',
             icon: <Receipt />,
             childrens: [
@@ -140,7 +157,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            id : 9 ,
+            id : 10 ,
             title: 'Report',
             link: '/report',
             icon: <SummarizeOutlined />,
@@ -153,8 +170,8 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     return (
         <>
             {/* desktop sidebar */}
-            <div className={`flex shadow-none h-full w-full ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white z-[1000] border-r-[1px] border-r-gray-300 border-b-[1px] border-b-gray-300`} >
-                <div className='flex flex-col gap-[1.3px] w-56 py-[8px] text-gray h-full' >
+            <div className={`flex shadow-none h-[100vh] ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white z-[1000] border-r-[1px] border-r-gray-300 border-b-[1px] border-b-gray-300`} >
+                <div className='flex flex-col gap-[1.3px] w-56 py-[8px] text-gray' >
                     <div className="border-b-[1px] border-b-gray-300 p-[7.5px]">
                         {!showSidebar ? "" : <img className="h-10" src="/favicon/GrowLOGO.png" />}
                     </div>
