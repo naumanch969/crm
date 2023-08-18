@@ -4,10 +4,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Table from "./Table";
 
-function Vouchers({showSidebar}) {
+function Vouchers() {
   return (
-    <div>
-      
+    <div className="h-screen float-right">
       <div className="flex justify-between items-center">
         <div className="flex flex-col justify-start gap-[4px] ">
           <h1 className="text-primary-blue text-[24px] ">Vouchers</h1>

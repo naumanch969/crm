@@ -121,7 +121,7 @@ const Table = () => {
   return (
     <div>
       <div className="w-full bg-white rounded-lg z-[1000]">
-        <div className="w-full h-auto">
+        <div className="w-full h-auto overflow-x-scroll">
           <DataGrid
             rows={rows}
             columns={columns}

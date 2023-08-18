@@ -46,7 +46,7 @@ const App = () => {
   const Layout = () => {
     return (
       <>
-        <div className={`h-full ${showSidebar ? "w-[250px]" : "w-0"}`}>
+        <div className={`h-full ${showSidebar ? "mr-[224px]" : "m-0"}`}>
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
         <div className={`w-full h-full bg-gray-100 sticky`}>
