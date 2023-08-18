@@ -72,6 +72,7 @@ const Progress = () => {
               },
             }}
             pageSizeOptions={[5, 10]}
+            disableRowSelectionOnClick
           />
         </div>
       </div>

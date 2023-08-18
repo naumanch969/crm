@@ -24,9 +24,9 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu }) => {
     <div
       className={`${child ? "pl-6 hover:text-sky-300 font-thin" : "pl-4"} ${
         isMenuOpen
-          ? "text-sky-500 font-normal border-l-[4px] border-l-sky-500"
+          ? "text-sky-500 font-normal border-l-[3.5px] border-l-sky-500"
           : " text-gray-700 font-thin"
-      } hover:text-sky-500 hover:border-l-[4px] hover:border-l-sky-500  pr-2 transition-all`}>
+      } hover:text-sky-500 hover:border-l-[3.5px] hover:border-l-sky-500 pr-2 transition-all`}>
       <Link
         to={item.link}
         className="flex items-center justify-between cursor-pointer py-[14px]"

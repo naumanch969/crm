@@ -156,13 +156,6 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 },
             ]
         },
-        {
-            id : 10 ,
-            title: 'Report',
-            link: '/report',
-            icon: <SummarizeOutlined />,
-            childrens: []
-        },
     ]
     
     const [openedMenu, setOpenedMenu] = useState(false);

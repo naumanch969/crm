@@ -8,7 +8,6 @@ import {
   CashBook,
   Sales,
   Vouchers,
-  Report,
   Login,
   Register,
   CreateUser,
@@ -101,7 +100,6 @@ const App = () => {
               <Route path="/sales/create" element={<CreateSale />} />
               <Route path="/voucher" element={<Vouchers />} />
               <Route path="/voucher/create" element={<CreateVouchers />} />
-              <Route path="/report" element={<Report />} />
             </Route>
           </Routes>
         </div>

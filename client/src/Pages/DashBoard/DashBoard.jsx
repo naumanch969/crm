@@ -5,6 +5,7 @@ import IncomeAndExpense from "./IncomeAndExpense";
 import LeadsStat from "./LeadsStat";
 import LatestActivity from "./LatestActivity";
 import ProjectsStats from "./ProjectsStats";
+import Messages from "./Messages";
 
 function DashBoard() {
   return (
@@ -17,7 +18,7 @@ function DashBoard() {
       </Box>
 
       <Box className='flex '>
-        <LatestActivity />
+        <Messages />
         <ProjectsStats />
       </Box>
     </div>
