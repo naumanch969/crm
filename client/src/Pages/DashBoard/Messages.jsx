@@ -1,14 +1,11 @@
 import React from "react";
 import { Box, TextField, Button, Typography, Grid, Paper, Avatar } from "@mui/material";
 import { Send } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
-const messages = [
-  { id: 1, text: "Hi there!", sender: "bot" },
-  { id: 2, text: "Hello!", sender: "user" },
-  { id: 3, text: "How can I assist you today?", sender: "bot" },
-];
+const Messages = ({}) => {
+  const { loggedUser } = useSelector((state) => state.user);
 
-function Messages() {
   const [input, setInput] = React.useState("");
 
   const handleSend = () => {
@@ -22,43 +19,52 @@ function Messages() {
     setInput(event.target.value);
   };
 
+  const messages = [
+    { text: "Hi there!", sender: "bot" },
+    { text: "Hi", sender: `${loggedUser?.username[0]}` },
+    { text: "How can I help you", sender: "bot" },
+    { text: "Send me some messages", sender: `${loggedUser?.username[0]}` },
+    { text: "Ok", sender: "bot" },
+    { text: "Waiting....", sender: `${loggedUser?.username[0]}` },
+  ];
+
   return (
-    <Box className="w-full h-auto bg-white rounded-lg mt-5 pb-4">
+    <Box className="w-full h-[auto] bg-white rounded-lg mt-5 pb-4">
       <div className="flex justify-center text-xl pt-4">Messages</div>
-      <Box className="w-full h-[17rem] p-4 rounded-lg">
-        <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
+      <Box className="w-full h-[14rem] p-4 rounded-lg overflow-scroll">
+        <Box sx={{ flexGrow: 1, overflow: "scroll", p: 2 }}>
           {messages.map((message) => (
             <Message key={message.id} message={message} />
           ))}
         </Box>
-        <Box sx={{ p: 2, backgroundColor: "background.default" }}>
-          <Grid container spacing={2}>
-            <Grid item xs={10}>
-              <TextField
-                size="small"
-                fullWidth
-                placeholder="Type a message"
-                variant="outlined"
-                value={input}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <Button
-                fullWidth
-                color="primary"
-                variant="contained"
-                endIcon={<Send />}
-                onClick={handleSend}>
-                Send
-              </Button>
-            </Grid>
+      </Box>
+      <Box sx={{ p: 2, backgroundColor: "background.default" }}>
+        <Grid container spacing={2}>
+          <Grid item xs={10}>
+            <TextField
+              size="small"
+              fullWidth
+              placeholder="Type a message"
+              variant="outlined"
+              value={input}
+              onChange={handleInputChange}
+            />
           </Grid>
-        </Box>
+          <Grid item xs={2}>
+            <Button
+              fullWidth
+              color="primary"
+              variant="contained"
+              endIcon={<Send />}
+              onClick={handleSend}>
+              Send
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </Box>
   );
-}
+};
 
 export default Messages;
 

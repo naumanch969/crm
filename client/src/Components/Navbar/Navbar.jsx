@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
+import Messages from "../../Pages/DashBoard/Messages";
 
 const Navbar = ({ setShowSidebar }) => {
   const { loggedUser } = useSelector((state) => state.user);
