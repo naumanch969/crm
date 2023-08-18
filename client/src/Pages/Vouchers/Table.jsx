@@ -120,7 +120,7 @@ const Table = () => {
 
   return (
     <div>
-      <div className="w-full h-auto bg-white rounded-lg">
+      <div className="w-full h-auto bg-white rounded-lg z-[1000]">
         <div className="w-full h-auto">
           <DataGrid
             rows={rows}
@@ -132,11 +132,12 @@ const Table = () => {
             }}
             pageSizeOptions={[5, 10]}
             checkboxSelection
+            disableRowSelectionOnClick
           />
         </div>
       </div>
 
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog className="z-[1000]" open={open} onClose={handleClose}>
         <DialogContent>
           <DialogTitle className="border-b-2 border-b-black flex justify-center">
             Voucher Details

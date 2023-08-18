@@ -7,23 +7,8 @@ import LatestActivity from "./LatestActivity";
 import ProjectsStats from "./ProjectsStats";
 
 function DashBoard() {
-
-
-  //////////////////////////////////// VARIABLES ///////////////////////////////////////////
-
-  //////////////////////////////////// STATES //////////////////////////////////////////////
-
-  //////////////////////////////////// USE EFFECTS /////////////////////////////////////////
-
-
-  //////////////////////////////////// FUNCTIONS ///////////////////////////////////////////
-
-
-
-
   return (
-    <div className='w-full h-auto'>
-
+    <div className="w-full h-auto">
       <PaymentStats />
 
       <Box className="flex mt-5">
@@ -35,7 +20,6 @@ function DashBoard() {
         <LatestActivity />
         <ProjectsStats />
       </Box>
-
     </div>
   );
 }

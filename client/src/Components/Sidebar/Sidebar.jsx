@@ -1,7 +1,7 @@
 import SidebarItem from "./SidebarItem"
 import { Avatar, IconButton } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { Close, HomeOutlined, PeopleAltOutlined, AssignmentOutlined, AccountCircleOutlined, LockOutlined, LocalAtmOutlined, ShoppingCartOutlined, CardGiftcardOutlined, SummarizeOutlined, StarBorder, ExpandLess, ExpandMore, Create } from '@mui/icons-material'
+import { Close, HomeOutlined, PeopleAltOutlined, AssignmentOutlined, AccountCircleOutlined, LockOutlined, LocalAtmOutlined, ShoppingCartOutlined, CardGiftcardOutlined, SummarizeOutlined, StarBorder, ExpandLess, ExpandMore, Create, Today, OpenInNewOutlined, Money, AccountBalanceOutlined, ReceiptLong, Receipt } from '@mui/icons-material'
 import { useState } from "react"
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
@@ -9,12 +9,14 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     //////////////////////////////////////// Variables ////////////////////////////////////////
     const links = [
         {
+            id:1,
             title: "Dashboard",
             link: "/",
             icon: <HomeOutlined />,
             childrens: []
         },
         {
+            id:2,
             title: "Leads",
             icon: <PeopleAltOutlined />,
             childrens: [
@@ -31,13 +33,31 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
+            id:3,
+            title: "Projects",
+            icon: <AccountBalanceOutlined />,
+            childrens: [
+                {
+                    title: "All Projects",
+                    icon: <Today />,
+                    link: "/projects"
+                },
+                {
+                    title: "Create Project",
+                    icon: <OpenInNewOutlined />,
+                    link: "/projects/create"
+                },
+            ]
+        },
+        {
+            id:4,
             title: "To Do Tasks",
             icon: <AssignmentOutlined />,
             childrens: [
                 {
                     title: "Create Task",
                     icon: <Create />,
-                    link: "/tasks"
+                    link: "tasks/create"
                 },
                 {
                     title: "My Tasks",
@@ -47,6 +67,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
+            id:5,
             title: "User",
             icon: <AccountCircleOutlined />,
             childrens: [
@@ -68,6 +89,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
+            id : 6 ,
             title: "Authorization",
             icon: <LockOutlined />,
             childrens: [
@@ -84,6 +106,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
+            id:7,
             title: "Sales",
             icon: <ShoppingCartOutlined />,
             childrens: [
@@ -100,41 +123,58 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            title: 'Cash Book',
-            icon: <LocalAtmOutlined />,
-            link: '/cashbook',
-            childrens: []
+            id:8,
+            title: "Cash Book",
+            icon: <AccountBalanceOutlined />,
+            childrens: [
+                {
+                    title: "Today Cash Book",
+                    icon: <Today />,
+                    link: "/cashbook"
+                },
+                {
+                    title: "View Cash Book",
+                    icon: <OpenInNewOutlined />,
+                    link: "/view/cashbook"
+                },
+            ]
         },
         {
+            id:9,
             title: 'Vouchers',
-            link: '/voucher',
-            icon: <CardGiftcardOutlined />,
-            childrens: []
+            icon: <Receipt />,
+            childrens: [
+                {
+                    title: "All Vouchers",
+                    icon: <ReceiptLong />,
+                    link: "/voucher"
+                },
+                {
+                    title: "Create Voucher",
+                    icon: <Create />,
+                    link: "/voucher/create"
+                },
+            ]
         },
         {
+            id : 10 ,
             title: 'Report',
             link: '/report',
             icon: <SummarizeOutlined />,
             childrens: []
         },
     ]
-
-    //////////////////////////////////////// States ////////////////////////////////////////
-    const [openedMenu, setOpenedMenu] = useState('');
-
-    //////////////////////////////////////// UseEffects ////////////////////////////////////////
-
-    //////////////////////////////////////// Functions ////////////////////////////////////////
-
-    //////////////////////////////////////// Components ////////////////////////////////////////
-
-
+    
+    const [openedMenu, setOpenedMenu] = useState(false);
 
     return (
         <>
             {/* desktop sidebar */}
-            <div style={{ height: 'calc(100vh - 4rem)' }} className={`flex-[2] shadow-box ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white sticky top-0`} >
-                <div className='flex flex-col gap-[4px] w-full py-[8px] text-gray h-full overflow-y-scroll ' >
+            <div className={`flex shadow-none h-[100vh] ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white z-[1000] border-r-[1px] border-r-gray-300 border-b-[1px] border-b-gray-300`} >
+                <div className='flex flex-col gap-[1.3px] w-56 py-[8px] text-gray' >
+                    <div className="border-b-[1px] border-b-gray-300 p-[7.5px]">
+                        {!showSidebar ? "" : <img className="h-10" src="/favicon/GrowLOGO.png" />}
+                    </div>
                     {
                         links.map((link, index) => (
                             <SidebarItem item={link} key={index} openedMenu={openedMenu} setOpenedMenu={setOpenedMenu} />
@@ -148,12 +188,10 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 showSidebar &&
                 <div className='absolute top-0 left-0 bg-white shadow-box w-[16rem] h-screen md:hidden flex z-[1100] ' >
                     <div className='wrapper flex flex-col w-full h-full overflow-y-scroll p-[10px] ' >
-
                         <div className='w-full flex justify-between items-center mb-[1rem] ' >
                             <img src="/favicon/GrowLOGO.png" />
                             <IconButton className='' onClick={() => setShowSidebar(false)} ><Close /></IconButton>
                         </div>
-
                         <div className="flex flex-col gap-[5px] ">
                             {
                                 links.map((link, index) => (

@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import { createOnsiteLead, getLeads } from '../../redux/action/lead'
 import Topbar from './Topbar'
 import { getEmployees, register } from '../../redux/action/user'
-import { getProjects } from '../../redux/action/project'
 
 const CreateLead = () => {
 
@@ -12,7 +11,6 @@ const CreateLead = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { isFetching } = useSelector(state => state.lead)
-    const { projects } = useSelector(state => state.project)
      const { employees, loggedUser } = useSelector(state => state.user)
     const employeeNames = employees
         .filter(employee => employee.username !== null && employee.username !== undefined)
@@ -22,7 +20,6 @@ const CreateLead = () => {
     const [clientData, setClientData] = useState({ gender: 'male', firstName: '', lastName: '', phone: '', email: '', cnic: '', })
     const [leadData, setLeadData] = useState({
         city: '',
-        project: '',
         block: '',
         propertyType: 'Homes',
         homeType: 'House',
@@ -44,17 +41,14 @@ const CreateLead = () => {
         if (employees.length === 0) {
             dispatch(getEmployees());
         }
-        if (projects.length === 0) {
-            dispatch(getProjects());
-        }
-    }, [employees, projects]);
+    }, [employees]);
 
     //////////////////////////////////////// FUNCTIONS //////////////////////////////////
     const handleSubmit = (e) => {
         e.preventDefault()
         const { gender, firstName, lastName, phone, email, cnic } = clientData
-        const { city, project, block, propertyType, homeType, minBudget, maxBudget, minAreaUnit, minArea, maxAreaUnit, maxArea, priority, clientType, allocatedTo, beds, source } = leadData
-        if (!city || !project || !block || !propertyType || !homeType || !minBudget || !maxBudget || !minAreaUnit || !minArea || !maxAreaUnit || !maxArea || !priority || !clientType || !allocatedTo || !beds || !source)
+        const { city,  block, propertyType, homeType, minBudget, maxBudget, minAreaUnit, minArea, maxAreaUnit, maxArea, priority, clientType, allocatedTo, beds, source } = leadData
+        if (!city || !block || !propertyType || !homeType || !minBudget || !maxBudget || !minAreaUnit || !minArea || !maxAreaUnit || !maxArea || !priority || !clientType || !allocatedTo || !beds || !source)
             return alert('make sure to provide all lead fields')
         if (!gender || !firstName || !lastName || !phone || !email || !cnic)
             return alert('make sure to provide all client fields')
@@ -86,7 +80,7 @@ const CreateLead = () => {
 
 
     return (
-        <div className="flex flex-col gap-[1rem] "  >
+        <div className="flex flex-col gap-[1rem] h-auto "  >
 
             <Topbar />
 
@@ -170,16 +164,6 @@ const CreateLead = () => {
                                         <option value="lahore">Lahore</option>
                                         <option value="karachi">Karachi</option>
                                         <option value="islamabad">Islamabad</option>
-                                    </select>
-                                </div>
-                                {/* project */}
-                                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
-                                    <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="project">Project:</label>
-                                    <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='project' value={leadData.project} onChange={handleLeadDataChange} >
-                                        <option value="">-</option>
-                                        <option value="project1">Project1</option>
-                                        <option value="project2">Project2</option>
-                                        <option value="project3">Project3</option>
                                     </select>
                                 </div>
                                 {/* block */}

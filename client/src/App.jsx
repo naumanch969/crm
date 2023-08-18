@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
-import { DashBoard, Leads, CreateLead, Tasks, CashBook, Sales, Vouchers, Report, Login, Register, CreateUser, CreateTask, CreateSale, User, Request, Projects, CreateProject, Employees, Clients, } from "./Pages";
-import { ClientDashboard, Contact } from "./Client Panel/pages";
+import { DashBoard, Leads, CreateLead, Tasks, CashBook, Sales, Vouchers, Report, Login, Register, CreateUser, CreateTask, CreateSale, User, Request, Projects, CreateProject, Employees, Clients, CreateCashBook, ViewCashBook, CreateVouchers, } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
-import CreateCashBook from "./Pages/CashBook/CreateCashBook";
-import Cookies from "js-cookie";
+import Home from "./Client Panel/pages/Dashboard/Home";
+import ClientHeader from "./Client Panel/components/ClientHeader";
+import ClientProjects from "./Client Panel/pages/Your Projects/ClientProjects";
+import Contact from "./Client Panel/pages/Contact Us/Contact";
 
 const App = () => {
 
@@ -18,21 +19,31 @@ const App = () => {
   ///////////////////////////////////// USE EFFECTS ////////////////////////////////////////
   useEffect(() => {
     if (window.innerWidth < 768) setShowSidebar(false);
-    else setShowSidebar(true)
+    else setShowSidebar(true);
   }, [window.innerWidth]);
-  useEffect(() => {
-    console.log('loggedUser.role', loggedUser?.role)
-  }, [loggedUser])
+
+  const Layout = () => {
+    return (
+      <>
+        <div className="h-full sticky top-0 left-0 ">
+          <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+        </div>
+        <div className="w-full h-full bg-gray-100 sticky top-0 ">
+          <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+        </div>
+      </>
+    );
+  };
+
+  const ClientPanelLayout = () => (<ClientHeader />)
 
 
   return (
-    <div className="w-screen h-screen overflow-hidden bg-gray-200">
-      <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-
+    <div className="w-screen h-screen bg-gray-100">
       {
         !loggedUser
           ?
-          <div className="fullHeight flex justify-center items-center w-full overflow-y-scroll ">
+          <div className="flex justify-center items-center w-full ">
             <Routes>
               <Route exact path="/auth/register" element={<Register />} />
               <Route exact path="/auth/login" element={<Login />} />
@@ -41,11 +52,10 @@ const App = () => {
             </Routes>
           </div>
           :
-          <div className="fullHeight flex w-full overflow-y-scroll pb-[2rem] ">
-            <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+          <div className="h-screen overflow-y-scroll flex w-full pb-[2rem] ">
 
-            <div className="flex-[9] px-[1rem] py-[1rem] overflow-x-hidden ">
-              <Routes>
+            <Routes>
+              <Route path="/" element={<Layout />}>
                 <Route path="/" element={<DashBoard />} />
                 <Route path="/auth/register" element={<Navigate to="/" />} />
                 <Route path="/auth/login" element={<Navigate to="/" />} />
@@ -61,19 +71,28 @@ const App = () => {
                 <Route path="/users/:userId" element={<User />} />
                 <Route path="/authorization/request" element={<Request />} />
                 <Route path="/cashbook" element={<CashBook />} />
-                <Route path="/create/cashbook" element={<CreateCashBook />} />
+                <Route path="/cashbook/create" element={<CreateCashBook />} />
+                <Route path="/view/cashbook" element={<ViewCashBook />} />
                 <Route path="/sales" element={<Sales />} />
                 <Route path="/sales/create" element={<CreateSale />} />
                 <Route path="/voucher" element={<Vouchers />} />
+                <Route path="/voucher/create" element={<CreateVouchers />} />
                 <Route path="/report" element={<Report />} />
+              </Route>
+            </Routes>
 
-                <Route path="/client/dashboard" element={<ClientDashboard />} />
-                <Route path="/client/contact" element={<Contact />} />
-
-              </Routes>
-            </div>
           </div>
       }
+
+
+      <Routes>
+        <Route path="/client" element={<ClientPanelLayout />}>
+          <Route path="/client/home" element={<Home />} />
+          <Route path="/client/projects" element={<ClientProjects />} />
+          <Route path="/client/contact" element={<Contact />} />
+        </Route>
+      </Routes>
+
     </div>
   );
 };
