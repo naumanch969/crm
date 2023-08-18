@@ -120,7 +120,7 @@ const Table = () => {
 
   return (
     <div>
-      <div className="w-full h-auto bg-white rounded-lg z-[1000]">
+      <div className="w-full bg-white rounded-lg z-[1000]">
         <div className="w-full h-auto">
           <DataGrid
             rows={rows}

@@ -15,7 +15,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import Messages from "../../Pages/DashBoard/Messages";
 
-const Navbar = ({ setShowSidebar }) => {
+const Navbar = ({ setShowSidebar, showSidebar }) => {
   const { loggedUser } = useSelector((state) => state.user);
 
   const [date, setDate] = useState(new Date());
@@ -92,8 +92,8 @@ const Navbar = ({ setShowSidebar }) => {
           </div>
         </div>
       </div>
-      <Box className="bg-gray-100" component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Sidebar />
+
+      <Box className={`bg-gray-100`} component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Outlet />
       </Box>
     </>

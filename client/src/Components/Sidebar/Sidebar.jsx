@@ -1,5 +1,5 @@
 import SidebarItem from "./SidebarItem"
-import { Avatar, IconButton } from '@mui/material'
+import { Avatar, Box, IconButton } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Close, HomeOutlined, PeopleAltOutlined, AssignmentOutlined, AccountCircleOutlined, LockOutlined, LocalAtmOutlined, ShoppingCartOutlined, CardGiftcardOutlined, SummarizeOutlined, StarBorder, ExpandLess, ExpandMore, Create, Today, OpenInNewOutlined, Money, AccountBalanceOutlined, ReceiptLong, Receipt } from '@mui/icons-material'
 import { useState } from "react"
@@ -163,7 +163,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     return (
         <>
             {/* desktop sidebar */}
-            <div className={`flex shadow-none h-[100vh] ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white z-[1000] border-r-[1px] border-r-gray-300 border-b-[1px] border-b-gray-300`} >
+            <Box position="fixed" className={`flex shadow-none h-[100vh] ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white z-[1000] border-r-[1px] border-r-gray-300 border-b-[1px] border-b-gray-300`} >
                 <div className='flex flex-col gap-[1.3px] w-56 py-[8px] text-gray' >
                     <div className="border-b-[1px] border-b-gray-300 p-[7.5px]">
                         {!showSidebar ? "" : <img className="h-10" src="/favicon/GrowLOGO.png" />}
@@ -174,16 +174,16 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                         ))
                     }
                 </div>
-            </div>
+            </Box>
 
             {/* mobile sidebar */}
             {
                 showSidebar &&
-                <div className='absolute top-0 left-0 bg-white shadow-box w-[16rem] h-screen md:hidden flex z-[1100] ' >
+                <Box position="fixed" className='absolute top-0 left-0 bg-white shadow-box w-[16rem] h-screen md:hidden flex z-[1100] ' >
                     <div className='wrapper flex flex-col w-full h-full overflow-y-scroll p-[10px] ' >
                         <div className='w-full flex justify-between items-center mb-[1rem] ' >
                             <img src="/favicon/GrowLOGO.png" />
-                            <IconButton className='' onClick={() => setShowSidebar(false)} ><Close /></IconButton>
+                            <IconButton onClick={() => setShowSidebar(false)} ><Close /></IconButton>
                         </div>
                         <div className="flex flex-col gap-[5px] ">
                             {
@@ -193,7 +193,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                             }
                         </div>
                     </div>
-                </div>
+                </Box>
             }
         </>
     )

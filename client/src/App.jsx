@@ -46,10 +46,10 @@ const App = () => {
   const Layout = () => {
     return (
       <>
-        <div className="h-full">
+        <div className={`h-full ${showSidebar ? "w-[250px]" : "w-0"}`}>
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
-        <div className="w-full h-full bg-gray-100 sticky">
+        <div className={`w-full h-full bg-gray-100 sticky`}>
           <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
       </>
@@ -65,7 +65,7 @@ const App = () => {
   }
 
   return (
-    <div className="w-screen h-screen bg-gray-100">
+    <div className="w-full h-full bg-gray-100">
       {!loggedUser ? (
         <div className="flex justify-center items-center w-full ">
           <Routes>
@@ -98,7 +98,7 @@ const App = () => {
               <Route path="/view/cashbook" element={<ViewCashBook />} />
               <Route path="/sales" element={<Sales />} />
               <Route path="/sales/create" element={<CreateSale />} />
-              <Route path="/voucher" element={<Vouchers />} />
+              <Route path="/voucher" element={<Vouchers showSidebar={showSidebar} />} />
               <Route path="/voucher/create" element={<CreateVouchers />} />
             </Route>
           </Routes>
