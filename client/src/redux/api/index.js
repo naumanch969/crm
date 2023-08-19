@@ -9,11 +9,14 @@ API.interceptors.request.use((req) => {
     const profileString = Cookie.get(`crm_profile`)
     if (profileString) {
         const profile = JSON.parse(profileString)
-        console.log(profile.token)
         req.headers.authtoken = profile.token
     }
     return req
 })
+
+// UPLOAD
+export const uploadImage= (image) => API.post(`/upload_image`, image)
+export const deleteImage= (filename) => API.delete(`/delete_image/${filename}`)
 
 // AUTH
 export const register = (userData) => API.post(`/auth/register`, userData)
@@ -78,6 +81,7 @@ export const deleteApproval = (approvalId) => API.delete(`/approval/delete/${app
 // LEAD 
 export const getLead = (leadId) => API.get(`/lead/get/single/${leadId}`)
 export const getLeads = () => API.get(`/lead/get/all`)
+export const getEmployeeLeads = () => API.get(`/lead/get/employee`)
 export const getLeadsStat = () => API.get(`/lead/get/stats`)
 export const createOnsiteLead = (leadData) => API.post(`/lead/create/onsite`, leadData)
 export const createOnlineLead = (leadData) => API.post(`/lead/create/online`, leadData)

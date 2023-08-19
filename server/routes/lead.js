@@ -1,12 +1,13 @@
 import express from 'express'
-import { createOnsiteLead, createOnlineLead, getLead, getLeadsStat, getLeads, updateLead, deleteLead, deleteWholeCollection } from '../controllers/lead.js'
+import { createOnsiteLead, createOnlineLead, getLead,getEmployeeLeads, getLeadsStat, getLeads, updateLead, deleteLead, deleteWholeCollection } from '../controllers/lead.js'
 import { verifyEmployee, verifyManager, verifyToken } from '../middleware/auth.js'
 
 const router = express.Router()
 
 // GET
 router.get('/get/single/:leadId', getLead)
-router.get('/get/all', verifyToken, verifyEmployee, getLeads)
+router.get('/get/employee', verifyToken, verifyEmployee, getEmployeeLeads)
+router.get('/get/all', verifyToken, verifyManager, getLeads)
 router.get('/get/stats', getLeadsStat)
 
 // POST

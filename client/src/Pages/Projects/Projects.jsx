@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import {Table} from '../../Components'
+import { Table } from '../../Components'
 import Topbar from './Topbar'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProjects } from '../../redux/action/project'
-import { Tooltip } from 'recharts'
-import { DeleteOutline, EditOutlined, VisibilityOff } from '@mui/icons-material'
-import EditModal from '../Leads/EditModal'
-import DeleteModal from '../CashBook/DeleteModal'
+import { Avatar, AvatarGroup, IconButton, Tooltip } from '@mui/material'
+import { DeleteOutline, EditOutlined, Visibility, VisibilityOff } from '@mui/icons-material'
+import EditModal from './EditModal'
+import DeleteModal from './DeleteModal'
+import { getProjectReducer } from '../../redux/reducer/project'
 
 function Projects() {
 
@@ -14,9 +15,19 @@ function Projects() {
     const dispatch = useDispatch()
     const { projects, isFetching, error } = useSelector(state => state.project)
     const columns = [
-        { field: 'city', headerName: 'City', width: 120, editable: true, },
-        { field: 'title', headerName: 'Title', width: 150, editable: true, },
-        { field: 'block', headerName: 'Block', width: 150 },
+        {
+            field: 'images', headerName: 'Images', width: 180, renderCell: (params) => (
+                <AvatarGroup max={3}>
+                    {
+                        params.row.images.map((img, index) => (
+                            <Avatar alt="img" src={img} key={index} />
+                        ))
+                    }
+                </AvatarGroup>
+            )
+        },
+        { field: 'city', headerName: 'City', width: 120, },
+        { field: 'region', headerName: 'Region', width: 150 },
         { field: 'propertyType', headerName: 'Property Type', width: 150 },
         { field: 'homeType', headerName: 'Home Type', width: 150 },
         { field: 'beds', headerName: 'Beds', width: 150 },
@@ -40,13 +51,13 @@ function Projects() {
             field: "action", headerName: "Action", width: 200, renderCell: (params) => (
                 <div className='flex gap-[4px] ' >
                     <Tooltip placement='top' title='Edit' >
-                        <button onClick={() => handleOpenEditModal(params.row)} className='cursor-pointer ' ><EditOutlined /></button>
+                        <IconButton onClick={() => handleOpenEditModal(params.row)} className='cursor-pointer ' ><EditOutlined /></IconButton>
                     </Tooltip>
                     <Tooltip placement='top' title='Delete' >
-                        <button onClick={() => handleOpenDeleteModal(params.row._id)} className='cursor-pointer ' ><DeleteOutline /></button>
+                        <IconButton onClick={() => handleOpenDeleteModal(params.row._id)} className='cursor-pointer ' ><DeleteOutline /></IconButton>
                     </Tooltip>
                     <Tooltip placement='top' title='View' >
-                        <button className='cursor-pointer ' ><VisibilityOff /></button>
+                        <IconButton className='cursor-pointer ' ><Visibility /></IconButton>
                     </Tooltip>
                 </div>
             ),

@@ -38,6 +38,16 @@ export const getLeads = async (req, res, next) => {
         next(createError(500, err.message))
     }
 }
+export const getEmployeeLeads = async (req, res, next) => {
+    try {
+
+        const findedLeads = await Lead.find({ allocatedTo: req.user?._id }).populate('clientId').exec()
+        res.status(200).json({ result: findedLeads, message: 'leads fetched successfully', success: true })
+
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
 export const getLeadsStat = async (req, res, next) => {
     try {
 

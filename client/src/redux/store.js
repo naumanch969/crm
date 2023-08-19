@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
+import uploadReducer from './reducer/upload'
 import approvalReducer from './reducer/approval'
 import meetingReducer from './reducer/meeting'
 import notificationReducer from './reducer/notification'
@@ -12,6 +13,7 @@ import cashbookReducer from './reducer/cashbook'
 
 
 const rootReducer = combineReducers({
+    upload: uploadReducer,
     approval: approvalReducer,
     meeting: meetingReducer,
     notification: notificationReducer,

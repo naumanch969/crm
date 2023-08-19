@@ -10,12 +10,16 @@ const EditModal = ({ open, setOpen }) => {
   ////////////////////////////////////// VARIABLES  /////////////////////////////////////
   const dispatch = useDispatch()
   const { currentLead: lead, isFetching } = useSelector(state => state.lead)
+  const { employees, loggedUser } = useSelector(state => state.user)
+  const employeeNames = employees
+    .filter(employee => employee.username !== null && employee.username !== undefined)
+    .map(({ _id, username }) => ({ _id, username }));
 
   ////////////////////////////////////// STATES  /////////////////////////////////////
   // todo: separate the client and lead fields from currentLead
   const [clientData, setClientData] = useState(lead?.clientId) // clientId = {gender: 'male', firstName: '', lastName: '', phone: '', email: '', cnic: ''}
   const [leadData, setLeadData] = useState(lead)
-
+  console.log(clientData, leadData)
   ////////////////////////////////////// USE EFFECTS  /////////////////////////////////////
   useEffect(() => {
     setClientData(lead?.clientId)
@@ -26,9 +30,9 @@ const EditModal = ({ open, setOpen }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const { gender, firstName, lastName, phone, email, cnic } = clientData
-    const { city, project, block, propertyType, homeType, minBudget, maxBudget, minAreaUnit, minArea, maxAreaUnit, maxArea, clientType, allocatedTo, beds} = leadData
+    const { city, project, block, propertyType, homeType, minBudget, maxBudget, minAreaUnit, minArea, maxAreaUnit, maxArea, clientType, allocatedTo, beds } = leadData
     // todo: add priority field as well in the condition
-    if (!gender || !firstName || !lastName || !phone || !email || !cnic || !city || !project || !block || !propertyType || !homeType || !minBudget || !maxBudget || !minAreaUnit || !minArea || !maxAreaUnit || !maxArea || !clientType || !allocatedTo || !beds )
+    if (!gender || !firstName || !lastName || !phone || !email || !cnic || !city || !project || !block || !propertyType || !homeType || !minBudget || !maxBudget || !minAreaUnit || !minArea || !maxAreaUnit || !maxArea || !clientType || !allocatedTo || !beds)
       return alert('make sure to provide all the fields')
 
     dispatch(updateLead(lead?._id, { ...leadData, ...clientData }))
@@ -71,26 +75,26 @@ const EditModal = ({ open, setOpen }) => {
 
 
         {/* form */}
-        <form onSubmit={handleSubmit} className='flex flex-col gap-[24px] w-full p-[1rem] ' >
+        <form onSubmit={handleSubmit} className='flex flex-col gap-[24px] w-full p-[8px] ' >
 
           {/* client data */}
           <div className="flex flex-col rounded-[4px] border-[1px] border-gray-400 shadow-sm ">
             <div className="px-[1rem] py-[8px] bg-neutral-600 text-white ">
               <h4 className='font-medium text-[1rem] ' >CUSTOMER DETAILS</h4>
             </div>
-            <div className="flex justify-start flex-wrap gap-[24px] p-[1rem] w-full ">
+            <div className="flex justify-start flex-wrap gap-[24px] w-full p-[1rem] ">
               {/* first name */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="firstName">First Name:</label>
                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="firstName" value={clientData?.firstName} onChange={handleClientDataChange} placeholder="Last Name" />
               </div>
               {/* last name */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="lastName">lastName:</label>
                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="lastName" value={clientData?.lastName} onChange={handleClientDataChange} placeholder="First Name" />
               </div>
               {/* gender */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="gender">Gender:</label>
                 <div className="flex gap-[8px] py-[8px] ">
                   <div className="flex gap-[2px] ">
@@ -104,17 +108,17 @@ const EditModal = ({ open, setOpen }) => {
                 </div>
               </div>
               {/* phone */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="phone">phone:</label>
                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="phone" value={clientData?.phone} onChange={handleClientDataChange} placeholder="Phone" />
               </div>
               {/* cnic */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="cnic">CNIC:</label>
                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="cnic" value={clientData?.cnic} onChange={handleClientDataChange} placeholder="Phone" />
               </div>
               {/* email */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="email">Email:</label>
                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="email" name="email" value={clientData?.email} onChange={handleClientDataChange} placeholder="Enter Email" />
               </div>
@@ -128,7 +132,7 @@ const EditModal = ({ open, setOpen }) => {
             </div>
             <div className="flex flex-col gap-[2rem] p-[1rem] w-full ">
               {/* buttons */}
-              <div className="flex gap-[8px] ">
+              <div className="flex flex-wrap gap-[8px] ">
                 <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-white text-black ' >BUY</button>
                 <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-neutral-400 text-gray-300 ' >RENT</button>
                 <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-neutral-400 text-gray-300 ' >SELLER</button>
@@ -138,7 +142,7 @@ const EditModal = ({ open, setOpen }) => {
               {/* all inputs */}
               <div className="flex justify-start flex-wrap gap-[24px] w-full ">
                 {/* city */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="city">City:</label>
                   <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='city' value={leadData?.city} onChange={handleLeadDataChange} >
                     <option value="">-</option>
@@ -147,88 +151,68 @@ const EditModal = ({ open, setOpen }) => {
                     <option value="islamabad">Islamabad</option>
                   </select>
                 </div>
-                {/* project */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="project">Project:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='project' value={leadData?.project} onChange={handleLeadDataChange} >
-                    <option value="">-</option>
-                    <option value="project1">Project1</option>
-                    <option value="project2">Project2</option>
-                    <option value="project3">Project3</option>
-                  </select>
-                </div>
-                {/* block */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="block">Block:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='block' value={leadData?.block} onChange={handleLeadDataChange} >
-                    <option value="">-</option>
-                    <option value="block1">Block1</option>
-                    <option value="block2">Block2</option>
-                    <option value="block3">Block3</option>
-                  </select>
+                {/* address */}
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
+                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="address">Address:</label>
+                  <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="address" value={leadData?.address} onChange={handleLeadDataChange} />
                 </div>
                 {/* property type */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="propertyType">Property Type:</label>
                   <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='propertyType' value={leadData?.propertyType} onChange={handleLeadDataChange} >
                     <option value="">-</option>
-                    <option value="type1">Type1</option>
-                    <option value="type2">Type2</option>
-                    <option value="type3">Type3</option>
+                    <option value="comercial">Comercial</option>
+                    <option value="residential">Residential</option>
                   </select>
                 </div>
                 {/* home type */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="homeType">Home Types:</label>
                   <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='homeType' value={leadData?.homeType} onChange={handleLeadDataChange} >
                     <option value="">-</option>
-                    <option value="type1">Type1</option>
-                    <option value="type2">Type2</option>
-                    <option value="type3">Type3</option>
+                    <option value="appartment">Apartment</option>
+                    <option value="bangla">Bangla</option>
+                    <option value="restaurant">Restaurant</option>
                   </select>
                 </div>
                 {/* min budget */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minBudget">MIN Budget:</label>
                   <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="minBudget" value={leadData?.minBudget} onChange={handleLeadDataChange} />
                 </div>
                 {/* max budget */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxBudget">MAX Budget:</label>
                   <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxBudget" value={leadData?.maxBudget} onChange={handleLeadDataChange} />
                 </div>
-                {/* min area unit */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minAreaUnit">Area:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='minAreaUnit' value={leadData?.minAreaUnit} onChange={handleLeadDataChange} >
-                    <option value="">Square Feet</option>
-                    <option value="unit1">unit1</option>
-                    <option value="unit2">unit2</option>
-                    <option value="unit3">unit3</option>
-                  </select>
-                </div>
                 {/* min area */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minArea">MIN Budget:</label>
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
+                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minArea">MIN Area:</label>
                   <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="minArea" value={leadData?.minArea} onChange={handleLeadDataChange} />
                 </div>
-                {/* max area unit */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxAreaUnit">Area:</label>
-                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='maxAreaUnit' value={leadData?.maxAreaUnit} onChange={handleLeadDataChange} >
-                    <option value="">Square Feet</option>
-                    <option value="unit1">unit1</option>
-                    <option value="unit2">unit2</option>
-                    <option value="unit3">unit3</option>
+                {/* min area unit */}
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
+                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minAreaUnit">Area:</label>
+                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='minAreaUnit' value={leadData?.minAreaUnit} onChange={handleLeadDataChange} >
+                    <option value="squareFeet">Square Feet</option>
+                    <option value="marla">Marla</option>
                   </select>
                 </div>
                 {/* max area */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxArea">MAX Budget:</label>
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
+                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxArea">MAX Area:</label>
                   <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxArea" value={leadData?.maxArea} onChange={handleLeadDataChange} />
                 </div>
+                {/* max area unit */}
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
+                  <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxAreaUnit">Area:</label>
+                  <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='maxAreaUnit' value={leadData?.maxAreaUnit} onChange={handleLeadDataChange} >
+                    <option value="squareFeet">Square Feet</option>
+                    <option value="marla">Marla</option>
+                  </select>
+                </div>
                 {/* lead priority */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="priority">Lead Priority:</label>
                   <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='priority' value={leadData?.priority} onChange={handleLeadDataChange} >
                     <option value="high">High</option>
@@ -237,7 +221,7 @@ const EditModal = ({ open, setOpen }) => {
                   </select>
                 </div>
                 {/* client type */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="clientType">Client Type:</label>
                   <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='clientType' value={leadData?.clientType} onChange={handleLeadDataChange} >
                     <option value="">Please Select</option>
@@ -249,17 +233,19 @@ const EditModal = ({ open, setOpen }) => {
                   </select>
                 </div>
                 {/* allocated to */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="allocatedTo">Allocated To:</label>
                   <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='allocatedTo' value={leadData?.allocatedTo} onChange={handleLeadDataChange} >
                     <option value="">-</option>
-                    <option value="user1">User1</option>
-                    <option value="user2">User2</option>
-                    <option value="user3">User3</option>
+                    {
+                      employeeNames.map((employee, index) => (
+                        <option value={employee._id} key={index} >{employee.username}</option>
+                      ))
+                    }
                   </select>
                 </div>
                 {/* beds */}
-                <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="beds">BEDS:</label>
                   <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="beds" value={leadData?.beds} onChange={handleLeadDataChange} />
                 </div>
@@ -356,6 +342,7 @@ const EditModal = ({ open, setOpen }) => {
           </div>
 
         </form>
+
 
 
 

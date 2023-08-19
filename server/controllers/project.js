@@ -54,8 +54,8 @@ export const getUserAssignedProjectsStat = async (req, res, next) => {
 export const createProject = async (req, res, next) => {
     try {
 
-        const { title, city, block, propertyType, homeType, price, area, areaUnit, priority, beds } = req.body
-        if (!title || !city || !block || !propertyType || !homeType || !price || !area || !areaUnit || !priority || !beds)
+        const { city, region, propertyType, homeType, price, area, areaUnit, priority, beds } = req.body
+        if (!city || !region || !propertyType || !homeType || !price || !area || !areaUnit || !priority || !beds)
             return next(createError(400, 'Make sure to provide all the fields'))
 
         const newProject = await Project.create(req.body)

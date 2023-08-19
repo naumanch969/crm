@@ -11,7 +11,8 @@ const CreateLead = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { isFetching } = useSelector(state => state.lead)
-     const { employees, loggedUser } = useSelector(state => state.user)
+    const { employees, loggedUser } = useSelector(state => state.user)
+    const role = loggedUser?.role
     const employeeNames = employees
         .filter(employee => employee.username !== null && employee.username !== undefined)
         .map(({ _id, username }) => ({ _id, username }));
@@ -20,19 +21,19 @@ const CreateLead = () => {
     const [clientData, setClientData] = useState({ gender: 'male', firstName: '', lastName: '', phone: '', email: '', cnic: '', })
     const [leadData, setLeadData] = useState({
         city: '',
-        block: '',
-        propertyType: 'Homes',
+        address: '',
+        propertyType: 'Comercial',
         homeType: 'House',
-        minBudget: undefined,
-        maxBudget: undefined,
+        minBudget: '',
+        maxBudget: '',
+        minArea: '',
         minAreaUnit: 'squareFeet',
-        minArea: undefined,
+        maxArea: '',
         maxAreaUnit: 'squareFeet',
-        maxArea: undefined,
         priority: 'high',
         clientType: '',
-        allocatedTo: '',
-        beds: undefined,
+        allocatedTo: loggedUser._id,
+        beds: '',
         source: []
     })
 
@@ -47,8 +48,8 @@ const CreateLead = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         const { gender, firstName, lastName, phone, email, cnic } = clientData
-        const { city,  block, propertyType, homeType, minBudget, maxBudget, minAreaUnit, minArea, maxAreaUnit, maxArea, priority, clientType, allocatedTo, beds, source } = leadData
-        if (!city || !block || !propertyType || !homeType || !minBudget || !maxBudget || !minAreaUnit || !minArea || !maxAreaUnit || !maxArea || !priority || !clientType || !allocatedTo || !beds || !source)
+        const { city, address, propertyType, homeType, minBudget, maxBudget, minAreaUnit, minArea, maxAreaUnit, maxArea, priority, clientType, allocatedTo, beds, source } = leadData
+        if (!city || !address || !propertyType || !homeType || !minBudget || !maxBudget || !minAreaUnit || !minArea || !maxAreaUnit || !maxArea || !priority || !clientType || !allocatedTo || !beds || !source)
             return alert('make sure to provide all lead fields')
         if (!gender || !firstName || !lastName || !phone || !email || !cnic)
             return alert('make sure to provide all client fields')
@@ -166,24 +167,18 @@ const CreateLead = () => {
                                         <option value="islamabad">Islamabad</option>
                                     </select>
                                 </div>
-                                {/* block */}
+                                {/* address */}
                                 <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
-                                    <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="block">Block:</label>
-                                    <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='block' value={leadData.block} onChange={handleLeadDataChange} >
-                                        <option value="">-</option>
-                                        <option value="block1">Block1</option>
-                                        <option value="block2">Block2</option>
-                                        <option value="block3">Block3</option>
-                                    </select>
+                                    <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="address">Address:</label>
+                                    <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="address" value={leadData.address} onChange={handleLeadDataChange} />
                                 </div>
                                 {/* property type */}
                                 <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                                     <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="propertyType">Property Type:</label>
                                     <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='propertyType' value={leadData.propertyType} onChange={handleLeadDataChange} >
                                         <option value="">-</option>
-                                        <option value="type1">Type1</option>
-                                        <option value="type2">Type2</option>
-                                        <option value="type3">Type3</option>
+                                        <option value="comercial">Comercial</option>
+                                        <option value="residential">Residential</option>
                                     </select>
                                 </div>
                                 {/* home type */}
@@ -191,9 +186,9 @@ const CreateLead = () => {
                                     <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="homeType">Home Types:</label>
                                     <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='homeType' value={leadData.homeType} onChange={handleLeadDataChange} >
                                         <option value="">-</option>
-                                        <option value="type1">Type1</option>
-                                        <option value="type2">Type2</option>
-                                        <option value="type3">Type3</option>
+                                        <option value="appartment">Apartment</option>
+                                        <option value="bangla">Bangla</option>
+                                        <option value="restaurant">Restaurant</option>
                                     </select>
                                 </div>
                                 {/* min budget */}
@@ -206,35 +201,31 @@ const CreateLead = () => {
                                     <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxBudget">MAX Budget:</label>
                                     <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxBudget" value={leadData.maxBudget} onChange={handleLeadDataChange} />
                                 </div>
-                                {/* min area unit */}
-                                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
-                                    <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minAreaUnit">Area:</label>
-                                    <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='minAreaUnit' value={leadData.minAreaUnit} onChange={handleLeadDataChange} >
-                                        <option value="">Square Feet</option>
-                                        <option value="unit1">unit1</option>
-                                        <option value="unit2">unit2</option>
-                                        <option value="unit3">unit3</option>
-                                    </select>
-                                </div>
                                 {/* min area */}
                                 <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                                     <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minArea">MIN Area:</label>
                                     <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="minArea" value={leadData.minArea} onChange={handleLeadDataChange} />
                                 </div>
-                                {/* max area unit */}
+                                {/* min area unit */}
                                 <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
-                                    <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxAreaUnit">Area:</label>
-                                    <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='maxAreaUnit' value={leadData.maxAreaUnit} onChange={handleLeadDataChange} >
-                                        <option value="">Square Feet</option>
-                                        <option value="unit1">unit1</option>
-                                        <option value="unit2">unit2</option>
-                                        <option value="unit3">unit3</option>
+                                    <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="minAreaUnit">Area:</label>
+                                    <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='minAreaUnit' value={leadData.minAreaUnit} onChange={handleLeadDataChange} >
+                                        <option value="squareFeet">Square Feet</option>
+                                        <option value="marla">Marla</option>
                                     </select>
                                 </div>
                                 {/* max area */}
                                 <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                                     <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxArea">MAX Area:</label>
                                     <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="maxArea" value={leadData.maxArea} onChange={handleLeadDataChange} />
+                                </div>
+                                {/* max area unit */}
+                                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
+                                    <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxAreaUnit">Area:</label>
+                                    <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='maxAreaUnit' value={leadData.maxAreaUnit} onChange={handleLeadDataChange} >
+                                        <option value="squareFeet">Square Feet</option>
+                                        <option value="marla">Marla</option>
+                                    </select>
                                 </div>
                                 {/* lead priority */}
                                 <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
@@ -258,17 +249,20 @@ const CreateLead = () => {
                                     </select>
                                 </div>
                                 {/* allocated to */}
-                                <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
-                                    <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="allocatedTo">Allocated To:</label>
-                                    <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='allocatedTo' value={leadData.allocatedTo} onChange={handleLeadDataChange} >
-                                        <option value="">-</option>
-                                        {
-                                            employeeNames.map((employee, index) => (
-                                                <option value={employee._id} key={index} >{employee.username}</option>
-                                            ))
-                                        }
-                                    </select>
-                                </div>
+                                {
+                                    role == ('manager' || 'super_admin') &&
+                                    <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
+                                        <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="allocatedTo">Allocated To:</label>
+                                        <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='allocatedTo' value={leadData.allocatedTo} onChange={handleLeadDataChange} >
+                                            <option value={loggedUser._id}>Me</option>
+                                            {
+                                                employeeNames.map((employee, index) => (
+                                                    <option value={employee._id} key={index} >{employee.username}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                }
                                 {/* beds */}
                                 <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                                     <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="beds">BEDS:</label>

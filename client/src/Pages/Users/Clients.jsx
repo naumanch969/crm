@@ -47,7 +47,6 @@ function Users() {
 
     ////////////////////////////////////// STATES //////////////////////////////
     const [view, setView] = useState('table')
-    const [changePassword, setChangePassword] = useState('')
     const [openEditModal, setOpenEditModal] = useState(false)
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [selectedUserId, setSelectedUserId] = useState(null)
