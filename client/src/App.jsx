@@ -1,26 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
-import {
-  DashBoard,
-  Leads,
-  CreateLead,
-  Tasks,
-  CashBook,
-  Sales,
-  Vouchers,
-  Report,
-  Login,
-  Register,
-  CreateUser,
-  CreateTask,
-  CreateSale,
-  User,
-  Request,
-  Projects,
-  CreateProject,
-  Employees,
-  Clients,
-} from "./Pages";
+import { DashBoard, Leads, CreateLead, Tasks, CashBook, Sales, Vouchers, Login, Register, CreateUser, CreateTask, CreateSale, User, Request, Projects, CreateProject, Employees, Clients, CreateCashBook, ViewCashBook, CreateVouchers, } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
 import Home from "./Client Panel/pages/Dashboard/Home";
@@ -45,10 +25,10 @@ const App = () => {
   const Layout = () => {
     return (
       <>
-        <div className="h-full">
+        <div className={`h-full ${showSidebar ? "mr-[224px]" : "m-0"}`}>
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
-        <div className="w-full h-full bg-gray-100 sticky">
+        <div className={`w-full h-full bg-gray-100 sticky`}>
           <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
       </>
@@ -59,7 +39,7 @@ const App = () => {
 
 
   return (
-    <div className="w-screen h-screen bg-gray-100">
+    <div className="w-full h-full bg-gray-100">
       {!loggedUser ? (
         <div className="flex justify-center items-center w-full ">
           <Routes>
@@ -92,9 +72,8 @@ const App = () => {
               <Route path="/view/cashbook" element={<ViewCashBook />} />
               <Route path="/sales" element={<Sales />} />
               <Route path="/sales/create" element={<CreateSale />} />
-              <Route path="/voucher" element={<Vouchers />} />
+              <Route path="/voucher" element={<Vouchers showSidebar={showSidebar} />} />
               <Route path="/voucher/create" element={<CreateVouchers />} />
-              <Route path="/report" element={<Report />} />
             </Route>
           </Routes>
         </div>
