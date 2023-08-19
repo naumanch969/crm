@@ -2,17 +2,13 @@ import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {CashStack, HouseAdd, HouseCheck, HouseDash, HouseDown} from 'react-bootstrap-icons'
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 
 import "./Carousel.css";
 
-// import required modules
 import { EffectCoverflow, Pagination, Navigation, Keyboard } from "swiper/modules";
 import { Button } from "@mui/material";
 

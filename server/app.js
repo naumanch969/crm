@@ -41,7 +41,7 @@ app.use((err, req, res, next) => {
     res.status(status).json({ message, status, stack: err.stack })
     next()
 })
-
+// creating lead with req.user._id working
 
 mongoose.connect(CONNECTION_URL)
     .then(() => app.listen(PORT, () => console.log('listening at port ' + PORT)))

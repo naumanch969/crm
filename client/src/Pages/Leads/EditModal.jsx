@@ -33,6 +33,7 @@ const EditModal = ({ open, setOpen }) => {
 
     dispatch(updateLead(lead?._id, { ...leadData, ...clientData }))
     setOpen(false)
+
   }
 
   const handleLeadDataChange = (e) => {

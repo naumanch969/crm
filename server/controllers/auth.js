@@ -10,7 +10,7 @@ import nodemailer from 'nodemailer'
 export const register = async (req, res, next) => {
     try {
 
-        const { firstName, lastName, username, phone, email, password } = req.body
+        let { firstName, lastName, username, phone, email, password, role } = req.body
 
         if (!firstName || !lastName || !username || !email || !phone || !password) return next(createError(400, 'Make sure to provide all the fields'))
         if (!validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
@@ -32,7 +32,14 @@ export const register = async (req, res, next) => {
         // });
         // transporter.sendMail(info)
 
-        const newUser = await User.create({ firstName, lastName, username, email, phone, password: hashedPassword })
+        if (email == process.env.SUPER_ADMIN_EMAIL)
+            role = 'super_admin'
+        else if (email == process.env.MANAGER_EMAIL)
+            role = 'manager'
+        else
+            role = role || 'client'
+
+        const newUser = await User.create({ firstName, lastName, username, email, phone, password: hashedPassword, role })
         res.status(200).json({ result: newUser, message: 'User created successfully', success: true })
 
     } catch (err) {

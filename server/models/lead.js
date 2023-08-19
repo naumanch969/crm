@@ -3,6 +3,7 @@ import { Schema, model } from 'mongoose'
 const leadSchema = Schema({
 
     clientId: { type: Schema.Types.ObjectId, ref: 'User' },
+    allocatedTo: { type: Schema.Types.ObjectId, ref: 'User' },
     city: { type: String },
     project: { type: String },
     block: { type: String },
@@ -16,14 +17,13 @@ const leadSchema = Schema({
     maxArea: { type: Number, min: 0 },
     priority: { type: String },     // define enum
     clientType: { type: String },       // define enum
-    allocatedTo: { type: String },
     beds: { type: String },
-    progress: { type: Number },
+    progress: { type: String, default: 'Processing', enum: ['Processing', 'Almost Done', 'Done'] },
     status: { type: String, default: 'Remaining', enum: ['Successful', 'Unsuccessful', 'Under Process', 'Declined', 'Remaining'] },
     source: { type: Array },
 
     type: { type: String, required: false, default: 'onsite', enum: ['onsite', 'online'] },
-    projectId: { type: Schema.Types.ObjectId, ref: 'Project', required: false }            // todo: replace with ObjectId
+    projectId: { type: Schema.Types.ObjectId, ref: 'Project', required: false }
 
 }, { timestamps: true })
 

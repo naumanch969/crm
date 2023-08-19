@@ -1,13 +1,13 @@
 import Lead from '../models/lead.js'
 import User from '../models/user.js'
 import { createError } from '../utils/error.js'
-
+import validator from 'validator'
 
 export const getLead = async (req, res, next) => {
     try {
 
         const { leadId } = req.params
-        const findedLead = await Lead.findById(leadId).populate('clientId').exec()
+        const findedLead = await Lead.findById(leadId).populate('clientId').populate('allocatedTo').exec()
         if (!findedLead) return next(createError(400, 'Lead not exist'))
 
         res.status(200).json({ result: findedLead, message: 'lead created successfully', success: true })
@@ -25,12 +25,12 @@ export const getLeads = async (req, res, next) => {
         const findedLeads = new_query
             ?
             type
-                ? await Lead.find({ type }).sort({ createdAt: -1 }).limit(10).populate('clientId').exec()
-                : await Lead.find().sort({ createdAt: -1 }).limit(10).populate('clientId').exec()
+                ? await Lead.find({ type }).sort({ createdAt: -1 }).limit(10).populate('clientId').populate('allocatedTo').exec()
+                : await Lead.find().sort({ createdAt: -1 }).limit(10).populate('clientId').populate('allocatedTo').exec()
             :
             type
-                ? await Lead.find({ type }).populate('clientId').exec()
-                : await Lead.find().populate('clientId').exec()
+                ? await Lead.find({ type }).populate('clientId').populate('allocatedTo').exec()
+                : await Lead.find().populate('clientId').populate('allocatedTo').exec()
 
         res.status(200).json({ result: findedLeads, message: 'leads fetched successfully', success: true })
 
@@ -76,15 +76,20 @@ export const getLeadsStat = async (req, res, next) => {
 export const createOnsiteLead = async (req, res, next) => {
     try {
 
-        const { gender, firstName, lastName, phone, email, cnic, ...leadData } = req.body
+        let { gender, firstName, lastName, phone, email, cnic, allocatedTo, ...leadData } = req.body
+
+        if (!firstName || !lastName || !gender || !email || !phone || !cnic) return next(createError(400, 'Make sure to provide all the client fields'))
+        if (!validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
+
+        allocatedTo = allocatedTo ?? mongoose.Types.ObjectId(req.user._id)
 
         // create new client
         const findedUser = await User.findOne({ email })
-        if (findedUser) return next(createError(400, 'Client already exist'))
+        if (Boolean(findedUser)) return next(createError(400, 'Email already exist'))
         const newClient = await User.create({ gender, firstName, lastName, phone, email, cnic })
 
         // create new lead
-        const newLead = await Lead.create({ ...leadData, clientId: newClient._id })
+        const newLead = await Lead.create({ ...leadData, allocatedTo, clientId: newClient._id, type: 'onsite' })
         res.status(200).json({ result: newLead, message: 'lead created successfully', success: true })
 
     } catch (err) {
@@ -95,7 +100,7 @@ export const createOnsiteLead = async (req, res, next) => {
 export const createOnlineLead = async (req, res, next) => {
     try {
 
-        const { projectId, ...clientData } = req.body
+        let { projectId, ...clientData } = req.body
 
         const emailExist = await User.find({ email: clientData.email })
         if (emailExist) return next(createError(400, 'Email already exist'))
@@ -118,19 +123,22 @@ export const updateLead = async (req, res, next) => {
     try {
 
         const { leadId } = req.params
-        const { gender, firstName, lastName, phone, email, cnic, _id: inputLeadId, ...leadData } = req.body
+        let { _id: inputLeadId, allocatedTo, ...leadData } = req.body    // lead data
+        let { gender, firstName, lastName, phone, email, cnic, } = req.body // client data
 
         // checking if lead exist
         const findedLead = await Lead.findById(leadId)
         if (!findedLead) return next(createError(400, 'Lead not exist'))
 
-        // create new client
+        // for online lead, (clientId is populated version (actually it is client object) )
         if (leadData?.clientId) {
             await User.findByIdAndUpdate(leadData.clientId._id, { gender, firstName, lastName, phone, email, cnic }, { new: true })
         }
 
+        allocatedTo = allocatedTo ?? req.user._id
+
         // create new lead
-        const updatedLead = await Lead.findByIdAndUpdate(leadId, { $set: leadData }, { new: true }).populate('clientId').exec()
+        const updatedLead = await Lead.findByIdAndUpdate(leadId, { $set: { ...leadData, allocatedTo } }, { new: true }).populate('clientId').populate('allocatedTo').exec()
         res.status(200).json({ result: updatedLead, message: 'lead updated successfully', success: true })
 
     } catch (err) {

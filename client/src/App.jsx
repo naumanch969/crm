@@ -8,6 +8,7 @@ import {
   CashBook,
   Sales,
   Vouchers,
+  Report,
   Login,
   Register,
   CreateUser,
@@ -22,17 +23,15 @@ import {
 } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
-import CreateCashBook from "./Pages/CashBook/CreateCashBook";
-import ViewCashBook from "./Pages/CashBook/ViewCashBook";
-import CreateVouchers from "./Pages/Vouchers/CreateVouchers";
-import Home from "./Client Panel/Dashboard/Home";
-import ClientHeader from "./Client Panel/Header/ClientHeader";
-import ClientProjects from "./Client Panel/Your Projects/ClientProjects";
-import Contact from "./Client Panel/Contact Us/Contact";
+import Home from "./Client Panel/pages/Dashboard/Home";
+import ClientHeader from "./Client Panel/components/ClientHeader";
+import ClientProjects from "./Client Panel/pages/Your Projects/ClientProjects";
+import Contact from "./Client Panel/pages/Contact Us/Contact";
 
 const App = () => {
+
   ///////////////////////////////////// VARIABLES ////////////////////////////////////////
-  const { loggedUser } = useSelector((state) => state.user);
+  const { loggedUser } = useSelector(state => state.user);
 
   ///////////////////////////////////// STATES ////////////////////////////////////////
   const [showSidebar, setShowSidebar] = useState(true);
@@ -46,26 +45,21 @@ const App = () => {
   const Layout = () => {
     return (
       <>
-        <div className={`h-full ${showSidebar ? "mr-[224px]" : "m-0"}`}>
+        <div className="h-full">
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
-        <div className={`w-full h-full bg-gray-100 sticky`}>
+        <div className="w-full h-full bg-gray-100 sticky">
           <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
       </>
     );
   };
 
-  const ClientPanelLayout = () => {
-    return(
-      <>
-        <ClientHeader />
-      </>
-    )
-  }
+  const ClientPanelLayout = () => (<ClientHeader />)
+
 
   return (
-    <div className="w-full h-full bg-gray-100">
+    <div className="w-screen h-screen bg-gray-100">
       {!loggedUser ? (
         <div className="flex justify-center items-center w-full ">
           <Routes>
@@ -98,8 +92,9 @@ const App = () => {
               <Route path="/view/cashbook" element={<ViewCashBook />} />
               <Route path="/sales" element={<Sales />} />
               <Route path="/sales/create" element={<CreateSale />} />
-              <Route path="/voucher" element={<Vouchers showSidebar={showSidebar} />} />
+              <Route path="/voucher" element={<Vouchers />} />
               <Route path="/voucher/create" element={<CreateVouchers />} />
+              <Route path="/report" element={<Report />} />
             </Route>
           </Routes>
         </div>
@@ -111,6 +106,7 @@ const App = () => {
           <Route path="/client/contact" element={<Contact />} />
         </Route>
       </Routes>
+
     </div>
   );
 };

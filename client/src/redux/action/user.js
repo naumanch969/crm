@@ -1,6 +1,6 @@
 import * as api from '../api'
 import { start, end, error, registerReducer, loginReducer, logoutReducer, getUserReducer, getClientsReducer, getEmployeesReducer, createClientReducer, createEmployeeReducer, updateRoleReducer, updateUserReducer, deleteUserReducer, } from '../reducer/user'
-
+import Cookies from 'js-cookie'
 
 export const register = (userData, navigate) => async (dispatch) => {
     try {
@@ -17,10 +17,10 @@ export const login = (userData, navigate) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.login(userData)
-        const { token, _id, ...result } = data.result
-        navigate('/')
+        const { token, ...result } = data.result
+        Cookies.set('crm_profile', JSON.stringify(data.result))
         dispatch(loginReducer(result))
-        Cookies.set('profile', JSON.stringify(data))
+        navigate('/')
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

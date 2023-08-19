@@ -6,18 +6,18 @@ const router = express.Router()
 
 // GET
 router.get('/get/single/:leadId', getLead)
-router.get('/get/all',  getLeads)//verifyToken, verifyEmployee,
-router.get('/get/stats',  getLeadsStat)
+router.get('/get/all', verifyToken, verifyEmployee, getLeads)
+router.get('/get/stats', getLeadsStat)
 
 // POST
-router.post('/create/onsite',  createOnsiteLead)//verifyToken, verifyManager,
-router.post('/create/online',  createOnlineLead)//verifyToken, verifyManager,
+router.post('/create/onsite', verifyToken, verifyEmployee, createOnsiteLead)
+router.post('/create/online', verifyToken, createOnlineLead)
 
 // PUT
-router.put('/update/:leadId',  updateLead)//verifyToken, verifyManager,
+router.put('/update/:leadId', verifyToken, verifyEmployee, updateLead)
 
 // DELETE
-router.delete('/delete/:leadId',  deleteLead)//verifyToken, verifyManager,
+router.delete('/delete/:leadId', verifyToken, verifyEmployee, deleteLead)
 router.delete('/delete-whole-collection', deleteWholeCollection)
 
 export default router

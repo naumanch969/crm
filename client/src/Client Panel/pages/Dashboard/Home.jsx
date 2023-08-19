@@ -3,6 +3,7 @@ import Cards from "./Cards";
 import Carousel from "./Carousel";
 
 const Home = () => {
+
   return (
     <div className="h-screen">
       <Cards />
