@@ -62,7 +62,7 @@ function CashBook() {
 
 
   return (
-    <div className="h-auto">
+    <div className="h-auto w-full ">
 
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} cashbookId={cashbookId} />
 

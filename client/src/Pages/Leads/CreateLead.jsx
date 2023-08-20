@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { createOnsiteLead, getLeads } from '../../redux/action/lead'
 import Topbar from './Topbar'
 import { getEmployees, register } from '../../redux/action/user'
+import { pakistanCities } from '../../constant'
 
 const CreateLead = () => {
 
@@ -162,9 +163,11 @@ const CreateLead = () => {
                                     <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="city">City:</label>
                                     <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='city' value={leadData.city} onChange={handleLeadDataChange} >
                                         <option value="">-</option>
-                                        <option value="lahore">Lahore</option>
-                                        <option value="karachi">Karachi</option>
-                                        <option value="islamabad">Islamabad</option>
+                                        {
+                                            pakistanCities.map((city, index) => (
+                                                <option value={city.toLowerCase()} key={index} >{city}</option>
+                                            ))
+                                        }
                                     </select>
                                 </div>
                                 {/* address */}

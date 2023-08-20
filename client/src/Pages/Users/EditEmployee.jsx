@@ -9,21 +9,20 @@ const EditModal = ({ open, setOpen }) => {
 
   /////////////////////////////////////// VARIABLES ///////////////////////////////////////
   const dispatch = useDispatch()
-  const { currentUser: user, isFetching, error, } = useSelector(state => state.user)
-  const initialState = { firstName: '', lastName: '', username: '', email: '', password: '', cnic: '', phone: '', officialNumber: '', branch: '', gender: 'male', martialStatus: 'married', salaryType: '', activeStatus: false }
+  const { currentEmployee, isFetching, error, } = useSelector(state => state.user)
 
   /////////////////////////////////////// STATES ///////////////////////////////////////
-  const [userData, setUserData] = useState(user)
+  const [userData, setUserData] = useState(currentEmployee)
 
   /////////////////////////////////////// USE EFFECT ///////////////////////////////////////
   useEffect(() => {
-    setUserData(user)
-  }, [user])
+    setUserData(currentEmployee)
+  }, [currentEmployee])
 
   /////////////////////////////////////// FUNCTIONS ///////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(updateUser(user._id, userData, userData?.role))
+    dispatch(updateUser(currentEmployee._id, userData, userData?.role))
     setOpen(false)
   }
   const handleChange = (e) => {

@@ -1,13 +1,13 @@
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import PaymentStats from "./PaymentStats";
 import IncomeAndExpense from "./IncomeAndExpense";
 import LeadsStat from "./LeadsStat";
-import LatestActivity from "./LatestActivity";
 import ProjectsStats from "./ProjectsStats";
 import Messages from "./Messages";
 
 function DashBoard() {
+
   return (
     <div className="w-full h-auto">
       <PaymentStats />

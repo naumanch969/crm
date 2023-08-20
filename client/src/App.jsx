@@ -39,9 +39,12 @@ const App = () => {
 
 
   return (
-    <div className="w-full h-full bg-gray-100">
+    <div className="flex flex-col w-full h-full bg-gray-100">
+
+
       {!loggedUser ? (
         <div className="flex justify-center items-center w-full ">
+          <Navbar />
           <Routes>
             <Route exact path="/auth/register" element={<Register />} />
             <Route exact path="/auth/login" element={<Login />} />
@@ -50,42 +53,47 @@ const App = () => {
           </Routes>
         </div>
       ) : (
-        <div className="flex">
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route path="/" element={<DashBoard />} />
-              <Route path="/auth/register" element={<Navigate to="/" />} />
-              <Route path="/auth/login" element={<Navigate to="/" />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/projects/create" element={<CreateProject />} />
-              <Route path="/leads" element={<Leads />} />
-              <Route path="/leads/create" element={<CreateLead />} />
-              <Route path="/tasks" element={<Tasks />} />
-              <Route path="/tasks/create" element={<CreateTask />} />
-              <Route path="/employees" element={<Employees />} />
-              <Route path="/clients" element={<Clients />} />
-              <Route path="/users/create" element={<CreateUser />} />
-              <Route path="/users/:userId" element={<User />} />
-              <Route path="/authorization/request" element={<Request />} />
-              <Route path="/cashbook" element={<CashBook />} />
-              <Route path="/cashbook/create" element={<CreateCashBook />} />
-              <Route path="/view/cashbook" element={<ViewCashBook />} />
-              <Route path="/sales" element={<Sales />} />
-              <Route path="/sales/create" element={<CreateSale />} />
-              <Route path="/voucher" element={<Vouchers showSidebar={showSidebar} />} />
-              <Route path="/voucher/create" element={<CreateVouchers />} />
-            </Route>
-          </Routes>
+        <div className="flex  ">
+          <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+          <div className={`${showSidebar ? 'md:w-[80vw] w-full ' : 'w-full '} flex flex-col`}>
+            <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+            <div className="flex p-[1rem] w-full">
+              <Routes>
+                <Route path="/" element={<DashBoard />} />
+                <Route path="/auth/register" element={<Navigate to="/" />} />
+                <Route path="/auth/login" element={<Navigate to="/" />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/projects/create" element={<CreateProject />} />
+                <Route path="/myLeads" element={<Leads type='mine' />} />
+                <Route path="/leads" element={<Leads type='all' />} />
+                <Route path="/leads/create" element={<CreateLead />} />
+                <Route path="/tasks" element={<Tasks />} />
+                <Route path="/tasks/create" element={<CreateTask />} />
+                <Route path="/employees" element={<Employees />} />
+                <Route path="/clients" element={<Clients />} />
+                <Route path="/users/create" element={<CreateUser />} />
+                <Route path="/users/:userId" element={<User />} />
+                <Route path="/authorization/request" element={<Request />} />
+                <Route path="/cashbook" element={<CashBook />} />
+                <Route path="/cashbook/create" element={<CreateCashBook />} />
+                <Route path="/view/cashbook" element={<ViewCashBook />} />
+                <Route path="/sales" element={<Sales />} />
+                <Route path="/sales/create" element={<CreateSale />} />
+                <Route path="/voucher" element={<Vouchers showSidebar={showSidebar} />} />
+                <Route path="/voucher/create" element={<CreateVouchers />} />
+              </Routes>
+            </div>
+          </div>
         </div>
       )}
       <Routes>
         <Route path="/client" element={<ClientPanelLayout />}>
           <Route path="/client/home" element={<Home />} />
           <Route path="/client/projects" element={<ClientProjects />} />
+
           <Route path="/client/contact" element={<Contact />} />
         </Route>
       </Routes>
-
     </div>
   );
 };

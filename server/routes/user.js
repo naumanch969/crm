@@ -1,5 +1,5 @@
 import express from 'express'
-import { getUsers, getUser, createClient,createEmployee, updateRole, updateUser, deleteUser, getClients, getEmployees, deleteWholeCollection } from '../controllers/user.js'
+import { getUsers, getUser, createClient, createEmployee, updateRole, updateUser, deleteUser, getClients, getEmployees, deleteWholeCollection } from '../controllers/user.js'
 import { verifyManager, verifyEmployee, verifyToken } from '../middleware/auth.js'
 
 const router = express.Router()
@@ -15,21 +15,21 @@ const verifyIsSameUser = (req, res, next) => {
 }
 
 // GET
-router.get('/get/all', getUsers)///verifyToken,
-router.get('/get/single/:userId', getUser)//verifyToken, verifyIsSameUser,
-router.get('/get/clients', getClients)//verifyToken, verifyEmployee,
-router.get('/get/employees', getEmployees)//verifyToken, verifyManager,
+router.get('/get/all', verifyToken, verifyManager, getUsers)
+router.get('/get/single/:userId', verifyToken, verifyIsSameUser, getUser)
+router.get('/get/clients', verifyToken, verifyEmployee, getClients)
+router.get('/get/employees', verifyToken, verifyManager, getEmployees)
 
 // POST 
-router.post('/create/client', createClient)
-router.post('/create/employee', createEmployee)
+router.post('/create/client', verifyToken, verifyEmployee, createClient)
+router.post('/create/employee', verifyToken, verifyManager, createEmployee)
 
 // PUT
-router.put('/update-role/:userId', updateRole)//verifyToken, verifyManager,
-router.put('/update/:userId', updateUser)//verifyToken, verifyIsSameUser,
+router.put('/update-role/:userId', verifyToken, verifyManager, updateRole)
+router.put('/update/:userId', verifyToken, verifyIsSameUser, updateUser)
 
 // DELETE
-router.delete('/delete/:userId', deleteUser)//verifyToken, verifyIsSameUser,
+router.delete('/delete/:userId', verifyToken, verifyIsSameUser, deleteUser)
 router.delete('/delete-whole-collection', deleteWholeCollection)
 
 export default router

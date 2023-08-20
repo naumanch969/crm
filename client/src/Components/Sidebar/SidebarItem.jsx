@@ -3,7 +3,7 @@ import { Divider, IconButton } from "@mui/material";
 import { useState, useTransition } from "react";
 import { Link } from "react-router-dom";
 
-const SidebarItem = ({ item, child, openedMenu, setOpenedMenu }) => {
+const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar }) => {
   const isMenuOpen = openedMenu === item.title.toLowerCase();
 
   const [isPending, startTransition] = useTransition();
@@ -22,11 +22,10 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu }) => {
 
   return (
     <div
-      className={`${child ? "pl-6 hover:text-sky-300 font-thin" : "pl-4"} ${
-        isMenuOpen
+      className={`${child ? "pl-6 hover:text-sky-300 font-thin" : "pl-4"} ${isMenuOpen
           ? "text-sky-500 font-normal border-l-[3.5px] border-l-sky-500"
           : " text-gray-700 font-thin"
-      } hover:text-sky-500 hover:border-l-[3.5px] hover:border-l-sky-500 pr-2 transition-all`}>
+        } hover:text-sky-500 hover:border-l-[3.5px] hover:border-l-sky-500 pr-2 transition-all`}>
       <Link
         to={item.link}
         className="flex items-center justify-between cursor-pointer py-[14px]"

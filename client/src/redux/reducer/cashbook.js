@@ -16,6 +16,11 @@ const cashbookSlice = createSlice({
         end: (state) => { state.isFetching = false },
         error: (state, action) => { state.isFetching = false; state.error = action.payload; },
         getCashbookReducer: (state, action) => { state.currentcashbook = action.payload },
+        getSpecificDateCashbookReducer: (state, action) => {
+            const { cashIn, cashOut } = action.payload
+            state.cashbooksIn = cashIn
+            state.cashbooksOut = cashOut
+        },
         getCashbooksReducer: (state, action) => {
             const { type, result } = action.payload
             switch (type) {
@@ -62,5 +67,5 @@ const cashbookSlice = createSlice({
     }
 })
 
-export const { start, end, error, getCashbookReducer, getCashbooksReducer, getIncomeAndExpensesReducer, getPaymentsReducer, createCashbookReducer, deleteCashbookReducer, } = cashbookSlice.actions
+export const { start, end, error, getCashbookReducer, getSpecificDateCashbookReducer, getCashbooksReducer, getIncomeAndExpensesReducer, getPaymentsReducer, createCashbookReducer, deleteCashbookReducer, } = cashbookSlice.actions
 export default cashbookSlice.reducer

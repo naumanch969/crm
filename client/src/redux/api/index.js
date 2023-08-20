@@ -15,8 +15,8 @@ API.interceptors.request.use((req) => {
 })
 
 // UPLOAD
-export const uploadImage= (image) => API.post(`/upload_image`, image)
-export const deleteImage= (filename) => API.delete(`/delete_image/${filename}`)
+export const uploadImage = (image) => API.post(`/upload_image`, image)
+export const deleteImage = (filename) => API.delete(`/delete_image/${filename}`)
 
 // AUTH
 export const register = (userData) => API.post(`/auth/register`, userData)
@@ -100,6 +100,7 @@ export const deleteProject = (projectId) => API.delete(`/project/delete/${projec
 // CASHBOOK
 export const getCashbook = (cashbookId) => API.get(`/cashbook/get/single/${cashbookId}`)
 export const getIncomeAndExpenses = (year) => API.get(`/cashbook/get/income_and_expenses`, { year })
+export const getSpecificDateCashbook = (date) => API.get(`/cashbook/get/${date}`)
 export const getPayments = () => API.get(`/cashbook/get/payments`)
 export const getCashbooks = (type) => API.get(`/cashbook/get/all?type=${type}`)
 export const createCashbook = (cashbookData) => API.post(`/cashbook/create`, cashbookData)

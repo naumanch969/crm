@@ -35,11 +35,11 @@ const approvalSlice = createSlice({
                     break;
             }
         },
-        createRequestApprovalReducer: (state, action) => { state.requestApprovals = [action.payload,...state.requestApprovals] },
-        rejectRequestApprovalReducer: (state, action) => { state.requestApprovals = [action.payload,...state.requestApprovals] },
-        createVoucherApprovalReducer: (state, action) => { state.voucherApprovals = [action.payload,...state.requestApprovals] },
-        createReceiptApprovalReducer: (state, action) => { state.receiptApprovals = [action.payload,...state.requestApprovals] },
-        createRefundApprovalReducer: (state, action) => { state.refundApprovals = [action.payload,...state.requestApprovals] },
+        createRequestApprovalReducer: (state, action) => { state.requestApprovals = [action.payload, ...state.requestApprovals] },
+        rejectRequestApprovalReducer: (state, action) => { state.requestApprovals = [action.payload, ...state.requestApprovals] },
+        createVoucherApprovalReducer: (state, action) => { state.voucherApprovals = [action.payload, ...state.requestApprovals] },
+        createReceiptApprovalReducer: (state, action) => { state.receiptApprovals = [action.payload, ...state.requestApprovals] },
+        createRefundApprovalReducer: (state, action) => { state.refundApprovals = [action.payload, ...state.requestApprovals] },
         deleteApprovalReducer: (state, action) => {
             const { type, result } = action.payload
             switch (type) {
@@ -54,6 +54,30 @@ const approvalSlice = createSlice({
                     break;
                 case 'refund':
                     state.refundApprovals = state.refundApprovals.filter(a => a._id !== result._id)
+                    break;
+                default:
+                    break;
+            }
+        },
+        updateUserReducer: (state, action) => {
+            switch (action.payload.role) {
+                case 'client':
+                    state.clients = state.clients.map(c => c = c._id == action.payload._id ? action.payload : c)
+                    break;
+                case 'employee':
+                    state.employees = state.employees.map(e => e = e._id == action.payload._id ? action.payload : e)
+                    break;
+                default:
+                    break;
+            }
+        },
+        deleteUserReducer: (state, action) => {
+            switch (action.payload.role) {
+                case 'client':
+                    state.clients = state.clients.filter(c => c._id != action.payload._id)
+                    break;
+                case 'employee':
+                    state.employees = state.employees.filter(e => e._id != action.payload._id)
                     break;
                 default:
                     break;

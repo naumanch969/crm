@@ -1,7 +1,7 @@
 import SidebarItem from "./SidebarItem"
 import { Avatar, Box, IconButton } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { Close, HomeOutlined, PeopleAltOutlined, AssignmentOutlined, AccountCircleOutlined, LockOutlined, LocalAtmOutlined, ShoppingCartOutlined, CardGiftcardOutlined, SummarizeOutlined, StarBorder, ExpandLess, ExpandMore, Create, Today, OpenInNewOutlined, Money, AccountBalanceOutlined, ReceiptLong, Receipt } from '@mui/icons-material'
+import { Close, HomeOutlined, PeopleAltOutlined, AssignmentOutlined, AccountCircleOutlined, LockOutlined, LocalAtmOutlined, ShoppingCartOutlined, CardGiftcardOutlined, SummarizeOutlined, StarBorder, ExpandLess, ExpandMore, Create, Today, OpenInNewOutlined, Money, AccountBalanceOutlined, ReceiptLong, Receipt, PeopleAltRounded } from '@mui/icons-material'
 import { useState } from "react"
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
@@ -9,14 +9,14 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     //////////////////////////////////////// Variables ////////////////////////////////////////
     const links = [
         {
-            id:1,
+            id: 1,
             title: "Dashboard",
             link: "/",
             icon: <HomeOutlined />,
             childrens: []
         },
         {
-            id:2,
+            id: 2,
             title: "Leads",
             icon: <PeopleAltOutlined />,
             childrens: [
@@ -26,14 +26,19 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                     link: "/leads/create"
                 },
                 {
+                    title: "My Leads",
+                    icon: <PeopleAltRounded />,
+                    link: "/myLeads"
+                },
+                {
                     title: "Get All Leads",
                     icon: <PeopleAltOutlined />,
-                    link: "/leads"
+                    link: "/leads?type=all"
                 },
             ]
         },
         {
-            id:3,
+            id: 3,
             title: "Projects",
             icon: <AccountBalanceOutlined />,
             childrens: [
@@ -50,7 +55,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            id:4,
+            id: 4,
             title: "To Do Tasks",
             icon: <AssignmentOutlined />,
             childrens: [
@@ -67,7 +72,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            id:5,
+            id: 5,
             title: "User",
             icon: <AccountCircleOutlined />,
             childrens: [
@@ -89,7 +94,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            id : 6 ,
+            id: 6,
             title: "Authorization",
             icon: <LockOutlined />,
             childrens: [
@@ -106,7 +111,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            id:7,
+            id: 7,
             title: "Sales",
             icon: <ShoppingCartOutlined />,
             childrens: [
@@ -123,7 +128,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            id:8,
+            id: 8,
             title: "Cash Book",
             icon: <AccountBalanceOutlined />,
             childrens: [
@@ -140,7 +145,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
         {
-            id:9,
+            id: 9,
             title: 'Vouchers',
             icon: <Receipt />,
             childrens: [
@@ -157,35 +162,37 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             ]
         },
     ]
-    
+
     const [openedMenu, setOpenedMenu] = useState(false);
 
     return (
         <>
             {/* desktop sidebar */}
-            <Box position="fixed" className={`flex shadow-none h-[100vh] ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white z-[1000] border-r-[1px] border-r-gray-300 border-b-[1px] border-b-gray-300`} >
-                <div className='flex flex-col gap-[1.3px] w-56 py-[8px] text-gray' >
-                    <div className="border-b-[1px] border-b-gray-300 p-[7.5px]">
-                        {!showSidebar ? "" : <img className="h-10" src="/favicon/GrowLOGO.png" />}
-                    </div>
+            <Box className={`w-[20vw] sticky top-0 flex flex-col shadow-none h-screen  ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white z-[1000] border-r-[1px] border-r-gray-300 border-b-[1px] border-b-gray-300`} >
+                {/* <div className='flex flex-col gap-[1.3px] w-56 py-[8px] text-gray' > */}
+                <div className="border-b-[1px] border-b-gray-300 p-[7.5px] h-[4rem] ">
+                    {!showSidebar ? "" : <img className="h-10" src="/favicon/GrowLOGO.png" />}
+                </div>
+                <div style={{ height: 'calc(100vh - 4rem)' }} className="py-[6px] flex flex-col h-fit overflow-y-scroll ">
                     {
                         links.map((link, index) => (
-                            <SidebarItem item={link} key={index} openedMenu={openedMenu} setOpenedMenu={setOpenedMenu} />
+                            <SidebarItem item={link} key={index} openedMenu={openedMenu} setOpenedMenu={setOpenedMenu} setShowSidebar={setShowSidebar} />
                         ))
                     }
                 </div>
+                {/* </div> */}
             </Box>
 
             {/* mobile sidebar */}
             {
                 showSidebar &&
-                <Box position="fixed" className='absolute top-0 left-0 bg-white shadow-box w-[16rem] h-screen md:hidden flex z-[1100] ' >
+                <Box className='absolute top-0 left-0 bg-white shadow-box w-[16rem] h-screen md:hidden flex z-[1100] ' >
                     <div className='wrapper flex flex-col w-full h-full overflow-y-scroll p-[10px] ' >
-                        <div className='w-full flex justify-between items-center mb-[1rem] ' >
+                        <div className='w-full flex justify-between items-center mb-[1rem] h-[4rem] ' >
                             <img src="/favicon/GrowLOGO.png" />
                             <IconButton onClick={() => setShowSidebar(false)} ><Close /></IconButton>
                         </div>
-                        <div className="flex flex-col gap-[5px] ">
+                        <div style={{ height: 'calc(100vh - 4rem)' }} className="flex flex-col gap-[5px] py-[6px] overflow-y-scroll ">
                             {
                                 links.map((link, index) => (
                                     <SidebarItem item={link} key={index} openedMenu={openedMenu} setOpenedMenu={setOpenedMenu} />

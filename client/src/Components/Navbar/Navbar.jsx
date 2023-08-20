@@ -30,7 +30,7 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
 
   return (
     <>
-      <div className="flex flex-col right-0 sticky w-full sm:h-[4rem] h-[7rem] md:sticky bg-white top-0 z-[2000] border-b-[1px] border-b-gray-300">
+      <div className="flex flex-col sticky top-0 w-full sm:h-[4rem] h-[7rem] bg-white z-[2000] border-b-[1px] border-b-gray-300">
         <div className="wrapper sm:h-full h-[4rem] md:px-[24px] sm:px-[1rem] px-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-gray-300 sm:shadow-none ">
           {/* left section */}
           <div className="flex justify-start gap-[4px] mt-1">
@@ -92,10 +92,6 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
           </div>
         </div>
       </div>
-
-      <Box className={`bg-gray-100`} component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Outlet />
-      </Box>
     </>
   );
 };

@@ -12,8 +12,9 @@ import { IconButton } from '@mui/material'
 import { getLeadReducer } from '../../redux/reducer/lead'
 import UpateStatusModal from './UpdateStatus'
 import ShiftLeadModal from './ShiftLead'
+import { useLocation } from 'react-router-dom'
 
-function Leads() {
+function Leads({ type }) {
 
     ////////////////////////////////////// VARIABLES //////////////////////////////
     const dispatch = useDispatch()
@@ -77,7 +78,7 @@ function Leads() {
     ];
 
     let modifiedColumns = columns
-    if (role == 'employee') {
+    if (role == 'employee' && type == 'all') {
         modifiedColumns = modifiedColumns.filter(column => column.field !== 'allocatedTo');
     }
 
@@ -91,14 +92,12 @@ function Leads() {
 
     ////////////////////////////////////// USE EFFECTS //////////////////////////////
     useEffect(() => {
-        if (leads.length == 0) {
-            role == ('manager' || 'super_admin')
-                ?
-                dispatch(getLeads())
-                :
-                dispatch(getEmployeeLeads())
-        }
-    }, [])
+        type == 'all'
+            ?
+            dispatch(getLeads())
+            :
+            dispatch(getEmployeeLeads())
+    }, [type])
 
     ////////////////////////////////////// FUNCTION //////////////////////////////
     const handleOpenEditModal = (lead) => {

@@ -4,10 +4,22 @@ import { Send } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 
 const Messages = ({}) => {
-  const { loggedUser } = useSelector((state) => state.user);
 
+  /////////////////////////////////////// VARIABLES ////////////////////////////////////
+  const { loggedUser } = useSelector((state) => state.user);
+  const messages = [
+    { text: "Hi there!", sender: "bot" },
+    { text: "Hi", sender: `${loggedUser?.username[0]}` },
+    { text: "How can I help you", sender: "bot" },
+    { text: "Send me some messages", sender: `${loggedUser?.username[0]}` },
+    { text: "Ok", sender: "bot" },
+    { text: "Waiting....", sender: `${loggedUser?.username[0]}` },
+  ];
+
+  /////////////////////////////////////// STATES ///////////////////////////////////////
   const [input, setInput] = React.useState("");
 
+  /////////////////////////////////////// FUNCTIONS ////////////////////////////////////
   const handleSend = () => {
     if (input.trim() !== "") {
       console.log(input);
@@ -19,22 +31,14 @@ const Messages = ({}) => {
     setInput(event.target.value);
   };
 
-  const messages = [
-    { text: "Hi there!", sender: "bot" },
-    { text: "Hi", sender: `${loggedUser?.username[0]}` },
-    { text: "How can I help you", sender: "bot" },
-    { text: "Send me some messages", sender: `${loggedUser?.username[0]}` },
-    { text: "Ok", sender: "bot" },
-    { text: "Waiting....", sender: `${loggedUser?.username[0]}` },
-  ];
 
   return (
     <Box className="w-full h-[auto] bg-white rounded-lg mt-5 pb-4">
       <div className="flex justify-center text-xl pt-4">Messages</div>
       <Box className="w-full h-[14rem] p-4 rounded-lg overflow-scroll">
         <Box sx={{ flexGrow: 1, overflow: "scroll", p: 2 }}>
-          {messages.map((message) => (
-            <Message key={message.id} message={message} />
+          {messages.map((message,index) => (
+            <Message key={index} message={message} />
           ))}
         </Box>
       </Box>
