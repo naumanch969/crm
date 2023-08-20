@@ -10,7 +10,7 @@ import { Table } from '../../Components'
 import { format } from 'timeago.js'
 import { IconButton } from '@mui/material'
 
-function Leads() {
+function Leads({showSidebar}) {
 
     ////////////////////////////////////// VARIABLES //////////////////////////////
     const dispatch = useDispatch()
@@ -102,6 +102,7 @@ function Leads() {
                 rowsPerPage={10}
                 isFetching={isFetching}
                 error={error}
+                showSidebar={showSidebar}
             />
 
         </div>

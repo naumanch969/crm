@@ -58,7 +58,7 @@ const App = () => {
               <Route path="/auth/login" element={<Navigate to="/" />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/projects/create" element={<CreateProject />} />
-              <Route path="/leads" element={<Leads />} />
+              <Route path="/leads" element={<Leads showSidebar={showSidebar} />} />
               <Route path="/leads/create" element={<CreateLead />} />
               <Route path="/tasks" element={<Tasks />} />
               <Route path="/tasks/create" element={<CreateTask />} />
@@ -72,7 +72,7 @@ const App = () => {
               <Route path="/view/cashbook" element={<ViewCashBook />} />
               <Route path="/sales" element={<Sales />} />
               <Route path="/sales/create" element={<CreateSale />} />
-              <Route path="/voucher" element={<Vouchers showSidebar={showSidebar} />} />
+              <Route path="/voucher" element={<Vouchers />} />
               <Route path="/voucher/create" element={<CreateVouchers />} />
             </Route>
           </Routes>

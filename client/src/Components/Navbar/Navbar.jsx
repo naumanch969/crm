@@ -93,7 +93,7 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
         </div>
       </div>
 
-      <Box className={`bg-gray-100`} component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box className={`bg-gray-100`}component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Outlet />
       </Box>
     </>
