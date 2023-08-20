@@ -1,9 +1,8 @@
 import { Schema, model } from 'mongoose'
 
 const projectSchema = Schema({
-    title: { type: String, required: true },
     city: { type: String, required: true },
-    block: { type: String, required: true },
+    region: { type: String, required: true },
     propertyType: { type: String, required: true },
     homeType: { type: String, required: true },         // define enum
     price: { type: Number, requried: true },

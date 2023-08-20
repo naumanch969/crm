@@ -6,7 +6,16 @@ export const getLeads = () => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.getLeads()
-        console.log('data', data)
+        dispatch(getLeadsReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const getEmployeeLeads = () => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getEmployeeLeads()
         dispatch(getLeadsReducer(data.result))
         dispatch(end())
     } catch (err) {

@@ -2,7 +2,10 @@ import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import cors from 'cors'
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+import uploadRoutes from './routes/upload.js'
 import authRoutes from './routes/auth.js'
 import userRoutes from './routes/user.js'
 import notificationRoutes from './routes/notification.js'
@@ -23,7 +26,12 @@ const PORT = process.env.PORT || 4000
 app.use(cors())
 app.use(express.json())
 
+// serving static files | images
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use('/uploads', express.static(join(__dirname, 'uploads')));
 
+app.use('/api/v1', uploadRoutes)
 app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/user', userRoutes)
 app.use('/api/v1/notification', notificationRoutes)
@@ -41,7 +49,7 @@ app.use((err, req, res, next) => {
     res.status(status).json({ message, status, stack: err.stack })
     next()
 })
-// creating lead with req.user._id working
+
 
 mongoose.connect(CONNECTION_URL)
     .then(() => app.listen(PORT, () => console.log('listening at port ' + PORT)))

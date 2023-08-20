@@ -8,7 +8,7 @@ const DeleteModal = ({ open, setOpen, projectId }) => {
   ////////////////////////////////////// VARIABLES ///////////////////////////////////////
   const dispatch = useDispatch()
   const { isFetching } = useSelector(state => state.project)
-k
+
   ////////////////////////////////////// FUNCTIONS ///////////////////////////////////////
   const handleClose = () => {
     setOpen(false)
