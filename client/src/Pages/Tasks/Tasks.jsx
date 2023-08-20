@@ -10,7 +10,7 @@ import { getTasks } from '../../redux/action/task'
 import EditModal from './EditModal'
 import DeleteModal from './DeleteModal'
 import { getTaskReducer } from '../../redux/reducer/task'
-
+ 
 function Tasks() {
 
   ////////////////////////////////////// VARIABLES //////////////////////////////
@@ -42,14 +42,13 @@ function Tasks() {
   ];
 
   ////////////////////////////////////// STATES //////////////////////////////
-  const [view, setView] = useState('table')
   const [openEditModal, setOpenEditModal] = useState(false)
   const [selectedTaskId, setSelectedTaskId] = useState(null)
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
   const [openTask, setOpenTask] = useState(false)
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
-  useMemo(() => {
+  useEffect(() => {
     dispatch(getTasks())
   }, [])
 
@@ -77,7 +76,7 @@ function Tasks() {
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} taskId={selectedTaskId} />
       <Task open={openTask} setOpen={setOpenTask} />
 
-      <Topbar view={view} setView={setView} />
+      <Topbar />
       <Table
         rows={tasks}
         columns={columns}

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateLead } from '../../redux/action/lead'
+import { pakistanCities } from '../../constant'
 
 const EditModal = ({ open, setOpen }) => {
 
@@ -145,11 +146,12 @@ const EditModal = ({ open, setOpen }) => {
                 <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
                   <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="city">City:</label>
                   <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='city' value={leadData?.city} onChange={handleLeadDataChange} >
-                    <option value="">-</option>
-                    <option value="lahore">Lahore</option>
-                    <option value="karachi">Karachi</option>
-                    <option value="islamabad">Islamabad</option>
-                  </select>
+                    <option value=''>-</option>
+                    {
+                      pakistanCities.map((city, index) => (
+                        <option value={city.toLowerCase()} key={index} >{city}</option>
+                      ))
+                    }                  </select>
                 </div>
                 {/* address */}
                 <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">

@@ -1,6 +1,6 @@
 import * as api from '../api'
 import { start, end, error, getLeadsReducer, getLeadReducer, getLeadsStatReducer, createLeadReducer, updateLeadReducer, deleteLeadReducer, } from '../reducer/lead'
-
+ 
 
 export const getLeads = () => async (dispatch) => {
     try {
@@ -12,6 +12,7 @@ export const getLeads = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
+ 
 export const getEmployeeLeads = () => async (dispatch) => {
     try {
         dispatch(start())

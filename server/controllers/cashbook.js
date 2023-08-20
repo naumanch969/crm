@@ -15,6 +15,38 @@ export const getCashbook = async (req, res, next) => {
     }
 }
 
+
+export const getSpecificDateCashbook = async (req, res, next) => {
+    try {
+        let startDate, endDate;
+        const { date } = req.params; // Date from URL params
+
+        if (date) {
+            startDate = new Date(date);
+            endDate = new Date(date);
+            endDate.setDate(endDate.getDate() + 1); // Next day
+        } else {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Set time to the start of the day
+            startDate = today;
+            endDate = new Date(today);
+            endDate.setDate(endDate.getDate() + 1); // Next day
+        }
+
+        const cashbooks = await Cashbook.find({
+            createdAt: { $gte: startDate, $lt: endDate, },
+        });
+
+        const cashInCashbooks = cashbooks.filter(cb => cb.type === 'in');
+
+        const cashOutCashbooks = cashbooks.filter(cb => cb.type === 'out');
+
+        res.status(200).json({ result: { cashIn: cashInCashbooks, cashOut: cashOutCashbooks, } });
+
+    } catch (error) {
+        next(createError(500, error.message))
+    }
+};
 export const getIncomeAndExpenses = async (req, res, next) => {
     try {
         const currentYear = new Date().getFullYear();
@@ -148,7 +180,7 @@ export const getPaymentsStat = async (req, res, next) => {
         };
 
         res.status(200).json({ result: paymentsData, message: 'payments stats fetched successfully', success: true });
-        
+
     } catch (err) {
         next(createError(500, err.message))
     }
