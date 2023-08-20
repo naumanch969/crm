@@ -55,7 +55,7 @@ const App = () => {
       ) : (
         <div className="flex  ">
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-          <div className={`${showSidebar ? 'md:w-[80vw] w-full ' : 'w-full '} flex flex-col`}>
+          <div className={`${showSidebar ? 'md:w-[85vw] w-full ' : 'w-full '} flex flex-col`}>
             <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
             <div className="flex p-[1rem] w-full">
               <Routes>

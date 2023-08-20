@@ -14,11 +14,7 @@ import UpateStatusModal from './UpdateStatus'
 import ShiftLeadModal from './ShiftLead'
 import { useLocation } from 'react-router-dom'
 
-<<<<<<< HEAD
-function Leads({showSidebar}) {
-=======
 function Leads({ type }) {
->>>>>>> 15aeb5c21817ad431647f15073ceb7814e2149d6
 
     ////////////////////////////////////// VARIABLES //////////////////////////////
     const dispatch = useDispatch()

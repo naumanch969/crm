@@ -92,13 +92,6 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
           </div>
         </div>
       </div>
-<<<<<<< HEAD
-
-      <Box className={`bg-gray-100`}component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Outlet />
-      </Box>
-=======
->>>>>>> 15aeb5c21817ad431647f15073ceb7814e2149d6
     </>
   );
 };

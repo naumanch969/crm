@@ -7,11 +7,14 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 const FORM = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [formData, setFormData] = useState({
+    VoucherNo: "",
     Branch: "",
     IssueDate: "",
     DueDate: "",
     Name: "",
     CNIC: "",
+    Phone: "",
+    Email: "",
     TOP: "",
     TAmount: "",
     PAmount: "",
@@ -29,103 +32,123 @@ const FORM = () => {
   const handleDownloadPDF = (e) => {
     const documentDefinition = {
       content: [
-        { text: "PAYMENT VOUCHER", style: "header" },
         {
-          columns: [
-            {
-              text: "Voucher Number : ",
-              style: "subheader",
+          style: "tableExample",
+          color: "#444",
+          table: {
+            widths: [80, 320],
+            headerRows: 2,
+            body: [
+              [{ text: "Customer Details", style: "header", colSpan: 2 }, {}],
+              [
+                { text: "Name : ", style: "fieldHeading", alignment: "center" },
+                { text: `${formData.Name}`, style: "fieldData" },
+              ],
+              [
+                { text: "CNIC : ", style: "fieldHeading", alignment: "center" },
+                { text: `${formData.CNIC}`, style: "fieldData" },
+              ],
+              [
+                { text: "Phone : ", style: "fieldHeading", alignment: "center" },
+                { text: `${formData.Phone}`, style: "fieldData" },
+              ],
+              [
+                { text: "Email : ", style: "fieldHeading", alignment: "center" },
+                { text: `${formData.Email}`, style: "fieldData" },
+              ],
+            ],
+          },
+          layout: {
+            fillColor: function (rowIndex, node, columnIndex) {
+              return rowIndex == 0 ? "#CCCCCC" : null;
             },
-            {
-              text: `${formData.Branch}`,
-              style: "fieldData",
-            },
-          ],
+          },
         },
         {
           columns: [
-            {
-              text: "Date of Issue : ",
-              style: "subheader",
-            },
-            {
-              text: `${formData.IssueDate}`,
-              style: "fieldData",
-            },
+            { text: "Branch No : ", style: "OuterTextHeading" },
+            { text: `${formData.Branch}`, style: "OuterTextData" },
           ],
         },
         {
           style: "tableExample",
           color: "#444",
+          margin: [50, 0, 0, 15],
           table: {
-            widths: [180, "auto", "auto"],
+            widths: [160, 240],
             headerRows: 2,
             body: [
+              [{ text: "Payment Details", style: "header", colSpan: 2 }, {}],
               [
-                {
-                  text: `Amount : ${formData.PAmount}`,
-                  colSpan:0,
-                },
-                {
-                  text: `Due Date : ${formData.DueDate}`,
-                  colSpan:0,
-                },
-                {},
+                { text: "Voucher Number : ", style: "fieldHeading", alignment: "center" },
+                { text: `${formData.VoucherNo}`, style: "fieldData" },
               ],
               [
-                { text: "Header 1", style: "tableHeader", alignment: "center" },
-                { text: "Header 2", style: "tableHeader", alignment: "center" },
-                { text: "Header 3", style: "tableHeader", alignment: "center" },
+                { text: "Issueing Date : ", style: "fieldHeading", alignment: "center" },
+                { text: `${formData.IssueDate}`, style: "fieldData" },
               ],
-              ["Sample value 1", "Sample value 2", "Sample value 3"],
               [
-                {
-                  rowSpan: 3,
-                  text: "rowSpan set to 3\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor",
-                },
-                "Sample value 2",
-                "Sample value 3",
+                { text: "Type Of Payment : ", style: "fieldHeading", alignment: "center" },
+                { text: `${formData.TOP}`, style: "fieldData" },
               ],
-              ["", "Sample value 2", "Sample value 3"],
-              ["Sample value 1", "Sample value 2", "Sample value 3"],
               [
-                "Sample value 1",
-                {
-                  colSpan: 2,
-                  rowSpan: 2,
-                  text: "Both:\nrowSpan and colSpan\ncan be defined at the same time",
-                },
-                "",
+                { text: "Total Amount : ", style: "fieldHeading", alignment: "center" },
+                { text: `Rs. ${formData.TAmount}`, style: "fieldData" },
               ],
-              ["Sample value 1", "", ""],
+              [
+                { text: "Amount Paying : ", style: "fieldHeading", alignment: "center" },
+                { text: `Rs. ${formData.PAmount}`, style: "fieldData" },
+              ],
+              [
+                { text: "Amount Remaining : ", style: "fieldHeading", alignment: "center" },
+                { text: `Rs. ${formData.TAmount - formData.PAmount}`, style: "fieldData" },
+              ],
+              [
+                { text: "Due Date : ", style: "fieldHeading", alignment: "center" },
+                { text: `${formData.DueDate}`, style: "fieldData" },
+              ],
             ],
           },
+          layout: {
+            fillColor: function (rowIndex, node, columnIndex) {
+              return rowIndex == 0 ? "#CCCCCC" : null;
+            },
+          },
+        },
+        {
+          columns: [
+            { text: "Authorized Signature : ", style: "OuterTextHeading" },
+            { text: "_____________________", style: "OuterTextData", margin:[-50, 30, 0, 15] },
+          ],
         },
       ],
       styles: {
         header: {
           fontSize: 20,
           bold: true,
-          margin: [0, 0, 0, 30],
           alignment: "center",
         },
-        subheader: {
-          fontSize: 13,
+        fieldHeading: {
           bold: true,
-          margin: [70, 0, 0, 0],
+          fontSize: 12,
         },
         fieldData: {
           bold: false,
-          fontSize: 10,
-          margin: [-40, 2, 0, 0],
+          fontSize: 12,
+          margin: [40, 0, 0, 0],
         },
         tableExample: {
-          margin: [70, 15, 0, 15],
+          margin: [50, 15, 0, 15],
         },
-        tableHeader: {
+        OuterTextHeading: {
           bold: true,
-          fontSize: 13,
-          color: "black",
+          fontSize: 15,
+          margin: [50, 30, 0, 15],
+        },
+        OuterTextData: {
+          bold: false,
+          fontSize: 15,
+          margin: [-120, 30, 0, 15],
         },
       },
     };
@@ -203,6 +226,30 @@ const FORM = () => {
                   type="number"
                   name="CNIC"
                   value={formData.CNIC}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
+                  Phone Number:
+                </label>
+                <input
+                  className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
+                  type="number"
+                  name="Phone"
+                  value={formData.Phone}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
+                  Customer Email:
+                </label>
+                <input
+                  className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
+                  type="email"
+                  name="Email"
+                  value={formData.Email}
                   onChange={handleInputChange}
                 />
               </div>
