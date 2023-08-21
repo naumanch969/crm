@@ -29,7 +29,7 @@ const ViewCashBook = () => {
     { field: "paymentType", headerName: "Type", width: 120 },
     { field: "paymentDetail", headerName: "Payment details", width: 250 },
     { field: "amountPaid", headerName: "Amount In", width: 140 },
-    { field: "branchNumber", headerName: "Branch", width: 190 },
+    { field: "branch", headerName: "Branch", width: 190 },
     {
       field: "action",
       headerName: "Action",

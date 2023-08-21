@@ -1,6 +1,6 @@
 import { KeyboardArrowRight } from "@mui/icons-material";
 import React from "react";
-import FORM from "./FORM";
+import Form from "./Form";
 
 function CreateVouchers() {
   return (
@@ -22,7 +22,7 @@ function CreateVouchers() {
         </div>
 
         <div className="mt-5">
-            <FORM />
+            <Form />
         </div>
       </div>
 

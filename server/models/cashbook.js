@@ -6,7 +6,7 @@ const cashbookSchema = Schema({
     paymentType: { type: String, required: true },
     paymentDetail: { type: String, required: true },
     amountPaid: { type: Number, required: true },
-    branchNumber: { type: Number, required: true },
+    branch: { type: String, required: true },
 }, { timestamps: true })
 
 const cashbookModel = model('Cashbook', cashbookSchema)

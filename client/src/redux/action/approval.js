@@ -62,11 +62,12 @@ export const createReceiptApproval = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const createRefundApproval = () => async (dispatch) => {
+export const createRefundApproval = (approvalData, navigate) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.createRefundApproval()
+        const { data } = await api.createRefundApproval(approvalData)
         dispatch(createRefundApprovalReducer(data.result))
+        navigate(`/leads/` + approvalData.leadId)
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

@@ -105,3 +105,11 @@ export const getPayments = () => API.get(`/cashbook/get/payments`)
 export const getCashbooks = (type) => API.get(`/cashbook/get/all?type=${type}`)
 export const createCashbook = (cashbookData) => API.post(`/cashbook/create`, cashbookData)
 export const deleteCashbook = (cashbookId) => API.delete(`/cashbook/delete/${cashbookId}`)
+
+
+// VOUCHER
+export const getVoucher = (voucherId) => API.get(`/voucher/get/single/${voucherId}`)
+export const getVouchers = () => API.get(`/voucher/get/all`)
+export const createVoucher = () => API.post(`/voucher/create`)
+export const deleteVoucher = (voucherId) => API.delete(`/voucher/delete/${voucherId}`)
+export const deleteWholeCollection = () => API.delete(`/voucher/delete-whole-collection`)

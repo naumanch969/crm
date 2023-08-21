@@ -211,11 +211,11 @@ export const getCashbooks = async (req, res, next) => {
 export const createCashbook = async (req, res, next) => {
     try {
 
-        const { customerName, paymentType, paymentDetail, amountPaid, branchNumber, type, } = req.body
-        if (!customerName || !paymentType || !paymentDetail || !amountPaid || !branchNumber || !type)
+        const { customerName, paymentType, paymentDetail, amountPaid, branch, type, } = req.body
+        if (!customerName || !paymentType || !paymentDetail || !amountPaid || !branch || !type)
             return next(createError(400, 'Make sure to provide all the fields'))
 
-        const newCashbook = await Cashbook.create({ customerName, paymentType, paymentDetail, amountPaid, branchNumber, type })
+        const newCashbook = await Cashbook.create({ customerName, paymentType, paymentDetail, amountPaid, branch, type })
         res.status(200).json({ result: newCashbook, message: 'cashbook created successfully', success: true })
 
     } catch (err) {

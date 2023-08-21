@@ -1,4 +1,5 @@
 import Approval from '../models/approval.js'
+import Lead from '../models/lead.js'
 import Notification from '../models/notification.js'
 import { createError } from '../utils/error.js'
 import { sendMail } from '../utils/mail.js'
@@ -116,14 +117,16 @@ export const createReceiptApproval = async (req, res, next) => {
 export const createRefundApproval = async (req, res, next) => {
     try {
 
-        const { } = req.body
+        const { branch, issuingDate, amount, customerName, cnic, phone, leadId, reason } = req.body
 
         const result = await Approval.create({
             title: 'Refund Approval',
             type: 'refund',
             description: 'Need approval for the refund',
-            data: {}
+            data: { branch, issuingDate, amount, customerName, cnic, phone, leadId, reason }
         })
+
+        await Lead.findByIdAndUpdate(leadId, { $set: { isAppliedForRefund: true } }, { new: true })
 
         res.status(200).json({ result, message: 'Refund request has been sent to the admin for approval', success: true })
 

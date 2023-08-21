@@ -5,17 +5,17 @@ import { verifyEmployee, verifyManager, verifyToken } from '../middleware/auth.j
 const router = express.Router()
 
 // GET
-router.get('/get/single/:cashbookId', getCashbook)
-router.get('/get/all', getCashbooks)
-router.get('/get/:date', getSpecificDateCashbook)
-router.get('/get/income_and_expenses', getIncomeAndExpenses)
-router.get('/get/payments', getPaymentsStat)
+router.get('/get/single/:cashbookId', verifyToken, verifyEmployee, getCashbook)
+router.get('/get/all', verifyToken, verifyEmployee, getCashbooks)
+router.get('/get/:date', verifyToken, verifyEmployee, getSpecificDateCashbook)
+router.get('/get/income_and_expenses', verifyToken, verifyEmployee, getIncomeAndExpenses)
+router.get('/get/payments', verifyToken, verifyEmployee, getPaymentsStat)
 
 // POST
-router.post('/create', createCashbook)
+router.post('/create', verifyToken, verifyEmployee, createCashbook)
 
 // DELETE
-router.delete('/delete/:cashbookId', deleteCashbook)
-router.delete('/delete-whole-collection', deleteWholeCollection)
+router.delete('/delete/:cashbookId', verifyToken, verifyEmployee, deleteCashbook)
+router.delete('/delete-whole-collection', verifyToken, verifyEmployee, deleteWholeCollection)
 
 export default router
