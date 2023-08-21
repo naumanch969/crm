@@ -9,6 +9,7 @@ import saleReducer from './reducer/sale';
 import leadReducer from './reducer/lead';
 import projectReducer from './reducer/project';
 import cashbookReducer from './reducer/cashbook';
+import voucherReducer from './reducer/voucher';
 
 const rootReducer = combineReducers({
     upload: uploadReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     lead: leadReducer,
     project: projectReducer,
     cashbook: cashbookReducer,
+    voucher: voucherReducer,
 });
 
 export const store = configureStore({

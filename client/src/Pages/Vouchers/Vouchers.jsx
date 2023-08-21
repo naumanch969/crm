@@ -1,52 +1,136 @@
 import { Add, KeyboardArrowRight, Search } from "@mui/icons-material";
-import { Tooltip } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Table from "./Table";
+import { Table } from "../../Components";
+import { getVouchers } from "../../redux/action/voucher";
+import { useDispatch, useSelector } from 'react-redux'
+import { Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip, } from "@mui/material";
+import { DeleteOutline, OpenInNewOutlined } from "@mui/icons-material";
+import View from "./View";
+import Topbar from "./Topbar";
+import DeleteModal from "./DeleteModal";
+
 
 function Vouchers() {
-  return (
-    <div className="h-full w-full float-left pb-28">
-      <div className="flex justify-between items-center">
-        <div className="flex flex-col justify-start gap-[4px] ">
-          <h1 className="text-primary-blue text-[24px] ">Vouchers</h1>
-          <div className="flex justify-start items-center gap-[8px] ">
-            <span className="capitalize text-[15px] text-primary-gray ">App</span>
-            <KeyboardArrowRight className="text-primary-gray " />
-            <span className="capitalize text-black ">Vouchers</span>
-          </div>
-        </div>
 
-        <div className="flex justify-end items-center gap-[10px] ">
-          <div className="h-[32px] bg-secondary-gray rounded-[4px] flex ">
-            <div className="w-[2rem] text-primary-gray h-full flex justify-center items-center ">
-              <Search />
-            </div>
-            <input
-              className="w-[10rem] text-primary-gray outline-none border-none bg-inherit h-full "
-              type="text"
-              placeholder="Search"
-            />
-          </div>
-          <Tooltip placement="bottom" title="Create New Voucher" arrow>
-            <Link to="/voucher/create">
-              <button className="bg-primary-red text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-lg ">
-                <Add />
-              </button>
-            </Link>
+  //////////////////////////////////////// VARIABLES ////////////////////////////////////
+  const dispatch = useDispatch()
+  const { vouchers, isFetching, error } = useSelector(state => state.voucher)
+  const columns = [
+    { field: "id", headerName: "Voucher No.", width: 150 },
+    { field: "date", headerName: "Issue Date", width: 150 },
+    { field: "Name", headerName: "Name", width: 150 },
+    { field: "CNIC", headerName: "CNIC", width: 150 },
+    { field: "paymenttype", headerName: "Payment Type", width: 200 },
+    { field: "amountin", headerName: "Amount In", width: 150 },
+    { field: "amountrem", headerName: "Amount Remaining", width: 200 },
+    {
+      headerName: "Status", width: 150, renderCell: (params) => (
+        <div className="flex gap-[4px] ">
+          <Chip
+            label="Approved"
+            style={{ backgroundColor: rows.id % 2 == 0 ? "red" : "green", color: "white" }}
+          />
+        </div>
+      ),
+    },
+    {
+      field: "action", headerName: "Action", width: 120, renderCell: (params) => (
+        <div className="flex gap-[4px] ">
+          <Tooltip placement="top" title="Delete">
+            <IconButton onClick={()=>{setOpenDeleteModal(true);setSelectedVoucherId(paramss.row._id)}} className="hover:text-red-500">
+              <DeleteOutline  />
+            </IconButton>
+          </Tooltip>
+          <Tooltip placement="top" title="View">
+            <IconButton onClick={() => setOpenViewModal(true)} className="hover:text-red-500">
+              <OpenInNewOutlined />
+            </IconButton>
           </Tooltip>
         </div>
-      </div>
+      ),
+    },
+  ];
+  const rows = [
+    {
+      _id: 1,
+      date: "Date",
+      Name: "Name",
+      CNIC: "CNIC",
+      paymenttype: "Type Of Payment",
+      amountin: "Amount In",
+      amountrem: "Amount Remaining",
+      status: "Approved",
+    },
+    {
+      _id: 2,
+      date: "Date",
+      Name: "Name",
+      CNIC: "CNIC",
+      paymenttype: "Type Of Payment",
+      amountin: "Amount In",
+      amountrem: "Amount Remaining",
+      status: "Pending",
+    },
+    {
+      _id: 3,
+      date: "Date",
+      Name: "Name",
+      CNIC: "CNIC",
+      paymenttype: "Type Of Payment",
+      amountin: "Amount In",
+      amountrem: "Amount Remaining",
+      status: "Pending",
+    },
+    {
+      _id: 4,
+      date: "Date",
+      Name: "Name",
+      CNIC: "CNIC",
+      paymenttype: "Type Of Payment",
+      amountin: "Amount In",
+      amountrem: "Amount Remaining",
+      status: "Pending",
+    },
+    {
+      _id: 5,
+      date: "Date",
+      Name: "Name",
+      CNIC: "CNIC",
+      paymenttype: "Type Of Payment",
+      amountin: "Amount In",
+      amountrem: "Amount Remaining",
+      status: "Pending",
+    },
+  ];
 
-      <div>
-        <div className="text-2xl font-normal flex justify-center mt-10 text-gray-600">
-          All Vouchers Created
-        </div>
+  //////////////////////////////////////// STATES ///////////////////////////////////////
+  const [openViewModal, setOpenViewModal] = useState(false)
+  const [selectedVoucherId, setSelectedVoucherId] = useState(false)
+  const [openDeleteModal,setOpenDeleteModal] = useState(false)
 
-        <div className="mt-5">
-          <Table />
-        </div>
-      </div>
+  //////////////////////////////////////// USE EFFECTS //////////////////////////////////
+  useEffect(() => {
+    dispatch(getVouchers())
+  }, [])
+
+  //////////////////////////////////////// FUNCTIONS ////////////////////////////////////
+
+  return (
+    <div className="h-full w-full float-left pb-28">
+
+      <View open={openViewModal} setOpen={setOpenViewModal} />
+      <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} voucherId={selectedVoucherId} />
+
+      <Topbar />
+      <Table
+        rows={rows}
+        columns={columns}
+        isFetching={isFetching}
+        error={error}
+        rowsPerPage={10}
+      />
+
     </div>
   );
 }

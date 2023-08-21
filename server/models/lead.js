@@ -6,7 +6,7 @@ const leadSchema = Schema({
     allocatedTo: { type: Schema.Types.ObjectId, ref: 'User' },
     city: { type: String },
     project: { type: String },
-    block: { type: String },
+    region: { type: String },
     propertyType: { type: String },
     homeType: { type: String },         // define enum
     minBudget: { type: Number, min: 0 },
@@ -21,6 +21,7 @@ const leadSchema = Schema({
     progress: { type: String, default: 'Processing', enum: ['Processing', 'Almost Done', 'Done'] },
     status: { type: String, default: 'Remaining', enum: ['Successful', 'Unsuccessful', 'Under Process', 'Declined', 'Remaining'] },
     source: { type: Array },
+    isAppliedForRefund: { type: Boolean, default: false },
 
     type: { type: String, required: false, default: 'onsite', enum: ['onsite', 'online'] },
     projectId: { type: Schema.Types.ObjectId, ref: 'Project', required: false }

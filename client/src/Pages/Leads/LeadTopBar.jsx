@@ -87,13 +87,12 @@ const StyledMenuItem = styled(MenuItem)(
     `
 );
 
-const Topbar = () => {
+const Topbar = ({ leadId, isAppliedForRefund }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const title = pathname.split("/")[1];
-  const pathArr = pathname.split("/").filter((item) => item !== "");
 
-  
+
   return (
     <div className="flex flex-col ">
       <div className="w-full text-[14px] ">
@@ -122,11 +121,19 @@ const Topbar = () => {
             <StyledMenuItem>
               <MoveUpOutlined /> Share Lead
             </StyledMenuItem>
-            <Link to="/refund">
-              <StyledMenuItem>
-                <SellOutlined /> Apply for Refund
-              </StyledMenuItem>
-            </Link>
+            {
+              isAppliedForRefund
+                ?
+                <StyledMenuItem>
+                  <MoveUpOutlined /> Applied For Refund
+                </StyledMenuItem>
+                :
+                <span onClick={() => navigate("/leads/refund", { state: { leadId } })}>
+                  <StyledMenuItem>
+                    <SellOutlined /> Apply for Refund
+                  </StyledMenuItem>
+                </span>
+            }
           </Menu>
         </Dropdown>
       </div>

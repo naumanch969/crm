@@ -1,12 +1,17 @@
 import { Schema, model } from 'mongoose'
 
 const voucherSchema = Schema({
-    type: { type: String, required: true, enum: ['in', 'out'] },
-    customerName: { type: String, required: true },
-    paymentType: { type: String, required: true },
-    paymentDetail: { type: String, required: true },
-    amountPaid: { type: Number, required: true },
-    branchNumber: { type: Number, required: true },
+    branch: { type: String },
+    issuingDate: { type: String },
+    dueDate: { type: String },
+    customerName: { type: String },
+    cnic: { type: Number },
+    phone: { type: Number },
+    email: { type: String },
+    type: { type: String, enum: ['cash', 'cheque', 'credit card', 'online'] },
+    total: { type: Number },
+    paid: { type: Number },
+    remained: { type: Number },
 }, { timestamps: true })
 
 const voucherModel = model('Voucher', voucherSchema)

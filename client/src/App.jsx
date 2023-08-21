@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
-import { DashBoard, Leads, CreateLead, Tasks, CashBook, Sales, Vouchers, Login, Register, CreateUser, CreateTask, CreateSale, User, Request, Projects, CreateProject, Employees, Clients, CreateCashBook, ViewCashBook, CreateVouchers, } from "./Pages";
+import { DashBoard, Leads, CreateLead, Tasks, CashBook, Sales, Vouchers, Login, Register, CreateUser, CreateTask, CreateSale, User, Request, Refunds, Projects, CreateProject, Employees, Clients, CreateCashBook, ViewCashBook, CreateVouchers, Lead, } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
 import Home from "./Client Panel/pages/Dashboard/Home";
@@ -8,7 +8,7 @@ import ClientHeader from "./Client Panel/components/ClientHeader";
 import ClientProjects from "./Client Panel/pages/Your Projects/ClientProjects";
 import Contact from "./Client Panel/pages/Contact Us/Contact";
 import ViewPage from "./Components/ViewPage/ViewPage";
-import Refund from "./Pages/Refund/REfund";
+import RefundForm from "./Pages/Refund/Refund";
 
 const App = () => {
 
@@ -43,20 +43,21 @@ const App = () => {
           </Routes>
         </div>
       ) : (
-        <div className="flex  ">
+        <div className="flex h-screen ">
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-          <div className={`${showSidebar ? 'md:w-[85vw] w-full ' : 'w-full '} flex flex-col`}>
+          <div className={`${showSidebar ? 'md:w-[80vw] w-full ' : 'w-full '} flex flex-col h-full overflow-y-scroll `}>
             <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
             <div className="flex p-[1rem] w-full">
               <Routes>
                 <Route path="/" element={<DashBoard />} />
-                <Route path="/refund" element={<Refund />} />
                 <Route path="/view" element={<ViewPage />} />
                 <Route path="/auth/register" element={<Navigate to="/" />} />
                 <Route path="/auth/login" element={<Navigate to="/" />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/projects/create" element={<CreateProject />} />
+                <Route path="/leads/refund" element={<RefundForm />} />
                 <Route path="/myLeads" element={<Leads type='mine' />} />
+                <Route path="/leads/:leadId" element={<Lead />} />
                 <Route path="/leads" element={<Leads type='all' />} />
                 <Route path="/leads/create" element={<CreateLead />} />
                 <Route path="/tasks" element={<Tasks />} />
@@ -66,6 +67,7 @@ const App = () => {
                 <Route path="/users/create" element={<CreateUser />} />
                 <Route path="/users/:userId" element={<User />} />
                 <Route path="/authorization/request" element={<Request />} />
+                <Route path="/authorization/refund" element={<Refunds />} />
                 <Route path="/cashbook" element={<CashBook />} />
                 <Route path="/cashbook/create" element={<CreateCashBook />} />
                 <Route path="/view/cashbook" element={<ViewCashBook />} />

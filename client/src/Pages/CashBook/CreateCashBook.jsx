@@ -9,7 +9,7 @@ function CreateCashBook() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const [cashbookData, setCashbookData] = useState({ type: '', customerName: '', paymentType: '', paymentDetail: '', amountPaid: '', branchNumber: '', })
+  const [cashbookData, setCashbookData] = useState({ type: '', customerName: '', paymentType: '', paymentDetail: '', amountPaid: '', branch: '', })
 
   const handleChange = (e) => {
     e.preventDefault()
@@ -84,8 +84,8 @@ function CreateCashBook() {
                   </div>
                   {/* Total Amount */}
                   <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                    <label className="text-gray-900 font-medium text-[1rem] " htmlFor="branchNumber">Branch No.:</label>
-                    <input type="number" name="branchNumber" value={cashbookData.branchNumber} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " />
+                    <label className="text-gray-900 font-medium text-[1rem] " htmlFor="branch">Branch No.:</label>
+                    <input type="number" name="branch" value={cashbookData.branch} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " />
                   </div>
                 </div>
                 {/* button */}

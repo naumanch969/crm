@@ -29,7 +29,7 @@ function Leads({ type, showSidebar }) {
         },
         {
             field: 'clientId.firstName', headerName: 'Client Name', width: 150, editable: true, renderCell: (params) => (
-                <>{params.row.clientId?.firstName} {" "} {params.row.clientId?.lastName}</>
+                <Link to={`/leads/${params.row._id}`} >{params.row.clientId?.firstName} {" "} {params.row.clientId?.lastName}</Link>
             )
         },
         {
