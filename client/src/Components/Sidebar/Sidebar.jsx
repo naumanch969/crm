@@ -173,12 +173,12 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     return (
         <>
             {/* desktop sidebar */}
-            <Box className={`w-[20vw] sticky top-0 flex flex-col shadow-none h-screen  ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white z-[1000] border-r-[1px] border-r-gray-300 border-b-[1px] border-b-gray-300`} >
+            <Box className={`w-[18vw] sticky top-0 flex flex-col shadow-none h-screen  ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white z-[1000] border-r-[1px] border-r-gray-300 border-b-[1px] border-b-gray-300`} >
                 {/* <div className='flex flex-col gap-[1.3px] w-56 py-[8px] text-gray' > */}
-                <div className="border-b-[1px] border-b-gray-300 p-[7.5px] h-[4rem] ">
+                <div className="border-b-[1px] border-b-gray-300 p-[7.5px] h-[3.8rem] ">
                     {!showSidebar ? "" : <img className="h-10" src="/favicon/GrowLOGO.png" />}
                 </div>
-                <div style={{ height: 'calc(100vh - 4rem)' }} className="py-[6px] flex flex-col h-fit overflow-y-scroll ">
+                <div style={{ height: 'calc(100vh - 4rem)' }} className="py-[0px] flex flex-col h-fit overflow-y-scroll ">
                     {
                         links.map((link, index) => (
                             <SidebarItem item={link} key={index} openedMenu={openedMenu} setOpenedMenu={setOpenedMenu} setShowSidebar={setShowSidebar} />

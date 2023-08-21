@@ -7,12 +7,8 @@ import Home from "./Client Panel/pages/Dashboard/Home";
 import ClientHeader from "./Client Panel/components/ClientHeader";
 import ClientProjects from "./Client Panel/pages/Your Projects/ClientProjects";
 import Contact from "./Client Panel/pages/Contact Us/Contact";
-<<<<<<< HEAD
-import Refund from "./Pages/Refund/REfund";
-=======
 import ViewPage from "./Components/ViewPage/ViewPage";
-import RefundForm from "./Pages/Refund/Refund";
->>>>>>> 528d55fd5d59c76df5843c7b14199477fefdd0a7
+import Refund from "./Pages/Refund/REfund";
 
 const App = () => {
 
@@ -49,21 +45,17 @@ const App = () => {
       ) : (
         <div className="flex h-screen ">
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-          <div className={`${showSidebar ? 'md:w-[80vw] w-full ' : 'w-full '} flex flex-col h-full overflow-y-scroll `}>
+          <div className={`${showSidebar ? 'w-full ' : 'w-full '} flex flex-col h-full overflow-y-scroll `}>
             <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
             <div className="flex p-[1rem] w-full">
               <Routes>
                 <Route path="/" element={<DashBoard />} />
-<<<<<<< HEAD
-                <Route path="/refund" element={<Refund />} />
-=======
-                <Route path="/view" element={<ViewPage />} />
->>>>>>> 528d55fd5d59c76df5843c7b14199477fefdd0a7
+                <Route path="/view" element={<Lead />} />
                 <Route path="/auth/register" element={<Navigate to="/" />} />
                 <Route path="/auth/login" element={<Navigate to="/" />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/projects/create" element={<CreateProject />} />
-                <Route path="/leads/refund" element={<RefundForm />} />
+                <Route path="/leads/refund" element={<Refund />} />
                 <Route path="/myLeads" element={<Leads type='mine' />} />
                 <Route path="/leads/:leadId" element={<Lead />} />
                 <Route path="/leads" element={<Leads type='all' />} />
