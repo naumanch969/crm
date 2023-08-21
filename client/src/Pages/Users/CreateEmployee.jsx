@@ -36,7 +36,7 @@ const CreateUser = () => {
     }
 
     return (
-        <div className="flex flex-col gap-[1rem] "  >
+        <div className="flex flex-col gap-[1rem] w-full"  >
 
             <Topbar />
 

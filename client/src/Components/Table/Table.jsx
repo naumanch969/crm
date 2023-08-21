@@ -3,7 +3,7 @@ import { CircularProgress } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
 
-const Table = ({ columns, rows, isFetching, error, rowsPerPage, showSidebar }) => {
+const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
   //////////////////////////////////////// VARIABLES ///////////////////////////////////
 
   //////////////////////////////////////// STATES //////////////////////////////////////

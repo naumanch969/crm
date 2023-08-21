@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getEmployeeLeads, getLeads } from '../../redux/action/lead'
 import EditModal from './EditModal'
 import DeleteModal from './DeleteModal'
-import { DeleteOutline, EditOutlined, FilterTiltShift, MoveUpOutlined, SellOutlined, Upgrade, VisibilityOff } from '@mui/icons-material'
+import { DeleteOutline, EditOutlined, FilterTiltShift, MoveUpOutlined, OpenInNew, SellOutlined, Upgrade, VisibilityOff } from '@mui/icons-material'
 import { Tooltip } from '@mui/material'
 import { Table } from '../../Components'
 import { format } from 'timeago.js'
@@ -12,9 +12,9 @@ import { IconButton } from '@mui/material'
 import { getLeadReducer } from '../../redux/reducer/lead'
 import UpateStatusModal from './UpdateStatus'
 import ShiftLeadModal from './ShiftLead'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
-function Leads({ type }) {
+function Leads({ type, showSidebar }) {
 
     ////////////////////////////////////// VARIABLES //////////////////////////////
     const dispatch = useDispatch()
@@ -66,6 +66,7 @@ function Leads({ type }) {
         {
             field: "actions", headerName: "Action", width: 250, renderCell: (params) => (
                 <div className='flex gap-[8px]' >
+                    <Tooltip placement='top' title='View' ><Link to="/view"><IconButton className='cursor-pointer' ><OpenInNew /></IconButton></Link></Tooltip>
                     <Tooltip placement='top' title='Update' > <IconButton onClick={() => handleOpenEditModal(params.row)} className='cursor-pointer ' ><EditOutlined /></IconButton></Tooltip>
                     <Tooltip placement='top' title='Delete' > <IconButton onClick={() => handleOpenDeleteModal(params.row._id)} className='cursor-pointer ' ><DeleteOutline /></IconButton></Tooltip>
                     <Tooltip placement='top' title='Update Status' > <IconButton onClick={() => handleOpenStatusModal(params.row)} className='cursor-pointer ' ><Upgrade /></IconButton></Tooltip>

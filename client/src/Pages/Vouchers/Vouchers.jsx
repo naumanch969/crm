@@ -6,7 +6,7 @@ import Table from "./Table";
 
 function Vouchers() {
   return (
-    <div className="h-full w-[86%] float-left pb-28">
+    <div className="h-full w-full float-left pb-28">
       <div className="flex justify-between items-center">
         <div className="flex flex-col justify-start gap-[4px] ">
           <h1 className="text-primary-blue text-[24px] ">Vouchers</h1>

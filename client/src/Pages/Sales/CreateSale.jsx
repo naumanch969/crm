@@ -34,7 +34,7 @@ const CreateSale = () => {
     }
 
     return (
-        <div className='flex flex-col gap-[2rem] bg-white px-[20px] py-[1rem] shadow-box rounded-[4px] ' >
+        <div className='w-full flex flex-col gap-[2rem] bg-white px-[20px] py-[1rem] shadow-box rounded-[4px] ' >
 
             <div className="flex lg:flex-nowrap flex-wrap justify-between gap-[24px] w-full">
                 {

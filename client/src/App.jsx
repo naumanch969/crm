@@ -7,6 +7,8 @@ import Home from "./Client Panel/pages/Dashboard/Home";
 import ClientHeader from "./Client Panel/components/ClientHeader";
 import ClientProjects from "./Client Panel/pages/Your Projects/ClientProjects";
 import Contact from "./Client Panel/pages/Contact Us/Contact";
+import ViewPage from "./Components/ViewPage/ViewPage";
+import Refund from "./Pages/Refund/REfund";
 
 const App = () => {
 
@@ -60,6 +62,8 @@ const App = () => {
             <div className="flex p-[1rem] w-full">
               <Routes>
                 <Route path="/" element={<DashBoard />} />
+                <Route path="/refund" element={<Refund />} />
+                <Route path="/view" element={<ViewPage />} />
                 <Route path="/auth/register" element={<Navigate to="/" />} />
                 <Route path="/auth/login" element={<Navigate to="/" />} />
                 <Route path="/projects" element={<Projects />} />
