@@ -80,14 +80,14 @@ const Table = () => {
   const columns = [
     { field: "id", headerName: "Voucher No.", width: 150 },
     { field: "date", headerName: "Issue Date", width: 150 },
-    { field: "Name", headerName: "Name", width: 140 },
-    { field: "CNIC", headerName: "CNIC", width: 120 },
-    { field: "paymenttype", headerName: "Payment Type", width: 170 },
-    { field: "amountin", headerName: "Amount In", width: 140 },
+    { field: "Name", headerName: "Name", width: 150 },
+    { field: "CNIC", headerName: "CNIC", width: 150 },
+    { field: "paymenttype", headerName: "Payment Type", width: 200 },
+    { field: "amountin", headerName: "Amount In", width: 150 },
     { field: "amountrem", headerName: "Amount Remaining", width: 200 },
     {
       headerName: "Status",
-      width: 120,
+      width: 150,
       renderCell: (params) => (
         <div className="flex gap-[4px] ">
           <Chip
@@ -120,8 +120,8 @@ const Table = () => {
 
   return (
     <div>
-      <div className="w-full bg-white rounded-lg z-[1000]">
-        <div className="w-full h-auto overflow-x-scroll">
+      <div className="w-auto bg-white rounded-lg z-[1000]">
+        <div className="w-auto h-auto">
           <DataGrid
             rows={rows}
             columns={columns}
