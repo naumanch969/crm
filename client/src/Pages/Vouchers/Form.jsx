@@ -7,14 +7,12 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 const FORM = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [formData, setFormData] = useState({
-    VoucherNo: "",
     Branch: "",
     IssueDate: "",
     DueDate: "",
     Name: "",
     CNIC: "",
     Phone: "",
-    Email: "",
     TOP: "",
     TAmount: "",
     PAmount: "",
@@ -33,93 +31,133 @@ const FORM = () => {
     const documentDefinition = {
       content: [
         {
-          style: "tableExample",
-          color: "#444",
+          columns: [
+            {},
+            { text: "Payment Reciept", style: "header", alignment: "center" },
+            {
+              margin: [10, 0, 0, 0],
+              table: {
+                widths: [50, 80],
+                body: [
+                  [
+                    { text: "Branch", bold: true, alignment: "center" },
+                    { text: `${formData.Branch}`, alignment: "center" },
+                  ],
+                  [
+                    { text: "Date", bold: true, alignment: "center" },
+                    { text: `${formData.IssueDate}`, alignment: "center" },
+                  ],
+                ],
+              },
+            },
+          ],
+        },
+
+        {
+          margin: [0, 40, 0, 0],
           table: {
-            widths: [80, 320],
-            headerRows: 2,
+            headerRows: 1,
+            widths: [160, 160, 160],
             body: [
-              [{ text: "Customer Details", style: "header", colSpan: 2 }, {}],
               [
-                { text: "Name : ", style: "fieldHeading", alignment: "center" },
-                { text: `${formData.Name}`, style: "fieldData" },
+                { text: "Name", alignment: "center", bold: true, fillColor: "#dddddd" },
+                { text: "CNIC", alignment: "center", bold: true, fillColor: "#dddddd" },
+                { text: "Phone", alignment: "center", bold: true, fillColor: "#dddddd" },
               ],
               [
-                { text: "CNIC : ", style: "fieldHeading", alignment: "center" },
-                { text: `${formData.CNIC}`, style: "fieldData" },
+                { text: `${formData.Name}`, alignment: "center" },
+                { text: `${formData.CNIC}`, alignment: "center" },
+                { text: `${formData.Phone}`, alignment: "center" },
               ],
               [
-                { text: "Phone : ", style: "fieldHeading", alignment: "center" },
-                { text: `${formData.Phone}`, style: "fieldData" },
-              ],
-              [
-                { text: "Email : ", style: "fieldHeading", alignment: "center" },
-                { text: `${formData.Email}`, style: "fieldData" },
+                {
+                  colSpan: 3,
+                  text: "* If, for some reason, the deal fails through, there is no penalty and the same amount is returned to the buyer.",
+                },
+                "",
+                "",
               ],
             ],
           },
-          layout: {
-            fillColor: function (rowIndex, node, columnIndex) {
-              return rowIndex == 0 ? "#CCCCCC" : null;
-            },
-          },
         },
+
         {
-          columns: [
-            { text: "Branch No : ", style: "OuterTextHeading" },
-            { text: `${formData.Branch}`, style: "OuterTextData" },
-          ],
-        },
-        {
-          style: "tableExample",
-          color: "#444",
-          margin: [50, 0, 0, 15],
+          margin: [0, 5, 0, 0],
           table: {
-            widths: [160, 240],
-            headerRows: 2,
+            headerRows: 1,
+            widths: [160, 160, 160],
             body: [
-              [{ text: "Payment Details", style: "header", colSpan: 2 }, {}],
               [
-                { text: "Voucher Number : ", style: "fieldHeading", alignment: "center" },
-                { text: `${formData.VoucherNo}`, style: "fieldData" },
+                { text: "Type of Payment", alignment: "center", bold: true, fillColor: "#dddddd" },
+                { text: "Amount", alignment: "center", bold: true, fillColor: "#dddddd" },
+                { text: "Pay before", alignment: "center", bold: true, fillColor: "#dddddd" },
               ],
               [
-                { text: "Issueing Date : ", style: "fieldHeading", alignment: "center" },
-                { text: `${formData.IssueDate}`, style: "fieldData" },
-              ],
-              [
-                { text: "Type Of Payment : ", style: "fieldHeading", alignment: "center" },
-                { text: `${formData.TOP}`, style: "fieldData" },
-              ],
-              [
-                { text: "Total Amount : ", style: "fieldHeading", alignment: "center" },
-                { text: `Rs. ${formData.TAmount}`, style: "fieldData" },
-              ],
-              [
-                { text: "Amount Paying : ", style: "fieldHeading", alignment: "center" },
-                { text: `Rs. ${formData.PAmount}`, style: "fieldData" },
-              ],
-              [
-                { text: "Amount Remaining : ", style: "fieldHeading", alignment: "center" },
-                { text: `Rs. ${formData.TAmount - formData.PAmount}`, style: "fieldData" },
-              ],
-              [
-                { text: "Due Date : ", style: "fieldHeading", alignment: "center" },
-                { text: `${formData.DueDate}`, style: "fieldData" },
+                { text: `${formData.TOP}`, alignment: "center" },
+                { text: `${formData.PAmount}`, alignment: "center" },
+                { text: `${formData.DueDate}`, alignment: "center" },
               ],
             ],
           },
-          layout: {
-            fillColor: function (rowIndex, node, columnIndex) {
-              return rowIndex == 0 ? "#CCCCCC" : null;
-            },
-          },
         },
+
         {
           columns: [
-            { text: "Authorized Signature : ", style: "OuterTextHeading" },
-            { text: "_____________________", style: "OuterTextData", margin:[-50, 30, 0, 15] },
+            {
+              margin: [10, 30, 0, 0],
+              table: {
+                widths:[130],
+                body: [
+                  [
+                    {
+                      text: "Total Amount",
+                      bold: true,
+                      alignment: "center",
+                      border: [false, false, false, false],
+                    },
+                  ],
+                  [{ text: `${formData.TAmount}`, alignment: "center" }],
+                ],
+              },
+            },
+            {
+              margin: [10, 30, 0, 0],
+              table: {
+                widths:[130],
+                body: [
+                  [
+                    {
+                      text: "Amount Paying",
+                      bold: true,
+                      alignment: "center",
+                      border: [false, false, false, false],
+                    },
+                  ],
+                  [{ text: `${formData.PAmount}`, alignment: "center" }],
+                ],
+              },
+            },
+            {
+              margin: [10, 30, 0, 0],
+              table: {
+                widths:[130],
+                body: [
+                  [
+                    {
+                      text: "Remaining Amount",
+                      bold: true,
+                      alignment: "center",
+                      border: [false, false, false, false],
+                    },
+                  ],
+                  [{ text: `${formData.TAmount - formData.PAmount}`, alignment: "center" }],
+                ],
+              },
+            },
           ],
+        },
+        {
+          text:"© Generated by GROW company", alignment:'center', fontSize:10, margin:[0, 20, 0, 0],
         },
       ],
       styles: {
@@ -127,28 +165,6 @@ const FORM = () => {
           fontSize: 20,
           bold: true,
           alignment: "center",
-        },
-        fieldHeading: {
-          bold: true,
-          fontSize: 12,
-        },
-        fieldData: {
-          bold: false,
-          fontSize: 12,
-          margin: [40, 0, 0, 0],
-        },
-        tableExample: {
-          margin: [50, 15, 0, 15],
-        },
-        OuterTextHeading: {
-          bold: true,
-          fontSize: 15,
-          margin: [50, 30, 0, 15],
-        },
-        OuterTextData: {
-          bold: false,
-          fontSize: 15,
-          margin: [-120, 30, 0, 15],
         },
       },
     };
@@ -238,18 +254,6 @@ const FORM = () => {
                   type="number"
                   name="Phone"
                   value={formData.Phone}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
-                  Customer Email:
-                </label>
-                <input
-                  className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
-                  type="email"
-                  name="Email"
-                  value={formData.Email}
                   onChange={handleInputChange}
                 />
               </div>
