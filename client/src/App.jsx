@@ -22,18 +22,6 @@ const App = () => {
     else setShowSidebar(true);
   }, [window.innerWidth]);
 
-  const Layout = () => {
-    return (
-      <>
-        <div className={`h-full ${showSidebar ? "mr-[224px]" : "m-0"}`}>
-          <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-        </div>
-        <div className={`w-full h-full bg-gray-100 sticky`}>
-          <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-        </div>
-      </>
-    );
-  };
 
   const ClientPanelLayout = () => (<ClientHeader />)
 

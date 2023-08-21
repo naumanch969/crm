@@ -21,17 +21,17 @@ const verifyIsSame = async (req, res, next) => {
 }
 
 // GET
-router.get('/get/all', getTasks)//verifyToken,
-router.get('/get/single/:taskId', getTask) // verifyToken, verifyEmployee, verifyIsSame,
+router.get('/get/all', verifyToken, getTasks)
+router.get('/get/single/:taskId', verifyToken, verifyEmployee, verifyIsSame, getTask)
 
 // POST
-router.post('/create', createTask)//verifyToken, verifyEmployee,
+router.post('/create', verifyToken, verifyEmployee, createTask)
 
 // PUT
-router.put('/update/:taskId', updateTask)//verifyToken, verifyIsSame, 
+router.put('/update/:taskId', verifyToken, verifyIsSame, updateTask)
 
 // DELETE
-router.delete('/delete/:taskId', deleteTask)//verifyToken, verifyIsSame, 
+router.delete('/delete/:taskId', verifyToken, verifyIsSame, deleteTask)
 router.delete('/delete-whole-collection', deleteWholeCollection)
 
 export default router

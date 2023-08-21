@@ -16,6 +16,7 @@ import approvalRoutes from './routes/approval.js'
 import projectRoutes from './routes/project.js'
 import leadRoutes from './routes/lead.js'
 import cashbookRoutes from './routes/cashbook.js'
+import voucherRoutes from './routes/voucher.js'
 
 dotenv.config()
 const app = express()
@@ -42,6 +43,8 @@ app.use('/api/v1/sale', saleRoutes)
 app.use('/api/v1/project', projectRoutes)
 app.use('/api/v1/lead', leadRoutes)
 app.use('/api/v1/cashbook', cashbookRoutes)
+app.use('/api/v1/refund', cashbookRoutes)
+app.use('/api/v1/voucher', voucherRoutes)
 
 app.use((err, req, res, next) => {
     const message = err.message || 'Something went wrong.'

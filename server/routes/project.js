@@ -1,22 +1,22 @@
 import express from 'express'
-import { createProject, getProject, getProjects,getUserAssignedProjectsStat, updateProject, deleteProject, deleteWholeCollection } from '../controllers/project.js'
+import { createProject, getProject, getProjects, getUserAssignedProjectsStat, updateProject, deleteProject, deleteWholeCollection } from '../controllers/project.js'
 import { verifyEmployee, verifyManager, verifyToken } from '../middleware/auth.js'
 
 const router = express.Router()
 
 // GET
-router.get('/get/single/:projectId', getProject)
-router.get('/get/all', getProjects)//verifyToken, verifyEmployee,
-router.get('/get/user_assigned_projects_stats', getUserAssignedProjectsStat)
+router.get('/get/single/:projectId', verifyToken, getProject)
+router.get('/get/all', verifyToken, verifyEmployee, getProjects)
+router.get('/get/user_assigned_projects_stats', verifyToken, verifyEmployee, getUserAssignedProjectsStat)
 
 // POST
-router.post('/create', createProject)//verifyToken, verifyManager,
+router.post('/create', verifyToken, verifyManager, createProject)
 
 // PUT
-router.put('/update/:projectId', updateProject)//verifyToken, verifyManager,
+router.put('/update/:projectId', verifyToken, verifyManager, updateProject)
 
 // DELETE
-router.delete('/delete/:projectId', deleteProject)//verifyToken, verifyManager,
+router.delete('/delete/:projectId', verifyToken, verifyManager, deleteProject)
 router.delete('/delete-whole-collection', deleteWholeCollection)
 
 export default router
