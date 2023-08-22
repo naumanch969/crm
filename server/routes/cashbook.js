@@ -7,8 +7,8 @@ const router = express.Router()
 // GET
 router.get('/get/single/:cashbookId', verifyToken, verifyEmployee, getCashbook)
 router.get('/get/all', verifyToken, verifyEmployee, getCashbooks)
-router.get('/get/:date', verifyToken, verifyEmployee, getSpecificDateCashbook)
-router.get('/get/income_and_expenses', verifyToken, verifyEmployee, getIncomeAndExpenses)
+router.get('/get/date/:date', verifyToken, verifyEmployee, getSpecificDateCashbook)
+router.get('/get/income_and_expenses', getIncomeAndExpenses)
 router.get('/get/payments', verifyToken, verifyEmployee, getPaymentsStat)
 
 // POST

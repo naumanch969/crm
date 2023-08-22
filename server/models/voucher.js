@@ -8,7 +8,7 @@ const voucherSchema = Schema({
     cnic: { type: Number },
     phone: { type: Number },
     email: { type: String },
-    type: { type: String, enum: ['cash', 'cheque', 'credit card', 'online'] },
+    type: { type: String, enum: ['cash', 'cheque', 'creditCard', 'online',] },
     total: { type: Number },
     paid: { type: Number },
     remained: { type: Number },

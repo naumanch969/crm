@@ -84,7 +84,6 @@ function Leads({ type, showSidebar }) {
     }
 
     ////////////////////////////////////// STATES //////////////////////////////
-    const [view, setView] = useState('table')
     const [openEditModal, setOpenEditModal] = useState(false)
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [openStatusModal, setOpenStatusModal] = useState(false)
@@ -130,7 +129,7 @@ function Leads({ type, showSidebar }) {
             <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
             <ShiftLeadModal open={openShiftLeadModal} setOpen={setOpenShiftLeadModal} />
 
-            <Topbar view={view} setView={setView} />
+            <Topbar />
             <Table
                 rows={leads}
                 columns={modifiedColumns}

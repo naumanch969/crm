@@ -14,7 +14,7 @@ const voucherSlice = createSlice({
         error: (state, action) => { state.isFetching = false; state.error = action.payload; },
         getVoucherReducer: (state, action) => { state.currentvoucher = action.payload },
         getVouchersReducer: (state, action) => { state.vouchers = action.payload },
-        createVoucherReducer: (state, action) => { state.vouchers = [action.payload, ...state.vouchers] },
+        createVoucherReducer: (state, action) => { state.vouchers = [action.payload, ...state.vouchers];},
         updateVoucherReducer: (state, action) => { state.vouchers = state.vouchers.map(v => v = v._id == action.payload._id ? action.payload : v) },
         deleteVoucherReducer: (state, action) => { state.vouchers = state.vouchers.filter(v => v._id != action.payload._id) },
     }

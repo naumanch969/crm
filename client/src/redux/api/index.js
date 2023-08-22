@@ -100,7 +100,7 @@ export const deleteProject = (projectId) => API.delete(`/project/delete/${projec
 // CASHBOOK
 export const getCashbook = (cashbookId) => API.get(`/cashbook/get/single/${cashbookId}`)
 export const getIncomeAndExpenses = (year) => API.get(`/cashbook/get/income_and_expenses`, { year })
-export const getSpecificDateCashbook = (date) => API.get(`/cashbook/get/${date}`)
+export const getSpecificDateCashbook = (date) => API.get(`/cashbook/get/date/${date}`)
 export const getPayments = () => API.get(`/cashbook/get/payments`)
 export const getCashbooks = (type) => API.get(`/cashbook/get/all?type=${type}`)
 export const createCashbook = (cashbookData) => API.post(`/cashbook/create`, cashbookData)
@@ -110,6 +110,6 @@ export const deleteCashbook = (cashbookId) => API.delete(`/cashbook/delete/${cas
 // VOUCHER
 export const getVoucher = (voucherId) => API.get(`/voucher/get/single/${voucherId}`)
 export const getVouchers = () => API.get(`/voucher/get/all`)
-export const createVoucher = () => API.post(`/voucher/create`)
+export const createVoucher = (voucherData) => API.post(`/voucher/create`, voucherData)
 export const deleteVoucher = (voucherId) => API.delete(`/voucher/delete/${voucherId}`)
 export const deleteWholeCollection = () => API.delete(`/voucher/delete-whole-collection`)

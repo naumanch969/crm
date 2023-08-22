@@ -21,21 +21,12 @@ export const getVouchers = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const createVoucher = () => async (dispatch) => {
+export const createVoucher = (voucherData) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.createVoucher()
+        const { data } = await api.createVoucher(voucherData)
+        console.log('data', data.result)
         dispatch(createVoucherReducer(data.result))
-        dispatch(end())
-    } catch (err) {
-        dispatch(error(err.message))
-    }
-}
-export const updateVoucher = () => async (dispatch) => {
-    try {
-        dispatch(start())
-        const { data } = await api.updateVoucher()
-        dispatch(updateVoucherReducer(data.result))
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

@@ -18,6 +18,7 @@ import { MenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
 import { MenuButton } from "@mui/base/MenuButton";
 import { Link } from "react-router-dom";
+import React from "react";
 
 const blue = {
   100: "#DAECFF",
@@ -139,8 +140,8 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
                   </Tooltip>
                 </MenuButton>
                 <Menu slots={{ listbox: StyledListbox }}>
-                  {notifications.map((item) => (
-                    <>
+                  {notifications.map((item, index) => (
+                    <React.Fragment key={index} >
                       <StyledMenuItem className="text-gray-600 flex">
                         <div className="p-1 pr-2">{item.avatar}</div>
                         <div>
@@ -150,7 +151,7 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
                           <br />
                         </div>
                       </StyledMenuItem>
-                    </>
+                    </React.Fragment>
                   ))}
                 </Menu>
               </Dropdown>

@@ -1,7 +1,7 @@
-import { Box, CircularProgress, Tooltip } from '@mui/material'
+import { Box, CircularProgress } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { getIncomeAndExpenses } from '../../redux/action/cashbook'
 
 const IncomeAndExpense = () => {

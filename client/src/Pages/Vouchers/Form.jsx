@@ -1,33 +1,40 @@
 import React, { useState } from "react";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import { createVoucher } from '../../redux/action/voucher'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from "react-router-dom";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const FORM = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [formData, setFormData] = useState({
-    Branch: "",
-    IssueDate: "",
-    DueDate: "",
-    Name: "",
-    CNIC: "",
-    Phone: "",
-    TOP: "",
-    TAmount: "",
-    PAmount: "",
-    RAmount: "",
-  });
 
+  ////////////////////////////////////// VARIBALES ///////////////////////////////////
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const initialVoucherState = { branch: "", issuingDate: "", dueDate: "", customerName: "", cnic: "", phone: "", type: "", total: "", paid: "", remained: "", }
+
+  ////////////////////////////////////// STATES //////////////////////////////////////
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isVoucherCreated, setIsVoucherCreated] = useState(false)
+  const [voucherData, setVoucherData] = useState(initialVoucherState);
+
+
+  ////////////////////////////////////// FUNCTIONS ////////////////////////////////////////
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setVoucherData((prevData) => ({ ...prevData, [name]: value, }));
   };
 
+  const handleCreateVoucher = (e) => {
+    e.preventDefault()
+    setIsVoucherCreated(true)
+  };
   const handleDownloadPDF = (e) => {
+    e.preventDefault()
+    dispatch(createVoucher(voucherData))
+    setIsVoucherCreated(false)
+
     const documentDefinition = {
       content: [
         {
@@ -41,11 +48,11 @@ const FORM = () => {
                 body: [
                   [
                     { text: "Branch", bold: true, alignment: "center" },
-                    { text: `${formData.Branch}`, alignment: "center" },
+                    { text: `${voucherData.branch}`, alignment: "center" },
                   ],
                   [
                     { text: "Date", bold: true, alignment: "center" },
-                    { text: `${formData.IssueDate}`, alignment: "center" },
+                    { text: `${voucherData.issuingDate}`, alignment: "center" },
                   ],
                 ],
               },
@@ -65,9 +72,9 @@ const FORM = () => {
                 { text: "Phone", alignment: "center", bold: true, fillColor: "#dddddd" },
               ],
               [
-                { text: `${formData.Name}`, alignment: "center" },
-                { text: `${formData.CNIC}`, alignment: "center" },
-                { text: `${formData.Phone}`, alignment: "center" },
+                { text: `${voucherData.customerName}`, alignment: "center" },
+                { text: `${voucherData.cnic}`, alignment: "center" },
+                { text: `${voucherData.phone}`, alignment: "center" },
               ],
               [
                 {
@@ -93,9 +100,9 @@ const FORM = () => {
                 { text: "Pay before", alignment: "center", bold: true, fillColor: "#dddddd" },
               ],
               [
-                { text: `${formData.TOP}`, alignment: "center" },
-                { text: `${formData.PAmount}`, alignment: "center" },
-                { text: `${formData.DueDate}`, alignment: "center" },
+                { text: `${voucherData.type}`, alignment: "center" },
+                { text: `${voucherData.paid}`, alignment: "center" },
+                { text: `${voucherData.dueDate}`, alignment: "center" },
               ],
             ],
           },
@@ -106,7 +113,7 @@ const FORM = () => {
             {
               margin: [10, 30, 0, 0],
               table: {
-                widths:[130],
+                widths: [130],
                 body: [
                   [
                     {
@@ -116,14 +123,14 @@ const FORM = () => {
                       border: [false, false, false, false],
                     },
                   ],
-                  [{ text: `${formData.TAmount}`, alignment: "center" }],
+                  [{ text: `${voucherData.total}`, alignment: "center" }],
                 ],
               },
             },
             {
               margin: [10, 30, 0, 0],
               table: {
-                widths:[130],
+                widths: [130],
                 body: [
                   [
                     {
@@ -133,14 +140,14 @@ const FORM = () => {
                       border: [false, false, false, false],
                     },
                   ],
-                  [{ text: `${formData.PAmount}`, alignment: "center" }],
+                  [{ text: `${voucherData.paid}`, alignment: "center" }],
                 ],
               },
             },
             {
               margin: [10, 30, 0, 0],
               table: {
-                widths:[130],
+                widths: [130],
                 body: [
                   [
                     {
@@ -150,14 +157,14 @@ const FORM = () => {
                       border: [false, false, false, false],
                     },
                   ],
-                  [{ text: `${formData.TAmount - formData.PAmount}`, alignment: "center" }],
+                  [{ text: `${voucherData.total - voucherData.paid}`, alignment: "center" }],
                 ],
               },
             },
           ],
         },
         {
-          text:"© Generated by GROW company", alignment:'center', fontSize:10, margin:[0, 20, 0, 0],
+          text: "© Generated by GROW company", alignment: 'center', fontSize: 10, margin: [0, 20, 0, 0],
         },
       ],
       styles: {
@@ -171,146 +178,151 @@ const FORM = () => {
 
     const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
     pdfDocGenerator.download("Voucher.pdf");
+
+    setVoucherData(initialVoucherState)
   };
+
+
 
   return (
     <div className="flex justify-center items-center bg-gray-100">
-      <form className="flex flex-col mt-4 w-full">
+      <form onSubmit={(e) => handleDownloadPDF(e)} className="flex flex-col mt-4 w-full">
         <div className="flex flex-col gap-[1rem] bg-white rounded-[4px] shadow-sm ">
           <div className="flex flex-col gap-[2rem] p-[1rem] w-full ">
             {/* all inputs */}
             <div className="flex justify-start flex-wrap gap-[24px] w-full ">
               {/* Branch */}
               <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
+                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="branch">
                   Branch:
                 </label>
                 <input
                   className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
                   type="text"
-                  name="Branch"
-                  value={formData.Branch}
+                  name="branch"
+                  value={voucherData.branch}
                   onChange={handleInputChange}
                 />
               </div>
               {/* Date of Issue */}
               <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
+                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="issuingDate">
                   Issueing Date:
                 </label>
                 <input
                   className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
                   type="date"
-                  name="IssueDate"
-                  value={formData.IssueDate}
+                  name="issuingDate"
+                  value={voucherData.issuingDate}
                   onChange={handleInputChange}
                 />
               </div>
               {/* Due Date */}
               <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
+                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="dueDate">
                   Due Date:
                 </label>
                 <input
                   className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
                   type="date"
-                  name="DueDate"
-                  value={formData.DueDate}
+                  name="dueDate"
+                  value={voucherData.dueDate}
                   onChange={handleInputChange}
                 />
               </div>
               {/* Customer Name */}
               <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
+                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="name">
                   Customer Name:
                 </label>
                 <input
                   className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
                   type="text"
-                  name="Name"
-                  value={formData.Name}
+                  name="cusomerName"
+                  value={voucherData.customerName}
                   onChange={handleInputChange}
                 />
               </div>
               {/* Customer CNIC */}
               <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
+                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="cnic">
                   Customer CNIC:
                 </label>
                 <input
                   className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
                   type="number"
-                  name="CNIC"
-                  value={formData.CNIC}
+                  name="cnic"
+                  value={voucherData.cnic}
                   onChange={handleInputChange}
                 />
               </div>
               <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
+                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="phone">
                   Phone Number:
                 </label>
                 <input
                   className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
                   type="number"
-                  name="Phone"
-                  value={formData.Phone}
+                  name="phone"
+                  value={voucherData.phone}
                   onChange={handleInputChange}
                 />
               </div>
               {/* Type of Payment */}
               <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="homeType">
+                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="type">
                   Type of Payment
                 </label>
                 <select
                   className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
-                  name="TOP"
-                  value={formData.TOP}
-                  onChange={handleInputChange}>
+                  name="type"
+                  value={voucherData.type}
+                  onChange={handleInputChange}
+                >
                   <option value="">-</option>
-                  <option name="TOP">Cash</option>
-                  <option name="TOP">Cheque</option>
-                  <option name="TOP">Credit Card</option>
-                  <option name="TOP">Online</option>
+                  <option value="cash">Cash</option>
+                  <option value="cheque">Cheque</option>
+                  <option value="creditCard">Credit Card</option>
+                  <option value="online">Online</option>
                 </select>
               </div>
               {/* Total Amount */}
               <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
+                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="total">
                   Total Amount:
                 </label>
                 <input
                   className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
                   type="number"
-                  name="TAmount"
-                  value={formData.TAmount}
+                  name="total"
+                  value={voucherData.total}
                   onChange={handleInputChange}
                 />
               </div>
               {/* Amount Paying */}
               <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
+                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="paid">
                   Amount Paying:
                 </label>
                 <input
                   className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
                   type="number"
-                  name="PAmount"
-                  value={formData.PAmount}
+                  name="paid"
+                  value={voucherData.paid}
                   onChange={handleInputChange}
                 />
               </div>
               {/* Remaing Amount */}
               <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
-                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="city">
+                <label className="text-gray-900 font-medium text-[1rem] " htmlFor="remained">
                   Remaing Amount:
                 </label>
                 <input
                   disabled
                   className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
                   type="text"
-                  name="RAmount"
-                  value={formData.TAmount - formData.PAmount}
+                  name="remained"
+                  value={voucherData.total - voucherData.paid}
                   onChange={handleInputChange}
                 />
               </div>
@@ -318,9 +330,9 @@ const FORM = () => {
             {/* button */}
             <div className="w-full flex justify-end items-center pr-5">
               <button
-                onClick={handleDownloadPDF}
+                type="submit"
                 className="w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer">
-                Download Voucher
+                {isVoucherCreated ? 'Download' : 'Create'} Voucher
               </button>
             </div>
           </div>

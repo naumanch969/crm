@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { start, end, error, getApprovalReducer, getApprovalsReducer, createRequestApprovalReducer, rejectRequestApprovalReducer, createVoucherApprovalReducer, createReceiptApprovalReducer, createRefundApprovalReducer, deleteApprovalReducer, } from '../reducer/approval'
+import { start, end, error, getApprovalReducer, getApprovalsReducer, createRequestApprovalReducer, rejectRequestApprovalReducer, createVoucherApprovalReducer, createReceiptApprovalReducer, createRefundApprovalReducer, rejectRefundApprovalReducer, deleteApprovalReducer, } from '../reducer/approval'
 
 
 export const getApproval = () => async (dispatch) => {
@@ -73,13 +73,26 @@ export const createRefundApproval = (approvalData, navigate) => async (dispatch)
         dispatch(error(err.message))
     }
 }
-export const deleteApproval = () => async (dispatch) => {
+export const rejectRefundApproval = (approvalData) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.deleteApproval()
-        dispatch(deleteApprovalReducer(data.result))
+        const { data } = await api.deleteApproval(approvalData)
+        dispatch(rejectRefundApprovalReducer(data.result))
         dispatch(end())
     } catch (err) {
+        console.log(err)
+        dispatch(error(err.message))
+    }
+}
+export const deleteApproval = (approvalId, type) => async (dispatch) => {
+    try {
+        dispatch(start())
+        console.log(approvalId)
+        const { data } = await api.deleteApproval(approvalId)
+        dispatch(deleteApprovalReducer({ type, result: data.result }))
+        dispatch(end())
+    } catch (err) {
+        console.log('in de', err)
         dispatch(error(err.message))
     }
 }

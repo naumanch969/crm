@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Table } from '../../../Components'
 import Topbar from './Topbar'
 import { useDispatch, useSelector } from 'react-redux'
-import { getApprovals } from '../../../redux/action/approval'
+import { deleteApproval, getApprovals } from '../../../redux/action/approval'
 import { getApprovalReducer } from '../../../redux/reducer/approval'
-import { rejectRequestApproval } from '../../../redux/action/approval'
+import { rejectRequestApproval, rejectRefundApproval } from '../../../redux/action/approval'
 import { register } from '../../../redux/action/user'
 import { format } from 'timeago.js'
 import { IconButton, Tooltip } from '@mui/material'
@@ -16,7 +16,6 @@ function RequestApprovals() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch()
   const { refundApprovals: approvals, isFetching, error } = useSelector(state => state.approval)
-  console.log(approvals)
   const columns = [
     {
       field: 'sr', headerName: 'Sr.', width: 80, renderCell: (params) => (
@@ -57,7 +56,7 @@ function RequestApprovals() {
       field: "approve/reject", headerName: "Approve/Reject", width: 150, renderCell: (params) => (
         <div className='flex gap-[4px] ' >
           <button onClick={() => handleApprove(params.row)} className='cursor-pointer bg-green-700 text-white px-[8px] py-[2px] rounded-[12px] text-[14x] ' >Approve</button>
-          <button onClick={() => handleReject(params.row)} className='cursor-pointer bg-red-700 text-white px-[8px] py-[2px] rounded-[12px] text-[14x] ' >Reject</button>
+          <button onClick={() => handleReject(params.row._id)} className='cursor-pointer bg-red-700 text-white px-[8px] py-[2px] rounded-[12px] text-[14x] ' >Reject</button>
         </div>
       ),
     },
@@ -82,10 +81,11 @@ function RequestApprovals() {
       type: 'out'
     }
     dispatch(createCashbook(data))
+    dispatch(deleteApproval(approval?._id, 'refund'))
   }
 
-  const handleReject = (approval) => {
-    dispatch(rejectRequestApproval(approval.data?.email))
+  const handleReject = (approvalId) => {
+    dispatch(rejectRefundApproval(approvalId))
   }
 
 
