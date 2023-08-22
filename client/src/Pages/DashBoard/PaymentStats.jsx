@@ -16,9 +16,9 @@ const Stats = () => {
 
 
     return (
-        <Box className='w-auto columns-3'>
+        <Box className='w-auto md:columns-3 '>
             <Link to='/cashbook'>
-                <Card className='bg-white border-b-4 border-b-emerald-300'>
+                <Card className='bg-white border-b-4 border-b-emerald-300 md:mt-0 mt-4'>
                     <CardContent className="flex-grow-[1] flex justify-between items-center">
                         <div>
                             <p className='text-2xl font-Mulish'>${payments?.todayReceived}</p>
@@ -32,7 +32,7 @@ const Stats = () => {
             </Link>
 
             <Link to='/cashbook'>
-                <Card className='bg-white border-b-4 border-b-sky-400'>
+                <Card className='bg-white border-b-4 border-b-sky-400 md:mt-0 mt-4'>
                     <CardContent className="flex-grow-[1] flex justify-between items-center">
                         <div>
                             <p className='text-2xl font-Mulish'>${payments?.thisMonthReceived}</p>
@@ -46,7 +46,7 @@ const Stats = () => {
             </Link>
 
             <Link to='/cashbook'>
-                <Card className='bg-white border-b-4 border-b-amber-400'>
+                <Card className='bg-white border-b-4 border-b-amber-400 md:mt-0 mt-4'>
                     <CardContent className="flex-grow-[1] flex justify-between items-center">
                         <div>
                             <p className='text-2xl font-Mulish'>${payments?.thisYearReceived}</p>

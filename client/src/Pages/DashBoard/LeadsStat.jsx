@@ -16,7 +16,7 @@ const Leads = () => {
 
 
     return (
-        <Box className="w-auto bg-white h-96 rounded-lg p-6 float-left ml-5">
+        <Box className="w-full bg-white h-96 rounded-lg p-6 mt-5 float-left ml-0 md:w-auto md:ml-5 md:mt-0">
             <div className="flex justify-center text-xl font-light text-gray-600">
                 Leads This Year
             </div>

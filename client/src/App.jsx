@@ -52,7 +52,7 @@ const App = () => {
                 <Route path="/auth/login" element={<Navigate to="/" />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/projects/create" element={<CreateProject />} />
-                <Route path="/leads/refund" element={<Refund />} />
+                <Route path="/leads/refund" element={<RefundForm />} />
                 <Route path="/myLeads" element={<Leads type='mine' />} />
                 <Route path="/leads" element={<Leads type='all' />} />
                 <Route path="/leads/:leadId" element={<Lead />} />

@@ -189,7 +189,7 @@ const FORM = () => {
             {/* all inputs */}
             <div className="flex justify-start flex-wrap gap-[24px] w-full ">
               {/* Branch */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full">
                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="branch">
                   Branch:
                 </label>
@@ -202,7 +202,7 @@ const FORM = () => {
                 />
               </div>
               {/* Date of Issue */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="issuingDate">
                   Issueing Date:
                 </label>
@@ -215,7 +215,7 @@ const FORM = () => {
                 />
               </div>
               {/* Due Date */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="dueDate">
                   Due Date:
                 </label>
@@ -228,7 +228,7 @@ const FORM = () => {
                 />
               </div>
               {/* Customer Name */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="name">
                   Customer Name:
                 </label>
@@ -241,7 +241,7 @@ const FORM = () => {
                 />
               </div>
               {/* Customer CNIC */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full">
                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="cnic">
                   Customer CNIC:
                 </label>
@@ -253,7 +253,7 @@ const FORM = () => {
                   onChange={handleInputChange}
                 />
               </div>
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="phone">
                   Phone Number:
                 </label>
@@ -266,7 +266,7 @@ const FORM = () => {
                 />
               </div>
               {/* Type of Payment */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="type">
                   Type of Payment
                 </label>
@@ -284,7 +284,7 @@ const FORM = () => {
                 </select>
               </div>
               {/* Total Amount */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="total">
                   Total Amount:
                 </label>
@@ -297,7 +297,7 @@ const FORM = () => {
                 />
               </div>
               {/* Amount Paying */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="paid">
                   Amount Paying:
                 </label>
@@ -310,7 +310,7 @@ const FORM = () => {
                 />
               </div>
               {/* Remaing Amount */}
-              <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+              <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="remained">
                   Remaing Amount:
                 </label>
@@ -325,7 +325,7 @@ const FORM = () => {
               </div>
             </div>
             {/* button */}
-            <div className="w-full flex justify-end items-center pr-5">
+            <div className="w-full flex justify-end items-center pr-5 sm:pb-0 pb-5">
               <button
                 type="submit"
                 className="w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer">

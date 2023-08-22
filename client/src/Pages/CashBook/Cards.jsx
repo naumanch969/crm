@@ -5,9 +5,9 @@ import React from "react";
 const Cards = () => {
   return (
     <div>
-      <Box className="w-auto columns-4">
+      <Box className="w-auto md:columns-4">
         
-        <Card className="bg-white border-b-4 border-b-emerald-300 pb-5">
+        <Card className="bg-white border-b-4 border-b-emerald-300 pb-5 md:mt-0 mt-4">
           <CardContent>
             <div className="float-left">
               <p className="text-2xl font-Mulish">$200.00</p>
@@ -16,7 +16,7 @@ const Cards = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-white border-b-4 border-b-sky-400 pb-5">
+        <Card className="bg-white border-b-4 border-b-sky-400 pb-5 md:mt-0 mt-4">
           <CardContent>
             <div className="float-left">
               <p className="text-2xl font-Mulish">$1500.00</p>
@@ -27,7 +27,7 @@ const Cards = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-white border-b-4 border-b-amber-400 pb-5">
+        <Card className="bg-white border-b-4 border-b-amber-400 pb-5 md:mt-0 mt-4">
           <CardContent>
             <div className="float-left">
               <p className="text-2xl font-Mulish">$23000.00</p>
@@ -38,7 +38,7 @@ const Cards = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-white border-b-4 border-b-sky-400 pb-5">
+        <Card className="bg-white border-b-4 border-b-sky-400 pb-5 md:mt-0 mt-4">
           <CardContent>
             <div className="float-left">
               <p className="text-2xl font-Mulish">$1500.00</p>
