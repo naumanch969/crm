@@ -20,7 +20,7 @@ const EditModal = ({ open, setOpen }) => {
   // todo: separate the client and lead fields from currentLead
   const [clientData, setClientData] = useState(lead?.clientId) // clientId = {gender: 'male', firstName: '', lastName: '', phone: '', email: '', cnic: ''}
   const [leadData, setLeadData] = useState(lead)
-  console.log(clientData, leadData)
+
   ////////////////////////////////////// USE EFFECTS  /////////////////////////////////////
   useEffect(() => {
     setClientData(lead?.clientId)

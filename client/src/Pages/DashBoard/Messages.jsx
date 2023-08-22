@@ -22,7 +22,6 @@ const Messages = ({}) => {
   /////////////////////////////////////// FUNCTIONS ////////////////////////////////////
   const handleSend = () => {
     if (input.trim() !== "") {
-      console.log(input);
       setInput("");
     }
   };

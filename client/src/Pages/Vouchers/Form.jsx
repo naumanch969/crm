@@ -26,10 +26,7 @@ const FORM = () => {
     setVoucherData((prevData) => ({ ...prevData, [name]: value, }));
   };
 
-  const handleCreateVoucher = (e) => {
-    e.preventDefault()
-    setIsVoucherCreated(true)
-  };
+
   const handleDownloadPDF = (e) => {
     e.preventDefault()
     dispatch(createVoucher(voucherData))
@@ -238,7 +235,7 @@ const FORM = () => {
                 <input
                   className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] "
                   type="text"
-                  name="cusomerName"
+                  name="customerName"
                   value={voucherData.customerName}
                   onChange={handleInputChange}
                 />
@@ -332,7 +329,7 @@ const FORM = () => {
               <button
                 type="submit"
                 className="w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer">
-                {isVoucherCreated ? 'Download' : 'Create'} Voucher
+                Download Voucher
               </button>
             </div>
           </div>

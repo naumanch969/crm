@@ -140,7 +140,6 @@ export const deleteApproval = async (req, res, next) => {
     try {
 
         const { approvalId } = req.params
-        console.log(approvalId)
         const findedApproval = await Approval.findById(approvalId)
         if (!findedApproval) return next(createError(400, 'Approval not exist'))
 

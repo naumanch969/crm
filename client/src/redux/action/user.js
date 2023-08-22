@@ -41,7 +41,6 @@ export const getUsers = () => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.getUsers()
-        console.log('data', data)
         dispatch(getUsersReducer(data.result))
         dispatch(end())
     } catch (err) {
@@ -52,7 +51,6 @@ export const getClients = () => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.getClients()
-        console.log('data', data)
         dispatch(getClientsReducer(data.result))
         dispatch(end())
     } catch (err) {

@@ -14,7 +14,7 @@ const DeleteModal = ({ open, setOpen, voucherId }) => {
     setOpen(false)
   }
   const handleDelete = () => {
-    dispatch(deleteVoucher(taskId))
+    dispatch(deleteVoucher(voucherId))
     setOpen(false)
   }
 

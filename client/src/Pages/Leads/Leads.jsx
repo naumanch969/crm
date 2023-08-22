@@ -66,7 +66,7 @@ function Leads({ type, showSidebar }) {
         {
             field: "actions", headerName: "Action", width: 250, renderCell: (params) => (
                 <div className='flex gap-[8px]' >
-                    <Tooltip placement='top' title='View' ><Link to="/view"><IconButton className='cursor-pointer' ><OpenInNew /></IconButton></Link></Tooltip>
+                    <Tooltip placement='top' title='View' ><Link to={`/leads/${params.row._id}`}><IconButton className='cursor-pointer' ><OpenInNew /></IconButton></Link></Tooltip>
                     <Tooltip placement='top' title='Update' > <IconButton onClick={() => handleOpenEditModal(params.row)} className='cursor-pointer ' ><EditOutlined /></IconButton></Tooltip>
                     <Tooltip placement='top' title='Delete' > <IconButton onClick={() => handleOpenDeleteModal(params.row._id)} className='cursor-pointer ' ><DeleteOutline /></IconButton></Tooltip>
                     <Tooltip placement='top' title='Update Status' > <IconButton onClick={() => handleOpenStatusModal(params.row)} className='cursor-pointer ' ><Upgrade /></IconButton></Tooltip>

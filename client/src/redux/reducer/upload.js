@@ -16,7 +16,6 @@ const uploadSlice = createSlice({
 
         uploadImageReducer: (state, action) => {
             const { result, isMultiple } = action.payload
-            console.log(`${rootURL}${result}`, isMultiple)
             isMultiple
                 ?
                 state.urls = [`${rootURL}${result}`, ...state.urls]

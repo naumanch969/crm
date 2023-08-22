@@ -31,7 +31,7 @@ function Vouchers() {
         <div className="flex gap-[4px] ">
           <Chip
             label="Approved"
-            style={{ backgroundColor: rows.id % 2 == 0 ? "red" : "green", color: "white" }}
+            style={{ backgroundColor: vouchers.id % 2 == 0 ? "red" : "green", color: "white" }}
           />
         </div>
       ),
@@ -40,8 +40,8 @@ function Vouchers() {
       field: "action", headerName: "Action", width: 120, renderCell: (params) => (
         <div className="flex gap-[4px] ">
           <Tooltip placement="top" title="Delete">
-            <IconButton onClick={()=>{setOpenDeleteModal(true);setSelectedVoucherId(paramss.row._id)}} className="hover:text-red-500">
-              <DeleteOutline  />
+            <IconButton onClick={() => { setOpenDeleteModal(true); setSelectedVoucherId(params.row._id) }} className="hover:text-red-500">
+              <DeleteOutline />
             </IconButton>
           </Tooltip>
           <Tooltip placement="top" title="View">
@@ -53,63 +53,12 @@ function Vouchers() {
       ),
     },
   ];
-  const rows = [
-    {
-      _id: 1,
-      date: "Date",
-      Name: "Name",
-      CNIC: "CNIC",
-      paymenttype: "Type Of Payment",
-      amountin: "Amount In",
-      amountrem: "Amount Remaining",
-      status: "Approved",
-    },
-    {
-      _id: 2,
-      date: "Date",
-      Name: "Name",
-      CNIC: "CNIC",
-      paymenttype: "Type Of Payment",
-      amountin: "Amount In",
-      amountrem: "Amount Remaining",
-      status: "Pending",
-    },
-    {
-      _id: 3,
-      date: "Date",
-      Name: "Name",
-      CNIC: "CNIC",
-      paymenttype: "Type Of Payment",
-      amountin: "Amount In",
-      amountrem: "Amount Remaining",
-      status: "Pending",
-    },
-    {
-      _id: 4,
-      date: "Date",
-      Name: "Name",
-      CNIC: "CNIC",
-      paymenttype: "Type Of Payment",
-      amountin: "Amount In",
-      amountrem: "Amount Remaining",
-      status: "Pending",
-    },
-    {
-      _id: 5,
-      date: "Date",
-      Name: "Name",
-      CNIC: "CNIC",
-      paymenttype: "Type Of Payment",
-      amountin: "Amount In",
-      amountrem: "Amount Remaining",
-      status: "Pending",
-    },
-  ];
+
 
   //////////////////////////////////////// STATES ///////////////////////////////////////
   const [openViewModal, setOpenViewModal] = useState(false)
   const [selectedVoucherId, setSelectedVoucherId] = useState(false)
-  const [openDeleteModal,setOpenDeleteModal] = useState(false)
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
   //////////////////////////////////////// USE EFFECTS //////////////////////////////////
   useEffect(() => {

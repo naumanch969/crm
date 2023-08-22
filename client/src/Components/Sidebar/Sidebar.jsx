@@ -111,7 +111,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 {
                     title: "Vouchers",
                     icon: <LockOutlined />,
-                    link: "/users"
+                    link: "/voucher"
                 },
             ]
         },
@@ -173,7 +173,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     return (
         <>
             {/* desktop sidebar */}
-            <Box className={`w-[20vw] sticky top-0 flex flex-col shadow-none h-screen  ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white z-[1000] border-r-[1px] border-r-gray-300 border-b-[1px] border-b-gray-300`} >
+            <Box className={`lg:w-[20vw] md:w-[25vw] sticky top-0 flex flex-col shadow-none h-screen  ${showSidebar ? 'md:flex hidden' : 'hidden'} bg-white z-[1000] border-r-[1px] border-r-gray-300 border-b-[1px] border-b-gray-300`} >
                 {/* <div className='flex flex-col gap-[1.3px] w-56 py-[8px] text-gray' > */}
                 <div className="border-b-[1px] border-b-gray-300 p-[7.5px] h-[4rem] ">
                     {!showSidebar ? "" : <img className="h-10" src="/favicon/GrowLOGO.png" />}
