@@ -48,7 +48,7 @@ function CreateCashBook() {
                 {/* all inputs */}
                 <div className="flex justify-start flex-wrap gap-[24px] w-full ">
                   {/* Branch */}
-                  <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                  <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
                     <label className="text-gray-900 font-medium text-[1rem] " htmlFor="type">Type:</label>
                     <select name="type" value={cashbookData.type} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ">
                       <option value="">-</option>
@@ -57,12 +57,12 @@ function CreateCashBook() {
                     </select>
                   </div>
                   {/* Date of Issue */}
-                  <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                  <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full">
                     <label className="text-gray-900 font-medium text-[1rem] " htmlFor="customerName">Customer Name:</label>
                     <input type="text" name="customerName" value={cashbookData.customerName} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " />
                   </div>
                   {/* Customer Name */}
-                  <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                  <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full">
                     <label className="text-gray-900 font-medium text-[1rem] " htmlFor="paymentType">Payment Type:</label>
                     <select name="paymentType" value={cashbookData.paymentType} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ">
                       <option value="">-</option>
@@ -73,17 +73,17 @@ function CreateCashBook() {
                     </select>
                   </div>
                   {/* Customer CNIC */}
-                  <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                  <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
                     <label className="text-gray-900 font-medium text-[1rem] " htmlFor="paymentDetail">Payment Details:</label>
                     <input type="text" name="paymentDetail" value={cashbookData.paymentDetail} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " />
                   </div>
                   {/* Type of Payment */}
-                  <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                  <div className="flex flex-col justify-start gap-[4px]sm:w-[23%] w-full ">
                     <label className="text-gray-900 font-medium text-[1rem] " htmlFor="amountPaid">Amount Paid:</label>
                     <input type="number" name="amountPaid" value={cashbookData.amountPaid} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " />
                   </div>
                   {/* Total Amount */}
-                  <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                  <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
                     <label className="text-gray-900 font-medium text-[1rem] " htmlFor="branch">Branch No.:</label>
                     <input type="number" name="branch" value={cashbookData.branch} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " />
                   </div>
