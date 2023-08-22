@@ -61,7 +61,7 @@ const App = () => {
                 <Route path="/tasks/create" element={<CreateTask />} />
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/clients" element={<Clients />} />
-                <Route path="/users/create" element={<CreateUser />} />
+                <Route path="/eployees/create" element={<CreateUser />} />
                 <Route path="/users/:userId" element={<User />} />
                 <Route path="/authorization/request" element={<Request />} />
                 <Route path="/authorization/refund" element={<Refunds />} />

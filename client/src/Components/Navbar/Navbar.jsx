@@ -177,7 +177,7 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
                 </IconButton>
               </Tooltip>
 
-              <Link to="/users/create">
+              <Link to="/employees/create">
                 <Tooltip title="Add User" arrow placement="bottom">
                   <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
                     <ControlPointDuplicateRounded />

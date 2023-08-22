@@ -3,16 +3,20 @@ import { Avatar, Box, IconButton } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Close, HomeOutlined, PeopleAltOutlined, AssignmentOutlined, AccountCircleOutlined, LockOutlined, LocalAtmOutlined, ShoppingCartOutlined, CardGiftcardOutlined, SummarizeOutlined, StarBorder, ExpandLess, ExpandMore, Create, Today, OpenInNewOutlined, Money, AccountBalanceOutlined, ReceiptLong, Receipt, PeopleAltRounded } from '@mui/icons-material'
 import { useState } from "react"
+import { useSelector } from "react-redux"
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
 
     //////////////////////////////////////// Variables ////////////////////////////////////////
+    const { loggedUser } = useSelector(state => state.user)
+    const role = loggedUser?.role
     const links = [
         {
             id: 1,
             title: "Dashboard",
             link: "/",
             icon: <HomeOutlined />,
+            role: ['employee', 'manager', 'super_admin'],
             childrens: []
         },
         {
@@ -23,17 +27,20 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 {
                     title: "Create Lead",
                     icon: <Create />,
-                    link: "/leads/create"
+                    link: "/leads/create",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
                 {
                     title: "My Leads",
                     icon: <PeopleAltRounded />,
-                    link: "/myLeads"
+                    link: "/myLeads",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
                 {
                     title: "Get All Leads",
                     icon: <PeopleAltOutlined />,
-                    link: "/leads?type=all"
+                    link: "/leads?type=all",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
             ]
         },
@@ -45,12 +52,14 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 {
                     title: "All Projects",
                     icon: <Today />,
-                    link: "/projects"
+                    link: "/projects",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
                 {
                     title: "Create Project",
                     icon: <OpenInNewOutlined />,
-                    link: "/projects/create"
+                    link: "/projects/create",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
             ]
         },
@@ -62,12 +71,14 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 {
                     title: "Create Task",
                     icon: <Create />,
-                    link: "tasks/create"
+                    link: "tasks/create",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
                 {
                     title: "My Tasks",
                     icon: <AssignmentOutlined />,
-                    link: "/tasks"
+                    link: "/tasks",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
             ]
         },
@@ -77,19 +88,22 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             icon: <AccountCircleOutlined />,
             childrens: [
                 {
-                    title: "Create User",
+                    title: "Create Employee",
                     icon: <Create />,
-                    link: "/users/create"
+                    link: "/employees/create",
+                    role: ['manager', 'super_admin']
                 },
                 {
                     title: "Clients",
                     icon: <AccountCircleOutlined />,
-                    link: "/clients"
+                    link: "/clients",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
                 {
                     title: "Employees",
                     icon: <AccountCircleOutlined />,
-                    link: "/employees"
+                    link: "/employees",
+                    role: ['manager', 'super_admin']
                 },
             ]
         },
@@ -101,17 +115,20 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 {
                     title: "Approvals",
                     icon: <Create />,
-                    link: "/authorization/request"
+                    link: "/authorization/request",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
                 {
                     title: "Refunds",
                     icon: <Create />,
-                    link: "/authorization/refund"
+                    link: "/authorization/refund",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
                 {
                     title: "Vouchers",
                     icon: <LockOutlined />,
-                    link: "/voucher"
+                    link: "/voucher",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
             ]
         },
@@ -123,12 +140,14 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 {
                     title: "Generate Sale",
                     icon: <Create />,
-                    link: "/sales/create"
+                    link: "/sales/create",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
                 {
                     title: "All Sales",
                     icon: <ShoppingCartOutlined />,
-                    link: "/sales"
+                    link: "/sales",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
             ]
         },
@@ -140,12 +159,14 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 {
                     title: "Today Cash Book",
                     icon: <Today />,
-                    link: "/cashbook"
+                    link: "/cashbook",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
                 {
                     title: "View Cash Book",
                     icon: <OpenInNewOutlined />,
-                    link: "/view/cashbook"
+                    link: "/view/cashbook",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
             ]
         },
@@ -157,16 +178,30 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 {
                     title: "All Vouchers",
                     icon: <ReceiptLong />,
-                    link: "/voucher"
+                    link: "/voucher",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
                 {
                     title: "Create Voucher",
                     icon: <Create />,
-                    link: "/voucher/create"
+                    link: "/voucher/create",
+                    role: ['employee', 'manager', 'super_admin'],
                 },
             ]
         },
     ]
+
+
+    const filteredLinks = links.map(link => {
+        const filteredLink = { ...link };
+
+        if (!filteredLink.role || filteredLink.role.includes(role)) {
+            if (filteredLink.childrens) {
+                filteredLink.childrens = filteredLink.childrens.filter(childLink => !childLink.role || childLink.role.includes(role));
+            }
+            return filteredLink;
+        }
+    });
 
     const [openedMenu, setOpenedMenu] = useState(false);
 
@@ -180,7 +215,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 </div>
                 <div style={{ height: 'calc(100vh - 4rem)' }} className="py-[0px] flex flex-col h-fit overflow-y-scroll ">
                     {
-                        links.map((link, index) => (
+                        filteredLinks.map((link, index) => (
                             <SidebarItem item={link} key={index} openedMenu={openedMenu} setOpenedMenu={setOpenedMenu} setShowSidebar={setShowSidebar} />
                         ))
                     }
@@ -199,7 +234,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                         </div>
                         <div style={{ height: 'calc(100vh - 4rem)' }} className="flex flex-col gap-[5px] py-[6px] overflow-y-scroll ">
                             {
-                                links.map((link, index) => (
+                                filteredLinks.map((link, index) => (
                                     <SidebarItem item={link} key={index} openedMenu={openedMenu} setOpenedMenu={setOpenedMenu} />
                                 ))
                             }
