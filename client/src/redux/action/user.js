@@ -26,11 +26,12 @@ export const login = (userData, navigate) => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const logout = () => async (dispatch) => {
+export const logout = (navigate) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.logout()
-        dispatch(logoutReducer(data.result))
+        Cookies.remove('crm_profile')
+        dispatch(logoutReducer())
+        navigate('/auth/login')
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

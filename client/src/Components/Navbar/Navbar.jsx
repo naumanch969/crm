@@ -11,14 +11,15 @@ import {
 } from "@mui/icons-material";
 import { Avatar, Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Dropdown } from "@mui/base/Dropdown";
 import { Menu } from "@mui/base/Menu";
 import { MenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
 import { MenuButton } from "@mui/base/MenuButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React from "react";
+import { logout } from '../../redux/action/user'
 
 const blue = {
   100: "#DAECFF",
@@ -93,7 +94,10 @@ const StyledMenuItem = styled(MenuItem)(
 );
 
 const Navbar = ({ setShowSidebar, showSidebar }) => {
+  
   const { loggedUser } = useSelector((state) => state.user);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const [date, setDate] = useState(new Date());
 
@@ -108,6 +112,11 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
   let notifications = [
     { avatar: <Avatar />, name: "hamza", description: "Want approval for the lead" },
   ];
+
+  const handleLogout = () => {
+    dispatch(logout(navigate))
+  }
+
 
   return (
     <>
@@ -189,7 +198,7 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
                   </Tooltip>
                 </MenuButton>
                 <Menu slots={{ listbox: StyledListbox }}>
-                  <StyledMenuItem className="text-gray-600 font-thin">
+                  <StyledMenuItem onClick={handleLogout} className="text-gray-600 font-thin">
                     <Logout className="font-extraLight mb-1" /> Logout
                   </StyledMenuItem>
                 </Menu>
