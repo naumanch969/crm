@@ -48,12 +48,9 @@ export const getSpecificDateCashbook = async (req, res, next) => {
     }
 };
 export const getIncomeAndExpenses = async (req, res, next) => {
-    console.log('outlside')
     try {
-        console.log('first')
         const currentYear = new Date().getFullYear();
         const requestedYear = req.body.year || currentYear;
-        console.log(currentYear, requestedYear)
         const pipeline = [
             {
                 $group: {
@@ -104,7 +101,6 @@ export const getIncomeAndExpenses = async (req, res, next) => {
         ];
 
         const result = await Cashbook.aggregate(pipeline);
-        console.log(result)
         const allMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         const mergedArray = allMonths.map(month => {
             const entry = result.find(item => item.month === allMonths.indexOf(month) + 1 && item.year === requestedYear);
@@ -114,11 +110,9 @@ export const getIncomeAndExpenses = async (req, res, next) => {
                 expense: entry ? entry.expense : 0,
             };
         });
-        console.log(mergedArray)
         res.json({ result: mergedArray, message: 'Income and Expense fetched successfully', success: true });
 
     } catch (err) {
-        console.log('err', err)
         next(createError(500, err.message))
     }
 }
@@ -185,7 +179,6 @@ export const getPaymentsStat = async (req, res, next) => {
         res.status(200).json({ result: paymentsData, message: 'payments stats fetched successfully', success: true });
 
     } catch (err) {
-        console.log('err', err)
         next(createError(500, err.message))
     }
 }

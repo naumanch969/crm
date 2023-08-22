@@ -17,7 +17,6 @@ export const uploadImage = (formData, isMultiple) => async (dispatch) => {
         dispatch(uploadImageReducer({ result: data.result, isMultiple }))
         dispatch(end())
     } catch (err) {
-        console.log(err)
         dispatch(error(err.message))
     }
 }
@@ -27,7 +26,6 @@ export const deleteImage = (filename, isMultiple) => async (dispatch) => {
     try {
         dispatch(start())
         await api.deleteImage(filename)
-        console.log(`${rootURL}/uploads/${filename}`)
         dispatch(deleteImageReducer({ filename, isMultiple }))
         dispatch(end())
     } catch (err) {

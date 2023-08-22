@@ -111,7 +111,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 {
                     title: "Vouchers",
                     icon: <LockOutlined />,
-                    link: "/users"
+                    link: "/voucher"
                 },
             ]
         },

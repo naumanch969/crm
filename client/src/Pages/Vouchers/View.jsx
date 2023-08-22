@@ -2,8 +2,8 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import React from 'react'
 
 const View = ({ open, setOpen }) => {
-    console.log(open)
 
+    
     return (
         <Dialog className="z-[1000]" open={open} onClose={() => setOpen(false)}>
             <DialogContent>
