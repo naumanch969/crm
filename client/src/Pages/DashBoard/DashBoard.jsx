@@ -16,11 +16,6 @@ function DashBoard() {
         <IncomeAndExpense />
         <LeadsStat />
       </Box>
-
-      <Box className='flex '>
-        <Messages />
-        <ProjectsStats />
-      </Box>
     </div>
   );
 }

@@ -34,7 +34,6 @@ const App = () => {
 
       {!loggedUser ? (
         <div className="flex justify-center items-center w-full ">
-          <Navbar />
           <Routes>
             <Route exact path="/auth/register" element={<Register />} />
             <Route exact path="/auth/login" element={<Login />} />

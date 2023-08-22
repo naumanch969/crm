@@ -46,7 +46,6 @@ const StyledListbox = styled("ul")(
     font-family: IBM Plex Sans, sans-serif;
     font-size: 0.875rem;
     box-sizing: border-box;
-    height:50vh;
     transition:all;
     padding: 6px;
     margin: 12px 0;
