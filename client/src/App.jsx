@@ -7,8 +7,7 @@ import Home from "./Client Panel/pages/Dashboard/Home";
 import ClientHeader from "./Client Panel/components/ClientHeader";
 import ClientProjects from "./Client Panel/pages/Your Projects/ClientProjects";
 import Contact from "./Client Panel/pages/Contact Us/Contact";
-import ViewPage from "./Components/ViewPage/ViewPage";
-import Refund from "./Pages/Refund/REfund";
+import RefundForm from "./Pages/Refund/Refund";
 
 const App = () => {
 
@@ -49,15 +48,14 @@ const App = () => {
             <div className="flex p-[1rem] w-full">
               <Routes>
                 <Route path="/" element={<DashBoard />} />
-                <Route path="/view" element={<Lead />} />
                 <Route path="/auth/register" element={<Navigate to="/" />} />
                 <Route path="/auth/login" element={<Navigate to="/" />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/projects/create" element={<CreateProject />} />
                 <Route path="/leads/refund" element={<Refund />} />
                 <Route path="/myLeads" element={<Leads type='mine' />} />
-                <Route path="/leads/:leadId" element={<Lead />} />
                 <Route path="/leads" element={<Leads type='all' />} />
+                <Route path="/leads/:leadId" element={<Lead />} />
                 <Route path="/leads/create" element={<CreateLead />} />
                 <Route path="/tasks" element={<Tasks />} />
                 <Route path="/tasks/create" element={<CreateTask />} />

@@ -40,6 +40,7 @@ const approvalSlice = createSlice({
         createVoucherApprovalReducer: (state, action) => { state.voucherApprovals = [action.payload, ...state.requestApprovals] },
         createReceiptApprovalReducer: (state, action) => { state.receiptApprovals = [action.payload, ...state.requestApprovals] },
         createRefundApprovalReducer: (state, action) => { state.refundApprovals = [action.payload, ...state.refundApprovals] },
+        rejectRefundApprovalReducer: (state, action) => { state.refundApprovals = state.refundApprovals.filter(a => a._id != action.payload._id) },
         deleteApprovalReducer: (state, action) => {
             const { type, result } = action.payload
             switch (type) {
@@ -86,5 +87,5 @@ const approvalSlice = createSlice({
     }
 })
 
-export const { start, end, error, getApprovalReducer, getApprovalsReducer, createRequestApprovalReducer, rejectRequestApprovalReducer, createVoucherApprovalReducer, createReceiptApprovalReducer, createRefundApprovalReducer, deleteApprovalReducer, } = approvalSlice.actions
+export const { start, end, error, getApprovalReducer, getApprovalsReducer, createRequestApprovalReducer, rejectRequestApprovalReducer, createVoucherApprovalReducer, createReceiptApprovalReducer, rejectRefundApprovalReducer, createRefundApprovalReducer, deleteApprovalReducer, } = approvalSlice.actions
 export default approvalSlice.reducer

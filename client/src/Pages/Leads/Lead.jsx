@@ -10,8 +10,6 @@ const Lead = () => {
     const dispatch = useDispatch()
     const { leadId } = useParams()
     const { currentLead, isFetching, error } = useSelector(state => state.lead)
-    const { city, propertyType, homeType, region, minArea, minAreaUnit, maxArea, maxAreaUnit, minBudget, minBudgetUnit, maxBudget, maxBudgetUnit, priority, clientType, beds, source, createdAt, allocatedTo, status, isAppliedForRefund } = currentLead
-    const { firstName, lastName, gender, email, phone, cnic } = currentLead?.clientId
 
     useEffect(() => {
         dispatch(getLead(leadId))
@@ -19,7 +17,7 @@ const Lead = () => {
 
     return (
         <div className='h-full w-full'>
-            <LeadTopbar leadId={leadId} isAppliedForRefund={isAppliedForRefund} />
+            <LeadTopbar leadId={leadId} isAppliedForRefund={currentLead?.isAppliedForRefund} />
 
             <div className="bg-white rounded-lg shadow-md h-screen w-full mt-5">
 
@@ -32,9 +30,9 @@ const Lead = () => {
 
                 {/* Field Data */}
                 <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{firstName}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{lastName}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{gender}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{currentLead?.clientId?.firstName}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{currentLead?.clientId?.lastName}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{currentLead?.clientId?.gender}</div>
                 </div>
 
                 {/* Field Heading */}
@@ -46,9 +44,9 @@ const Lead = () => {
 
                 {/* Field Data */}
                 <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{cnic}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{phone}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{email}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{currentLead?.clientId?.cnic}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{currentLead?.clientId?.phone}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{currentLead?.clientId?.email}</div>
                 </div>
 
                 {/* Field Heading */}
@@ -60,9 +58,9 @@ const Lead = () => {
 
                 {/* Field Data */}
                 <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{city}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{region}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{propertyType}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{currentLead?.city}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{currentLead?.region}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{currentLead?.propertyType}</div>
                 </div>
 
                 {/* Field Heading */}
@@ -74,9 +72,9 @@ const Lead = () => {
 
                 {/* Field Data */}
                 <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{homeType}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{minArea} {minAreaUnit}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{maxArea} {maxAreaUnit}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{currentLead?.homeType}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{currentLead?.minArea} {currentLead?.minAreaUnit}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{currentLead?.maxArea} {currentLead?.maxAreaUnit}</div>
                 </div>
 
                 {/* Field Heading */}
@@ -88,9 +86,9 @@ const Lead = () => {
 
                 {/* Field Data */}
                 <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{minBudget} {minBudgetUnit}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{maxBudget} {maxBudgetUnit}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{priority}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{currentLead?.minBudget} {currentLead?.minBudgetUnit}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{currentLead?.maxBudget} {currentLead?.maxBudgetUnit}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{currentLead?.priority}</div>
                 </div>
 
                 {/* Field Heading */}
@@ -102,9 +100,9 @@ const Lead = () => {
 
                 {/* Field Data */}
                 <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{clientType}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{beds}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{source[0]}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{currentLead?.clientType}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{currentLead?.beds}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{currentLead?.source[0]}</div>
                 </div>
 
                 {/* Field Heading */}
@@ -116,9 +114,9 @@ const Lead = () => {
 
                 {/* Field Data */}
                 <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{format(createdAt)}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{allocatedTo?.email}</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{status}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-start">{format(currentLead?.createdAt)}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-center">{currentLead?.allocatedTo?.email}</div>
+                    <div className="text-lg font-extralight text-gray-600 flex justify-end">{currentLead?.status}</div>
                 </div>
 
             </div>
