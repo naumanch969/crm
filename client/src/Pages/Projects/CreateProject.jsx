@@ -65,11 +65,11 @@ const CreateProject = () => {
                         {/* images */}
                         <div className="newHotelItem w-full flex flex-wrap justify-start md:items-start items-center gap-[1rem] ">
                             <Upload image={projectData?.images} isMultiple={true} />
-                        </div>
+                        </div> 
                         {/* all inputs */}
                         <div className="flex justify-start flex-wrap gap-[24px] w-full ">
                             {/* city */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] md:w-[30%] sm:w-[47%] w-full">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="city">City:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='city' value={projectData.city} onChange={handleChange} >
                                     <option value="">-</option>
@@ -79,12 +79,12 @@ const CreateProject = () => {
                                 </select>
                             </div>
                             {/* area */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] md:w-[30%] sm:w-[47%] w-full ">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="region">Region:</label>
                                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="region" value={projectData.region} onChange={handleChange} />
                             </div>
                             {/* property type */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] md:w-[30%] sm:w-[47%] w-full">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="propertyType">Property Type:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='propertyType' value={projectData.propertyType} onChange={handleChange} >
                                     <option value="">Select Property Type</option>
@@ -93,7 +93,7 @@ const CreateProject = () => {
                                 </select>
                             </div>
                             {/* home type */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] md:w-[30%] sm:w-[47%] w-full">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="homeType">Home Types:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='homeType' value={projectData.homeType} onChange={handleChange} >
                                     <option value="">-</option>
@@ -103,17 +103,17 @@ const CreateProject = () => {
                                 </select>
                             </div>
                             {/* price */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] md:w-[30%] sm:w-[47%] w-full">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="price">Price:</label>
                                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="price" value={projectData.price} onChange={handleChange} />
                             </div>
                             {/* area */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] md:w-[30%] sm:w-[47%] w-full">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="maxArea">Area:</label>
                                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="area" value={projectData.area} onChange={handleChange} />
                             </div>
                             {/* area unit */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] md:w-[30%] sm:w-[47%] w-full">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="areaUnit">Area Unit:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='areaUnit' value={projectData.areaUnit} onChange={handleChange} >
                                     <option value="squareFeet">Square Feet</option>
@@ -121,7 +121,7 @@ const CreateProject = () => {
                                 </select>
                             </div>
                             {/* priority */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] md:w-[30%] sm:w-[47%] w-full">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="priority">Project Priority:</label>
                                 <select className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='priority' value={projectData.priority} onChange={handleChange} >
                                     <option value="high">High</option>
@@ -130,7 +130,7 @@ const CreateProject = () => {
                                 </select>
                             </div>
                             {/* beds */}
-                            <div className="flex flex-col justify-start gap-[4px] w-[23%] ">
+                            <div className="flex flex-col justify-start gap-[4px] md:w-[30%] sm:w-[47%] w-full">
                                 <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="beds">BEDS:</label>
                                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="beds" value={projectData.beds} onChange={handleChange} />
                             </div>

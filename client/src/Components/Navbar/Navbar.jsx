@@ -1,15 +1,5 @@
-import {
-  Language,
-  MenuOutlined,
-  TimerOutlined,
-  QuestionAnswerOutlined,
-  SettingsOutlined,
-  ControlPointDuplicateRounded,
-  Logout,
-  AddTaskOutlined,
-  NotificationsActiveOutlined,
-} from "@mui/icons-material";
-import { Avatar, Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { MenuOutlined, TimerOutlined, Logout, AddTaskOutlined } from "@mui/icons-material";
+import { Avatar, Badge, Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dropdown } from "@mui/base/Dropdown";
@@ -19,7 +9,20 @@ import { styled } from "@mui/system";
 import { MenuButton } from "@mui/base/MenuButton";
 import { Link, useNavigate } from "react-router-dom";
 import React from "react";
-import { logout } from '../../redux/action/user'
+import { logout } from "../../redux/action/user";
+import { CiAlarmOn, CiBellOn, CiSettings } from "react-icons/ci";
+import {
+  PiAlarm,
+  PiBell,
+  PiBellLight,
+  PiGear,
+  PiList,
+  PiListChecks,
+  PiTimerLight,
+  PiUserPlus,
+  PiUserPlusLight,
+} from "react-icons/pi";
+import { BsListTask } from "react-icons/bs";
 
 const blue = {
   100: "#DAECFF",
@@ -93,10 +96,9 @@ const StyledMenuItem = styled(MenuItem)(
 );
 
 const Navbar = ({ setShowSidebar, showSidebar }) => {
-  
   const { loggedUser } = useSelector((state) => state.user);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [date, setDate] = useState(new Date());
 
@@ -113,43 +115,68 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
   ];
 
   const handleLogout = () => {
-    dispatch(logout(navigate))
-  }
-
+    dispatch(logout(navigate));
+  };
 
   return (
     <>
-      <div className="flex flex-col sticky top-0 w-full sm:h-[4rem] h-[4rem] bg-white z-[2000] border-b-[1px] border-b-gray-300">
-        <div className="wrapper sm:h-full h-[4rem] md:px-[24px] sm:px-[1rem] px-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-gray-300 sm:shadow-none ">
+      <div className="flex flex-col sticky top-0 w-full sm:h-[4rem] h-[4rem] bg-white z-[2000] border-b-[1px] border-b-[#eeeff0]">
+        <div className="wrapper sm:h-full h-[4rem] md:pl-[20px] sm:pl-[1rem] pl-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-[#eeeff0] sm:shadow-none ">
           {/* left section */}
-          <div className="flex justify-start gap-[4px] mt-1">
+          <div className="flex justify-start gap-[10px] items-center">
             <IconButton
               onClick={() => setShowSidebar((pre) => !pre)}
               className="md:hidden flex cursor-pointer hover:text-red-400">
-              <MenuOutlined />
+              <PiList className="text-[25px]" />
             </IconButton>
             <div>
-              <p className="text-red-400 mt-1 text-xl">
-                <TimerOutlined className="mb-1" /> {date.toLocaleTimeString()}
+              <p className="text-red-400 text-xl gap-1 flex items-center">
+                <PiTimerLight className="text-[25px]" /> {date.toLocaleTimeString()}
               </p>
             </div>
           </div>
 
           {/* right section */}
-          <div className="flex gap-[8px] mt-1">
+          <div className="flex gap-[10px] ">
             {/* icons */}
-            <div className="sm:flex items-center hidden gap-[8px] ">
+            <div className="sm:flex items-center hidden gap-[10px] ">
               <Dropdown>
                 <MenuButton>
                   <Tooltip title="Notifications" arrow placement="bottom">
-                    <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
-                      <NotificationsActiveOutlined />
+                    <IconButton className="h-fit hover:text-red-400 inline-block relative" size="small" aria-label="menu">
+                      <PiBell className="text-[25px] animate-none" />
+                      <span class="animate-ping absolute top-1.5 right-2 block h-1 w-1 rounded-full ring-2 ring-primary-red bg-red-500"></span>
                     </IconButton>
                   </Tooltip>
                 </MenuButton>
                 <Menu slots={{ listbox: StyledListbox }}>
                   {notifications.map((item, index) => (
-                    <React.Fragment key={index} >
+                    <React.Fragment key={index}>
+                      <StyledMenuItem className="text-gray-600 flex">
+                        <div className="p-1 pr-2">{item.avatar}</div>
+                        <div>
+                          <span className="text-lg font-extralight text-sky-400">{item.name}</span>
+                          <br />
+                          {item.description}
+                          <br />
+                        </div>
+                      </StyledMenuItem>
+                    </React.Fragment>
+                  ))}
+                </Menu>
+              </Dropdown>
+
+              <Dropdown>
+                <MenuButton>
+                  <Tooltip title="Your Tasks" arrow placement="bottom">
+                    <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
+                      <PiAlarm className="text-[25px] font-bold" />
+                    </IconButton>
+                  </Tooltip>
+                </MenuButton>
+                <Menu slots={{ listbox: StyledListbox }}>
+                  {notifications.map((item, index) => (
+                    <React.Fragment key={index}>
                       <StyledMenuItem className="text-gray-600 flex">
                         <div className="p-1 pr-2">{item.avatar}</div>
                         <div>
@@ -167,35 +194,36 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
               <Link to="/tasks/create">
                 <Tooltip title="Add Task" arrow placement="bottom">
                   <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
-                    <AddTaskOutlined />
+                    <PiListChecks className="text-[25px]" />
                   </IconButton>
                 </Tooltip>
               </Link>
               <Tooltip title="Settings" arrow placement="bottom">
                 <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
-                  <SettingsOutlined />
+                  <PiGear className="text-[25px]" />
                 </IconButton>
               </Tooltip>
 
               <Link to="/employees/create">
                 <Tooltip title="Add User" arrow placement="bottom">
                   <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
-                    <ControlPointDuplicateRounded />
+                    <PiUserPlus className="text-[25px]" />
                   </IconButton>
                 </Tooltip>
               </Link>
             </div>
             {/* profile */}
-            <div className="flex items-center ">
-              <span className="capitalize ">{loggedUser?.username}</span>
+            <div className="flex items-center border-l-[1px] border-l-[#eeeff0] hover:bg-gray-100">
               <Dropdown>
                 <MenuButton>
-                  <Tooltip title="Profile" arrow placement="bottom">
-                    <Avatar className="m-2 cursor-pointer capitalize ">
+                  <Tooltip className="flex items-center" title="Profile" arrow placement="bottom">
+                    <Avatar className="m-3 cursor-pointer capitalize ">
                       {loggedUser?.username[0]}
                     </Avatar>
+                    <span className="capitalize pr-3">{loggedUser?.username}</span>
                   </Tooltip>
                 </MenuButton>
+
                 <Menu slots={{ listbox: StyledListbox }}>
                   <StyledMenuItem onClick={handleLogout} className="text-gray-600 font-thin">
                     <Logout className="font-extraLight mb-1" /> Logout

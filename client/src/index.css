@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -11,6 +10,11 @@
   }
 }
 
+@font-face {
+  font-family: 'Montserrat', sans-serif;
+  src: url("'https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300&display=swap")
+    format("opentype");
+}
 
 /* for the height of screen */
 @media (max-width: 620px) {
@@ -29,12 +33,11 @@
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
-  
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background:white
+  background: white;
 }
 
 /* Handle */
@@ -49,8 +52,6 @@
   transition: all;
   transition-delay: 1s;
 }
-
-
 
 /* lead board scrollbar */
 .leadBoard::-webkit-scrollbar {
@@ -77,11 +78,7 @@
   border-radius: 4px;
 }
 
-
 /* react file base image */
-#filebase_image>input[type='file'] {
+#filebase_image > input[type="file"] {
   display: none;
 }
-
-
-

@@ -28,7 +28,7 @@ const App = () => {
 
 
   return (
-    <div className="flex flex-col w-full h-full bg-gray-100">
+    <div className="flex flex-col w-full h-full bg-[#f6f9fa]">
 
 
       {!loggedUser ? (
