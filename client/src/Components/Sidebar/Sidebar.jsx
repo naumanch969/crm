@@ -234,13 +234,14 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         className={`w-[17vw] sticky top-0 flex flex-col shadow-none h-screen  ${
           showSidebar ? "md:flex hidden" : "hidden"
         } bg-white z-[1000] border-r-[1px] border-r-[#eeeff0] border-b-[1px] border-b-[#eeeff0]`}>
-        {/* <div className='flex flex-col gap-[1.3px] w-56 py-[8px] text-gray' > */}
-        <div className="border-b-[1px] border-b-[#eeeff0] p-[7.5px] h-[4rem] ">
-          {!showSidebar ? "" : <img className="h-10" src="/favicon/GrowLOGO.png" />}
+          <a href="/">
+        <div className="flex border-b-[1px] border-b-[#eeeff0] h-[4rem] items-center justify-center">
+          {!showSidebar ? "" : <img className="h-[45px]" src="/favicon/GrowLOGO.png" />}
         </div>
+        </a>
         <div
           style={{ height: "calc(100vh - 4rem)" }}
-          className="py-[5px] gap-1 flex flex-col h-fit overflow-y-scroll ">
+          className="py-[5px] gap-1 flex flex-col h-fit overflow-y-scroll">
           {filteredLinks.map((link, index) => (
             <SidebarItem
               item={link}
@@ -256,9 +257,9 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
 
       {/* mobile sidebar */}
       {showSidebar && (
-        <Box className="absolute top-0 left-0 bg-white shadow-box w-[16rem] h-screen md:hidden flex z-[1100] ">
-          <div className="wrapper flex flex-col w-full h-full overflow-y-scroll p-[10px] ">
-            <div className="w-full flex justify-between items-center mb-[1rem] h-[4rem] ">
+        <Box className="absolute top-0 left-0 bg-white shadow-box w-[16rem] h-screen md:hidden flex z-[1100]">
+          <div className="wrapper flex flex-col w-full h-full overflow-y-scroll p-[10px]">
+            <div className="w-full flex justify-between items-center mb-[1rem] h-[4rem]">
               <img src="/favicon/GrowLOGO.png" />
               <IconButton onClick={() => setShowSidebar(false)}>
                 <Close />

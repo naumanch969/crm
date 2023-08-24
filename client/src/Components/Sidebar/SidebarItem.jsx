@@ -45,7 +45,7 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar })
       </Link>
 
       {item.childrens?.length > 0 && isMenuOpen && (
-        <div className="py-2 transition-all">
+        <div className="py-2">
           {item.childrens.map((child, index) => (
             <SidebarItem
             className="transition-all"
