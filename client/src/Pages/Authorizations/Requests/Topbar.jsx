@@ -1,9 +1,9 @@
 import React from 'react';
-import { Add } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Path } from '../../../utils';
+import { Add, } from '@mui/icons-material';
 
-const Topbar = () => {
+const Topbar = (view, setView) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const title = pathname.split('/')[1];
@@ -22,6 +22,7 @@ const Topbar = () => {
 
       <div className='flex justify-between items-center '>
         <h1 className='text-primary-blue text-[32px] capitalize'>{title}</h1>
+
 
         {showAddButton && (
           <button

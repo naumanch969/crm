@@ -1,14 +1,14 @@
 import React from 'react';
-import { Add } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Add, } from '@mui/icons-material';
 import { Path } from '../../utils';
 
-const Topbar = () => {
+const Topbar = (view, setView) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const pathArr = pathname.split('/').filter(item => item !== '');
   const showAddButton = !pathArr.includes('create');
-  const title =pathArr.includes('create') ? `Create ${pathname.split('/')[1].slice(0,-1)}` :pathname.split('/')[1] 
+  const title = pathArr.includes('create') ? `Create ${pathname.split('/')[1].slice(0, -1)}` : pathname.split('/')[1]
 
   const handleAddClick = () => {
     navigate(`${pathname}/create`);

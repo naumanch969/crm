@@ -81,10 +81,12 @@ export const deleteApproval = (approvalId) => API.delete(`/approval/delete/${app
 export const getLead = (leadId) => API.get(`/lead/get/single/${leadId}`)
 export const getLeads = () => API.get(`/lead/get/all`)
 export const getEmployeeLeads = () => API.get(`/lead/get/employee`)
+export const getArchivedLeads = () => API.get(`/lead/get/archived`)
 export const getLeadsStat = () => API.get(`/lead/get/stats`)
 export const createOnsiteLead = (leadData) => API.post(`/lead/create/onsite`, leadData)
 export const createOnlineLead = (leadData) => API.post(`/lead/create/online`, leadData)
 export const updateLead = (leadId, leadData) => API.put(`/lead/update/${leadId}`, leadData)
+export const archiveLead = (leadId) => API.put(`/lead/archive/${leadId}`)
 export const deleteLead = (leadId) => API.delete(`/lead/delete/${leadId}`)
 
 // PROJECT

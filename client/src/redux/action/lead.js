@@ -1,6 +1,6 @@
 import * as api from '../api'
-import { start, end, error, getLeadsReducer, getLeadReducer, getLeadsStatReducer, createLeadReducer, updateLeadReducer, deleteLeadReducer, } from '../reducer/lead'
- 
+import { start, end, error, getLeadsReducer, getLeadReducer, getArchivedLeadsReducer, getLeadsStatReducer, createLeadReducer, updateLeadReducer, deleteLeadReducer, } from '../reducer/lead'
+
 
 export const getLeads = () => async (dispatch) => {
     try {
@@ -12,12 +12,22 @@ export const getLeads = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
- 
+
 export const getEmployeeLeads = () => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.getEmployeeLeads()
         dispatch(getLeadsReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const getArchivedLeads = () => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getArchivedLeads()
+        dispatch(getArchivedLeadsReducer(data.result))
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))
@@ -72,10 +82,21 @@ export const createOnlineLead = (leadData, navigate) => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const updateLead = (leadId, leadData) => async (dispatch) => {
+export const updateLead = (leadId, leadData, options) => async (dispatch) => {
+    try {
+        !options?.loading ? null : dispatch(start())
+        const { data } = await api.updateLead(leadId, leadData)
+        dispatch(updateLeadReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const archiveLead = (leadId) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.updateLead(leadId, leadData)
+        const { data } = await api.archiveLead(leadId)
+        console.log('data', data.result)
         dispatch(updateLeadReducer(data.result))
         dispatch(end())
     } catch (err) {
