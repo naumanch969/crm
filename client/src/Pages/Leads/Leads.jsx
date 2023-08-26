@@ -120,17 +120,22 @@ function Leads({ type, showSidebar }) {
     {
       field: "status",
       headerName: "Status",
-      width: 150,
+      width: 200,
       renderCell: (params) => (
         <span
-          className={`border-[1px] px-[8px] py-[4px] rounded-full ${
+          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize ${
             params.row.status == "successful" ? "border-green-500 text-green-500" : ""
           } ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${
             params.row.status == "declined" ? "border-red-400 text-red-400" : ""
           } ${params.row.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${
-            params.row.status == "unsuccessful" ? "border-black text-black" : ""
+            params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
           }`}>
-          {params.row.status}
+          {params.row.status == "underProcess" && (
+            <span>Under Process</span>
+          )}
+          {params.row.status != "underProcess" && (
+            <span>{params.row.status}</span>
+          )}
         </span>
       ),
     },
@@ -138,13 +143,13 @@ function Leads({ type, showSidebar }) {
     {
       field: "allocatedTo",
       headerName: "Allocated To",
-      width: 200,
+      width: 250,
       valueGetter: (params) => params.row.allocatedTo?.username,
     },
     {
       field: "actions",
       headerName: "Action",
-      width: 300,
+      width: 200,
       renderCell: (params) => (
         <div className="flex gap-[10px] items-center">
           <Tooltip placement="top" title="Delete">
@@ -245,7 +250,7 @@ function Leads({ type, showSidebar }) {
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
       <ShiftLeadModal open={openShiftLeadModal} setOpen={setOpenShiftLeadModal} />
 
-      <Topbar rows={leads} options={options} setOptions={setOptions} />
+      <Topbar options={options} setOptions={setOptions} />
       {options.isKanbanView ? (
         <Kanban options={options} setOptions={setOptions} />
       ) : (

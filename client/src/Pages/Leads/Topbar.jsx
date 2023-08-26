@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Add, Archive, Person2 } from "@mui/icons-material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../utils";
 import { FormControl, IconButton, Input, InputAdornment, Tooltip } from "@mui/material";
 import { useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import { getArchivedLeads, getEmployeeLeads, getLeads } from "../../redux/action
 import { PiArchive, PiMagnifyingGlass } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
 
-const Topbar = ({ options, setOptions, leads }) => {
+const Topbar = ({ options, setOptions }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -18,7 +18,6 @@ const Topbar = ({ options, setOptions, leads }) => {
   const dispatch = useDispatch();
 
   ////////////////////////////////////////// STATES //////////////////////////////////////
-  const [todoSearch, setTodoSearch] = useState("");
 
   ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
   useEffect(() => {
@@ -28,9 +27,6 @@ const Topbar = ({ options, setOptions, leads }) => {
   }, [options]);
 
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
-  const handleAddClick = () => {
-    navigate(`${pathname}/create`);
-  };
   const handleToggleShowArchivedLeads = () => {
     setOptions((pre) => ({
       ...pre,
@@ -49,12 +45,6 @@ const Topbar = ({ options, setOptions, leads }) => {
     setOptions((pre) => ({ ...pre, isKanbanView: !options?.isKanbanView }));
   };
 
-  const handleSearchInput = (e) => {
-    e.preventDefault();
-    setTodoSearch(e.target.value);
-    leads.filter(todo => todo.includes(todoSearch));
-  }
-
   return (
     <div className="flex flex-col tracking-wide">
       <div className="w-full text-[14px]">
@@ -70,8 +60,6 @@ const Topbar = ({ options, setOptions, leads }) => {
               <FormControl>
                 <Input
                   name="search"
-                  value={todoSearch}
-                  onChange={handleSearchInput}
                   placeholder="Search Leads"
                   startAdornment={
                     <InputAdornment position="start">
@@ -121,11 +109,12 @@ const Topbar = ({ options, setOptions, leads }) => {
             </Tooltip>
             <div>
               <Tooltip title="Add New Lead" placement="bottom" arrow>
+                <Link to="/leads/create">
                 <button
-                  onClick={handleAddClick}
                   className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
                   <Add />
                 </button>
+                </Link>
               </Tooltip>
             </div>
           </div>
