@@ -16,33 +16,48 @@ export const getLead = async (req, res, next) => {
         next(createError(500, err.message))
     }
 }
-
 export const getLeads = async (req, res, next) => {
     try {
+        const { new: new_query, type } = req.query;
 
-        const { new: new_query, type } = req.query
+        let query = {};
+        if (new_query) {
+            query = type ? { type, isArchived: false } : { isArchived: false };
+        } else {
+            query = type ? { type, isArchived: false } : { isArchived: false };
+        }
 
-        const findedLeads = new_query
-            ?
-            type
-                ? await Lead.find({ type }).sort({ createdAt: -1 }).limit(10).populate('clientId').populate('allocatedTo').exec()
-                : await Lead.find().sort({ createdAt: -1 }).limit(10).populate('clientId').populate('allocatedTo').exec()
-            :
-            type
-                ? await Lead.find({ type }).populate('clientId').populate('allocatedTo').exec()
-                : await Lead.find().populate('clientId').populate('allocatedTo').exec()
+        const findedLeads = await Lead.find(query)
+            .sort({ createdAt: -1 })
+            .limit(10)
+            .populate('clientId')
+            .populate('allocatedTo')
+            .exec();
 
-        res.status(200).json({ result: findedLeads, message: 'leads fetched successfully', success: true })
-
+        res.status(200).json({ result: findedLeads, message: 'Leads fetched successfully', success: true });
     } catch (err) {
-        next(createError(500, err.message))
+        next(createError(500, err.message));
     }
-}
+};
+
 export const getEmployeeLeads = async (req, res, next) => {
     try {
+        const findedLeads = await Lead.find({ allocatedTo: req.user?._id, isArchived: false })
+            .populate('clientId')
+            .exec();
 
-        const findedLeads = await Lead.find({ allocatedTo: req.user?._id }).populate('clientId').exec()
-        res.status(200).json({ result: findedLeads, message: 'leads fetched successfully', success: true })
+        res.status(200).json({ result: findedLeads, message: 'Leads fetched successfully', success: true });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
+}
+
+
+export const getArchivedLeads = async (req, res, next) => {
+    try {
+
+        const findedLeads = await Lead.find({ isArchived: true }).populate('clientId').exec()
+        res.status(200).json({ result: findedLeads, message: 'Archived leads fetched successfully', success: true })
 
     } catch (err) {
         next(createError(500, err.message))
@@ -67,7 +82,7 @@ export const getLeadsStat = async (req, res, next) => {
             },
         ]);
 
-        const statusEnum = ['Successful', 'Unsuccessful', 'Under Process', 'Declined', 'Remaining'];
+        const statusEnum = ['successful', 'unsuccessful', 'underProcess', 'declined', 'remaining'];
         const leadsStatArray = statusEnum.map(status => {
             const stat = leadStats.find(stat => stat.name === status);
             return {
@@ -156,6 +171,17 @@ export const updateLead = async (req, res, next) => {
     }
 }
 
+export const archiveLead = async (req, res, next) => {
+    try {
+
+        const { leadId } = req.params
+        const result = await Lead.findByIdAndUpdate(leadId, { $set: { isArchived: true } }, { new: true })
+        res.status(200).json({ result, message: 'lead deleted successfully', success: true })
+
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
 export const deleteLead = async (req, res, next) => {
     try {
 

@@ -16,6 +16,8 @@ import { Menu } from "@mui/base/Menu";
 import { MenuButton } from "@mui/base/MenuButton";
 import { MenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
+import { Add } from '@mui/icons-material';
+
 
 const blue = {
   100: "#DAECFF",
@@ -87,7 +89,7 @@ const StyledMenuItem = styled(MenuItem)(
     `
 );
 
-const Topbar = () => {
+const Topbar = (view, setView) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const title = pathname.split("/")[1];

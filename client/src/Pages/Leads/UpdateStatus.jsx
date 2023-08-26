@@ -45,11 +45,11 @@ const UpateStatusModal = ({ open, setOpen }) => {
 
                 <form onSubmit={handleSubmit} className='w-full p-[10px] flex flex-col gap-[10px] ' >
                     <select className='w-full min-h-[40px] text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='status' value={status} onChange={handleChange} >
-                        <option value="Successful">Successful</option>
-                        <option value="Unsuccessful">Unsuccessful</option>
-                        <option value="Under Process">Under Process</option>
-                        <option value="Declined">Declined</option>
-                        <option value="Remaining">Remaining</option>
+                        <option value="successful">Successful</option>
+                        <option value="unsuccessful">Unsuccessful</option>
+                        <option value="underProcess">Under Process</option>
+                        <option value="declined">Declined</option>
+                        <option value="remaining">Remaining</option>
                     </select>
                     <div className="w-full flex justify-end items-center">
                         <button type='submit' className='w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer ' >

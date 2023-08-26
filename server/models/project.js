@@ -8,7 +8,7 @@ const projectSchema = Schema({
     price: { type: Number, requried: true },
     area: { type: String, requried: true },
     areaUnit: { type: String, required: true },
-    priority: { type: String, required: true },     // define enum
+    priority: { type: String, required: true, enum: ['high', 'moderate', 'low'] },
     beds: { type: Number, required: false },
     images: { type: Array, required: false },
     assignedTo: { type: Schema.Types.ObjectId, ref: 'User' },

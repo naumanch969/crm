@@ -52,12 +52,6 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
           role: ["employee", "manager", "super_admin"],
         },
         {
-          title: "My Leads",
-          icon: <PiFolderSimpleUserLight className="text-[25px]" />,
-          link: "/myLeads",
-          role: ["employee", "manager", "super_admin"],
-        },
-        {
           title: "Get All Leads",
           icon: <PiUsersFourLight className="text-[25px]" />,
           link: "/leads?type=all",

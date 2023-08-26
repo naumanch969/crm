@@ -13,12 +13,13 @@ import { getLeadReducer } from '../../redux/reducer/lead'
 import UpateStatusModal from './UpdateStatus'
 import ShiftLeadModal from './ShiftLead'
 import { Link, useLocation } from 'react-router-dom'
+import Kanban from './Kanban/Kanban'
 
 function Leads({ type, showSidebar }) {
 
     ////////////////////////////////////// VARIABLES //////////////////////////////
     const dispatch = useDispatch()
-    const { leads, isFetching, error } = useSelector(state => state.lead)
+    const { archived, leads, isFetching, error } = useSelector(state => state.lead)
     const { loggedUser } = useSelector(state => state.user)
     const role = loggedUser.role
     const columns = [
@@ -32,7 +33,6 @@ function Leads({ type, showSidebar }) {
                 <>{format(params.row.createdAt)}</>
             )
         },
-        
         { field: 'priority', headerName: 'Priority', width: 150, },
         {
             field: 'status', headerName: 'Status', width: 150, renderCell: (params) => (
@@ -40,7 +40,7 @@ function Leads({ type, showSidebar }) {
             )
         },
         
-        { field: 'allocatedTo', headerName: 'Allocated To', width: 200, valueGetter: (params) => params.row.allocatedTo?.email },
+        { field: 'allocatedTo', headerName: 'Allocated To', width: 200, valueGetter: (params) => params.row.allocatedTo?.username },
         {
             field: "actions", headerName: "Action", width: 250, renderCell: (params) => (
                 <div className='flex gap-[8px]' >
@@ -55,7 +55,7 @@ function Leads({ type, showSidebar }) {
             )
         },
     ];
-
+    
     let modifiedColumns = columns
     if (role == 'employee' && type == 'all') {
         modifiedColumns = modifiedColumns.filter(column => column.field !== 'allocatedTo');
@@ -67,6 +67,7 @@ function Leads({ type, showSidebar }) {
     const [openStatusModal, setOpenStatusModal] = useState(false)
     const [openShiftLeadModal, setOpenShiftLeadModal] = useState(false)
     const [selectedLeadId, setSelectedLeadId] = useState(null)
+    const [options, setOptions] = useState({ isKanbanView: false, showEmployeeLeads: false, showArchivedLeads: false })
 
     ////////////////////////////////////// USE EFFECTS //////////////////////////////
     useEffect(() => {
@@ -96,9 +97,6 @@ function Leads({ type, showSidebar }) {
     }
 
 
-
-
-
     return (
         <div className='w-full h-fit bg-inherit flex flex-col gap-[2rem]  ' >
 
@@ -107,15 +105,21 @@ function Leads({ type, showSidebar }) {
             <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
             <ShiftLeadModal open={openShiftLeadModal} setOpen={setOpenShiftLeadModal} />
 
-            <Topbar />
-            <Table
-                rows={leads}
-                columns={modifiedColumns}
-                rowsPerPage={10}
-                isFetching={isFetching}
-                error={error}
-                showSidebar={showSidebar}
-            />
+            <Topbar options={options} setOptions={setOptions} />
+            {
+                options.isKanbanView
+                    ?
+                    <Kanban options={options} setOptions={setOptions} />
+                    :
+                    <Table
+                        rows={options.showArchivedLeads ? archived : leads}
+                        columns={modifiedColumns}
+                        rowsPerPage={10}
+                        isFetching={isFetching}
+                        error={error}
+                        showSidebar={showSidebar}
+                    />
+            }
 
         </div>
     )

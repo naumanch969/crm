@@ -1,9 +1,9 @@
 import React from 'react';
-import { Add } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Path } from '../../utils';
-
-const Topbar = () => {
+import { Add } from '@mui/icons-material';
+ 
+const Topbar = ({ view, setView }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const title = pathname.split('/')[1];

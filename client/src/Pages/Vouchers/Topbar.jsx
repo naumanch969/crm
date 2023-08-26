@@ -1,9 +1,10 @@
 import React from 'react';
-import { Add } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Add, TableBar, ViewKanban } from '@mui/icons-material';
 import { Path } from '../../utils';
+import { IconButton } from '@mui/material';
 
-const Topbar = () => {
+const Topbar = (view, setView) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const title = pathname.split('/')[1];
@@ -23,6 +24,15 @@ const Topbar = () => {
       <div className='flex justify-between items-center '>
         <h1 className='text-primary-blue text-[32px] capitalize'>{title}</h1>
 
+        <IconButton onClick={() => view == 'table' ? setView('kanban') : setView('table')} >
+          {
+            view == 'table'
+              ?
+              <TableBar />
+              :
+              <ViewKanban />
+          }
+        </IconButton>
         {showAddButton && (
           <button
             onClick={handleAddClick}
