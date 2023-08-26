@@ -5,11 +5,10 @@ import { Path } from "../../utils";
 import { FormControl, IconButton, Input, InputAdornment, Tooltip } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getArchivedLeads, getEmployeeLeads, getLeads } from "../../redux/action/lead";
-import { Grid3x2 } from "react-bootstrap-icons";
 import { PiArchive, PiMagnifyingGlass } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
 
-const Topbar = ({ options, setOptions }) => {
+const Topbar = ({ options, setOptions, leads }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -19,6 +18,7 @@ const Topbar = ({ options, setOptions }) => {
   const dispatch = useDispatch();
 
   ////////////////////////////////////////// STATES //////////////////////////////////////
+  const [todoSearch, setTodoSearch] = useState("");
 
   ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
   useEffect(() => {
@@ -49,6 +49,12 @@ const Topbar = ({ options, setOptions }) => {
     setOptions((pre) => ({ ...pre, isKanbanView: !options?.isKanbanView }));
   };
 
+  const handleSearchInput = (e) => {
+    e.preventDefault();
+    setTodoSearch(e.target.value);
+    leads.filter(todo => todo.includes(todoSearch));
+  }
+
   return (
     <div className="flex flex-col tracking-wide">
       <div className="w-full text-[14px]">
@@ -64,6 +70,8 @@ const Topbar = ({ options, setOptions }) => {
               <FormControl>
                 <Input
                   name="search"
+                  value={todoSearch}
+                  onChange={handleSearchInput}
                   placeholder="Search Leads"
                   startAdornment={
                     <InputAdornment position="start">
@@ -74,17 +82,35 @@ const Topbar = ({ options, setOptions }) => {
               </FormControl>
             </div>
             <Tooltip title="Archived" arrow placement="bottom">
-              <div onClick={handleToggleShowArchivedLeads} className={` p-2 rounded-md cursor-pointer ${options?.showArchivedLeads ? "text-[#20aee3] bg-[#e4f1ff]" : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"}`}>
+              <div
+                onClick={handleToggleShowArchivedLeads}
+                className={` p-2 rounded-md cursor-pointer ${
+                  options?.showArchivedLeads
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
                 <PiArchive className="text-[25px]" />
               </div>
             </Tooltip>
             <Tooltip title="My Leads" arrow placement="top">
-              <div onClick={handleToggleShowEmployeeLeads} className={` p-2 rounded-md cursor-pointer ${options?.showEmployeeLeads ? "text-[#20aee3] bg-[#e4f1ff]" : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"}`}>
+              <div
+                onClick={handleToggleShowEmployeeLeads}
+                className={` p-2 rounded-md cursor-pointer ${
+                  options?.showEmployeeLeads
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
                 <FiUser className="text-[25px] " />
               </div>
             </Tooltip>
             <Tooltip title="View" arrow placement="bottom">
-              <div onClick={handleToggleIsKanbanView} className={` p-2 rounded-md cursor-pointer ${options?.isKanbanView ? "text-[#20aee3] bg-[#e4f1ff]" : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"}`}>
+              <div
+                onClick={handleToggleIsKanbanView}
+                className={` p-2 rounded-md cursor-pointer ${
+                  options?.isKanbanView
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
                 <FiList className="text-[25px] " />
               </div>
             </Tooltip>
@@ -95,38 +121,14 @@ const Topbar = ({ options, setOptions }) => {
             </Tooltip>
             <div>
               <Tooltip title="Add New Lead" placement="bottom" arrow>
-                
-                  <button onClick={handleAddClick} className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
-                    <Add />
-                  </button>
+                <button
+                  onClick={handleAddClick}
+                  className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
+                  <Add />
+                </button>
               </Tooltip>
             </div>
           </div>
-
-          // <div className="flex gap-[1rem] ">
-          //   <Tooltip title='Archived Leads' placement='top' >
-          //     <IconButton onClick={handleToggleShowArchivedLeads} >
-          //       <Archive style={{ color: options?.showArchivedLeads ? 'blue' : 'gray' }} />
-          //     </IconButton>
-          //   </Tooltip>
-          //   <Tooltip title='My Leads' placement='top' >
-          //     <IconButton onClick={handleToggleShowEmployeeLeads} >
-          //       <Person2 style={{ color: options?.showEmployeeLeads ? 'blue' : 'gray' }} />
-          //     </IconButton>
-          //   </Tooltip>
-          //   <Tooltip title='View' placement='top' >
-          //     <IconButton onClick={handleToggleIsKanbanView} >
-          //       <Grid3x2 style={{ color: options?.isKanbanView ? 'blue' : 'gray' }} />
-          //     </IconButton>
-          //   </Tooltip>
-
-          //   <button
-          //     onClick={handleAddClick}
-          //     className="bg-primary-red text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-lg"
-          //   >
-          //     <Add />
-          //   </button>
-          // </div>
         )}
       </div>
     </div>

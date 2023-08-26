@@ -2,6 +2,7 @@ import { Search } from "@mui/icons-material";
 import { CircularProgress } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
   //////////////////////////////////////// VARIABLES ///////////////////////////////////
@@ -15,7 +16,16 @@ const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
     <div className="w-full">
       {isFetching && (
         <div className="w-full h-[11rem] flex justify-center items-center ">
-          <CircularProgress />
+          <ThreeDots
+            height="80"
+            width="80"
+            radius="9"
+            color="gray"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />
         </div>
       )}
       {error && (
