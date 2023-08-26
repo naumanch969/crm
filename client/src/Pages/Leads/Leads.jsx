@@ -23,45 +23,23 @@ function Leads({ type, showSidebar }) {
     const role = loggedUser.role
     const columns = [
         {
-            field: 'clientId.phone', headerName: 'Phone', width: 150, editable: true, renderCell: (params) => (
-                <>{params.row.clientId?.phone} </>
+            field: 'clientId.firstName', headerName: 'Client Name',minWidth: 200, maxWidth: 250 , renderCell: (params) => (
+                <Link className='text-[#20aee3] hover:text-[#007bff] font-primary capitalize' to={`/leads/${params.row._id}`} >{params.row.clientId?.firstName} {" "} {params.row.clientId?.lastName}</Link>
             )
         },
         {
-            field: 'clientId.firstName', headerName: 'Client Name', width: 150, editable: true, renderCell: (params) => (
-                <Link to={`/leads/${params.row._id}`} >{params.row.clientId?.firstName} {" "} {params.row.clientId?.lastName}</Link>
-            )
-        },
-        {
-            field: 'createdAt', headerName: 'Date', width: 150, renderCell: (params) => (
+            field: 'createdAt', headerName: 'Date',minWidth: 200, maxWidth: 250 , renderCell: (params) => (
                 <>{format(params.row.createdAt)}</>
             )
         },
-        { field: 'clientType', headerName: 'Client Type', width: 150, },
-        { field: 'city', headerName: 'City', width: 150, },
-        { field: 'block', headerName: 'Block', width: 150, },
-        { field: 'beds', headerName: 'Beds', width: 150, },
+        
         { field: 'priority', headerName: 'Priority', width: 150, },
         {
             field: 'status', headerName: 'Status', width: 150, renderCell: (params) => (
-                <span className='text-green-500 border-[1px] border-green-500 px-[8px] py-[4px] rounded-full ' >{params.row.status}</span>
+                <span className={`border-[1px] px-[8px] py-[4px] rounded-full ${params.row.status == "successful" ? "border-green-500 text-green-500" :  ""} ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" :  ""} ${params.row.status == "declined" ? "border-red-400 text-red-400" :  ""} ${params.row.status == "underProcess" ? "border-yellow-500 text-yellow-500" :  ""} ${params.row.status == "unsuccessful" ? "border-black text-black" :  ""}`} >{params.row.status}</span>
             )
         },
-        { field: 'progress', headerName: 'Progress', width: 150, },
-        { field: 'propertyType', headerName: 'Property Type', width: 150, },
-        { field: 'homeType', headerName: 'Home Type', width: 150, },
-        {
-            field: 'area', headerName: 'Area', width: 150, renderCell: (params) => {
-                const { minArea, minAreaUnit, maxArea, maxAreaUnit } = params.row
-                return (
-                    <div className="flex gap-[4px] ">
-                        <span className='flex gap-[2px] ' >{minArea} <small>{minAreaUnit}</small> </span>
-                        <span>-</span>
-                        <span className='flex gap-[2px] ' >{maxArea} <small>{maxAreaUnit}</small> </span>
-                    </div>
-                )
-            }
-        },
+        
         { field: 'allocatedTo', headerName: 'Allocated To', width: 200, valueGetter: (params) => params.row.allocatedTo?.email },
         {
             field: "actions", headerName: "Action", width: 250, renderCell: (params) => (

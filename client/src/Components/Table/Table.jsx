@@ -1,6 +1,6 @@
 import { Search } from "@mui/icons-material";
 import { CircularProgress } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useState } from "react";
 
 const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
@@ -20,13 +20,13 @@ const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
       )}
       {error && (
         <div className="w-full h-[11rem] flex justify-center items-center ">
-          <span className="text-red-500 ">{error}</span>
+          <span className="text-red-500 ">Newtwork Error</span>
         </div>
       )}
       {!isFetching && !error && (
-        <div className="flex flex-col gap-[8px] ">
+        <div className="flex flex-col gap-[8px]">
           <DataGrid
-            className="bg-white rounded-[6px] p-[5px] "
+            className="bg-white rounded-[6px] p-[5px] font-primary"
             rows={rows}
             columns={columns}
             initialState={{
@@ -38,6 +38,8 @@ const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
             pageSizeOptions={[5, 10]}
             checkboxSelection
             disableRowSelectionOnClick
+            disableColumnMenu
+            disableSelectionOnClick
           />
         </div>
       )}

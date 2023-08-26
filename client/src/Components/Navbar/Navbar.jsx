@@ -144,7 +144,7 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
                 <MenuButton>
                   <Tooltip title="Notifications" arrow placement="bottom">
                     <IconButton className="h-fit hover:text-red-400 inline-block relative" size="small" aria-label="menu">
-                      <PiBell className="text-[25px] animate-none" />
+                      <PiBell className="text-[25px] animate-none text-primary-red" />
                       <span class="animate-ping absolute top-1.5 right-2 block h-1 w-1 rounded-full ring-2 ring-primary-red bg-red-500"></span>
                     </IconButton>
                   </Tooltip>
