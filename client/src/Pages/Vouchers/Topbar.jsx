@@ -21,18 +21,10 @@ const Topbar = (view, setView) => {
         <Path />
       </div>
 
-      <div className='flex justify-between items-center '>
+      <div className='flex justify-between items-center mb-10'>
         <h1 className='text-primary-blue text-[32px] capitalize'>{title}</h1>
 
-        <IconButton onClick={() => view == 'table' ? setView('kanban') : setView('table')} >
-          {
-            view == 'table'
-              ?
-              <TableBar />
-              :
-              <ViewKanban />
-          }
-        </IconButton>
+       
         {showAddButton && (
           <button
             onClick={handleAddClick}

@@ -182,7 +182,7 @@ const FORM = () => {
 
 
   return (
-    <div className="flex justify-center items-center bg-gray-100">
+    <div className="flex justify-center items-center">
       <form onSubmit={(e) => handleDownloadPDF(e)} className="flex flex-col mt-4 w-full">
         <div className="flex flex-col gap-[1rem] bg-white rounded-[4px] shadow-sm ">
           <div className="flex flex-col gap-[2rem] p-[1rem] w-full ">

@@ -3,27 +3,86 @@ import { Table } from "../../Components";
 import Topbar from "./Topbar";
 import Task from "./Task";
 import { useDispatch, useSelector } from "react-redux";
-import { LinearProgress, Tooltip } from "@mui/material";
 import { getTasks } from "../../redux/action/task";
 import EditModal from "./EditModal";
 import DeleteModal from "./DeleteModal";
 import { getTaskReducer } from "../../redux/reducer/task";
-import { PiArchiveThin, PiTrashLight } from "react-icons/pi";
+import { PiArchiveThin, PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { CiEdit } from "react-icons/ci";
 import { format } from "timeago.js";
-import { styled } from '@mui/material/styles';
+import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
+import { IoOpenOutline } from "react-icons/io5";
+import { Tooltip, styled } from "@mui/material";
 
-const VerticalProgressBarWrapper = styled('div')({
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
-  justifyContent: 'flex-end',
-});
+const blue = {
+  100: "#DAECFF",
+  200: "#99CCF3",
+  400: "#3399FF",
+  500: "#007FFF",
+  600: "#0072E5",
+  900: "#003A75",
+};
 
-const RotatedLinearProgress = styled(LinearProgress)({
-  transform: 'rotate(180deg)',
-  marginBottom: '8px', // Add some margin to the bottom for spacing
-});
+const grey = {
+  50: "#f6f8fa",
+  100: "#eaeef2",
+  200: "#d0d7de",
+  300: "#afb8c1",
+  400: "#8c959f",
+  500: "#6e7781",
+  600: "#57606a",
+  700: "#424a53",
+  800: "#32383f",
+  900: "#24292f",
+};
+
+const StyledListbox = styled("ul")(
+  ({ theme }) => `
+      font-family: IBM Plex Sans, sans-serif;
+      font-size: 0.875rem;
+      box-sizing: border-box;
+      transition:all;
+      padding: 10px;
+      margin: 12px 0;
+      width: auto;
+      border-radius: 12px;
+      overflow: auto;
+      outline: 0px;
+      background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
+      border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
+      color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
+      box-shadow: 0px 4px 30px ${theme.palette.mode === "dark" ? grey[900] : grey[200]};
+      z-index: 1;
+      `
+);
+
+const StyledMenuItem = styled(MenuItem)(
+  ({ theme }) => `
+      list-style: none;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+      &:last-of-type {
+        border-bottom: none;
+      }
+    
+      &.${menuItemClasses.focusVisible} {
+        outline: 3px solid ${theme.palette.mode === "dark" ? blue[600] : blue[200]};
+        background-color: ${theme.palette.mode === "dark" ? grey[800] : grey[100]};
+        color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
+      }
+    
+      &.${menuItemClasses.disabled} {
+        color: ${theme.palette.mode === "dark" ? grey[700] : grey[400]};
+      }
+    
+      &:hover:not(.${menuItemClasses.disabled}) {
+        background-color: ${theme.palette.mode === "dark" ? grey[800] : grey[100]};
+        color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
+      }
+      `
+);
 
 function Tasks() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
@@ -61,9 +120,9 @@ function Tasks() {
       width: 120,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <VerticalProgressBarWrapper>
-          <RotatedLinearProgress variant="determinate" value={params.row.priority == "moderate" ? 50 : 100} />
-        </VerticalProgressBarWrapper>
+        <Tooltip className="capitalize" placeholder="bottom" arrow title={params.row.priority}>
+          {params.row.priority}
+        </Tooltip>
       ),
     },
     {
@@ -82,7 +141,7 @@ function Tasks() {
         <span
           className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize ${
             params.row.status == "successful" ? "border-green-500 text-green-500" : ""
-          } ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${
+          } ${params.row.status == "new" ? "border-sky-400 text-sky-400" : ""} ${
             params.row.status == "declined" ? "border-red-400 text-red-400" : ""
           } ${params.row.status == "to do" ? "border-yellow-500 text-yellow-500" : ""} ${
             params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
@@ -95,6 +154,7 @@ function Tasks() {
       field: "action",
       headerName: "Action",
       width: 150,
+      headerAlign: "center",
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <div className="flex gap-[10px] ">
@@ -105,6 +165,13 @@ function Tasks() {
               className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
             />
           </Tooltip>
+          <Tooltip placement="top" title="View">
+            {" "}
+            <IoOpenOutline
+              onClick={() => handleOpenViewModel()}
+              className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400"
+            />
+          </Tooltip>
           <Tooltip placement="top" title="Edit">
             {" "}
             <CiEdit
@@ -112,13 +179,26 @@ function Tasks() {
               className="cursor-pointer text-green-500 text-[23px] hover:text-green-600"
             />
           </Tooltip>
-          <Tooltip placement="top" title="Archive">
-            {" "}
-            <PiArchiveThin
-              onClick={() => handleOpenArchive()}
-              className="cursor-pointer text-blue-500 text-[23px] hover:text-blue-600"
-            />
-          </Tooltip>
+
+          <Dropdown>
+            <Tooltip title="More" arrow placement="top">
+              <MenuButton>
+                <PiDotsThreeOutlineThin className="cursor-pointer text-[23px] text-gray-500 hover:text-gray-700" />
+              </MenuButton>
+            </Tooltip>
+            <Menu slots={{ listbox: StyledListbox }}>
+              <StyledMenuItem
+                className="text-gray-500 flex"
+                onClick={() => handleOpenStatusModal(params.row)}>
+                Update Status
+              </StyledMenuItem>
+              <StyledMenuItem
+                className="text-gray-500 flex"
+                onClick={() => handleOpenArchive(params.row)}>
+                Archive
+              </StyledMenuItem>
+            </Menu>
+          </Dropdown>
         </div>
       ),
     },
@@ -136,6 +216,18 @@ function Tasks() {
   }, []);
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
+  const handleOpenStatusModal = (task) => {
+    //
+    //
+  };
+  const handleOpenArchive = () => {
+    //
+    //
+  };
+  const handleOpenViewModel = () => {
+    //
+    //
+  };
   const handleOpenTask = (task) => {
     dispatch(getTaskReducer(task));
     setOpenTask(true);
@@ -148,7 +240,6 @@ function Tasks() {
     setSelectedTaskId(taskId);
     setOpenDeleteModal(true);
   };
-  const handleOpenArchive = () => {};
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col gap-[12px]  ">

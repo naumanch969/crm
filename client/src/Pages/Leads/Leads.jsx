@@ -122,6 +122,7 @@ function Leads({ type, showSidebar }) {
       headerClassName: "super-app-theme--header",
       headerName: "Priority",
       width: 150,
+      renderCell: (params) => <div className="capitalize">{params.row.priority}</div>,
     },
     {
       field: "status",

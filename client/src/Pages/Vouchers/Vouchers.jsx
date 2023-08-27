@@ -18,14 +18,11 @@ function Vouchers() {
   const { vouchers, isFetching, error } = useSelector(state => state.voucher)
 
   const columns = [
-    { field: "id", headerName: "Voucher No.", width: 150 },
-    { field: "issuingDate", headerName: "Issue Date", width: 150 },
     { field: "customerName", headerName: "Customer Name", width: 150 },
     { field: "cnic", headerName: "CNIC", width: 150 },
+    { field: "issuingDate", headerName: "Issue Date", width: 150 },
     { field: "type", headerName: "Payment Type", width: 200 },
-    { field: "total", headerName: "Total Amount", width: 150 },
     { field: "paid", headerName: "Amount Paid", width: 150 },
-    { field: "remained", headerName: "Amount Remaining", width: 200 },
     {
       headerName: "Status", width: 150, renderCell: (params) => (
         <div className="flex gap-[4px] ">

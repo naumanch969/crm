@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/action/user";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import validator from "email-validator";
+import { PiEyeSlashThin, PiEyeThin } from "react-icons/pi";
 
 const Signup = () => {
   const PasswordButtonInitialStyle = {
@@ -205,7 +206,7 @@ const Signup = () => {
                   style={showPasswordButton}
                   onClick={handleToggleVisibility}
                   className="absolute top-[50%] right-[4px] transform translate-y-[-50%] cursor-pointer">
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ? <PiEyeSlashThin className="text-[25px] m-2" /> : <PiEyeThin className="text-[25px] m-2" />}
                 </button>
                 {inputError.password && (
                   <span className="text-[12px] text-red-600 ">{inputError.password}</span>

@@ -30,7 +30,7 @@ const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
       )}
       {error && (
         <div className="w-full h-[11rem] flex justify-center items-center ">
-          <span className="text-red-500 ">Network Error</span>
+          <span className="text-red-500 ">{error}</span>
         </div>
       )}
       {!isFetching && !error && (
@@ -38,13 +38,15 @@ const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
           <Box
             sx={{
               justifyContent: "center",
+              boxShadow:'none',
+              border:'1px solid #f6f9fa',
               "& .super-app-theme--header": {
                 color:'#20aee3',
                 fontWeight:'lighter'
               },
             }}>
             <DataGrid
-              className="bg-white rounded-[6px] p-[5px] font-primary"
+              className="bg-white rounded-[6px] p-[15px] font-primary"
               rows={rows}
               columns={columns}
               initialState={{

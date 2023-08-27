@@ -80,7 +80,7 @@ const Topbar = (view, setView) => {
               </div>
             </Tooltip>
             <div>
-              <Tooltip title="Add New Lead" placement="top" arrow>
+              <Tooltip title="Add New Project" placement="top" arrow>
                 <Link to="/tasks/create">
                   <button className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
                     <Add />
