@@ -107,7 +107,7 @@ const CreateLead = () => {
                             </div>
                             {/* last name */}
                             <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="lastName">lastName:</label>
+                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="lastName">Last Name:</label>
                                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="text" name="lastName" value={clientData.lastName} onChange={handleClientDataChange} placeholder="First Name" />
                             </div>
                             {/* gender */}
@@ -126,7 +126,7 @@ const CreateLead = () => {
                             </div>
                             {/* phone */}
                             <div className="flex flex-col justify-start gap-[4px] lg:w-[22.5%] md:w-[30%] sm:w-[47%] w-full ">
-                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="phone">phone:</label>
+                                <label className='text-gray-900 font-medium text-[1rem] ' htmlFor="phone">Phone:</label>
                                 <input className='text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' type="number" name="phone" value={clientData.phone} onChange={handleClientDataChange} placeholder="Phone" />
                             </div>
                             {/* cnic */}
@@ -149,10 +149,10 @@ const CreateLead = () => {
                         </div>
                         <div className="flex flex-col gap-[2rem] p-[1rem] w-full ">
                             {/* buttons */}
-                            <div className="flex flex-wrap gap-[8px] ">
+                            {/* <div className="flex flex-wrap gap-[8px] ">
                                 <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-white text-black ' >BUY</button>
                                 <button className='text-[18px] font-medium px-[24px] py-[4px] rounded-[4px] shadow-box bg-neutral-400 text-gray-300 ' >RENT</button>
-                            </div>
+                            </div> */}
                             {/* all inputs */}
                             <div className="flex justify-start flex-wrap gap-[24px] w-full ">
                                 {/* city */}

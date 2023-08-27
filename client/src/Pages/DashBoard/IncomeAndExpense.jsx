@@ -33,7 +33,7 @@ const IncomeAndExpense = () => {
                                 width={500}
                                 height={300}
                                 data={incomeAndExpenses}
-                                margin={{ top: 20, right: 5, left: 0, bottom: 5, }}
+                                margin={{ top: 20, right: 5, left: 30, bottom: 5, }}
                             >
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="name" />

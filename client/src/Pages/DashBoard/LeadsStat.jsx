@@ -8,7 +8,7 @@ const Leads = () => {
 
     const dispatch = useDispatch()
     const { stats: leadsStat } = useSelector(state => state.lead)
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'rgb(220 38 38)'];
+    const COLORS = ['rgb(34 197 94)', 'rgb(249 115 22)', 'rgb(234 179 8)', 'red', 'rgb(56 189 248)'];
 
     useEffect(() => {
         dispatch(getLeadsStat())
@@ -16,7 +16,7 @@ const Leads = () => {
 
 
     return (
-        <Box className="w-full bg-white h-96 rounded-lg p-6 mt-5 float-left ml-0 md:w-auto md:ml-5 md:mt-0">
+        <Box className="w-full bg-white h-96 rounded-lg p-6  mt-5 float-left ml-0 md:w-auto md:ml-5 md:mt-0">
             <div className="flex justify-center text-xl font-light text-gray-600">
                 Leads This Year
             </div>
@@ -35,11 +35,11 @@ const Leads = () => {
                 <Tooltip />
             </PieChart>
             <div>
-                <Chip style={{ backgroundColor: '#0088FE', color: 'white', margin: '4px' }} label="Successful" />
-                <Chip style={{ backgroundColor: '#00C49F', color: 'white', margin: '4px' }} label="Unsuccessful" />
-                <Chip style={{ backgroundColor: '#FFBB28', color: 'white', margin: '4px' }} label="Under Process" />
-                <Chip style={{ backgroundColor: '#FF8042', color: 'white', margin: '4px' }} label="Declined" />
-                <Chip style={{ backgroundColor: 'rgb(220 38 38)', color: 'white', margin: '4px' }} label="Remaining" />
+                <Chip style={{ backgroundColor: 'rgb(34 197 94)', color: 'white', margin: '4px' }} label="Successful" />
+                <Chip style={{ backgroundColor: 'rgb(249 115 22)', color: 'white', margin: '4px' }} label="Unsuccessful" />
+                <Chip style={{ backgroundColor: 'rgb(234 179 8)', color: 'white', margin: '4px' }} label="Under Process" />
+                <Chip style={{ backgroundColor: 'red', color: 'white', margin: '4px' }} label="Declined" />
+                <Chip style={{ backgroundColor: 'rgb(56 189 248)', color: 'white', margin: '4px' }} label="Remaining" />
             </div>
 
         </Box>

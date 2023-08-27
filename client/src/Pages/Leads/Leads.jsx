@@ -46,9 +46,9 @@ const StyledListbox = styled("ul")(
       font-size: 0.875rem;
       box-sizing: border-box;
       transition:all;
-      padding: 6px;
+      padding: 10px;
       margin: 12px 0;
-      min-width: 200px;
+      width: auto;
       border-radius: 12px;
       overflow: auto;
       outline: 0px;
@@ -67,7 +67,6 @@ const StyledMenuItem = styled(MenuItem)(
       border-radius: 8px;
       cursor: pointer;
       user-select: none;
-  
       &:last-of-type {
         border-bottom: none;
       }
@@ -99,11 +98,12 @@ function Leads({ type, showSidebar }) {
     {
       field: "clientId.firstName",
       headerName: "Client Name",
+      headerClassName: "super-app-theme--header",
       minWidth: 200,
       maxWidth: 250,
       renderCell: (params) => (
         <Link
-          className="text-[#20aee3] hover:text-[#007bff] font-primary capitalize"
+          className={`text-[#20aee3] hover:text-[#007bff] capitalize`}
           to={`/leads/${params.row._id}`}>
           {params.row.clientId?.firstName} {params.row.clientId?.lastName}
         </Link>
@@ -114,12 +114,19 @@ function Leads({ type, showSidebar }) {
       headerName: "Date",
       minWidth: 200,
       maxWidth: 250,
+      headerClassName: "super-app-theme--header",
       renderCell: (params) => <>{format(params.row.createdAt)}</>,
     },
-    { field: "priority", headerName: "Priority", width: 150 },
+    {
+      field: "priority",
+      headerClassName: "super-app-theme--header",
+      headerName: "Priority",
+      width: 150,
+    },
     {
       field: "status",
       headerName: "Status",
+      headerClassName: "super-app-theme--header",
       width: 200,
       renderCell: (params) => (
         <span
@@ -130,12 +137,8 @@ function Leads({ type, showSidebar }) {
           } ${params.row.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${
             params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
           }`}>
-          {params.row.status == "underProcess" && (
-            <span>Under Process</span>
-          )}
-          {params.row.status != "underProcess" && (
-            <span>{params.row.status}</span>
-          )}
+          {params.row.status == "underProcess" && <span>Under Process</span>}
+          {params.row.status != "underProcess" && <span>{params.row.status}</span>}
         </span>
       ),
     },
@@ -144,38 +147,40 @@ function Leads({ type, showSidebar }) {
       field: "allocatedTo",
       headerName: "Allocated To",
       width: 250,
-      valueGetter: (params) => params.row.allocatedTo?.username,
+      headerClassName: "super-app-theme--header",
+      valueGetter: (params) => params.row.allocatedTo?.email,
     },
     {
       field: "actions",
       headerName: "Action",
+      headerClassName: "super-app-theme--header",
       width: 200,
       renderCell: (params) => (
-        <div className="flex gap-[10px] items-center">
+        <div className="flex gap-[10px] items-center transition-all">
           <Tooltip placement="top" title="Delete">
             {" "}
             <PiTrashLight
               onClick={() => handleOpenDeleteModal(params.row._id)}
-              className="cursor-pointer text-red-500 text-[23px]"
+              className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
             />
           </Tooltip>
           <Tooltip placement="top" title="View">
             <Link to={`/leads/${params.row._id}`}>
-              <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px]" />
+              <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
             </Link>
           </Tooltip>
           <Tooltip placement="top" title="Edit">
             {" "}
             <CiEdit
               onClick={() => handleOpenEditModal(params.row)}
-              className="cursor-pointer text-green-500 text-[23px]"
+              className="cursor-pointer text-green-500 text-[23px] hover:text-green-600"
             />
           </Tooltip>
 
           <Dropdown>
             <Tooltip title="More" arrow placement="top">
               <MenuButton>
-                <PiDotsThreeOutlineThin className="cursor-pointer text-[23px] text-gray-500" />
+                <PiDotsThreeOutlineThin className="cursor-pointer text-[23px] text-gray-500 hover:text-gray-700" />
               </MenuButton>
             </Tooltip>
 

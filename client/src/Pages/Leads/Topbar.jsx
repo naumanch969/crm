@@ -69,7 +69,7 @@ const Topbar = ({ options, setOptions }) => {
                 />
               </FormControl>
             </div>
-            <Tooltip title="Archived" arrow placement="bottom">
+            <Tooltip title="Archived" arrow placement="top">
               <div
                 onClick={handleToggleShowArchivedLeads}
                 className={` p-2 rounded-md cursor-pointer ${
@@ -91,7 +91,7 @@ const Topbar = ({ options, setOptions }) => {
                 <FiUser className="text-[25px] " />
               </div>
             </Tooltip>
-            <Tooltip title="View" arrow placement="bottom">
+            <Tooltip title="View" arrow placement="top">
               <div
                 onClick={handleToggleIsKanbanView}
                 className={` p-2 rounded-md cursor-pointer ${
