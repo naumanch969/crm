@@ -120,8 +120,8 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
 
   return (
     <>
-      <div className="flex flex-col sticky top-0 w-full sm:h-[4rem] h-[4rem] bg-white z-[2000] border-b-[1px] border-b-[#eeeff0]">
-        <div className="wrapper sm:h-full h-[4rem] md:pl-[20px] sm:pl-[1rem] pl-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-[#eeeff0] sm:shadow-none ">
+      <div className="flex flex-col sticky top-0 w-full sm:h-[4rem] h-[4rem] bg-white border-b-[1px] border-b-[#eeeff0]">
+        <div className="sm:h-full h-[4rem] md:pl-[20px] sm:pl-[1rem] pl-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-[#eeeff0] sm:shadow-none ">
           {/* left section */}
           <div className="flex justify-start gap-[10px] items-center">
             <IconButton

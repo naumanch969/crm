@@ -17,6 +17,19 @@ import { CiEdit } from "react-icons/ci";
 import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
+} from "@mui/material";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
 
 const blue = {
   100: "#DAECFF",
@@ -147,7 +160,7 @@ function Leads({ type, showSidebar }) {
     {
       field: "allocatedTo",
       headerName: "Allocated To",
-      width: 250,
+      width: 230,
       headerClassName: "super-app-theme--header",
       valueGetter: (params) => params.row.allocatedTo?.email,
     },
@@ -166,9 +179,9 @@ function Leads({ type, showSidebar }) {
             />
           </Tooltip>
           <Tooltip placement="top" title="View">
-            <Link to={`/leads/${params.row._id}`}>
+            <div className="cursor-pointer" onClick={handleClickOpen}>
               <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
-            </Link>
+            </div>
           </Tooltip>
           <Tooltip placement="top" title="Edit">
             {" "}
@@ -216,6 +229,7 @@ function Leads({ type, showSidebar }) {
 
   ////////////////////////////////////// STATES //////////////////////////////
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [openShiftLeadModal, setOpenShiftLeadModal] = useState(false);
@@ -249,12 +263,39 @@ function Leads({ type, showSidebar }) {
     setSelectedLeadId(leadId);
   };
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className="w-full h-fit bg-inherit flex flex-col gap-[2rem]  ">
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} leadId={selectedLeadId} />
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
       <ShiftLeadModal open={openShiftLeadModal} setOpen={setOpenShiftLeadModal} />
+
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description">
+        <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Let Google help apps determine location. This means sending anonymous location data to
+            Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Disagree</Button>
+          <Button onClick={handleClose}>Agree</Button>
+        </DialogActions>
+      </Dialog>
 
       <Topbar options={options} setOptions={setOptions} />
       {options.isKanbanView ? (
