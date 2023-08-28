@@ -6,7 +6,7 @@ import { Box, CardContent, FormControl, Input, InputAdornment, Tooltip } from "@
 import { PiArchive, PiMagnifyingGlass, PiTrendUp } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
 
-const Topbar = (view, setView) => {
+const Topbar = ({setOpenFilters}) => {
   const [showStatBar, setShowStatBar] = useState(true);
 
   const navigate = useNavigate();
@@ -20,6 +20,9 @@ const Topbar = (view, setView) => {
   const handleToggleIsKanbanView = () => {};
   const handleToggleIsStatOpen = () => {
     setShowStatBar(!showStatBar);
+  };
+  const handleToggleFilters = () => {
+    setOpenFilters((pre) => !pre);
   };
 
   return (
@@ -75,7 +78,9 @@ const Topbar = (view, setView) => {
               </div>
             </Tooltip>
             <Tooltip title="Filter" arrow placement="top">
-              <div className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
+              <div
+                onClick={handleToggleFilters}
+                className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>

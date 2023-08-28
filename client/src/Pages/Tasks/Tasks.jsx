@@ -13,6 +13,7 @@ import { format } from "timeago.js";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
 import { IoOpenOutline } from "react-icons/io5";
 import { Tooltip, styled } from "@mui/material";
+import Filter from "./Filter";
 
 const blue = {
   100: "#DAECFF",
@@ -208,6 +209,7 @@ function Tasks() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openFilters, setOpenFilters] = useState(false);
   const [open, setOpen] = useState(false);
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
@@ -241,10 +243,11 @@ function Tasks() {
     <div className="w-full h-fit bg-inherit flex flex-col gap-[12px]  ">
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} taskId={selectedTaskId} />
+      <Filter open={openFilters} setOpen={setOpenFilters} />
 
       <Task open={open} setOpen={setOpen} />
 
-      <Topbar />
+      <Topbar openFilters={openFilters} setOpenFilters={setOpenFilters} />
       <Table rows={tasks} columns={columns} rowsPerPage={5} isFetching={isFetching} error={error} />
     </div>
   );

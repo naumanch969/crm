@@ -11,8 +11,8 @@ import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base
 import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
-import { Link } from "react-router-dom";
 import Project from "./Project";
+import Filter from './Filter'
 
 const blue = {
   100: "#DAECFF",
@@ -197,6 +197,7 @@ function Projects() {
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openFilters, setOpenFilters] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
@@ -233,10 +234,10 @@ function Projects() {
         setOpen={setOpenDeleteModal}
         projectId={selectedProjectId}
       />
-
+      <Filter open={openFilters} setOpen={setOpenFilters} />
       <Project open={open} setOpen={setOpen} />
 
-      <Topbar view={view} setView={setView} />
+      <Topbar view={view} setView={setView} openFilters={openFilters} setOpenFilters={setOpenFilters} />
       <Table
         rows={projects}
         columns={columns}
