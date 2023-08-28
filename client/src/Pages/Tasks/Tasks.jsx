@@ -97,7 +97,7 @@ function Tasks() {
       renderCell: (params) => (
         <span
           className="cursor-pointer text-[#20aee3] hover:text-[#007bff] capitalize"
-          onClick={() => handleOpenTask(params.row)}>
+          onClick={() => handleClickOpen(params.row)}>
           {params.row.title}
         </span>
       ),
@@ -168,7 +168,7 @@ function Tasks() {
           <Tooltip placement="top" title="View">
             {" "}
             <IoOpenOutline
-              onClick={() => handleOpenViewModel()}
+              onClick={() => handleClickOpen(params.row)}
               className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400"
             />
           </Tooltip>
@@ -208,7 +208,7 @@ function Tasks() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [openTask, setOpenTask] = useState(false);
+  const [open, setOpen] = useState(false);
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
@@ -224,13 +224,9 @@ function Tasks() {
     //
     //
   };
-  const handleOpenViewModel = () => {
-    //
-    //
-  };
-  const handleOpenTask = (task) => {
+  const handleClickOpen = (task) => {
     dispatch(getTaskReducer(task));
-    setOpenTask(true);
+    setOpen(true);
   };
   const handleOpenEditModal = (task) => {
     dispatch(getTaskReducer(task));
@@ -245,7 +241,8 @@ function Tasks() {
     <div className="w-full h-fit bg-inherit flex flex-col gap-[12px]  ">
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} taskId={selectedTaskId} />
-      <Task open={openTask} setOpen={setOpenTask} />
+
+      <Task open={open} setOpen={setOpen} />
 
       <Topbar />
       <Table rows={tasks} columns={columns} rowsPerPage={5} isFetching={isFetching} error={error} />

@@ -108,11 +108,11 @@ function Leads({ type, showSidebar }) {
       minWidth: 200,
       maxWidth: 250,
       renderCell: (params) => (
-        <Link
-          className={`text-[#20aee3] hover:text-[#007bff] capitalize`}
-          to={`/leads/${params.row._id}`}>
+        <div
+          className={`text-[#20aee3] hover:text-[#007bff] capitalize cursor-pointer`}
+          onClick={handleClickOpen}>
           {params.row.clientId?.firstName} {params.row.clientId?.lastName}
-        </Link>
+        </div>
       ),
     },
     {
