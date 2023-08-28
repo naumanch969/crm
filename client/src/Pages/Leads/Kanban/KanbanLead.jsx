@@ -60,8 +60,8 @@ const Lead = ({ lead, index, }) => {
                 <span className='text-gray-400 ' >{lead?.clientId?.email || '---'}</span>
               </div>
               <div className="flex justify-start items-center gap-[8px]  ">
-                <span className='text-primary-gray ' >Content Type:</span>
-                <span className='text-gray-400 ' >{lead?.contentType || '---'}</span>
+                <span className='text-primary-gray ' >Priority:</span>
+                <span className='text-gray-400 capitalize ' >{lead?.priority || '---'}</span>
               </div>
               <div className="flex justify-start items-center gap-[8px]  ">
                 <span className='text-primary-gray ' >Target Date:</span>

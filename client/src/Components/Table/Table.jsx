@@ -3,6 +3,7 @@ import { Box, CircularProgress } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
+import { Loader } from '../../utils'
 
 const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
   //////////////////////////////////////// VARIABLES ///////////////////////////////////
@@ -16,16 +17,7 @@ const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
     <div className="w-full">
       {isFetching && (
         <div className="w-full h-[11rem] flex justify-center items-center ">
-          <ThreeDots
-            height="80"
-            width="80"
-            radius="9"
-            color="gray"
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{}}
-            wrapperClassName=""
-            visible={true}
-          />
+          <Loader />
         </div>
       )}
       {error && (
@@ -38,11 +30,11 @@ const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
           <Box
             sx={{
               justifyContent: "center",
-              boxShadow:'none',
-              border:'1px solid #f6f9fa',
+              boxShadow: 'none',
+              border: '1px solid #f6f9fa',
               "& .super-app-theme--header": {
-                color:'#20aee3',
-                fontWeight:'lighter'
+                color: '#20aee3',
+                fontWeight: 'lighter'
               },
             }}>
             <DataGrid

@@ -11,6 +11,7 @@ import { format } from "timeago.js";
 import { getLeadReducer } from "../../redux/reducer/lead";
 import UpateStatusModal from "./UpdateStatus";
 import ShiftLeadModal from "./ShiftLead";
+import Filter from "./Filter";
 import { Link } from "react-router-dom";
 import Kanban from "./Kanban/Kanban";
 import { CiEdit } from "react-icons/ci";
@@ -110,7 +111,7 @@ function Leads({ type, showSidebar }) {
       renderCell: (params) => (
         <div
           className={`text-[#20aee3] hover:text-[#007bff] capitalize cursor-pointer`}
-          onClick={handleClickOpen}>
+          onClick={() => handleOpenViewModal(params.row._id)}>
           {params.row.clientId?.firstName} {params.row.clientId?.lastName}
         </div>
       ),
@@ -137,13 +138,10 @@ function Leads({ type, showSidebar }) {
       width: 200,
       renderCell: (params) => (
         <span
-          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize ${
-            params.row.status == "successful" ? "border-green-500 text-green-500" : ""
-          } ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${
-            params.row.status == "declined" ? "border-red-400 text-red-400" : ""
-          } ${params.row.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${
-            params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
-          }`}>
+          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize ${params.row.status == "successful" ? "border-green-500 text-green-500" : ""
+            } ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${params.row.status == "declined" ? "border-red-400 text-red-400" : ""
+            } ${params.row.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
+            }`}>
           {params.row.status == "underProcess" && <span>Under Process</span>}
           {params.row.status != "underProcess" && <span>{params.row.status}</span>}
         </span>
@@ -172,7 +170,7 @@ function Leads({ type, showSidebar }) {
             />
           </Tooltip>
           <Tooltip placement="top" title="View">
-            <div className="cursor-pointer" onClick={handleClickOpen}>
+            <div className="cursor-pointer" onClick={() => handleOpenViewModal(params.row._id)}>
               <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
             </div>
           </Tooltip>
@@ -202,10 +200,10 @@ function Leads({ type, showSidebar }) {
                 onClick={() => handleOpenShiftLeadModal(params.row)}>
                 Shift Lead
               </StyledMenuItem>
-              <StyledMenuItem className="text-gray-600 flex" onClick={() => {}}>
+              <StyledMenuItem className="text-gray-600 flex" onClick={() => { }}>
                 Refund
               </StyledMenuItem>
-              <StyledMenuItem className="text-gray-600 flex" onClick={() => {}}>
+              <StyledMenuItem className="text-gray-600 flex" onClick={() => { }}>
                 Share Lead
               </StyledMenuItem>
             </Menu>
@@ -222,11 +220,12 @@ function Leads({ type, showSidebar }) {
 
   ////////////////////////////////////// STATES //////////////////////////////
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [openViewModal, setOpenViewModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [openShiftLeadModal, setOpenShiftLeadModal] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState(null);
+  const [openFilters, setOpenFilters] = useState(false);
   const [options, setOptions] = useState({
     isKanbanView: false,
     showEmployeeLeads: false,
@@ -255,20 +254,23 @@ function Leads({ type, showSidebar }) {
     setOpenDeleteModal(true);
     setSelectedLeadId(leadId);
   };
-  const handleClickOpen = () => {
-    setOpen(true);
+
+  const handleOpenViewModal = (leadId) => {
+    setSelectedLeadId(leadId)
+    setOpenViewModal(true);
   };
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
+
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} leadId={selectedLeadId} />
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
       <ShiftLeadModal open={openShiftLeadModal} setOpen={setOpenShiftLeadModal} />
+      <Filter open={openFilters} setOpen={setOpenFilters} />
+      <Lead open={openViewModal} setOpen={setOpenViewModal} leadId={selectedLeadId} />
 
-      <Lead open={open} setOpen={setOpen} />
-
-      <Topbar options={options} setOptions={setOptions} />
+      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters} />
       {options.isKanbanView ? (
         <Kanban options={options} setOptions={setOptions} />
       ) : (
