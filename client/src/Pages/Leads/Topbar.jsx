@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Add, Archive, Person2 } from "@mui/icons-material";
+import React, { useEffect } from "react";
+import { Add } from "@mui/icons-material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../utils";
-import { FormControl, IconButton, Input, InputAdornment, Tooltip } from "@mui/material";
+import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getArchivedLeads, getEmployeeLeads, getLeads } from "../../redux/action/lead";
 import { PiArchive, PiMagnifyingGlass } from "react-icons/pi";
@@ -46,7 +46,7 @@ const Topbar = ({ options, setOptions }) => {
   };
 
   return (
-    <div className="flex flex-col tracking-wide">
+    <div className="flex flex-col tracking-wide mb-8">
       <div className="w-full text-[14px]">
         <Path />
       </div>
@@ -110,10 +110,9 @@ const Topbar = ({ options, setOptions }) => {
             <div>
               <Tooltip title="Add New Lead" placement="top" arrow>
                 <Link to="/leads/create">
-                <button
-                  className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
-                  <Add />
-                </button>
+                  <button className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
+                    <Add />
+                  </button>
                 </Link>
               </Tooltip>
             </div>

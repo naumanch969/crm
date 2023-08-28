@@ -12,6 +12,7 @@ import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import Project from "./Project";
 
 const blue = {
   100: "#DAECFF",
@@ -154,9 +155,9 @@ function Projects() {
             />
           </Tooltip>
           <Tooltip placement="top" title="View">
-            <Link to={`/leads/${params.row._id}`}>
+            <div onClick={handleClickOpen}>
               <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
-            </Link>
+            </div>
           </Tooltip>
           <Tooltip placement="top" title="Edit">
             {" "}
@@ -193,6 +194,7 @@ function Projects() {
 
   ////////////////////////////////////// STATES //////////////////////////////
   const [view, setView] = useState("table");
+  const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
@@ -211,9 +213,8 @@ function Projects() {
     //
     //
   };
-  const handleOpenViewModel = () => {
-    //
-    //
+  const handleClickOpen = () => {
+    setOpen(true);
   };
   const handleOpenEditModal = (project) => {
     setOpenEditModal(true);
@@ -232,6 +233,8 @@ function Projects() {
         setOpen={setOpenDeleteModal}
         projectId={selectedProjectId}
       />
+
+      <Project open={open} setOpen={setOpen} />
 
       <Topbar view={view} setView={setView} />
       <Table

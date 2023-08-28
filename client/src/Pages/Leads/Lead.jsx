@@ -19,7 +19,7 @@ import {
   PiUserFocus,
   PiXLight,
 } from "react-icons/pi";
-import { Divider, Dialog, DialogActions, DialogContent, DialogTitle, Slide } from "@mui/material";
+import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -184,7 +184,6 @@ const Lead = ({ open, setOpen }) => {
             </div>
           </div>
         </DialogContent>
-        <DialogActions></DialogActions>
       </Dialog>
     </div>
   );

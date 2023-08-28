@@ -255,13 +255,12 @@ function Leads({ type, showSidebar }) {
     setOpenDeleteModal(true);
     setSelectedLeadId(leadId);
   };
-
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   return (
-    <div className="w-full h-fit bg-inherit flex flex-col gap-[2rem]  ">
+    <div className="w-full h-fit bg-inherit flex flex-col">
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} leadId={selectedLeadId} />
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />

@@ -1,118 +1,118 @@
 import React from "react";
-import Topbar from "./Topbar";
+import {
+  PiCalendar,
+  PiEnvelopeSimple,
+  PiGenderMaleDuotone,
+  PiGitBranch,
+  PiHandCoins,
+  PiHouseLine,
+  PiIdentificationCard,
+  PiImage,
+  PiMapPinLine,
+  PiPhone,
+  PiRuler,
+  PiSealQuestion,
+  PiUser,
+  PiUserFocus,
+  PiXLight,
+} from "react-icons/pi";
+import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
+import Carousel from "./Carousel";
 
-const Project = () => {
-    return (
-        <div className='h-full w-full'>
-            <Topbar />
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
 
-            <div className="bg-white rounded-lg shadow-md h-screen w-full mt-5">
-                <p className="flex justify-center text-3xl font-thin text-primary-red pt-4">
-                    Single Item View
-                </p>
+const Project = ({ open, setOpen }) => {
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-                {/* Field Heading */}
-                <div className="pl-10 pr-10 pt-10 columns-3">
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-start">FirstName</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-center">LastName</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-end">Gender</div>
+  return (
+    <div>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        fullWidth="sm"
+        maxWidth="sm"
+        aria-describedby="alert-dialog-slide-description">
+        <DialogTitle className="flex items-center justify-end">
+          <div className="cursor-pointer" onClick={handleClose}>
+            <PiXLight className="text-[25px]" />
+          </div>
+        </DialogTitle>
+        <DialogContent>
+          <div className="text-[#67757c]">
+            <div className="bg-white w-full h-full px-4">
+              <div className="flex items-center pt-6 pb-2 gap-3 text-[20px]">
+                <PiHouseLine className="text-[25px]" />
+                Property Details
+              </div>
+              <Divider />
+
+              <div>
+                <div className="pt-2 text-lg font-[350]">
+                  Property Type :{" "}
+                  <span className="text-black font-normal">Commercial / Residential</span>
                 </div>
-
-                {/* Field Data */}
-                <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">Hamza</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">Zulfiqar</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">Male</div>
+                <div className="text-lg font-[350]">
+                  Home Type :{" "}
+                  <span className="text-black font-normal">Bangla / Appartment / Hotel</span>
                 </div>
-
-                {/* Field Heading */}
-                <div className="pl-10 pr-10 pt-10  columns-3">
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-start">CNIC</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-center">Phone</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-end">Email</div>
+                <div className="text-lg font-[350] pb-6">
+                  Total Beds : <span className="text-black font-normal">Number of Beds</span>
                 </div>
+              </div>
 
-                {/* Field Data */}
-                <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">12312312312</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">1231231322</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">hamza@gmail.com</div>
-                </div>
+              <div className="flex items-center pb-2 gap-3 text-[20px]">
+                <PiMapPinLine className="text-[25px]" />
+                Location
+              </div>
+              <Divider />
+              <div className="pt-2 text-lg font-[350]">
+                City : <span className="text-black font-normal">City</span>
+              </div>
+              <div className="text-lg font-[350] pb-6">
+                Location Area : <span className="text-black font-normal">e.g : Johar Town</span>
+              </div>
 
-                {/* Field Heading */}
-                <div className="pl-10 pr-10 pt-10  columns-3">
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-start">City</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-center">Location Area</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-end">Property Type</div>
-                </div>
+              <div className="flex items-center pb-2 gap-3 text-[20px]">
+                <PiRuler className="text-[25px]" />
+                Area
+              </div>
+              <Divider />
+              <div className="pt-2 text-lg font-[350]">
+                Area in Marla : <span className="text-black font-normal">Area</span>
+              </div>
+              <div className="text-lg font-[350] pb-6">
+                Area is square feets : <span className="text-black font-normal">Area</span>
+              </div>
 
-                {/* Field Data */}
-                <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">Lahore</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">Cantt</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">Domestic</div>
-                </div>
+              <div className="flex items-center pb-2 gap-3 text-[20px]">
+                <PiHandCoins className="text-[25px]" />
+                Price
+              </div>
+              <Divider />
+              <div className="text-lg font-[350] pb-6 pt-2">
+                Selling Price : <span className="text-black font-normal">Amount</span>
+              </div>
 
-                {/* Field Heading */}
-                <div className="pl-10 pr-10 pt-10  columns-3">
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-start">Home Type</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-center">Min Area</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-end">Max Area</div>
-                </div>
-
-                {/* Field Data */}
-                <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">Appartment</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">2 Marla</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">3 Marls</div>
-                </div>
-
-                {/* Field Heading */}
-                <div className="pl-10 pr-10 pt-10  columns-3">
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-start">Min Budget</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-center">Max Budget</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-end">Lead Priority</div>
-                </div>
-
-                {/* Field Data */}
-                <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">20000</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">30000</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">High</div>
-                </div>
-
-                {/* Field Heading */}
-                <div className="pl-10 pr-10 pt-10  columns-3">
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-start">Client Type</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-center">Beds</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-end">Source</div>
-                </div>
-
-                {/* Field Data */}
-                <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">Direct</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">3</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">Facebook</div>
-                </div>
-
-                {/* Field Heading */}
-                <div className="pl-10 pr-10 pt-10  columns-3">
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-start">Submitted</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-center">Allocated to</div>
-                    <div className="text-xl font-Mulish text-gray-600 flex justify-end">Status</div>
-                </div>
-
-                {/* Field Data */}
-                <div className="pl-10 pr-10 columns-3">
-                    <div className="text-lg font-extralight text-gray-600 flex justify-start">2 Days Ago</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-center">User 1</div>
-                    <div className="text-lg font-extralight text-gray-600 flex justify-end">Processing</div>
-                </div>
-
+              <div className="flex items-center pb-2 gap-3 text-[20px]">
+                <PiImage className="text-[25px]" />
+                Images
+              </div>
+              <Divider />
+              <div>
+                <Carousel />
+              </div>
             </div>
-
-        </div>
-    );
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
 };
 
-export default Project
+export default Project;
