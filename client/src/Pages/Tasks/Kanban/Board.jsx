@@ -1,9 +1,9 @@
 import React from 'react';
-import Task from './Task';
+import KanbanLead from './KanbanLead';
 import { Add } from '@mui/icons-material';
 import { Droppable } from 'react-beautiful-dnd';
 
-const Board = ({ tasks, title, _id }) => {
+const Board = ({ leads, title, _id }) => {
   return (
     <div className=' bg-gray-200 rounded-[10px] min-w-[260px] -[270px] h-[700px] border-[1px] border-t-[3px] border-gray-600 '>
 
@@ -14,7 +14,7 @@ const Board = ({ tasks, title, _id }) => {
         </button>
       </div>
 
-      <div style={{ height: 'calc(100% - 32px)' }} className="taskBoard h-full overflow-y-scroll  ">
+      <div style={{ height: 'calc(100% - 32px)' }} className="leadBoard h-full overflow-y-scroll  ">
         <Droppable droppableId={_id} className='droppable' >
           {(provided, snapshot) => (
             <div
@@ -22,10 +22,10 @@ const Board = ({ tasks, title, _id }) => {
               {...provided.droppableProps}
               className={`relative flex-1 flex flex-col gap-[1rem] p-[12px] h-full ${snapshot.isDraggingOver ? 'bg-gray-300' : ''}`}
             >
-              {tasks.map((task, index) => (
+              {leads.map((lead, index) => (
                 <React.Fragment key={index} >
-                  <Task key={task._id} task={task} index={index} />
-                  {snapshot.draggingOverWith == task._id && (
+                  <KanbanLead key={lead._id} lead={lead} index={index} />
+                  {snapshot.draggingOverWith == lead._id && (
                     <div className='custom-placeholder'>
                       {provided.placeholder}
                     </div>

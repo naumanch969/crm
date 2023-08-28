@@ -7,7 +7,7 @@ export const getLead = async (req, res, next) => {
     try {
 
         const { leadId } = req.params
-        const findedLead = await Lead.findById(leadId).populate('clientId').populate('allocatedTo').exec()
+        const findedLead = await Lead.findById(leadId).populate('clientId').populate('createdBy').populate('allocatedTo').exec()
         if (!findedLead) return next(createError(400, 'Lead not exist'))
 
         res.status(200).json({ result: findedLead, message: 'lead created successfully', success: true })
@@ -30,7 +30,7 @@ export const getLeads = async (req, res, next) => {
         const findedLeads = await Lead.find(query)
             .sort({ createdAt: -1 })
             .limit(10)
-            .populate('clientId')
+            .populate('clientId').populate('createdBy')
             .populate('allocatedTo')
             .exec();
 
@@ -43,7 +43,7 @@ export const getLeads = async (req, res, next) => {
 export const getEmployeeLeads = async (req, res, next) => {
     try {
         const findedLeads = await Lead.find({ allocatedTo: req.user?._id, isArchived: false })
-            .populate('clientId')
+            .populate('clientId').populate('createdBy')
             .exec();
 
         res.status(200).json({ result: findedLeads, message: 'Leads fetched successfully', success: true });
@@ -52,11 +52,10 @@ export const getEmployeeLeads = async (req, res, next) => {
     }
 }
 
-
 export const getArchivedLeads = async (req, res, next) => {
     try {
 
-        const findedLeads = await Lead.find({ isArchived: true }).populate('clientId').exec()
+        const findedLeads = await Lead.find({ isArchived: true }).populate('clientId').populate('createdBy').exec()
         res.status(200).json({ result: findedLeads, message: 'Archived leads fetched successfully', success: true })
 
     } catch (err) {
@@ -97,6 +96,58 @@ export const getLeadsStat = async (req, res, next) => {
     }
 }
 
+export const searchLead = async (req, res) => {
+    const { searchTerm } = req.query;
+
+    const searchPattern = new RegExp(searchTerm, 'i');
+
+    try {
+        const matchingUserIds = await User.find({
+            $or: [
+                { username: searchPattern },
+                { email: searchPattern },
+                { firstName: searchPattern },
+                { lastName: searchPattern },
+                { cnic: searchPattern },
+            ],
+        }).select('_id');
+
+        const searchResults = await Lead.find({
+            $or: [
+                { clientId: { $in: matchingUserIds } },
+                { allocatedTo: { $in: matchingUserIds } },
+                { city: searchPattern },
+                { project: searchPattern },
+                { region: searchPattern },
+                { propertyType: searchPattern },
+                { homeType: searchPattern },
+                { clientType: searchPattern },
+                { beds: searchPattern },
+                { source: { $in: [searchPattern] } },
+                { type: searchPattern },
+            ],
+        })
+            .populate('clientId').populate('createdBy')
+            .populate('allocatedTo')
+            .exec();
+
+        res.status(200).json({ result: searchResults });
+    } catch (error) {
+        next(createError(500, error.message))
+    }
+};
+
+export const filterLead = async (req, res) => {
+    const filters = req.body;
+
+    try {
+        const filteredLeads = await leadModel.find(filters);
+
+        res.status(200).json({ result: filteredLeads });
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred while filtering leads.' });
+    }
+}
 
 export const createOnsiteLead = async (req, res, next) => {
     try {
@@ -114,7 +165,7 @@ export const createOnsiteLead = async (req, res, next) => {
         const newClient = await User.create({ gender, firstName, lastName, phone, email, cnic })
 
         // create new lead
-        const newLead = await Lead.create({ ...leadData, allocatedTo, clientId: newClient._id, type: 'onsite' })
+        const newLead = await Lead.create({ ...leadData, createdBy: req.user._id, allocatedTo, clientId: newClient._id, type: 'onsite' })
         res.status(200).json({ result: newLead, message: 'lead created successfully', success: true })
 
     } catch (err) {
@@ -163,7 +214,7 @@ export const updateLead = async (req, res, next) => {
         allocatedTo = allocatedTo ?? req.user._id
 
         // create new lead
-        const updatedLead = await Lead.findByIdAndUpdate(leadId, { $set: { ...leadData, allocatedTo } }, { new: true }).populate('clientId').populate('allocatedTo').exec()
+        const updatedLead = await Lead.findByIdAndUpdate(leadId, { $set: { ...leadData, allocatedTo } }, { new: true }).populate('clientId').populate('createdBy').populate('allocatedTo').exec()
         res.status(200).json({ result: updatedLead, message: 'lead updated successfully', success: true })
 
     } catch (err) {

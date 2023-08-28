@@ -53,6 +53,26 @@ export const getLeadsStat = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
+export const searchLead = (searchTerm) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.searchLead(searchTerm)
+        dispatch(getLeadsReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const filterLead = (filters) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.filterLead(filters)
+        dispatch(getLeadsReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
 export const createOnsiteLead = (leadData, navigate) => async (dispatch) => {
     try {
         dispatch(start())

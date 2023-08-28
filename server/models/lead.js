@@ -4,6 +4,7 @@ const leadSchema = Schema({
 
     clientId: { type: Schema.Types.ObjectId, ref: 'User' },
     allocatedTo: { type: Schema.Types.ObjectId, ref: 'User' },
+    createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
     city: { type: String },
     project: { type: String },
     region: { type: String },
