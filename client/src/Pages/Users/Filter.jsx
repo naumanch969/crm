@@ -34,10 +34,6 @@ const FilterDrawer = ({ open, setOpen }) => {
     setOpen(false);
   };
 
-  const demoStatus = ["Successful", "Unsuccessful", "Under Process", "Remaining", "Declined"];
-  const demoPropertyType = ["Residential", "Commercial", "Agricultural", "Industrial"];
-  const demoHomeType = ["Apartment", "House", "Farm House", "Plot", "Shop", "Office"];
-
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
       <div style={{ minWidth: "50vh", maxWidth: "60vh" }}>
