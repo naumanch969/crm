@@ -13,6 +13,7 @@ import { format } from "timeago.js";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
 import { IoOpenOutline } from "react-icons/io5";
 import { Tooltip, styled } from "@mui/material";
+import UpateStatusModal from "./UpdateStatus";
 
 const blue = {
   100: "#DAECFF",
@@ -139,13 +140,13 @@ function Tasks() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <span
-          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize ${
-            params.row.status == "successful" ? "border-green-500 text-green-500" : ""
-          } ${params.row.status == "new" ? "border-sky-400 text-sky-400" : ""} ${
-            params.row.status == "declined" ? "border-red-400 text-red-400" : ""
-          } ${params.row.status == "to do" ? "border-yellow-500 text-yellow-500" : ""} ${
-            params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
-          }`}>
+          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize 
+          ${params.row.status == "completed" ? "border-green-500 text-green-500" : ""}
+          ${params.row.status == "new" ? "border-sky-400 text-sky-400" : ""} 
+          ${params.row.status == "overDue" ? "border-red-400 text-red-400" : ""} 
+          ${params.row.status == "inProgress" ? "border-yellow-500 text-yellow-500" : ""}
+          `}>
+          {console.log(params.row.status)}
           {params.row.status}
         </span>
       ),
@@ -208,6 +209,7 @@ function Tasks() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openStatusModal, setOpenStatusModal] = useState(false);
   const [openTask, setOpenTask] = useState(false);
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
@@ -217,8 +219,8 @@ function Tasks() {
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
   const handleOpenStatusModal = (task) => {
-    //
-    //
+    setOpenStatusModal(true);
+    dispatch(getTaskReducer(task));
   };
   const handleOpenArchive = () => {
     //
@@ -246,6 +248,7 @@ function Tasks() {
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} taskId={selectedTaskId} />
       <Task open={openTask} setOpen={setOpenTask} />
+      <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
 
       <Topbar />
       <Table rows={tasks} columns={columns} rowsPerPage={5} isFetching={isFetching} error={error} />

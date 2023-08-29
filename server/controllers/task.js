@@ -11,38 +11,62 @@ export const createTask = async (req, res, next) => {
 
     } catch (err) {
         next(createError(500, err.message))
-
     }
 }
 
 export const getTask = async (req, res, next) => {
     try {
+        const { taskId } = req.params;
 
-        const { taskId } = req.params
+        const task = await Task.findById(taskId);
 
-        const findedTask = await Task.findById(taskId)
-        if (!findedTask) return next(createError(400, 'Task not exist'))
+        // Update task statuses based on criteria before sending the response
+        const currentDate = new Date();
 
-        res.status(200).json({ result: findedTask, message: 'Task fetched successfully', success: true })
+        if (task) {
+            const dueDate = new Date(task.dueDate);
 
+            if (task.status === 'new' && dueDate <= currentDate) {
+                await Task.findByIdAndUpdate(task._id, { status: 'overDue' });
+                task.status = 'overDue'; // Update in-memory status as well
+            } else if (dueDate > currentDate && task.status === 'overDue') {
+                await Task.findByIdAndUpdate(task._id, { status: 'new' });
+                task.status = 'new'; // Update in-memory status as well
+            }
+        }
+
+        res.status(200).json({ result: task, message: 'Task fetched successfully', success: true });
     } catch (err) {
-        next(createError(500, err.message))
-
+        next(createError(500, err.message));
     }
-}
+};
 
-export const getTasks = async (req, res, next) => {
+
+export const getUserTasks = async (req, res, next) => {
     try {
+        const tasks = await Task.find({ userId: req.user._id });
 
-        // const tasks = await Task.find({ userId: req.user._id })
-        const tasks = await Task.find({})
-        res.status(200).json({ result: tasks, message: 'tasks fetched successfully', success: true })
+        // Update task statuses based on criteria before sending the response
+        const currentDate = new Date();
 
+        for (const task of tasks) {
+            const dueDate = new Date(task.dueDate);
+
+            if (task.status === 'new' && dueDate <= currentDate) {
+                await Task.findByIdAndUpdate(task._id, { status: 'overDue' });
+                task.status = 'overDue'; // Update in-memory status as well
+            } else if (dueDate > currentDate && task.status === 'overDue') {
+                await Task.findByIdAndUpdate(task._id, { status: 'new' });
+                task.status = 'new'; // Update in-memory status as well
+            }
+        }
+
+        res.status(200).json({ result: tasks, message: 'tasks fetched successfully', success: true });
     } catch (err) {
-        next(createError(500, err.message))
-
+        next(createError(500, err.message));
     }
-}
+};
+
 
 export const updateTask = async (req, res, next) => {
     try {
@@ -54,7 +78,6 @@ export const updateTask = async (req, res, next) => {
 
     } catch (err) {
         next(createError(500, err.message))
-
     }
 }
 
@@ -68,10 +91,8 @@ export const deleteTask = async (req, res, next) => {
 
     } catch (err) {
         next(createError(500, err.message))
-
     }
 }
-
 
 export const deleteWholeCollection = async (req, res, next) => {
     try {

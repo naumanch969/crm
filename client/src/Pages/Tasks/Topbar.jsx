@@ -5,19 +5,40 @@ import { Path } from "../../utils";
 import { Box, CardContent, FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiArchive, PiMagnifyingGlass, PiTrendUp } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
+import { useSelector } from "react-redux";
 
 const Topbar = (view, setView) => {
-  const [showStatBar, setShowStatBar] = useState(true);
 
+  /////////////////////////////////////// VARIABLES ///////////////////////////////////////////
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { tasks } = useSelector(state => state.task)
+  // Count occurrences of each status
+  const statusCounts = tasks.reduce((acc, task) => {
+    acc[task.status] = (acc[task.status] || 0) + 1;
+    return acc;
+  }, {});
+
+  // Get all possible status options (assuming 'new', 'overDue', 'completed', 'inProgress')
+  const allStatusOptions = ['new', 'overDue', 'completed', 'inProgress'];
+
+  // Transform the status counts into the desired format
+  const statusArray = allStatusOptions.map((status) => ({
+    name: status,
+    counts: statusCounts[status] || 0,
+  }));
+
   const title = pathname.split("/")[1];
   const pathArr = pathname.split("/").filter((item) => item !== "");
   const showAddButton = !pathArr.includes("create");
 
-  const handleToggleShowArchivedLeads = () => {};
-  const handleToggleShowEmployeeLeads = () => {};
-  const handleToggleIsKanbanView = () => {};
+  /////////////////////////////////////// STATES ///////////////////////////////////////////
+  const [showStatBar, setShowStatBar] = useState(true);
+
+  /////////////////////////////////////// FUNCTIONS ///////////////////////////////////////////
+  const handleToggleShowArchivedLeads = () => { };
+  const handleToggleShowEmployeeLeads = () => { };
+  const handleToggleIsKanbanView = () => { };
   const handleToggleIsStatOpen = () => {
     setShowStatBar(!showStatBar);
   };
@@ -95,7 +116,27 @@ const Topbar = (view, setView) => {
       {showStatBar && showAddButton && (
         <div className="mt-5 mb-10">
           <Box className="w-auto md:columns-4 sm:columns-2 font-primary">
-            <div className="bg-white border-b-[3px] border-b-sky-300 sm:mt-0 mt-4 shadow-none rounded-md">
+            {
+              statusArray.map((status, index) => (
+                <div key={index} className={`bg-white border-b-[3px]  sm:mt-0 mt-4 shadow-none rounded-md
+                    ${status.name == "completed" ? "border-b-green-400" : ""}
+                    ${status.name == "new" ? "border-b-sky-400" : ""} 
+                    ${status.name == "overDue" ? "border-b-red-400" : ""} 
+                    ${status.name == "inProgress" ? "border-b-yellow-400" : ""}
+                  `}>
+                  <CardContent className="flex-grow-[1] flex justify-between items-center">
+                    <div>
+                      <p className="text-2xl text-[#455a64]">{status.counts}</p>
+                      <p className="text-md font-Mulish text-slate-500 text-opacity-70">
+                        {status.name}
+                      </p>
+                    </div>
+                  </CardContent>
+                </div>
+              ))
+            }
+
+            {/* <div className="bg-white border-b-[3px] border-b-sky-300 sm:mt-0 mt-4 shadow-none rounded-md">
               <CardContent className="flex-grow-[1] flex justify-between items-center">
                 <div>
                   <p className="text-2xl font-extralight text-[#455a64]">9</p>
@@ -131,7 +172,7 @@ const Topbar = (view, setView) => {
                   <p className="text-md font-Mulish text-slate-500 text-opacity-70">Completed</p>
                 </div>
               </CardContent>
-            </div>
+            </div> */}
           </Box>
         </div>
       )}

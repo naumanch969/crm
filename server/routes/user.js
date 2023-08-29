@@ -6,7 +6,7 @@ const router = express.Router()
 
 const verifyIsSameUser = (req, res, next) => {
     try {
-        if (req.user._id == req.params.userId || req.user.role == ('manager' || 'super-admin')) next()
+        if (req.user._id == req.params.userId || req.user.role == ('manager' || 'super_admin')) next()
         else next(createError(401, 'Only specific user can access this route'))
     } catch (err) {
         next(createError(500, err.message))
