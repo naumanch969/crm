@@ -13,6 +13,11 @@ import { format } from "timeago.js";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
 import { IoOpenOutline } from "react-icons/io5";
 import { Tooltip, styled } from "@mui/material";
+<<<<<<< HEAD
+=======
+import UpateStatusModal from "./UpdateStatus";
+import Kanban from "./Kanban/Kanban";
+>>>>>>> 98990283f8e9652ca1e4e89746537586ca8b3576
 import Filter from "./Filter";
 
 const blue = {
@@ -88,7 +93,7 @@ const StyledMenuItem = styled(MenuItem)(
 function Tasks() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
-  const { tasks, isFetching, error } = useSelector((state) => state.task);
+  const { tasks, archived, isFetching, error } = useSelector((state) => state.task);
   const columns = [
     {
       field: "title",
@@ -140,13 +145,13 @@ function Tasks() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <span
-          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize ${
-            params.row.status == "successful" ? "border-green-500 text-green-500" : ""
-          } ${params.row.status == "new" ? "border-sky-400 text-sky-400" : ""} ${
-            params.row.status == "declined" ? "border-red-400 text-red-400" : ""
-          } ${params.row.status == "to do" ? "border-yellow-500 text-yellow-500" : ""} ${
-            params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
-          }`}>
+          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize 
+          ${params.row.status == "completed" ? "border-green-500 text-green-500" : ""}
+          ${params.row.status == "new" ? "border-sky-400 text-sky-400" : ""} 
+          ${params.row.status == "overDue" ? "border-red-400 text-red-400" : ""} 
+          ${params.row.status == "inProgress" ? "border-yellow-500 text-yellow-500" : ""}
+          `}>
+          {console.log(params.row.status)}
           {params.row.status}
         </span>
       ),
@@ -209,8 +214,19 @@ function Tasks() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+<<<<<<< HEAD
   const [openFilters, setOpenFilters] = useState(false);
   const [open, setOpen] = useState(false);
+=======
+  const [openStatusModal, setOpenStatusModal] = useState(false);
+  const [openTask, setOpenTask] = useState(false);
+  const [openFilters, setOpenFilters] = useState(false);
+  const [options, setOptions] = useState({
+    isKanbanView: false,
+    showEmployeeTasks: false,
+    showArchivedTasks: false,
+  });
+>>>>>>> 98990283f8e9652ca1e4e89746537586ca8b3576
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
@@ -219,8 +235,8 @@ function Tasks() {
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
   const handleOpenStatusModal = (task) => {
-    //
-    //
+    setOpenStatusModal(true);
+    dispatch(getTaskReducer(task));
   };
   const handleOpenArchive = () => {
     //
@@ -243,12 +259,32 @@ function Tasks() {
     <div className="w-full h-fit bg-inherit flex flex-col gap-[12px]  ">
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} taskId={selectedTaskId} />
+<<<<<<< HEAD
       <Filter open={openFilters} setOpen={setOpenFilters} />
 
       <Task open={open} setOpen={setOpen} />
 
       <Topbar openFilters={openFilters} setOpenFilters={setOpenFilters} />
       <Table rows={tasks} columns={columns} rowsPerPage={5} isFetching={isFetching} error={error} />
+=======
+      <Task open={openTask} setOpen={setOpenTask} />
+      <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
+      <Filter open={openFilters} setOpen={setOpenFilters} />
+
+      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters} />
+
+      {options.isKanbanView ? (
+        <Kanban options={options} setOptions={setOptions} />
+      ) : (
+        <Table
+          rows={options.showArchivedTasks ? archived : tasks}
+          columns={columns}
+          rowsPerPage={10}
+          isFetching={isFetching}
+          error={error}
+        />
+      )}
+>>>>>>> 98990283f8e9652ca1e4e89746537586ca8b3576
     </div>
   );
 }

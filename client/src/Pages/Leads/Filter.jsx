@@ -13,12 +13,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 const FilterDrawer = ({ open, setOpen }) => {
   const dispatch = useDispatch();
 
-  const [filters, setFilters] = useState({
-    city: "",
-    project: "",
-    region: "",
-    // Add more fields from your lead model here
-  });
+    const [filters, setFilters] = useState({
+        city: '',
+        project: '',
+        region: '',
+        // Add more fields from your lead model here
+    });
+
+
 
   const handleInputChange = (field, value) => {
     setFilters((prevFilters) => ({

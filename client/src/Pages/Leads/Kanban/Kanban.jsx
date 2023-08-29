@@ -27,9 +27,9 @@ const Kanban = ({ options, setOptions }) => {
   useEffect(() => {
     statusEnum.forEach(
       (status) =>
-        (filteredLeads[status] = (options.showArchivedLeads ? archived : leads).filter(
-          (lead) => lead.status == status
-        ))
+      (filteredLeads[status] = (options.showArchivedLeads ? archived : leads).filter(
+        (lead) => lead.status == status
+      ))
     );
     setFilteredLeads({ ...filteredLeads });
   }, [leads, archived]);
@@ -75,17 +75,17 @@ const Kanban = ({ options, setOptions }) => {
     <div className="w-full h-fit bg-inherit flex flex-col gap-[2rem]  ">
       {isFetching ? (
         <div className="w-full h-[11rem] flex justify-center items-center ">
-        <ThreeDots
-          height="80"
-          width="80"
-          radius="9"
-          color="gray"
-          ariaLabel="three-dots-loading"
-          wrapperStyle={{}}
-          wrapperClassName=""
-          visible={true}
-        />
-      </div>
+          <ThreeDots
+            height="80"
+            width="80"
+            radius="9"
+            color="gray"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />
+        </div>
       ) : (
         <DragDropContext onDragEnd={handleDragEnd}>
           <div className="flex justify-start gap-[1rem] w-full min-h-[30rem] h-fit pb-[1rem] overflow-x-scroll ">

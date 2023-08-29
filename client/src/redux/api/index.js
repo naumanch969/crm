@@ -37,7 +37,10 @@ export const deleteUser = (userId) => API.delete(`/user/delete/${userId}`)
 
 // TASK
 export const getTasks = () => API.get(`/task/get/all`)
+export const getArchivedTasks = () => API.get(`/task/get/archived`)
 export const getTask = (taskId) => API.get(`/task/get/single/${taskId}`)
+export const searchTask = (searchTerm) => API.get(`/task/get/search?searchTerm=${searchTerm}`)
+export const filterTask = (filters) => API.get(`/task/get/filter`, filters)
 export const createTask = (taskData) => API.post(`/task/create`, taskData)
 export const updateTask = (taskId, taskData) => API.put(`/task/update/${taskId}`, taskData)
 export const deleteTask = (taskId) => API.delete(`/task/delete/${taskId}`)

@@ -139,13 +139,13 @@ export const searchLead = async (req, res) => {
 
 export const filterLead = async (req, res) => {
     const filters = req.body;
-
+    
     try {
-        const filteredLeads = await leadModel.find(filters);
-
+        const filteredLeads = await Lead.find(filters);
+        
         res.status(200).json({ result: filteredLeads });
     } catch (error) {
-        res.status(500).json({ error: 'An error occurred while filtering leads.' });
+        next(createError(500, error.message))
     }
 }
 
@@ -202,11 +202,7 @@ export const updateLead = async (req, res, next) => {
         let { _id: inputLeadId, allocatedTo, ...leadData } = req.body    // lead data
         let { gender, firstName, lastName, phone, email, cnic, } = req.body // client data
 
-        // checking if lead exist
-        const findedLead = await Lead.findById(leadId)
-        if (!findedLead) return next(createError(400, 'Lead not exist'))
-
-        // for online lead, (clientId is populated version (actually it is client object) )
+        // for online lead, (clientId is populated version (actually it is user/client document) )
         if (leadData?.clientId) {
             await User.findByIdAndUpdate(leadData.clientId._id, { gender, firstName, lastName, phone, email, cnic }, { new: true })
         }

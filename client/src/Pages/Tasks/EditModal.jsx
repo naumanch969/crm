@@ -24,8 +24,9 @@ const EditModal = ({ open, setOpen }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!taskData?.title || !taskData?.description || !taskData?.dueDate || !taskData?.priority) return alert('Make sure to rovide all the fields')
-    dispatch(updateTask(taskData?._id, taskData, setOpen))
+    dispatch(updateTask(taskData?._id, taskData))
     dispatch(getTaskReducer(null))
+    setOpen(false)
   }
 
   const handleChange = (e) => {
