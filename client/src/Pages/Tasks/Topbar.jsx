@@ -8,7 +8,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../utils";
 import { useDispatch } from "react-redux";
 import { getArchivedTasks, getTasks, searchTask } from "../../redux/action/task";
-
+import CreateTask from "./CreateTask";
 
 const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
@@ -17,14 +17,14 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   const title = pathname.split("/")[1];
   const pathArr = pathname.split("/").filter((item) => item !== "");
   const showOptionButtons = !pathArr.includes("create");
-  const { tasks } = useSelector(state => state.task)
+  const { tasks } = useSelector((state) => state.task);
   const dispatch = useDispatch();
   // Count occurrences of each status
   const statusCounts = tasks.reduce((acc, task) => {
     acc[task.status] = (acc[task.status] || 0) + 1;
     return acc;
   }, {});
-  const allStatusOptions = ['new', 'overDue', 'completed', 'inProgress'];
+  const allStatusOptions = ["new", "overDue", "completed", "inProgress"];
   // Transform the status counts into the desired format
   const statusArray = allStatusOptions.map((status) => ({
     name: status,
@@ -33,6 +33,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
 
   ////////////////////////////////////////// STATES //////////////////////////////////////
   const [showStatBar, setShowStatBar] = useState(true);
+  const [open, setOpen] = useState(false);
 
   ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
   useEffect(() => {
@@ -43,8 +44,8 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
 
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleSearch = (searchTerm) => {
-    dispatch(searchTask(searchTerm))
-  }
+    dispatch(searchTask(searchTerm));
+  };
   const handleToggleShowArchivedTasks = () => {
     setOptions((pre) => ({
       ...pre,
@@ -62,14 +63,17 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   const handleToggleIsKanbanView = () => {
     setOptions((pre) => ({
       ...pre,
-      isKanbanView: !options?.isKanbanView
+      isKanbanView: !options?.isKanbanView,
     }));
   };
   const handleToggleFilters = () => {
-    setOpenFilters(pre => !pre)
+    setOpenFilters((pre) => !pre);
   };
   const handleToggleIsStatOpen = () => {
     setShowStatBar(!showStatBar);
+  };
+  const handleCreateopen = () => {
+    setOpen(true);
   };
 
   return (
@@ -100,30 +104,33 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
             <Tooltip title="Archived" arrow placement="top">
               <div
                 onClick={handleToggleShowArchivedTasks}
-                className={` p-2 rounded-md cursor-pointer ${options?.showArchivedTasks
-                  ? "text-[#20aee3] bg-[#e4f1ff]"
-                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                  }`}>
+                className={` p-2 rounded-md cursor-pointer ${
+                  options?.showArchivedTasks
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
                 <PiArchive className="text-[25px]" />
               </div>
             </Tooltip>
             <Tooltip title="My Tasks" arrow placement="top">
               <div
                 onClick={handleToggleShowEmployeeTasks}
-                className={` p-2 rounded-md cursor-pointer ${options?.showEmployeeTasks
-                  ? "text-[#20aee3] bg-[#e4f1ff]"
-                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                  }`}>
+                className={` p-2 rounded-md cursor-pointer ${
+                  options?.showEmployeeTasks
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
                 <FiUser className="text-[25px] " />
               </div>
             </Tooltip>
             <Tooltip title="View" arrow placement="top">
               <div
                 onClick={handleToggleIsKanbanView}
-                className={` p-2 rounded-md cursor-pointer ${options?.isKanbanView
-                  ? "text-[#20aee3] bg-[#e4f1ff]"
-                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                  }`}>
+                className={` p-2 rounded-md cursor-pointer ${
+                  options?.isKanbanView
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
                 <FiList className="text-[25px] " />
               </div>
             </Tooltip>
@@ -137,57 +144,57 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
             <Tooltip title="Filter" arrow placement="top">
               <div
                 onClick={handleToggleFilters}
-                className={` p-2 rounded-md cursor-pointer ${openFilters
-                  ? "text-[#20aee3] bg-[#e4f1ff]"
-                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                  }`}>
+                className={` p-2 rounded-md cursor-pointer ${
+                  openFilters
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>
             <div>
               <Tooltip title="Add New Task" placement="top" arrow>
-                <Link to="/tasks/create">
-                  <button
-                    className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
+                <div onClick={handleCreateopen}>
+                  <button className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
                     <Add />
                   </button>
-                </Link>
+                </div>
               </Tooltip>
             </div>
           </div>
         )}
       </div>
 
-
       {showStatBar && (
         <div className="mt-5 mb-10">
           <Box className="w-auto md:columns-4 sm:columns-2 font-primary">
-            {
-              statusArray.map((status, index) => (
-                <div key={index} className={`bg-white border-b-[3px]  sm:mt-0 mt-4 shadow-none rounded-md
+            {statusArray.map((status, index) => (
+              <div
+                key={index}
+                className={`bg-white border-b-[3px]  sm:mt-0 mt-4 shadow-none rounded-md
                     ${status.name == "completed" ? "border-b-green-400" : ""}
                     ${status.name == "new" ? "border-b-sky-400" : ""} 
                     ${status.name == "overDue" ? "border-b-red-400" : ""} 
                     ${status.name == "inProgress" ? "border-b-yellow-400" : ""}
                   `}>
-                  <CardContent className="flex-grow-[1] flex justify-between items-center">
-                    <div>
-                      <p className="text-2xl text-[#455a64]">{status.counts}</p>
-                      <p className="text-md font-Mulish text-slate-500 text-opacity-70 capitalize ">
-                        {status.name == "completed" ? "Completed" : ""}
-                        {status.name == "new" ? "New" : ""}
-                        {status.name == "overDue" ? "Over Due" : ""}
-                        {status.name == "inProgress" ? "In Progress" : ""}
-                      </p>
-                    </div>
-                  </CardContent>
-                </div>
-              ))
-            }
+                <CardContent className="flex-grow-[1] flex justify-between items-center">
+                  <div>
+                    <p className="text-2xl text-[#455a64]">{status.counts}</p>
+                    <p className="text-md font-Mulish text-slate-500 text-opacity-70 capitalize ">
+                      {status.name == "completed" ? "Completed" : ""}
+                      {status.name == "new" ? "New" : ""}
+                      {status.name == "overDue" ? "Over Due" : ""}
+                      {status.name == "inProgress" ? "In Progress" : ""}
+                    </p>
+                  </div>
+                </CardContent>
+              </div>
+            ))}
           </Box>
         </div>
       )}
 
+      <CreateTask open={open} setOpen={setOpen} />
     </div>
   );
 };

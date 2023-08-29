@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CiEdit } from "react-icons/ci";
 import {
-    PiBankLight,
+  PiBankLight,
   PiCalendarCheckLight,
   PiDatabaseLight,
   PiFolderOpenLight,
@@ -71,9 +71,8 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
           role: ["employee", "manager", "super_admin"],
         },
         {
-          title: "Create Project",
+          title: "My Projects",
           icon: <CiEdit className="text-[25px]" />,
-          link: "/projects/create",
           role: ["employee", "manager", "super_admin"],
         },
       ],
@@ -82,20 +81,9 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       id: 4,
       title: "To Do Tasks",
       icon: <PiListChecksLight className="text-[25px]" />,
-      childrens: [
-        {
-          title: "Create Task",
-          icon: <CiEdit className="text-[25px]" />,
-          link: "tasks/create",
-          role: ["employee", "manager", "super_admin"],
-        },
-        {
-          title: "My Tasks",
-          icon: <PiListMagnifyingGlassLight className="text-[25px]" />,
-          link: "/tasks",
-          role: ["employee", "manager", "super_admin"],
-        },
-      ],
+      link: "/tasks",
+      role: ["employee", "manager", "super_admin"],
+      childrens: [],
     },
     {
       id: 5,
@@ -228,10 +216,10 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         className={`w-[17vw] sticky top-0 flex flex-col shadow-none h-screen  ${
           showSidebar ? "md:flex hidden" : "hidden"
         } bg-white z-[1000] border-r-[1px] border-r-[#eeeff0] border-b-[1px] border-b-[#eeeff0]`}>
-          <a href="/">
-        <div className="flex border-b-[1px] border-b-[#eeeff0] h-[4rem] items-center justify-center">
-          {!showSidebar ? "" : <img className="h-[45px]" src="/favicon/GrowLOGO.png" />}
-        </div>
+        <a href="/">
+          <div className="flex border-b-[1px] border-b-[#eeeff0] h-[4rem] items-center justify-center">
+            {!showSidebar ? "" : <img className="h-[45px]" src="/favicon/GrowLOGO.png" />}
+          </div>
         </a>
         <div
           style={{ height: "calc(100vh - 4rem)" }}

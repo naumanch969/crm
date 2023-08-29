@@ -5,9 +5,11 @@ import { Add } from "@mui/icons-material";
 import { Box, CardContent, FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiArchive, PiMagnifyingGlass, PiTrendUp } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
+import CreateProject from "./CreateProject";
 
-const Topbar = ({setOpenFilters}) => {
+const Topbar = ({ setOpenFilters }) => {
   const [showStatBar, setShowStatBar] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -23,6 +25,10 @@ const Topbar = ({setOpenFilters}) => {
   };
   const handleToggleFilters = () => {
     setOpenFilters((pre) => !pre);
+  };
+
+  const handleCreateopen = () => {
+    setOpen(true);
   };
 
   return (
@@ -86,11 +92,11 @@ const Topbar = ({setOpenFilters}) => {
             </Tooltip>
             <div>
               <Tooltip title="Add New Lead" placement="top" arrow>
-                <Link to="/projects/create">
+                <div onClick={handleCreateopen}>
                   <button className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
                     <Add />
                   </button>
-                </Link>
+                </div>
               </Tooltip>
             </div>
           </div>
@@ -140,6 +146,8 @@ const Topbar = ({setOpenFilters}) => {
           </Box>
         </div>
       )}
+
+      <CreateProject open={open} setOpen={setOpen} />
     </div>
   );
 };

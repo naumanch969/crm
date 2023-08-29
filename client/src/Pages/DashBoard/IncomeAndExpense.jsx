@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { getIncomeAndExpenses } from '../../redux/action/cashbook'
+import { Loader } from '../../utils'
 
 const IncomeAndExpense = () => {
 
@@ -24,7 +25,7 @@ const IncomeAndExpense = () => {
                 isFetching
                     ?
                     <div className="flex justify-center items-center w-full h-full ">
-                        <CircularProgress />
+                        <Loader />
                     </div>
                     :
                     <>
