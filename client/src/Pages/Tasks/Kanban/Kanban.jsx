@@ -71,7 +71,7 @@ const Kanban = ({ options, setOptions }) => {
           </div>
           :
           <DragDropContext onDragEnd={handleDragEnd}>
-            <div className="flex justify-start gap-[1rem] w-[61rem] min-h-[30rem] h-fit pb-[1rem] overflow-x-scroll ">
+            <div className="flex justify-start gap-[1rem] w-full min-h-[30rem] h-fit pb-[1rem] overflow-x-scroll ">
               <Board tasks={newTasks} title='New' _id='1' />
               <Board tasks={inProgress} title='In Progress' _id='2' />
               <Board tasks={completed} title='Completed' _id='3' />

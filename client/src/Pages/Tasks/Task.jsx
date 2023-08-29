@@ -24,6 +24,7 @@ import {
   PiXLight,
 } from "react-icons/pi";
 import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
+import { format } from "timeago.js";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -81,20 +82,20 @@ const Task = ({ open, setOpen }) => {
               <div className="bg-[#ebf2f5] w-full h-full md:mt-0 mt-8 px-4 py-4 flex flex-col justify-between gap-4 rounded-md">
                 <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                   <div className="flex items-center gap-2">
-                    <PiCalendar className="text-gray-700" /> Created At :{" "}
-                    <span className="text-black">Date</span>
+                    <PiCalendar className="text-gray-700" /> Created :{" "}
+                    <span className="text-black">{format(task?.createdAt)}</span>
                   </div>
                 </div>
                 <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                   <div className="flex items-center gap-2">
                     <PiCalendar className="text-gray-700" /> Due Date :{" "}
-                    <span className="text-black">Date</span>
+                    <span className="text-black">{task?.dueDate}</span>
                   </div>
                 </div>
                 <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                   <div className="flex items-center gap-2">
-                    <PiCalendar className="text-gray-700" />Priority :{" "}
-                    <span className="text-black">Date</span>
+                    <PiCalendar className="text-gray-700" />
+                    Priority : <span className="text-black capitalize">{task?.priority}</span>
                   </div>
                 </div>
               </div>
@@ -103,7 +104,12 @@ const Task = ({ open, setOpen }) => {
                 <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                   <div className="flex items-center gap-2">
                     <PiSealQuestion className="text-gray-700" /> Status :{" "}
-                    <span className="text-black">Username</span>
+                    <span className="text-black">
+                      {task?.status == "completed" ? "Completed" : ""}
+                      {task?.status == "new" ? "New" : ""}
+                      {task?.status == "overDue" ? "Over Due" : ""}
+                      {task?.status == "inProgress" ? "In Progress" : ""}
+                    </span>
                   </div>
                 </div>
               </div>

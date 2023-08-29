@@ -95,11 +95,11 @@ function Tasks() {
     {
       field: "title",
       headerName: "Title",
-      width: 300,
+      width: 270,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <span
-          className="cursor-pointer text-[#20aee3] hover:text-[#007bff] capitalize"
+          className="cursor-pointer text-[#20aee3] hover:text-[#007bff] capitalize font-thin"
           onClick={() => handleClickOpen(params.row)}>
           {params.row.title}
         </span>
@@ -131,14 +131,14 @@ function Tasks() {
     {
       field: "createdAt",
       headerName: "Created",
-      width: 150,
+      width: 130,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => <>{format(params.row.createdAt)}</>,
     },
     {
       field: "status",
       headerName: "Status",
-      width: 120,
+      width: 150,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <span
@@ -148,8 +148,10 @@ function Tasks() {
           ${params.row.status == "overDue" ? "border-red-400 text-red-400" : ""} 
           ${params.row.status == "inProgress" ? "border-yellow-500 text-yellow-500" : ""}
           `}>
-          {console.log(params.row.status)}
-          {params.row.status}
+          {params.row.status == "completed" ? "Completed" : ""}
+          {params.row.status == "new" ? "New" : ""}
+          {params.row.status == "overDue" ? "Over Due" : ""}
+          {params.row.status == "inProgress" ? "In Progress" : ""}
         </span>
       ),
     },
@@ -236,7 +238,7 @@ function Tasks() {
   };
   const handleClickOpen = (task) => {
     dispatch(getTaskReducer(task));
-    setOpen(true);
+    setOpenTask(true);
   };
   const handleOpenEditModal = (task) => {
     dispatch(getTaskReducer(task));
@@ -255,7 +257,12 @@ function Tasks() {
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
       <Filter open={openFilters} setOpen={setOpenFilters} />
 
-      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters} />
+      <Topbar
+        options={options}
+        setOptions={setOptions}
+        openFilters={openFilters}
+        setOpenFilters={setOpenFilters}
+      />
 
       {options.isKanbanView ? (
         <Kanban options={options} setOptions={setOptions} />

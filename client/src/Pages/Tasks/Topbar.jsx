@@ -174,7 +174,10 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
                     <div>
                       <p className="text-2xl text-[#455a64]">{status.counts}</p>
                       <p className="text-md font-Mulish text-slate-500 text-opacity-70 capitalize ">
-                        {status.name}
+                        {status.name == "completed" ? "Completed" : ""}
+                        {status.name == "new" ? "New" : ""}
+                        {status.name == "overDue" ? "Over Due" : ""}
+                        {status.name == "inProgress" ? "In Progress" : ""}
                       </p>
                     </div>
                   </CardContent>

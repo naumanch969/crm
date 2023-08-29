@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Add } from "@mui/icons-material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../utils";
@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { getArchivedLeads, getEmployeeLeads, getLeads, searchLead } from "../../redux/action/lead";
 import { PiArchive, PiMagnifyingGlass } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
+import CreateLead from "./CreateLead";
 
 const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
     ////////////////////////////////////////// VARIABLES //////////////////////////////////////
@@ -18,6 +19,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
     const dispatch = useDispatch();
 
     ////////////////////////////////////////// STATES //////////////////////////////////////
+    const [open, setOpen] = useState(false);
 
     ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
     useEffect(() => {
@@ -50,6 +52,10 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
     const handleToggleFilters = () => {
         setOpenFilters(pre => !pre)
     };
+
+    const handleCreateopen = () => {
+        setOpen(true);
+    }
 
     return (
         <div className="flex flex-col tracking-wide pb-8">
@@ -118,17 +124,19 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
                         </Tooltip>
                         <div>
                             <Tooltip title="Add New Lead" placement="top" arrow>
-                                <Link to="/leads/create">
+                                <div onClick={handleCreateopen}>
                                     <button
                                         className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
                                         <Add />
                                     </button>
-                                </Link>
+                                </div>
                             </Tooltip>
                         </div>
                     </div>
                 )}
             </div>
+
+            <CreateLead open={open} setOpen={setOpen} />
         </div>
     );
 };

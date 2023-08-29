@@ -46,12 +46,6 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       icon: <PiUsersThreeLight className="text-[25px]" />,
       childrens: [
         {
-          title: "Create Lead",
-          icon: <CiEdit className="text-[25px]" />,
-          link: "/leads/create",
-          role: ["employee", "manager", "super_admin"],
-        },
-        {
           title: "My Leads",
           icon: <PiFolderSimpleUserLight className="text-[25px]" />,
           link: "/myLeads",
