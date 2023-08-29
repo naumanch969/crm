@@ -1,5 +1,5 @@
 import express from 'express'
-import { createTask, getTask, getUserTasks, updateTask, deleteTask, deleteWholeCollection } from '../controllers/task.js'
+import { createTask, getTask, getArchivedTasks, getUserTasks, updateTask, deleteTask, deleteWholeCollection, searchTask, filterTask } from '../controllers/task.js'
 import { verifyEmployee, verifyToken } from '../middleware/auth.js'
 import Task from '../models/task.js'
 import { createError } from '../utils/error.js'
@@ -21,7 +21,10 @@ const verifyIsSame = async (req, res, next) => {
 
 // GET
 router.get('/get/all', verifyToken, getUserTasks)
+router.get('/get/archived', verifyToken, getArchivedTasks)
 router.get('/get/single/:taskId', verifyToken, verifyEmployee, verifyIsSame, getTask)
+router.get('/get/filter', verifyToken, verifyEmployee, searchTask)
+router.get('/get/search', verifyToken, verifyEmployee, filterTask)
 
 // POST
 router.post('/create', verifyToken, verifyEmployee, createTask)

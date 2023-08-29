@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { start, end, error, getTasksReducer, getTaskReducer, createTaskReducer, updateTaskReducer, deleteTaskReducer, } from '../reducer/task'
+import { start, end, error, getTasksReducer, getTaskReducer, createTaskReducer, getArchivedTasksReducer, updateTaskReducer, deleteTaskReducer, } from '../reducer/task'
 
 
 export const getTasks = () => async (dispatch) => {
@@ -7,6 +7,16 @@ export const getTasks = () => async (dispatch) => {
         dispatch(start())
         const { data } = await api.getTasks()
         dispatch(getTasksReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const getArchivedTasks = () => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getArchivedTasks()
+        dispatch(getArchivedTasksReducer(data.result))
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))
@@ -33,12 +43,31 @@ export const createTask = (taskData, navigate) => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const updateTask = (taskId, taskData, setOpen) => async (dispatch) => {
+export const searchTask = (searchTerm) => async (dispatch) => {
     try {
         dispatch(start())
+        const { data } = await api.searchTerm(searchTerm)
+        dispatch(getTasksReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const filterTask = (filters) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.createTask(filters)
+        dispatch(getTasksReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const updateTask = (taskId, taskData, options) => async (dispatch) => {
+    try {
+        !options?.loading ? null : dispatch(start())
         const { data } = await api.updateTask(taskId, taskData)
         dispatch(updateTaskReducer(data.result))
-        setOpen(false)
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

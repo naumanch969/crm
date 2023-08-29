@@ -139,13 +139,13 @@ export const searchLead = async (req, res) => {
 
 export const filterLead = async (req, res) => {
     const filters = req.body;
-
+    
     try {
-        const filteredLeads = await leadModel.find(filters);
-
+        const filteredLeads = await Lead.find(filters);
+        
         res.status(200).json({ result: filteredLeads });
     } catch (error) {
-        res.status(500).json({ error: 'An error occurred while filtering leads.' });
+        next(createError(500, error.message))
     }
 }
 

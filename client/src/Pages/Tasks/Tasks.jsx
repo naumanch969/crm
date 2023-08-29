@@ -14,6 +14,8 @@ import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base
 import { IoOpenOutline } from "react-icons/io5";
 import { Tooltip, styled } from "@mui/material";
 import UpateStatusModal from "./UpdateStatus";
+import Kanban from "./Kanban/Kanban";
+import Filter from "./Filter";
 
 const blue = {
   100: "#DAECFF",
@@ -88,7 +90,7 @@ const StyledMenuItem = styled(MenuItem)(
 function Tasks() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
-  const { tasks, isFetching, error } = useSelector((state) => state.task);
+  const { tasks, archived, isFetching, error } = useSelector((state) => state.task);
   const columns = [
     {
       field: "title",
@@ -211,6 +213,12 @@ function Tasks() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [openTask, setOpenTask] = useState(false);
+  const [openFilters, setOpenFilters] = useState(false);
+  const [options, setOptions] = useState({
+    isKanbanView: false,
+    showEmployeeTasks: false,
+    showArchivedTasks: false,
+  });
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
@@ -249,9 +257,21 @@ function Tasks() {
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} taskId={selectedTaskId} />
       <Task open={openTask} setOpen={setOpenTask} />
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
+      <Filter open={openFilters} setOpen={setOpenFilters} />
 
-      <Topbar />
-      <Table rows={tasks} columns={columns} rowsPerPage={5} isFetching={isFetching} error={error} />
+      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters} />
+
+      {options.isKanbanView ? (
+        <Kanban options={options} setOptions={setOptions} />
+      ) : (
+        <Table
+          rows={options.showArchivedTasks ? archived : tasks}
+          columns={columns}
+          rowsPerPage={10}
+          isFetching={isFetching}
+          error={error}
+        />
+      )}
     </div>
   );
 }
