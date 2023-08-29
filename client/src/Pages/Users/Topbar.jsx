@@ -6,12 +6,12 @@ import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import { FiFilter } from "react-icons/fi";
 import CreateUser from "./CreateEmployee";
+import Filter from "./Filter";
 
-const Topbar = (view, setView) => {
-
+const Topbar = ({ view, setView }) => {
   const [open, setOpen] = useState(false);
+  const [openFilters, setOpenFilters] = useState(false);
 
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const pathArr = pathname.split("/").filter((item) => item !== "");
   const showClientTopBar = pathArr.includes("employees");
@@ -21,9 +21,13 @@ const Topbar = (view, setView) => {
     ? `Create ${pathname.split("/")[1].slice(0, -1)}`
     : pathname.split("/")[1];
 
-    const handleCreateopen = () => {
-      setOpen(true);
-    };  
+  const handleToggleFilters = () => {
+    setOpenFilters((pre) => !pre);
+  };
+
+  const handleCreateopen = () => {
+    setOpen(true);
+  };
 
   return (
     <div className="flex flex-col ">
@@ -50,7 +54,9 @@ const Topbar = (view, setView) => {
               </FormControl>
             </div>
             <Tooltip title="Filter" arrow placement="top">
-              <div className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
+              <div
+                onClick={handleToggleFilters}
+                className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>
@@ -90,6 +96,7 @@ const Topbar = (view, setView) => {
         )}
       </div>
       <CreateUser open={open} setOpen={setOpen} />
+      <Filter open={openFilters} setOpen={setOpenFilters} />
     </div>
   );
 };
