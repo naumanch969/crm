@@ -17,7 +17,7 @@ const FilterDrawer = ({ open, setOpen }) => {
         city: '',
         project: '',
         region: '',
-        // Add more fields from your lead model here
+        status: '',
     });
 
 

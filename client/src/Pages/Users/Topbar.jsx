@@ -6,7 +6,9 @@ import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import { FiFilter } from "react-icons/fi";
 
-const Topbar = (view, setView) => {
+const Topbar = ({ openFilters, setOpenFilters }) => {
+
+  /////////////////////////////////////// VARIABLES //////////////////////////////////////
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const pathArr = pathname.split("/").filter((item) => item !== "");
@@ -16,6 +18,11 @@ const Topbar = (view, setView) => {
   const title = pathArr.includes("create")
     ? `Create ${pathname.split("/")[1].slice(0, -1)}`
     : pathname.split("/")[1];
+
+  /////////////////////////////////////// FUNCTIONS //////////////////////////////////////
+  const handleToggleFilters = () => {
+    setOpenFilters(pre => !pre)
+  };
 
   return (
     <div className="flex flex-col ">
@@ -42,7 +49,12 @@ const Topbar = (view, setView) => {
               </FormControl>
             </div>
             <Tooltip title="Filter" arrow placement="top">
-              <div className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
+              <div
+                onClick={handleToggleFilters}
+                className={` p-2 rounded-md cursor-pointer ${openFilters
+                  ? "text-[#20aee3] bg-[#e4f1ff]"
+                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                  }`}>
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>

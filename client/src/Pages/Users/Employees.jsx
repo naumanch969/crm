@@ -12,6 +12,7 @@ import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
+import Filter from "./Filter";
 
 const Employees = memo(() => {
   /////////////////////////////////////// VARIABLES ////////////////////////////////////////
@@ -85,6 +86,7 @@ const Employees = memo(() => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState("");
+  const [openFilters, setOpenFilters] = useState("");
 
   /////////////////////////////////////// USE EFFECTS ////////////////////////////////////
   useEffect(() => {
@@ -105,8 +107,10 @@ const Employees = memo(() => {
     <div className="w-full">
       <EditEmployee open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteEmployee open={openDeleteModal} setOpen={setOpenDeleteModal} userId={selectedUserId} />
+      <Filter open={openFilters} setOpen={setOpenFilters} />
 
-      <Topbar />
+      <Topbar openFilters={openFilters} setOpenFilters={setOpenFilters} />
+
       <Table
         rows={employees}
         columns={columns}

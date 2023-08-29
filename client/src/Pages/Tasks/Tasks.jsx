@@ -13,11 +13,8 @@ import { format } from "timeago.js";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
 import { IoOpenOutline } from "react-icons/io5";
 import { Tooltip, styled } from "@mui/material";
-<<<<<<< HEAD
-=======
 import UpateStatusModal from "./UpdateStatus";
 import Kanban from "./Kanban/Kanban";
->>>>>>> 98990283f8e9652ca1e4e89746537586ca8b3576
 import Filter from "./Filter";
 
 const blue = {
@@ -214,10 +211,6 @@ function Tasks() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-<<<<<<< HEAD
-  const [openFilters, setOpenFilters] = useState(false);
-  const [open, setOpen] = useState(false);
-=======
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [openTask, setOpenTask] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
@@ -226,7 +219,6 @@ function Tasks() {
     showEmployeeTasks: false,
     showArchivedTasks: false,
   });
->>>>>>> 98990283f8e9652ca1e4e89746537586ca8b3576
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
@@ -259,14 +251,6 @@ function Tasks() {
     <div className="w-full h-fit bg-inherit flex flex-col gap-[12px]  ">
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} taskId={selectedTaskId} />
-<<<<<<< HEAD
-      <Filter open={openFilters} setOpen={setOpenFilters} />
-
-      <Task open={open} setOpen={setOpen} />
-
-      <Topbar openFilters={openFilters} setOpenFilters={setOpenFilters} />
-      <Table rows={tasks} columns={columns} rowsPerPage={5} isFetching={isFetching} error={error} />
-=======
       <Task open={openTask} setOpen={setOpenTask} />
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
       <Filter open={openFilters} setOpen={setOpenFilters} />
@@ -284,7 +268,6 @@ function Tasks() {
           error={error}
         />
       )}
->>>>>>> 98990283f8e9652ca1e4e89746537586ca8b3576
     </div>
   );
 }

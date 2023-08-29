@@ -9,11 +9,6 @@ import { Path } from "../../utils";
 import { useDispatch } from "react-redux";
 import { getArchivedTasks, getTasks, searchTask } from "../../redux/action/task";
 
-<<<<<<< HEAD
-const Topbar = ({ view, setView, setOpenFilters }) => {
-  const [showStatBar, setShowStatBar] = useState(true);
-=======
->>>>>>> 98990283f8e9652ca1e4e89746537586ca8b3576
 
 const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
@@ -77,12 +72,6 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
     setShowStatBar(!showStatBar);
   };
 
-<<<<<<< HEAD
-  const handleToggleFilters = () => {
-    setOpenFilters((pre) => !pre);
-  };
-=======
->>>>>>> 98990283f8e9652ca1e4e89746537586ca8b3576
 
   return (
     <div className="flex flex-col tracking-wide">
@@ -149,14 +138,10 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
             <Tooltip title="Filter" arrow placement="top">
               <div
                 onClick={handleToggleFilters}
-<<<<<<< HEAD
-                className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
-=======
                 className={` p-2 rounded-md cursor-pointer ${openFilters
                   ? "text-[#20aee3] bg-[#e4f1ff]"
                   : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
                   }`}>
->>>>>>> 98990283f8e9652ca1e4e89746537586ca8b3576
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>
