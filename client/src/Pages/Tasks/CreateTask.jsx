@@ -18,12 +18,12 @@ import { PiNotepad, PiXLight } from "react-icons/pi";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
+
 const CreateTask = ({ open, setOpen }) => {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const { isFetching, error } = useSelector((state) => state.task);

@@ -91,12 +91,6 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       icon: <PiUserCircleLight className="text-[25px]" />,
       childrens: [
         {
-          title: "Create Employee",
-          icon: <CiEdit className="text-[25px]" />,
-          link: "/employees/create",
-          role: ["manager", "super_admin"],
-        },
-        {
           title: "Clients",
           icon: <PiUserListLight className="text-[25px]" />,
           link: "/clients",

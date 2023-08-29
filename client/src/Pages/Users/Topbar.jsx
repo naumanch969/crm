@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Add } from "@mui/icons-material";
 import { Path } from "../../utils";
 import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import { FiFilter } from "react-icons/fi";
+import CreateUser from "./CreateEmployee";
 
 const Topbar = (view, setView) => {
+
+  const [open, setOpen] = useState(false);
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const pathArr = pathname.split("/").filter((item) => item !== "");
@@ -16,6 +20,10 @@ const Topbar = (view, setView) => {
   const title = pathArr.includes("create")
     ? `Create ${pathname.split("/")[1].slice(0, -1)}`
     : pathname.split("/")[1];
+
+    const handleCreateopen = () => {
+      setOpen(true);
+    };  
 
   return (
     <div className="flex flex-col ">
@@ -48,11 +56,11 @@ const Topbar = (view, setView) => {
             </Tooltip>
             <div>
               <Tooltip title="Add New Employee" placement="top" arrow>
-                <Link to="/employees/create">
+                <div onClick={handleCreateopen}>
                   <button className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
                     <Add />
                   </button>
-                </Link>
+                </div>
               </Tooltip>
             </div>
           </div>
@@ -81,6 +89,7 @@ const Topbar = (view, setView) => {
           </div>
         )}
       </div>
+      <CreateUser open={open} setOpen={setOpen} />
     </div>
   );
 };
