@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../utils";
 import { Add } from "@mui/icons-material";
@@ -10,7 +10,20 @@ import CreateProject from "./CreateProject";
 const Topbar = ({ setOpenFilters }) => {
   const [showStatBar, setShowStatBar] = useState(true);
   const [open, setOpen] = useState(false);
+  const [scroll, setScroll] = React.useState("paper");
 
+
+  useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
+
+
+  const descriptionElementRef = React.useRef(null);
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const title = pathname.split("/")[1];
@@ -27,8 +40,9 @@ const Topbar = ({ setOpenFilters }) => {
     setOpenFilters((pre) => !pre);
   };
 
-  const handleCreateopen = () => {
+  const handleCreateopen = (scrollType) => () => {
     setOpen(true);
+    setScroll(scrollType);
   };
 
   return (
@@ -92,7 +106,7 @@ const Topbar = ({ setOpenFilters }) => {
             </Tooltip>
             <div>
               <Tooltip title="Add New Lead" placement="top" arrow>
-                <div onClick={handleCreateopen}>
+                <div onClick={handleCreateopen("body")}>
                   <button className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
                     <Add />
                   </button>
@@ -147,7 +161,7 @@ const Topbar = ({ setOpenFilters }) => {
         </div>
       )}
 
-      <CreateProject open={open} setOpen={setOpen} />
+      <CreateProject scroll={scroll} open={open} setOpen={setOpen} />
     </div>
   );
 };

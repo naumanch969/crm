@@ -24,7 +24,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const CreateUser = ({ open, setOpen }) => {
+const CreateUser = ({ open, setOpen, scroll }) => {
   //////////////////////////////////////// VARIABLES /////////////////////////////////////
   const { isFetching } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -74,6 +74,7 @@ const CreateUser = ({ open, setOpen }) => {
   return (
     <div>
       <Dialog
+      scroll={scroll}
         open={open}
         TransitionComponent={Transition}
         keepMounted

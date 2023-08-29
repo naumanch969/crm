@@ -25,7 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const CreateLead = ({ setOpen, open }) => {
+const CreateLead = ({ setOpen, open, scroll }) => {
   //////////////////////////////////////// VARIABLES ////////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -136,6 +136,7 @@ const CreateLead = ({ setOpen, open }) => {
     <div>
       <Dialog
         open={open}
+        scroll={scroll}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}

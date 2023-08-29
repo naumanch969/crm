@@ -10,6 +10,7 @@ import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
+import User from "./User";
 
 const blue = {
   100: "#DAECFF",
@@ -92,9 +93,9 @@ const Clients = () => {
       headerName: "Client Name",
       width: "200",
       renderCell: (params) => (
-        <Link className="capitalize text-[#20aee3] font-thin" to={`/users/${params.row._id}`}>
+        <div className="capitalize text-[#20aee3] font-thin">
           {params.row.firstName} {params.row.lastName}
-        </Link>
+        </div>
       ),
     },
     {
@@ -128,13 +129,6 @@ const Clients = () => {
             <PiTrashLight
               onClick={() => handleOpenDeleteModal(params.row._id)}
               className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
-            />
-          </Tooltip>
-          <Tooltip placement="top" title="View" arrow>
-            {" "}
-            <IoOpenOutline
-              onClick={() => handleOpenViewModel()}
-              className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400"
             />
           </Tooltip>
           <Tooltip placement="top" title="Edit" arrow>
@@ -180,13 +174,10 @@ const Clients = () => {
     //
     //
   };
-  const handleOpenViewModel = () => {
-    //
-    //
-  };
 
   return (
     <div className="w-full">
+      
       <Topbar />
       <Table
         rows={clients}
@@ -195,6 +186,7 @@ const Clients = () => {
         error={error}
         rowsPerPage={10}
       />
+      
     </div>
   );
 };

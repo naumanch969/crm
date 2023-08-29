@@ -7,20 +7,9 @@ import { useParams } from "react-router-dom";
 import { getTask } from "../../redux/action/task";
 import {
   PiCalendar,
-  PiEnvelopeSimple,
-  PiGenderMaleDuotone,
-  PiGitBranch,
-  PiHandCoins,
-  PiHouseLine,
-  PiIdentificationCard,
-  PiMapPinLine,
   PiNotepad,
-  PiPhone,
-  PiRuler,
   PiSealCheck,
   PiSealQuestion,
-  PiUser,
-  PiUserFocus,
   PiXLight,
 } from "react-icons/pi";
 import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";

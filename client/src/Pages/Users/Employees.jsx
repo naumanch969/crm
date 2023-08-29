@@ -13,6 +13,7 @@ import { PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import Filter from "./Filter";
+import User from "./User";
 
 const Employees = memo(() => {
   /////////////////////////////////////// VARIABLES ////////////////////////////////////////
@@ -25,9 +26,9 @@ const Employees = memo(() => {
       headerClassName: "super-app-theme--header",
       width: "200",
       renderCell: (params) => (
-        <Link className="text-[#20aee3] capitalize" to={`/users/${params.row._id}`}>
+        <div className="text-[#20aee3] capitalize cursor-pointer" onClick={() => handleClickOpen()}>
           {params.row.firstName} {params.row.lastName}
-        </Link>
+        </div>
       ),
     },
     {
@@ -66,7 +67,7 @@ const Employees = memo(() => {
           <Tooltip placement="top" title="View" arrow>
             {" "}
             <IoOpenOutline
-              onClick={() => handleOpenViewModel()}
+              onClick={() => handleClickOpen()}
               className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400"
             />
           </Tooltip>
@@ -87,6 +88,7 @@ const Employees = memo(() => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState("");
   const [openFilters, setOpenFilters] = useState("");
+  const [openTask, setOpenTask] = useState(false);
 
   /////////////////////////////////////// USE EFFECTS ////////////////////////////////////
   useEffect(() => {
@@ -94,6 +96,9 @@ const Employees = memo(() => {
   }, []);
 
   /////////////////////////////////////// FUNCTIONS /////////////////////////////////////
+  const handleClickOpen = () => {
+    setOpenTask(true);
+  };
   const handleOpenEditModal = (employee) => {
     dispatch(getUserReducer(employee));
     setOpenEditModal(true);
@@ -108,6 +113,7 @@ const Employees = memo(() => {
       <EditEmployee open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteEmployee open={openDeleteModal} setOpen={setOpenDeleteModal} userId={selectedUserId} />
       <Filter open={openFilters} setOpen={setOpenFilters} />
+      <User open={openTask} setOpen={setOpenTask} />
 
       <Topbar openFilters={openFilters} setOpenFilters={setOpenFilters} />
 

@@ -86,6 +86,7 @@ const StyledMenuItem = styled(MenuItem)(
 
 function Projects() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
+  const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
   const { projects, isFetching, error } = useSelector((state) => state.project);
   const columns = [
@@ -155,7 +156,7 @@ function Projects() {
             />
           </Tooltip>
           <Tooltip placement="top" title="View">
-            <div onClick={handleClickOpen}>
+            <div onClick={handleCreateopen("body")}>
               <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
             </div>
           </Tooltip>
@@ -199,11 +200,24 @@ function Projects() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [scroll, setScroll] = React.useState("paper");
+
+
+  
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
     dispatch(getProjects());
   }, []);
+
+  useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
 
   ////////////////////////////////////// FUNCTION //////////////////////////////\
   const handleOpenStatusModal = (task) => {
@@ -225,6 +239,10 @@ function Projects() {
     setOpenDeleteModal(true);
     setSelectedProjectId(projectId);
   };
+  const handleCreateopen = (scrollType) => () => {
+    setOpen(true);
+    setScroll(scrollType);
+  };
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
@@ -235,7 +253,7 @@ function Projects() {
         projectId={selectedProjectId}
       />
       <Filter open={openFilters} setOpen={setOpenFilters} />
-      <Project open={open} setOpen={setOpen} />
+      <Project scroll={scroll} open={open} setOpen={setOpen} />
 
       <Topbar view={view} setView={setView} openFilters={openFilters} setOpenFilters={setOpenFilters} />
       <Table

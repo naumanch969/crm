@@ -5,9 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-
 import "./Carousel.css";
-
 import { EffectCoverflow, Pagination, Navigation, Keyboard } from "swiper/modules";
 import { Button } from "@mui/material";
 
@@ -34,7 +32,7 @@ const Carousel = () => {
         }}
         navigation={true}
         modules={[EffectCoverflow, Pagination, Navigation, Keyboard]}
-        className="mySwiper">
+        className="mySwiper w-full">
         <SwiperSlide className="shadow-lg border-[1px] border-gray-400">
           <img src="#" />
         </SwiperSlide>
@@ -49,4 +47,5 @@ const Carousel = () => {
   );
 };
 
+export {}
 export default Carousel;

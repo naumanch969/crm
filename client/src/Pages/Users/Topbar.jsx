@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Add } from "@mui/icons-material";
 import { Path } from "../../utils";
@@ -11,11 +11,23 @@ import Filter from "./Filter";
 const Topbar = ({ view, setView }) => {
   const [open, setOpen] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
+  const [scroll, setScroll] = useState("paper");
+  const descriptionElementRef = useRef(null);
+
+
+  useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
 
   const { pathname } = useLocation();
   const pathArr = pathname.split("/").filter((item) => item !== "");
-  const showClientTopBar = pathArr.includes("employees");
-  const showEmployeeTopBar = pathArr.includes("clients");
+  const showClientTopBar = !pathArr.includes("employees");
+  const showEmployeeTopBar = !pathArr.includes("clients");
   const showCreatePageTopBar = !pathArr.includes("create");
   const title = pathArr.includes("create")
     ? `Create ${pathname.split("/")[1].slice(0, -1)}`
@@ -25,8 +37,9 @@ const Topbar = ({ view, setView }) => {
     setOpenFilters((pre) => !pre);
   };
 
-  const handleCreateopen = () => {
+  const handleCreateopen = (scrollType) => () => {
     setOpen(true);
+    setScroll(scrollType);
   };
 
   return (
@@ -38,7 +51,7 @@ const Topbar = ({ view, setView }) => {
       <div className="flex justify-between items-center mb-5">
         <h1 className="text-primary-blue text-[32px] capitalize font-light">{title}</h1>
 
-        {showClientTopBar && showCreatePageTopBar && (
+        {showEmployeeTopBar && (
           <div className="flex items-center gap-2">
             <div className="bg-[#ebf2f5] hover:bg-[#dfe6e8] p-1 pl-2 pr-2 rounded-md w-48">
               <FormControl>
@@ -56,16 +69,17 @@ const Topbar = ({ view, setView }) => {
             <Tooltip title="Filter" arrow placement="top">
               <div
                 onClick={handleToggleFilters}
-                className={` p-2 rounded-md cursor-pointer ${openFilters
-                  ? "text-[#20aee3] bg-[#e4f1ff]"
-                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                  }`}>
+                className={` p-2 rounded-md cursor-pointer ${
+                  openFilters
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>
             <div>
               <Tooltip title="Add New Employee" placement="top" arrow>
-                <div onClick={handleCreateopen}>
+                <div onClick={handleCreateopen("body")}>
                   <button className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
                     <Add />
                   </button>
@@ -75,12 +89,13 @@ const Topbar = ({ view, setView }) => {
           </div>
         )}
 
-        {showEmployeeTopBar && (
+        {showClientTopBar && showCreatePageTopBar && (
           <div className="flex items-center gap-2">
-            <div className="bg-[#ebf2f5] hover:bg-[#dfe6e8] p-1 pl-2 pr-2 rounded-md w-48">
+            <div className="bg-[#ebf2f5] hover:bg-[#dfe6e8] p-1 pl-2 pr-2 rounded-md w-auto">
               <FormControl>
                 <Input
                   name="search"
+                  fullWidth="true"
                   placeholder="Search Leads"
                   startAdornment={
                     <InputAdornment position="start">
@@ -90,15 +105,10 @@ const Topbar = ({ view, setView }) => {
                 />
               </FormControl>
             </div>
-            <Tooltip title="Filter" arrow placement="top">
-              <div className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
-                <FiFilter className="text-[25px] " />
-              </div>
-            </Tooltip>
           </div>
         )}
       </div>
-      <CreateUser open={open} setOpen={setOpen} />
+      <CreateUser open={open} scroll={scroll} setOpen={setOpen} />
       <Filter open={openFilters} setOpen={setOpenFilters} />
     </div>
   );

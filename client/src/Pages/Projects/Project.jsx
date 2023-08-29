@@ -1,19 +1,10 @@
 import React from "react";
 import {
-  PiCalendar,
-  PiEnvelopeSimple,
-  PiGenderMaleDuotone,
-  PiGitBranch,
   PiHandCoins,
   PiHouseLine,
-  PiIdentificationCard,
   PiImage,
   PiMapPinLine,
-  PiPhone,
   PiRuler,
-  PiSealQuestion,
-  PiUser,
-  PiUserFocus,
   PiXLight,
 } from "react-icons/pi";
 import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
@@ -23,7 +14,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const Project = ({ open, setOpen }) => {
+const Project = ({ open, setOpen, scroll }) => {
   const handleClose = () => {
     setOpen(false);
   };
@@ -31,6 +22,7 @@ const Project = ({ open, setOpen }) => {
   return (
     <div>
       <Dialog
+      scroll={scroll}
         open={open}
         TransitionComponent={Transition}
         keepMounted
