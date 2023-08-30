@@ -12,18 +12,13 @@ import { getLeadReducer } from "../../redux/reducer/lead";
 import UpateStatusModal from "./UpdateStatus";
 import ShiftLeadModal from "./ShiftLead";
 import Filter from "./Filter";
-import { Link } from "react-router-dom";
 import Kanban from "./Kanban/Kanban";
+import { CCallout } from "@coreui/react";
 import { CiEdit } from "react-icons/ci";
-import {
-  PiDotsThreeOutlineThin,
-  PiTrashLight,
-} from "react-icons/pi";
+import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
 import Lead from "./Lead";
-
-
 
 const blue = {
   100: "#DAECFF",
@@ -138,10 +133,13 @@ function Leads({ type, showSidebar }) {
       width: 200,
       renderCell: (params) => (
         <span
-          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize ${params.row.status == "successful" ? "border-green-500 text-green-500" : ""
-            } ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${params.row.status == "declined" ? "border-red-400 text-red-400" : ""
-            } ${params.row.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
-            }`}>
+          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize ${
+            params.row.status == "successful" ? "border-green-500 text-green-500" : ""
+          } ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${
+            params.row.status == "declined" ? "border-red-400 text-red-400" : ""
+          } ${params.row.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${
+            params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
+          }`}>
           {params.row.status == "underProcess" && <span>Under Process</span>}
           {params.row.status != "underProcess" && <span>{params.row.status}</span>}
         </span>
@@ -200,10 +198,10 @@ function Leads({ type, showSidebar }) {
                 onClick={() => handleOpenShiftLeadModal(params.row)}>
                 Shift Lead
               </StyledMenuItem>
-              <StyledMenuItem className="text-gray-600 flex" onClick={() => { }}>
+              <StyledMenuItem className="text-gray-600 flex" onClick={() => {}}>
                 Refund
               </StyledMenuItem>
-              <StyledMenuItem className="text-gray-600 flex" onClick={() => { }}>
+              <StyledMenuItem className="text-gray-600 flex" onClick={() => {}}>
                 Share Lead
               </StyledMenuItem>
             </Menu>
@@ -256,13 +254,12 @@ function Leads({ type, showSidebar }) {
   };
 
   const handleOpenViewModal = (leadId) => {
-    setSelectedLeadId(leadId)
+    setSelectedLeadId(leadId);
     setOpenViewModal(true);
   };
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
-
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} leadId={selectedLeadId} />
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
@@ -270,18 +267,25 @@ function Leads({ type, showSidebar }) {
       <Filter open={openFilters} setOpen={setOpenFilters} />
       <Lead open={openViewModal} setOpen={setOpenViewModal} leadId={selectedLeadId} />
 
-      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters} />
+      <Topbar
+        options={options}
+        setOptions={setOptions}
+        openFilters={openFilters}
+        setOpenFilters={setOpenFilters}
+      />
       {options.isKanbanView ? (
         <Kanban options={options} setOptions={setOptions} />
       ) : (
-        <Table
-          rows={options.showArchivedLeads ? archived : leads}
-          columns={modifiedColumns}
-          rowsPerPage={10}
-          isFetching={isFetching}
-          error={error}
-          showSidebar={showSidebar}
-        />
+        <CCallout color="primary">
+          <Table
+            rows={options.showArchivedLeads ? archived : leads}
+            columns={modifiedColumns}
+            rowsPerPage={10}
+            isFetching={isFetching}
+            error={error}
+            showSidebar={showSidebar}
+          />
+        </CCallout>
       )}
     </div>
   );
