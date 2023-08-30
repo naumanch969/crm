@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import {pdfFonts} from 'pdfmake/build/vfs_fonts';
 import { createVoucher } from '../../redux/action/voucher'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from "react-router-dom";
