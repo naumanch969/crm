@@ -75,7 +75,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             <div>Date : </div>
             <div className="flex gap-3">
               <div>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={['DesktopDatePicker']}>
                     <DesktopDatePicker
                       slotProps={{ textField: { size: "small", maxWidth: 200 } }}
@@ -84,11 +84,11 @@ const FilterDrawer = ({ open, setOpen }) => {
                       onChange={(date) => handleInputChange('startingDate', date.$d)}
                     />
                   </DemoContainer>
-                </LocalizationProvider>
+                </LocalizationProvider> */}
               </div>
 
               <div>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DesktopDatePicker"]}>
                     <DesktopDatePicker
                       className="w-3/6"
@@ -98,7 +98,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                       onChange={(date) => handleInputChange('endingDate', date.$d)}
                     />
                   </DemoContainer>
-                </LocalizationProvider>
+                </LocalizationProvider> */}
               </div>
             </div>
           </div>
