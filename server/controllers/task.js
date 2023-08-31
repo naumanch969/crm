@@ -1,5 +1,5 @@
 import Task from '../models/task.js'
-import { createError } from '../utils/error.js'
+import { createError, isValidDate } from '../utils/error.js'
 
 export const createTask = async (req, res, next) => {
     try {
@@ -89,7 +89,7 @@ export const getArchivedTasks = async (req, res, next) => {
     }
 };
 
-export const searchTask = async (req, res) => {
+export const searchTask = async (req, res, next) => {
     const { searchTerm } = req.query;
 
     const searchPattern = new RegExp(searchTerm, 'i');
@@ -124,18 +124,31 @@ export const searchTask = async (req, res) => {
         next(createError(500, error.message))
     }
 };
-
-export const filterTask = async (req, res) => {
-    const filters = req.body;
+export const filterTask = async (req, res, next) => {
+    const { startingDate, endingDate, ...filters } = req.body;
 
     try {
-        const filteredTasks = await Task.find(filters);
+        let query = Task.find(filters);
+
+        // Check if startingDate and endingDate are provided and valid date strings
+        if (startingDate && endingDate && isValidDate(startingDate) && isValidDate(endingDate)) {
+            const startDate = new Date(startingDate);
+            startDate.setHours(0, 0, 0, 0);
+
+            const endDate = new Date(endingDate);
+            endDate.setHours(23, 59, 59, 999);
+
+            // Add createdAt filtering to the query
+            query = query.where('createdAt').gte(startDate).lte(endDate);
+        }
+
+        const filteredTasks = await query.exec();
 
         res.status(200).json({ result: filteredTasks });
     } catch (error) {
-        next(createError(500, error.message))
+        next(createError(500, error.message));
     }
-}
+};
 
 
 export const updateTask = async (req, res, next) => {

@@ -46,7 +46,7 @@ export const createTask = (taskData, navigate) => async (dispatch) => {
 export const searchTask = (searchTerm) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.searchTerm(searchTerm)
+        const { data } = await api.searchTask(searchTerm)
         dispatch(getTasksReducer(data.result))
         dispatch(end())
     } catch (err) {
@@ -56,7 +56,7 @@ export const searchTask = (searchTerm) => async (dispatch) => {
 export const filterTask = (filters) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.createTask(filters)
+        const { data } = await api.filterTask(filters)
         dispatch(getTasksReducer(data.result))
         dispatch(end())
     } catch (err) {

@@ -11,14 +11,21 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const FilterDrawer = ({ open, setOpen }) => {
-  const dispatch = useDispatch();
 
-    const [filters, setFilters] = useState({
-        city: '',
-        project: '',
-        region: '',
-        status: '',
-    });
+  const dispatch = useDispatch();
+  const [filters, setFilters] = useState({
+    city: '',
+    status: '',
+    startingDate: '',
+    endingDate: '',
+    minBudget: '',
+    maxBudget: '',
+    propertyType: '',
+    homeType: '',
+    beds: '',
+    minArea: '',
+    maxArea: '',
+  });
 
 
 
@@ -78,7 +85,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                 {...params}
                 fullWidth
                 label="Status"
-                value={filters.city}
+                value={filters.status}
                 onChange={(e) => handleInputChange("status", e.target.value)}
               />
             )}
@@ -93,6 +100,8 @@ const FilterDrawer = ({ open, setOpen }) => {
                     <DesktopDatePicker
                       slotProps={{ textField: { size: "small", maxWidth: 200 } }}
                       label="Starting Date"
+                      value={filters.startingDate}
+                      onChange={(date) => handleInputChange('startingDate', date.$d)}
                     />
                   </DemoContainer>
                 </LocalizationProvider>
@@ -101,9 +110,11 @@ const FilterDrawer = ({ open, setOpen }) => {
               <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DesktopDatePicker"]}>
-                    <DesktopDatePicker 
+                    <DesktopDatePicker
                       className="w-3/6"
                       label="Ending Date"
+                      value={filters.endingDate}
+                      onChange={(date) => handleInputChange('endingDate', date.$d)}
                       slotProps={{ textField: { size: "small" } }}
                     />
                   </DemoContainer>
@@ -113,13 +124,13 @@ const FilterDrawer = ({ open, setOpen }) => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <div>Value : </div>
+            <div>Budget : </div>
             <div className="flex gap-3">
               <div>
-                <TextField label="Minimum" type="number" size="small" />
+                <TextField value={filters.minBudget} onChange={(e) => handleInputChange('minBudget', e.target.value)} label="Minimum" type="number" size="small" />
               </div>
               <div>
-                <TextField label="Maximum" type="number" size="small" />
+                <TextField value={filters.maxBudget} onChange={(e) => handleInputChange('maxBudget', e.target.value)} label="Maximum" type="number" size="small" />
               </div>
             </div>
           </div>
@@ -135,8 +146,8 @@ const FilterDrawer = ({ open, setOpen }) => {
                 {...params}
                 fullWidth
                 label="Propery Type"
-                value={filters.city}
-                onChange={(e) => handleInputChange("status", e.target.value)}
+                value={filters.propertyType}
+                onChange={(e) => handleInputChange("propertyType", e.target.value)}
               />
             )}
           />
@@ -152,8 +163,8 @@ const FilterDrawer = ({ open, setOpen }) => {
                 {...params}
                 fullWidth
                 label="Home Type"
-                value={filters.city}
-                onChange={(e) => handleInputChange("status", e.target.value)}
+                value={filters.homeType}
+                onChange={(e) => handleInputChange("homeType", e.target.value)}
               />
             )}
           />
@@ -163,18 +174,18 @@ const FilterDrawer = ({ open, setOpen }) => {
             type="number"
             fullWidth
             label="Number of Beds"
-            value={filters.city}
-            onChange={(e) => handleInputChange("status", e.target.value)}
+            value={filters.beds}
+            onChange={(e) => handleInputChange("beds", e.target.value)}
           />
 
           <div className="flex flex-col gap-2">
             <div>Area : </div>
             <div className="flex gap-3">
               <div>
-                <TextField label="Minimum" type="number" size="small" />
+                <TextField value={filters.minArea} onChange={(e) => handleInputChange('minArea', e.target.value)} label="Minimum" type="number" size="small" />
               </div>
               <div>
-                <TextField label="Maximum" type="number" size="small" />
+                <TextField value={filters.maxArea} onChange={(e) => handleInputChange('maxArea', e.target.value)} label="Maximum" type="number" size="small" />
               </div>
             </div>
           </div>

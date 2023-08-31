@@ -1,6 +1,6 @@
 import Lead from '../models/lead.js'
 import User from '../models/user.js'
-import { createError } from '../utils/error.js'
+import { createError, isValidDate } from '../utils/error.js'
 import validator from 'validator'
 
 export const getLead = async (req, res, next) => {
@@ -96,7 +96,7 @@ export const getLeadsStat = async (req, res, next) => {
     }
 }
 
-export const searchLead = async (req, res) => {
+export const searchLead = async (req, res, next) => {
     const { searchTerm } = req.query;
 
     const searchPattern = new RegExp(searchTerm, 'i');
@@ -137,17 +137,33 @@ export const searchLead = async (req, res) => {
     }
 };
 
-export const filterLead = async (req, res) => {
-    const filters = req.body;
-    
+export const filterLead = async (req, res, next) => {
+    const { startingDate, endingDate, ...filters } = req.body;
+
     try {
-        const filteredLeads = await Lead.find(filters);
-        
+        let query = Lead.find(filters);
+
+        // Check if startingDate and endingDate are provided and valid date strings
+        if (startingDate && endingDate && isValidDate(startingDate) && isValidDate(endingDate)) {
+            const startDate = new Date(startingDate);
+            startDate.setHours(0, 0, 0, 0);
+
+            const endDate = new Date(endingDate);
+            endDate.setHours(23, 59, 59, 999);
+
+            // Add createdAt filtering to the query
+            query = query.where('createdAt').gte(startDate).lte(endDate);
+        }
+
+        const filteredLeads = await query.exec();
+
         res.status(200).json({ result: filteredLeads });
     } catch (error) {
-        next(createError(500, error.message))
+        next(createError(500, error.message));
     }
-}
+};
+
+
 
 export const createOnsiteLead = async (req, res, next) => {
     try {

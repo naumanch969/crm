@@ -1,17 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Path } from "../../utils";
-import { Add } from "@mui/icons-material";
 import { Box, CardContent, FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiArchive, PiMagnifyingGlass, PiTrendUp } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
+import { useSelector } from "react-redux";
+import { Add, Archive, Person2 } from "@mui/icons-material";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Path } from "../../utils";
+import { useDispatch } from "react-redux";
+import { getArchivedProjects, getProjects, searchProject } from "../../redux/action/project";
 import CreateProject from "./CreateProject";
 
-const Topbar = ({ setOpenFilters }) => {
+  
+const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
+  ////////////////////////////////////////// VARIABLES //////////////////////////////////////
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const title = pathname.split("/")[1];
+  const pathArr = pathname.split("/").filter((item) => item !== "");
+  const showOptionButtons = !pathArr.includes("create");
+  const { projects } = useSelector((state) => state.project);
+  const dispatch = useDispatch();
+  // Count occurrences of each status
+  const statusCounts = projects.reduce((acc, project) => {
+    acc[project.status] = (acc[project.status] || 0) + 1;
+    return acc;
+  }, {});
+  const allStatusOptions = ["notStarted", "onHold", "completed", "inProgress"];
+  // Transform the status counts into the desired format
+  const statusArray = allStatusOptions.map((status) => ({
+    name: status,
+    counts: statusCounts[status] || 0,
+  }));
+  const descriptionElementRef = React.useRef(null);
+
+  ////////////////////////////////////////// STATES //////////////////////////////////////
   const [showStatBar, setShowStatBar] = useState(true);
   const [open, setOpen] = useState(false);
-  const [scroll, setScroll] = React.useState("paper");
+  const [scroll, setScroll] = useState("paper");
 
+  
+
+  ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
+  useEffect(() => {
+    options?.showArchivedProjects && dispatch(getArchivedProjects());
+    options?.showEmployeeProjects && dispatch(getProjects());
+    !options?.showArchivedProjects && !options?.showEmployeeProjects && dispatch(getProjects());
+  }, [options]);
 
   useEffect(() => {
     if (open) {
@@ -23,44 +57,61 @@ const Topbar = ({ setOpenFilters }) => {
   }, [open]);
 
 
-  const descriptionElementRef = React.useRef(null);
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const title = pathname.split("/")[1];
-  const pathArr = pathname.split("/").filter((item) => item !== "");
-  const showAddButton = !pathArr.includes("create");
+  
 
-  const handleToggleShowArchivedLeads = () => {};
-  const handleToggleShowEmployeeLeads = () => {};
-  const handleToggleIsKanbanView = () => {};
-  const handleToggleIsStatOpen = () => {
-    setShowStatBar(!showStatBar);
+  ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
+  const handleSearch = (searchTerm) => {
+    dispatch(searchProject(searchTerm));
+  };
+  const handleToggleShowArchivedProjects = () => {
+    setOptions((pre) => ({
+      ...pre,
+      showArchivedProjects: !options?.showArchivedProjects,
+      showEmployeeProjects: false,
+    }));
+  };
+  const handleToggleShowEmployeeProjects = () => {
+    setOptions((pre) => ({
+      ...pre,
+      showEmployeeProjects: !options?.showEmployeeProjects,
+      showArchivedProjects: false,
+    }));
+  };
+  const handleToggleIsKanbanView = () => {
+    setOptions((pre) => ({
+      ...pre,
+      isKanbanView: !options?.isKanbanView,
+    }));
   };
   const handleToggleFilters = () => {
     setOpenFilters((pre) => !pre);
   };
+  const handleToggleIsStatOpen = () => {
+    setShowStatBar(!showStatBar);
+  };
 
   const handleCreateopen = (scrollType) => () => {
     setOpen(true);
-    setScroll(scrollType);
+    setScroll(scrollType);  
   };
 
   return (
-    <div className="flex flex-col ">
-      <div className="w-full text-[14px] ">
+    <div className="flex flex-col tracking-wide">
+      <div className="w-full text-[14px]">
         <Path />
       </div>
 
-      <div className="md:flex justify-between items-center mb-5">
+      <div className="md:flex justify-between items-center flex-none">
         <h1 className="text-primary-blue text-[32px] capitalize font-light">{title}</h1>
 
-        {showAddButton && (
-          <div className="flex items-center gap-2 justify-end md:mt-0 mt-4">
+        {showOptionButtons && (
+          <div className="flex items-center justify-end gap-2 md:mt-0 mt-4">
             <div className="bg-[#ebf2f5] hover:bg-[#dfe6e8] p-1 pl-2 pr-2 rounded-md w-48">
               <FormControl>
                 <Input
                   name="search"
-                  placeholder="Search Tasks"
+                  placeholder="Search Projects"
+                  onChange={(e) => handleSearch(e.target.value)}
                   startAdornment={
                     <InputAdornment position="start">
                       <PiMagnifyingGlass className="text-[25px]" />
@@ -71,16 +122,35 @@ const Topbar = ({ setOpenFilters }) => {
             </div>
             <Tooltip title="Archived" arrow placement="top">
               <div
-                onClick={handleToggleShowArchivedLeads}
-                className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
+                onClick={handleToggleShowArchivedProjects}
+                className={` p-2 rounded-md cursor-pointer ${
+                  options?.showArchivedProjects
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
                 <PiArchive className="text-[25px]" />
               </div>
             </Tooltip>
-            <Tooltip title="My Leads" arrow placement="top">
+            <Tooltip title="My Projects" arrow placement="top">
               <div
-                onClick={handleToggleShowEmployeeLeads}
-                className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
+                onClick={handleToggleShowEmployeeProjects}
+                className={` p-2 rounded-md cursor-pointer ${
+                  options?.showEmployeeProjects
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
                 <FiUser className="text-[25px] " />
+              </div>
+            </Tooltip>
+            <Tooltip title="View" arrow placement="top">
+              <div
+                onClick={handleToggleIsKanbanView}
+                className={` p-2 rounded-md cursor-pointer ${
+                  options?.isKanbanView
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
+                <FiList className="text-[25px] " />
               </div>
             </Tooltip>
             <Tooltip title="Quick Stats" arrow placement="top">
@@ -90,17 +160,13 @@ const Topbar = ({ setOpenFilters }) => {
                 <PiTrendUp className="text-[25px] " />
               </div>
             </Tooltip>
-            <Tooltip title="View" arrow placement="top">
-              <div
-                onClick={handleToggleIsKanbanView}
-                className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
-                <FiList className="text-[25px] " />
-              </div>
-            </Tooltip>
             <Tooltip title="Filter" arrow placement="top">
               <div
                 onClick={handleToggleFilters}
-                className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
+                className={` p-2 rounded-md cursor-pointer ${openFilters
+                  ? "text-[#20aee3] bg-[#e4f1ff]"
+                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                  }`}>
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>
@@ -117,46 +183,31 @@ const Topbar = ({ setOpenFilters }) => {
         )}
       </div>
 
-      {showStatBar && showAddButton && (
-        <div className="mt-5 mb-5">
+      {showStatBar && (
+        <div className="mt-5 mb-10">
           <Box className="w-auto md:columns-4 sm:columns-2 font-primary">
-            <div className="bg-white border-b-[3px] border-b-sky-300 sm:mt-0 mt-4 shadow-none rounded-md">
-              <CardContent className="flex-grow-[1] flex justify-between items-center">
-                <div>
-                  <p className="text-2xl font-extralight text-[#455a64]">9</p>
-                  <p className="text-md font-Mulish text-slate-500 text-opacity-70">New</p>
-                </div>
-              </CardContent>
-            </div>
-
-            <div className="bg-white border-b-[3px] border-b-amber-400 sm:mt-0 mt-4 shadow-none rounded-md">
-              <CardContent className="flex-grow-[1] flex justify-between items-center">
-                <div>
-                  <p className="text-2xl text-[#455a64]">6</p>
-                  <p className="text-md font-Mulish text-slate-500 text-opacity-70">In Progress</p>
-                </div>
-              </CardContent>
-            </div>
-
-            <div className="bg-white border-b-[3px] border-b-red-400 sm:mt-0 mt-4 shadow-none rounded-md">
-              <CardContent className="flex-grow-[1] flex justify-between items-center">
-                <div>
-                  <p className="text-2xl text-[#455a64]">3</p>
-                  <p className="text-md font-Mulish text-slate-500 text-opacity-70">
-                    Not Completed
-                  </p>
-                </div>
-              </CardContent>
-            </div>
-
-            <div className="bg-white border-b-[3px] border-b-green-400 sm:mt-0 mt-4 shadow-none rounded-md">
-              <CardContent className="flex-grow-[1] flex justify-between items-center">
-                <div>
-                  <p className="text-2xl text-[#455a64]">10</p>
-                  <p className="text-md font-Mulish text-slate-500 text-opacity-70">Completed</p>
-                </div>
-              </CardContent>
-            </div>
+            {statusArray.map((status, index) => (
+              <div
+                key={index}
+                className={`bg-white border-b-[3px]  sm:mt-0 mt-4 shadow-none rounded-md
+                    ${status.name == "completed" ? "border-b-green-400" : ""}
+                    ${status.name == "notStarted" ? "border-b-sky-400" : ""} 
+                    ${status.name == "onHold" ? "border-b-red-400" : ""} 
+                    ${status.name == "inProgress" ? "border-b-yellow-400" : ""}
+                  `}>
+                <CardContent className="flex-grow-[1] flex justify-between items-center">
+                  <div>
+                    <p className="text-2xl text-[#455a64]">{status.counts}</p>
+                    <p className="text-md font-Mulish text-slate-500 text-opacity-70 capitalize ">
+                      {status.name == "completed" ? "Completed" : ""}
+                      {status.name == "notStarted" ? "New" : ""}
+                      {status.name == "onHold" ? "Over Due" : ""}
+                      {status.name == "inProgress" ? "In Progress" : ""}
+                    </p>
+                  </div>
+                </CardContent>
+              </div>
+            ))}
           </Box>
         </div>
       )}

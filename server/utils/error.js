@@ -4,3 +4,9 @@ export const createError = (status, message) => {
     err.status = status
     return err
 }
+
+
+export const isValidDate = (dateString) => {
+    const date = new Date(dateString);
+    return !isNaN(date.getTime());
+}

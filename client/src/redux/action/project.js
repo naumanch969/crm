@@ -23,11 +23,41 @@ export const getProjects = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
+export const getArchivedProjects = () => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getArchivedProjects()
+        dispatch(getArchivedProjects(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
 export const getUsers = () => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.getUsers()
         dispatch(getUsersReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const searchProject = (searchTerm) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.searchProject(searchTerm)
+        dispatch(getProjectsReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const filterProject = (filters) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.filterProject(filters)
+        dispatch(getProjectsReducer(data.result))
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

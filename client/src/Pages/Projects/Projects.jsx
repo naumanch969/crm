@@ -2,17 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Table } from "../../Components";
 import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjects } from "../../redux/action/project";
+import { getProjects, updateProject } from "../../redux/action/project";
+import { getProjectReducer, archiveProjectReducer, unarchiveProjectReducer } from "../../redux/reducer/project";
 import { Avatar, AvatarGroup, Tooltip, styled } from "@mui/material";
-import EditModal from "./EditModal";
-import DeleteModal from "./DeleteModal";
-import { getProjectReducer } from "../../redux/reducer/project";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
 import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
+import EditModal from "./EditModal";
+import DeleteModal from "./DeleteModal";
+import UpdateStatusModal from './UpdateStatus'
 import Project from "./Project";
 import Filter from './Filter'
+import Kanban from './Kanban/Kanban'
 
 const blue = {
   100: "#DAECFF",
@@ -84,11 +86,11 @@ const StyledMenuItem = styled(MenuItem)(
       `
 );
 
-function Projects() {
+function Projects({ scroll, setScroll }) {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
-  const { projects, isFetching, error } = useSelector((state) => state.project);
+  const { projects, archived, isFetching, error } = useSelector((state) => state.project);
   const columns = [
     {
       field: "images",
@@ -183,8 +185,10 @@ function Projects() {
               </StyledMenuItem>
               <StyledMenuItem
                 className="text-gray-600 flex"
-                onClick={() => handleOpenArchive(params.row)}>
-                Archive
+                onClick={() => {
+                  params.row.isArchived ? handleUnArchive(params.row) : handleArchive(params.row)
+                }}>
+                {params.row.isArchived ? 'Un Archive' : 'Archive'}
               </StyledMenuItem>
             </Menu>
           </Dropdown>
@@ -200,10 +204,12 @@ function Projects() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
-  const [scroll, setScroll] = React.useState("paper");
-
-
-  
+  const [openStatusModal, setOpenStatusModal] = useState(false);
+  const [options, setOptions] = useState({
+    isKanbanView: false,
+    showEmployeeProjects: false,
+    showArchivedProjects: false,
+  });
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
@@ -220,14 +226,18 @@ function Projects() {
   }, [open]);
 
   ////////////////////////////////////// FUNCTION //////////////////////////////\
-  const handleOpenStatusModal = (task) => {
-    //
-    //
+  const handleOpenStatusModal = (project) => {
+    setOpenStatusModal(true);
+    dispatch(getProjectReducer(project));
   };
-  const handleOpenArchive = () => {
-    //
-    //
-  };
+  const handleArchive = (project) => {
+    dispatch(archiveProjectReducer(project))
+    dispatch(updateProject(project._id, { isArchived: true }, { loading: false }))
+  }
+  const handleUnArchive = (project) => {
+    dispatch(unarchiveProjectReducer(project))
+    dispatch(updateProject(project._id, { isArchived: false }, { loading: false }))
+  }
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -247,22 +257,23 @@ function Projects() {
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
-      <DeleteModal
-        open={openDeleteModal}
-        setOpen={setOpenDeleteModal}
-        projectId={selectedProjectId}
-      />
+      <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} projectId={selectedProjectId} />
+      <UpdateStatusModal open={openDeleteModal} setOpen={setOpenDeleteModal} projectId={selectedProjectId} />
       <Filter open={openFilters} setOpen={setOpenFilters} />
       <Project scroll={scroll} open={open} setOpen={setOpen} />
 
-      <Topbar view={view} setView={setView} openFilters={openFilters} setOpenFilters={setOpenFilters} />
-      <Table
-        rows={projects}
-        columns={columns}
-        rowsPerPage={5}
-        isFetching={isFetching}
-        error={error}
-      />
+      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters} />
+      {options.isKanbanView ? (
+        <Kanban options={options} setOptions={setOptions} />
+      ) : (
+        <Table
+          rows={options.showArchivedProjects ? archived : projects}
+          columns={columns}
+          rowsPerPage={10}
+          isFetching={isFetching}
+          error={error}
+        />
+      )}
     </div>
   );
 }

@@ -12,7 +12,8 @@ const projectSchema = Schema({
     beds: { type: Number, required: false },
     images: { type: Array, required: false },
     assignedTo: { type: Schema.Types.ObjectId, ref: 'User' },
-    status: { type: String, default: 'On Hold', enum: ['Not Started', 'Completed', 'In Progress', 'On Hold'] }
+    status: { type: String, default: 'notStarted', enum: ['notStarted', 'completed', 'inProgress', 'onHold'] },
+    isArchived: { type: Boolean, default: false },
 }, { timestamps: true })
 
 const projectModel = model('Project', projectSchema)

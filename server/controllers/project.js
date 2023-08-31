@@ -1,5 +1,5 @@
 import Project from '../models/project.js'
-import { createError } from '../utils/error.js'
+import { createError, isValidDate } from '../utils/error.js'
 
 
 export const getProject = async (req, res, next) => {
@@ -28,6 +28,70 @@ export const getProjects = async (req, res, next) => {
         next(createError(500, err.message))
     }
 }
+export const getArchivedProjects = async (req, res, next) => {
+    try {
+
+        const findedProject = await Project.find({ isArchived: true })
+        res.status(200).json({ result: findedProject, message: 'projects fetched successfully', success: true })
+
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
+export const searchProject = async (req, res, next) => {
+    const { searchTerm } = req.query;
+
+    try {
+        // Convert searchTerm to a number (if applicable)
+        const numberSearch = !isNaN(searchTerm) ? Number(searchTerm) : undefined;
+
+        const searchResults = await Project.find({
+            $or: [
+                { city: new RegExp(searchTerm, 'i') },
+                { region: new RegExp(searchTerm, 'i') },
+                { propertyType: new RegExp(searchTerm, 'i') },
+                { homeType: new RegExp(searchTerm, 'i') },
+                { area: new RegExp(searchTerm, 'i') },
+                { areaUnit: new RegExp(searchTerm, 'i') },
+                { priority: new RegExp(searchTerm, 'i') },
+                { status: new RegExp(searchTerm, 'i') },
+                { beds: numberSearch },
+                { price: numberSearch }, // Search directly as a number
+            ],
+        }).exec();
+
+        res.status(200).json({ result: searchResults });
+    } catch (error) {
+        next(createError(500, error.message));
+    }
+};
+
+export const filterProject = async (req, res, next) => {
+    const { startingDate, endingDate, ...filters } = req.body;
+
+    try {
+        let query = Project.find(filters);
+
+        // Check if startingDate and endingDate are provided and valid date strings
+        if (startingDate && endingDate && isValidDate(startingDate) && isValidDate(endingDate)) {
+            const startDate = new Date(startingDate);
+            startDate.setHours(0, 0, 0, 0);
+
+            const endDate = new Date(endingDate);
+            endDate.setHours(23, 59, 59, 999);
+
+            // Add createdAt filtering to the query
+            query = query.where('createdAt').gte(startDate).lte(endDate);
+        }
+
+        const filteredProjects = await query.exec();
+
+        res.status(200).json({ result: filteredProjects });
+    } catch (error) {
+        next(createError(500, error.message));
+    }
+};
+
 
 export const getUserAssignedProjectsStat = async (req, res, next) => {
     try {
@@ -36,7 +100,7 @@ export const getUserAssignedProjectsStat = async (req, res, next) => {
 
         const projects = await Project.find({ assignedTo: userId });
 
-        const statusEnum = ['Not Started', 'Completed', 'In Progress', 'On Hold'];
+        const statusEnum = ['notStarted', 'completed', 'inProgress', 'onHold'];
         const projectsStatArray = statusEnum.map(status => {
             const count = projects.filter(project => project.status === status).length;
             return {

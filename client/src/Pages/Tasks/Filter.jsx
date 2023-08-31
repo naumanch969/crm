@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Drawer, Button, TextField, Autocomplete } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
-import { filterLead } from "../../redux/action/lead";
+import { filterTask } from "../../redux/action/task";
 import { FiFilter } from "react-icons/fi";
 import { PiFunnelLight, PiXLight } from "react-icons/pi";
 import { pakistanCities } from "../../constant";
@@ -14,10 +14,10 @@ const FilterDrawer = ({ open, setOpen }) => {
   const dispatch = useDispatch();
 
   const [filters, setFilters] = useState({
-    city: "",
-    project: "",
-    region: "",
-    // Add more fields from your lead model here
+    status: '',
+    priority: '',
+    startingDate: '',
+    endingDate: ''
   });
 
   const handleInputChange = (field, value) => {
@@ -28,7 +28,7 @@ const FilterDrawer = ({ open, setOpen }) => {
   };
 
   const handleApplyFilters = () => {
-    dispatch(filterLead(filters));
+    dispatch(filterTask(filters));
     setOpen(false);
   };
 
@@ -59,7 +59,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                 {...params}
                 fullWidth
                 label="Status"
-                value={filters.city}
+                value={filters.status}
                 onChange={(e) => handleInputChange("status", e.target.value)}
               />
             )}
@@ -76,7 +76,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                 {...params}
                 fullWidth
                 label="Priority"
-                value={filters.city}
+                value={filters.priority}
                 onChange={(e) => handleInputChange("priority", e.target.value)}
               />
             )}
@@ -90,6 +90,8 @@ const FilterDrawer = ({ open, setOpen }) => {
                   <DemoContainer components={["DesktopDatePicker"]}>
                     <DesktopDatePicker
                       slotProps={{ textField: { size: "small", maxWidth: 200 } }}
+                      value={filters.startingDate}
+                      onChange={(date) => handleInputChange('startingDate', date.$d)}
                       label="Starting Date"
                     />
                   </DemoContainer>
@@ -102,6 +104,8 @@ const FilterDrawer = ({ open, setOpen }) => {
                     <DesktopDatePicker
                       className="w-3/6"
                       label="Ending Date"
+                      value={filters.endingDate}
+                      onChange={(date) => handleInputChange('endingDate', date.$d)}
                       slotProps={{ textField: { size: "small" } }}
                     />
                   </DemoContainer>
