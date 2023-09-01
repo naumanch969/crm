@@ -41,7 +41,7 @@ const App = () => {
           </Routes>
         </div>
       ) : (
-        <div className="flex h-screen ">
+        <div className="flex h-full ">
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
           <div className={`${showSidebar ? 'w-full ' : 'w-full '} flex flex-col h-full overflow-y-scroll `}>
             <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
@@ -81,7 +81,6 @@ const App = () => {
         <Route path="/client" element={<ClientPanelLayout />}>
           <Route path="/client/home" element={<Home />} />
           <Route path="/client/projects" element={<ClientProjects />} />
-
           <Route path="/client/contact" element={<Contact />} />
         </Route>
       </Routes>

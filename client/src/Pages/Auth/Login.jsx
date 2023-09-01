@@ -1,10 +1,21 @@
-import { Button } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  IconButton,
+  Input,
+  InputAdornment,
+  Snackbar,
+} from "@mui/material";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/action/user";
 import validator from "email-validator";
-import { PiEyeSlashThin, PiEyeThin } from "react-icons/pi";
+import { PiEyeSlashThin, PiEyeThin, PiX } from "react-icons/pi";
 
 const Login = () => {
   const PasswordButtonInitialStyle = {
@@ -20,7 +31,13 @@ const Login = () => {
   const [userData, setUserData] = useState({ email: "", password: "" });
   const [inputError, setInputError] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordButton, setShowPasswordButton] = useState(PasswordButtonInitialStyle)
+  const [showPasswordButton, setShowPasswordButton] = useState(PasswordButtonInitialStyle);
+  const [showSnackbar, setShowSnackbar] = useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = showSnackbar;
 
   /////////////////////////////////// USE EFFECTS ////////////////////////////////
 
@@ -61,67 +78,159 @@ const Login = () => {
     setShowPassword((pre) => !pre);
   };
 
+  const handleOpenSnackbar = (newState) => () => {
+    setShowSnackbar({ ...newState, open: true });
+  };
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar({ ...showSnackbar, open: false });
+  };
   return (
-    <div className="py-[10%] ">
-      <div className="flex justify-center pb-8 ">
-        <img className="w-41 h-11" src="/favicon/GrowLOGO.png" />
+    <div>
+      <div className="md:opacity-100 opacity-0 left-0 bottom-10 absolute h-[53%] w-[28%]">
+        <img src="/images/login-1.png" />
       </div>
-      <div className="w-full h-full bg-white rounded-lg border-[1px] border-gray-100">
-        <div className="flex justify-center pt-6 pl-0 ml-0">
-          <div className="w-96 h-auto shadow-xl rounded">
-            <p className="text-xl text-slate-500 tracking-wide flex justify-center pt-6 font-Mulish">
-              Create New Account
-            </p>
-            <p className="flex justify-center pt-2 font-Mulish text-slate-500 text-xs">
-              Sign up for your new account today!
+      <div className="w-full h-screen ">
+        <div className="flex justify-center pt-16">
+          <img className="w-42 h-12" src="/favicon/GrowLOGO.png" />
+        </div>
+        <div className="flex justify-center pt-6 pl-0 ml-0 rounded-lg">
+          <div className="w-96 h-auto shadow-xl rounded bg-white">
+            <p className="text-xl text-slate-500 tracking-wide flex justify-center pt-8">
+              Sign in to your account
             </p>
             <form
               onSubmit={handleSubmit}
-              className="flex flex-col gap-[12px] w-auto pl-[2rem] pt-[1rem] ">
-              <div className="flex flex-col ">
-                <input
+              className="flex flex-col gap-[10px] w-auto pl-[2rem] pt-[2rem] ">
+              <div className="flex flex-col gap-8">
+                <Input
                   type="email"
                   name="email"
                   value={userData.email}
                   onChange={handleChange}
                   placeholder="Email"
-                  className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] "
+                  className="w-[20rem] text-neutral-700 rounded-[4px]"
                 />
                 {inputError.email && (
-                  <span className="text-[12px] text-red-600 ">{inputError.email}</span>
+                  <Snackbar
+                    onClose={handleCloseSnackbar}
+                    anchorOrigin={{ vertical, horizontal }}
+                    key={vertical + horizontal}
+                    open={showSnackbar}
+                    autoHideDuration={2}>
+                    <Alert
+                      className="flex items-center justify-between"
+                      severity="error"
+                      sx={{ width: "100%" }}>
+                      {inputError.email}
+                      <IconButton
+                        onClick={handleCloseSnackbar}
+                        aria-label="close"
+                        color="inherit"
+                        sx={{ p: 0.5, ml: 10 }}>
+                        <PiX />
+                      </IconButton>
+                    </Alert>
+                  </Snackbar>
                 )}
+                <FormControl>
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={userData.password}
+                    onChange={handleChange}
+                    onKeyDown={changeBackgroundColor}
+                    placeholder="Password"
+                    variant="standard"
+                    className="w-[20rem] h-[40px] px-[8px]"
+                    startAdornment={
+                      <InputAdornment>
+                        <button
+                          style={showPasswordButton}
+                          onClick={handleToggleVisibility}
+                          className="absolute right-0">
+                          {showPassword ? (
+                            <PiEyeSlashThin className="text-[25px] m-2 text-black" />
+                          ) : (
+                            <PiEyeThin className="text-[25px] m-2 text-black" />
+                          )}
+                        </button>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
               </div>
-              <div className="flex flex-col relative w-fit ">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={userData.password}
-                  onChange={handleChange}
-                  onKeyDown={changeBackgroundColor}
-                  placeholder="Password"
-                  className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] "
+              <FormGroup>
+                <FormControlLabel
+                  className="w-40 text-gray-400 pt-2"
+                  control={<Checkbox />}
+                  label="Remember Me"
                 />
-                <button
-                  onClick={handleToggleVisibility}
-                  style={showPasswordButton}
-                  className="absolute top-[50%] right-[4px] transform translate-y-[-50%] cursor-pointer">
-                  {showPassword ? <PiEyeSlashThin className="text-[25px] m-2" /> : <PiEyeThin className="text-[25px] m-2" />}
-                </button>
-                {inputError.password && (
-                  <span className="text-[12px] text-red-600 ">{inputError.password}</span>
-                )}
+              </FormGroup>
+
+              <div className="cursor-pointer flex justify-end p-2 pr-8 text-gray-500 tracking-wide font-thin">
+                Forgot Password
               </div>
-              <Button type="submit" className="w-[20rem]" variant="contained">
-                {isFetching ? "Submitting..." : "Login"}
-              </Button>
+
+              {inputError.password && (
+                <Snackbar
+                  anchorOrigin={{ vertical, horizontal }}
+                  key={vertical + horizontal}
+                  open={showSnackbar}
+                  autoHideDuration={2}
+                  onClose={handleCloseSnackbar}>
+                  <Alert
+                    className="flex items-center justify-between"
+                    severity="error"
+                    sx={{ width: "100%" }}>
+                    {inputError.password}
+                    <IconButton
+                      onClick={handleCloseSnackbar}
+                      aria-label="close"
+                      color="inherit"
+                      sx={{ p: 0.5, ml: 10 }}>
+                      <PiX />
+                    </IconButton>
+                  </Alert>
+                </Snackbar>
+              )}
+
+              <button
+                onClick={handleOpenSnackbar({ vertical: "top", horizontal: "left" })}
+                type="submit"
+                className={`w-[20rem]  hover:bg-[#45b8e2] p-2 rounded-lg transition-all text-white font-medium tracking-wider ${
+                  isFetching ? "bg-[#17a2b8] cursor-not-allowed" : "bg-[#20aee3]"
+                }`}
+                variant="contained">
+                {isFetching ? "Submitting..." : "Continue"}
+              </button>
               {error && (
-                <span className="text-[12px] text-red-600 text-center w-full ">{error}</span>
+                <Snackbar
+                  anchorOrigin={{ vertical, horizontal }}
+                  key={vertical + horizontal}
+                  open={showSnackbar}
+                  autoHideDuration={2}
+                  onClick={handleCloseSnackbar}>
+                  <Alert
+                    className="flex items-center justify-between"
+                    severity="error"
+                    sx={{ width: "100%" }}>
+                    {error}
+                    <IconButton
+                      onClick={handleCloseSnackbar}
+                      aria-label="close"
+                      color="inherit"
+                      sx={{ p: 0.5, ml: 10 }}>
+                      <PiX />
+                    </IconButton>
+                  </Alert>
+                </Snackbar>
               )}
               <p className="font-Mulish font-thin text-slate-500 flex justify-center">
                 Don't have account?&nbsp;
                 <Link to="/auth/register" className="text-blue-400">
                   {" "}
-                  Register
+                  Sign Up
                 </Link>
               </p>
               <br />

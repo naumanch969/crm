@@ -95,7 +95,7 @@ const StyledMenuItem = styled(MenuItem)(
     `
 );
 
-const Navbar = ({ setShowSidebar, showSidebar }) => {
+const Navbar = ({ setShowSidebar, showSidebar, setOpen }) => {
   const { loggedUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -114,10 +114,16 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
     { avatar: <Avatar />, name: "hamza", description: "Want approval for the lead" },
   ];
 
+  const handleCreateopen = () => {
+    setOpen(true)
+  };
+
+
   const handleLogout = () => {
     dispatch(logout(navigate));
   };
 
+  
   return (
     <>
       <div className="flex flex-col z-10 sticky top-0 w-full sm:h-[4rem] h-[4rem] bg-white border-b-[1px] border-b-[#eeeff0]">
@@ -143,7 +149,10 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
               <Dropdown>
                 <MenuButton>
                   <Tooltip title="Notifications" arrow placement="bottom">
-                    <IconButton className="h-fit hover:text-red-400 inline-block relative" size="small" aria-label="menu">
+                    <IconButton
+                      className="h-fit hover:text-red-400 inline-block relative"
+                      size="small"
+                      aria-label="menu">
                       <PiBell className="text-[25px] animate-none text-primary-red" />
                       <span class="animate-ping absolute top-1.5 right-2 block h-1 w-1 rounded-full ring-2 ring-primary-red bg-red-500"></span>
                     </IconButton>
@@ -191,13 +200,11 @@ const Navbar = ({ setShowSidebar, showSidebar }) => {
                 </Menu>
               </Dropdown>
 
-              <Link to="/tasks/create">
                 <Tooltip title="Add Task" arrow placement="bottom">
-                  <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
+                  <IconButton onClick={handleCreateopen} className="h-fit hover:text-red-400" size="small" aria-label="menu">
                     <PiListChecks className="text-[25px]" />
                   </IconButton>
                 </Tooltip>
-              </Link>
               <Tooltip title="Settings" arrow placement="bottom">
                 <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
                   <PiGear className="text-[25px]" />

@@ -16,17 +16,16 @@ const Leads = () => {
 
 
     return (
-        <Box className="w-full bg-white h-96 rounded-lg p-6  mt-5 float-left ml-0 md:w-auto md:ml-5 md:mt-0">
-            <div className="flex justify-center text-xl font-light text-gray-600">
+        <Box className="w-full bg-white h-96 rounded-lg p-6 mt-5 float-left ml-0 md:w-auto md:ml-5 md:mt-0">
+            <div className="flex flex-col items-center text-xl font-light text-gray-600">
                 Leads This Year
-            </div>
-            <PieChart className="flex justify-center" width={450} height={240}>
+                <PieChart className="flex justify-center" width={500} height={240}>
                 <Pie
                     data={leadsStat}
                     innerRadius={60}
                     outerRadius={80}
                     fill="#8884d8"
-                    paddingAngle={5}
+                    paddingAngle={0}
                     dataKey="value">
                     {leadsStat.map((entry, index) => (
                         <Cell key={index} fill={COLORS[index % COLORS.length]} />
@@ -41,6 +40,8 @@ const Leads = () => {
                 <Chip style={{ backgroundColor: 'red', color: 'white', margin: '4px' }} label="Declined" />
                 <Chip style={{ backgroundColor: 'rgb(56 189 248)', color: 'white', margin: '4px' }} label="Remaining" />
             </div>
+            </div>
+            
 
         </Box>
     )

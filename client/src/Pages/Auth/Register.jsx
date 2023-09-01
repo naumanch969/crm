@@ -1,11 +1,19 @@
-import { Button } from "@mui/material";
+import {
+  Alert,
+  Button,
+  FormControl,
+  IconButton,
+  Input,
+  InputAdornment,
+  Snackbar,
+} from "@mui/material";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/action/user";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import validator from "email-validator";
-import { PiEyeSlashThin, PiEyeThin } from "react-icons/pi";
+import { PiEyeSlashThin, PiEyeThin, PiX } from "react-icons/pi";
 
 const Signup = () => {
   const PasswordButtonInitialStyle = {
@@ -36,6 +44,7 @@ const Signup = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordButton, setShowPasswordButton] = useState(PasswordButtonInitialStyle);
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
   /////////////////////////////////// USE EFFECTS ////////////////////////////////
 
@@ -104,14 +113,25 @@ const Signup = () => {
     });
   };
 
+  const handleOpenSnackbar = () => {
+    setShowSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
+  };
+
   return (
-    <div className="py-[2rem] ">
-      <div className="w-full h-full ">
+    <div>
+      <div className="md:opacity-100 opacity-0 left-0 bottom-0 absolute h-[52%] w-[25%]">
+        <img src="/images/login-1.png" />
+      </div>
+      <div className="w-full h-screen ">
         <div className="flex justify-center pt-8">
           <img className="w-41 h-11" src="/favicon/GrowLOGO.png" />
         </div>
-        <div className="flex justify-center pt-6 pl-0 ml-0 rounded-lg border-[1px] border-gray-100">
-          <div className="w-96 h-auto shadow-xl rounded">
+        <div className="flex justify-center pt-6 pl-0 ml-0 rounded-lg">
+          <div className="w-96 h-auto shadow-xl rounded bg-white">
             <p className="text-xl text-slate-500 tracking-wide flex justify-center pt-6 font-Mulish">
               Create New Account
             </p>
@@ -121,102 +141,208 @@ const Signup = () => {
             <form
               onSubmit={handleSubmit}
               className="flex flex-col gap-[12px] w-auto pl-[2rem] pt-[1rem] ">
-              <div className="flex flex-col ">
-                <input
+              <div className="flex flex-col gap-6">
+                <Input
                   type="text"
                   name="firstName"
                   value={userData.firstName}
                   onChange={handleChange}
                   placeholder="First Name"
                   variant="standard"
-                  className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] "
+                  className="w-[20rem] h-[40px] px-[8px]"
                 />
                 {inputError.firstName && (
-                  <span className="text-[12px] text-red-600 ">{inputError.firstName}</span>
+                  <Snackbar position="top" open={showSnackbar} autoHideDuration={1000}>
+                    <Alert
+                      className="flex items-center justify-between"
+                      severity="error"
+                      sx={{ width: "100%" }}>
+                      {inputError.firstName}
+                      <IconButton
+                        onClick={handleCloseSnackbar}
+                        aria-label="close"
+                        color="inherit"
+                        sx={{ p: 0.5, ml: 10 }}>
+                        <PiX />
+                      </IconButton>
+                    </Alert>
+                  </Snackbar>
                 )}
-              </div>
-              <div className="flex flex-col ">
-                <input
+                <Input
                   type="text"
                   name="lastName"
                   value={userData.lastName}
                   onChange={handleChange}
                   placeholder="Last Name"
                   variant="standard"
-                  className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] "
+                  className="w-[20rem] h-[40px] px-[8px]"
                 />
                 {inputError.lastName && (
-                  <span className="text-[12px] text-red-600 ">{inputError.lastName}</span>
+                  <Snackbar open={showSnackbar} autoHideDuration={1000}>
+                    <Alert
+                      className="flex items-center justify-between"
+                      severity="error"
+                      sx={{ width: "100%" }}>
+                      {inputError.lastName}
+                      <IconButton
+                        onClick={handleCloseSnackbar}
+                        aria-label="close"
+                        color="inherit"
+                        sx={{ p: 0.5, ml: 10 }}>
+                        <PiX />
+                      </IconButton>
+                    </Alert>
+                  </Snackbar>
                 )}
-              </div>
-              <div className="flex flex-col ">
-                <input
+                <Input
                   type="text"
                   name="username"
                   value={userData.username}
                   onChange={handleChange}
                   placeholder="Username"
                   variant="standard"
-                  className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] "
+                  className="w-[20rem] h-[40px] px-[8px]"
                 />
                 {inputError.username && (
-                  <span className="text-[12px] text-red-600 ">{inputError.username}</span>
+                  <Snackbar open={showSnackbar} autoHideDuration={1000}>
+                    <Alert
+                      className="flex items-center justify-between"
+                      severity="error"
+                      sx={{ width: "100%" }}>
+                      {inputError.username}
+                      <IconButton
+                        onClick={handleCloseSnackbar}
+                        aria-label="close"
+                        color="inherit"
+                        sx={{ p: 0.5, ml: 10 }}>
+                        <PiX />
+                      </IconButton>
+                    </Alert>
+                  </Snackbar>
                 )}
-              </div>
-              <div className="flex flex-col ">
-                <input
+                <Input
                   type="number"
                   name="phone"
                   value={userData.phone}
                   onChange={handleChange}
                   placeholder="Phone"
                   variant="standard"
-                  className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] "
+                  className="w-[20rem] h-[40px] px-[8px]"
                 />
                 {inputError.phone && (
-                  <span className="text-[12px] text-red-600 ">{inputError.phone}</span>
+                  <Snackbar open={showSnackbar} autoHideDuration={1000}>
+                    <Alert
+                      className="flex items-center justify-between"
+                      severity="error"
+                      sx={{ width: "100%" }}>
+                      {inputError.phone}
+                      <IconButton
+                        onClick={handleCloseSnackbar}
+                        aria-label="close"
+                        color="inherit"
+                        sx={{ p: 0.5, ml: 10 }}>
+                        <PiX />
+                      </IconButton>
+                    </Alert>
+                  </Snackbar>
                 )}
-              </div>
-              <div className="flex flex-col ">
-                <input
+                <Input
                   type="email"
                   name="email"
                   value={userData.email}
                   onChange={handleChange}
                   placeholder="Email"
                   variant="standard"
-                  className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] "
+                  className="w-[20rem] h-[40px] px-[8px]"
                 />
                 {inputError.email && (
-                  <span className="text-[12px] text-red-600 ">{inputError.email}</span>
+                  <Snackbar open={showSnackbar} autoHideDuration={1000}>
+                    <Alert
+                      className="flex items-center justify-between"
+                      severity="error"
+                      sx={{ width: "100%" }}>
+                      {inputError.email}
+                      <IconButton
+                        onClick={handleCloseSnackbar}
+                        aria-label="close"
+                        color="inherit"
+                        sx={{ p: 0.5, ml: 10 }}>
+                        <PiX />
+                      </IconButton>
+                    </Alert>
+                  </Snackbar>
                 )}
+                <FormControl>
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={userData.password}
+                    onChange={handleChange}
+                    onKeyDown={changeBackgroundColor}
+                    placeholder="Password"
+                    variant="standard"
+                    className="w-[20rem] h-[40px] px-[8px]"
+                    startAdornment={
+                      <InputAdornment>
+                        <button
+                          style={showPasswordButton}
+                          onClick={handleToggleVisibility}
+                          className="absolute right-0">
+                          {showPassword ? (
+                            <PiEyeSlashThin className="text-[25px] m-2 text-black" />
+                          ) : (
+                            <PiEyeThin className="text-[25px] m-2 text-black" />
+                          )}
+                        </button>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
               </div>
-              <div className="flex flex-col relative w-fit ">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={userData.password}
-                  onChange={handleChange}
-                  onKeyDown={changeBackgroundColor}
-                  placeholder="Password"
-                  variant="standard"
-                  className="w-[20rem] h-[40px] px-[8px] border-[1px] border-neutral-500 text-neutral-700 rounded-[4px] "
-                />
-                <button
-                  style={showPasswordButton}
-                  onClick={handleToggleVisibility}
-                  className="absolute top-[50%] right-[4px] transform translate-y-[-50%] cursor-pointer">
-                  {showPassword ? <PiEyeSlashThin className="text-[25px] m-2" /> : <PiEyeThin className="text-[25px] m-2" />}
-                </button>
-                {inputError.password && (
-                  <span className="text-[12px] text-red-600 ">{inputError.password}</span>
-                )}
-              </div>
-              <Button type="submit" className="w-[20rem]" variant="contained">
+
+              {inputError.password && (
+                <Snackbar open={showSnackbar} autoHideDuration={1000}>
+                  <Alert
+                    className="flex items-center justify-between"
+                    severity="error"
+                    sx={{ width: "100%" }}>
+                    {inputError.password}
+                    <IconButton
+                      onClick={handleCloseSnackbar}
+                      aria-label="close"
+                      color="inherit"
+                      sx={{ p: 0.5, ml: 10 }}>
+                      <PiX />
+                    </IconButton>
+                  </Alert>
+                </Snackbar>
+              )}
+
+              <button
+                onClick={handleOpenSnackbar}
+                type="submit"
+                className={`w-[20rem]  hover:bg-[#45b8e2] mt-4 p-[6px] rounded-lg transition-all text-white font-medium tracking-wider ${
+                  isFetching ? "bg-[#17a2b8]  cursor-not-allowed" : "bg-[#20aee3]"
+                }`}
+                variant="contained">
                 {isFetching ? "Submitting..." : "Sign Up"}
-              </Button>
+              </button>
               {error && (
-                <span className="text-[12px] text-red-600 text-center w-full ">{error}</span>
+                <Snackbar open={showSnackbar} autoHideDuration={1000}>
+                  <Alert
+                    className="flex items-center justify-between"
+                    severity="error"
+                    sx={{ width: "100%" }}>
+                    {error}
+                    <IconButton
+                      onClick={handleCloseSnackbar}
+                      aria-label="close"
+                      color="inherit"
+                      sx={{ p: 0.5, ml: 10 }}>
+                      <PiX />
+                    </IconButton>
+                  </Alert>
+                </Snackbar>
               )}
               <p className="font-Mulish font-thin text-slate-500 pl-10">
                 Already have an account?

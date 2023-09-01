@@ -9,6 +9,7 @@ import { Path } from "../../utils";
 import { useDispatch } from "react-redux";
 import { getArchivedTasks, getTasks, searchTask } from "../../redux/action/task";
 import CreateTask from "./CreateTask";
+import Navbar from "../../Components/Navbar/Navbar";
 
 const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
@@ -75,6 +76,8 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   const handleCreateopen = () => {
     setOpen(true);
   };
+
+  <Navbar setOpen={setOpen} />;
 
   return (
     <div className="flex flex-col tracking-wide">
@@ -144,10 +147,11 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
             <Tooltip title="Filter" arrow placement="top">
               <div
                 onClick={handleToggleFilters}
-                className={` p-2 rounded-md cursor-pointer ${openFilters
-                  ? "text-[#20aee3] bg-[#e4f1ff]"
-                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                  }`}>
+                className={` p-2 rounded-md cursor-pointer ${
+                  openFilters
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>
