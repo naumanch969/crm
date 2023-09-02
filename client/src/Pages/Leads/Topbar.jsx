@@ -8,6 +8,7 @@ import { getArchivedLeads, getEmployeeLeads, getLeads, searchLead } from "../../
 import { PiArchive, PiMagnifyingGlass } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
 import CreateLead from "./CreateLead";
+import EditModal from "./EditModal";
 
 const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////

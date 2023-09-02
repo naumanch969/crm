@@ -108,11 +108,11 @@ const Lead = ({ open, setOpen, leadId, scroll }) => {
                 <Divider />
                 <div className="pt-2 text-lg font-[350]">
                   Minimum Area :{" "}
-                  <span className="text-black font-normal">{currentLead?.minArea}</span>
+                  <span className="text-black font-normal">{currentLead?.minArea} {currentLead?.minAreaUnit}</span>
                 </div>
                 <div className="text-lg font-[350] pb-2">
                   Maximum Area :{" "}
-                  <span className="text-black font-normal">{currentLead?.maxArea}</span>
+                  <span className="text-black font-normal">{currentLead?.maxArea} {currentLead?.maxAreaUnit}</span>
                 </div>
 
                 <div className="flex items-center pt-4 pb-2 gap-3 text-[20px]">
@@ -122,24 +122,24 @@ const Lead = ({ open, setOpen, leadId, scroll }) => {
                 <Divider />
                 <div className="pt-2 text-lg font-[350]">
                   Minimum Budget :{" "}
-                  <span className="text-black font-normal">{currentLead?.minBudget}</span>
+                  <span className="text-black font-normal">Rs. {currentLead?.minBudget}</span>
                 </div>
                 <div className="text-lg font-[350] pb-2">
                   Maximum Budget :{" "}
-                  <span className="text-black font-normal">{currentLead?.maxBudget}</span>
+                  <span className="text-black font-normal">Rs. {currentLead?.maxBudget}</span>
                 </div>
               </div>
 
               <div className="flex flex-col">
                 <div className="bg-[#ebf2f5] w-full h-full md:mt-0 mt-8 px-4 py-4 flex flex-col justify-between gap-4 rounded-md">
                   <div className="text-xl">Customer Details</div>
-                  <div className="bg-[#d1dfe4] p-1 w-full rounded-lg text-black flex justify-center text-lg">
+                  <div className="bg-[#d1dfe4] p-1 w-full rounded-lg text-black flex justify-center text-lg capitalize">
                     {currentLead?.clientId?.firstName} {currentLead?.clientId?.lastName}
                   </div>
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                     <div className="flex items-center gap-2">
-                      <PiGenderMaleDuotone className="text-gray-700" /> Gender :{" "}
-                      <span className="text-black">{currentLead?.clientId?.gender}</span>
+                      <PiGenderMaleDuotone className="text-gray-700 " /> Gender :{" "}
+                      <span className="text-black capitalize">{currentLead?.clientId?.gender}</span>
                     </div>
                   </div>
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
@@ -150,32 +150,32 @@ const Lead = ({ open, setOpen, leadId, scroll }) => {
                   </div>
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                     <div className="flex items-center gap-2">
-                      <PiPhone className="text-gray-700" /> PHONE :{" "}
+                      <PiPhone className="text-gray-700" /> Phone :{" "}
                       <span className="text-black">{currentLead?.clientId?.phone}</span>
                     </div>
                   </div>
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                     <div className="flex items-center gap-2">
-                      <PiEnvelopeSimple className="text-gray-700" /> EMAIL :{" "}
+                      <PiEnvelopeSimple className="text-gray-700" /> Email :{" "}
                       <span className="text-black">{currentLead?.clientId?.email}</span>
                     </div>
                   </div>
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                     <div className="flex items-center gap-2">
                       <PiGitBranch className="text-gray-700" /> Source :{" "}
-                      <span className="text-black">Source</span>
+                      <span className="text-black capitalize">{currentLead?.source}</span>
                     </div>
                   </div>
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                     <div className="flex items-center gap-2">
                       <PiUser className="text-gray-700" /> Client Type :{" "}
-                      <span className="text-black">Client Type</span>
+                      <span className="text-black capitalize">{currentLead?.clientType}</span>
                     </div>
                   </div>
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                     <div className="flex items-center gap-2">
-                      <PiCalendar className="text-gray-700" /> Created At :{" "}
-                      <span className="text-black">Date</span>
+                      <PiCalendar className="text-gray-700" /> Created :{" "}
+                      <span className="text-black">{format(currentLead?.createdAt)}</span>
                     </div>
                   </div>
                 </div>
@@ -184,13 +184,13 @@ const Lead = ({ open, setOpen, leadId, scroll }) => {
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                     <div className="flex items-center gap-2">
                       <PiUserFocus className="text-gray-700" /> Allocated to :{" "}
-                      <span className="text-black">Username</span>
+                      <span className="text-black">{currentLead?.allocatedTo?.username}</span>
                     </div>
                   </div>
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                     <div className="flex items-center gap-2">
                       <PiSealQuestion className="text-gray-700" /> Status :{" "}
-                      <span className="text-black">Username</span>
+                      <span className="text-black capitalize">{currentLead?.status}</span>
                     </div>
                   </div>
                 </div>

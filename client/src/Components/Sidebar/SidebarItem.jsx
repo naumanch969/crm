@@ -19,10 +19,6 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar })
     }
   };
 
-  const onitemHover = {
-    color:'blue'
-  }
-
   return (
     <div
       className={`${child ? "pl-4 hover:text-[#20aee3] font-thin" : "pl-4"} ${isMenuOpen

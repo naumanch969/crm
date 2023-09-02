@@ -95,7 +95,7 @@ const StyledMenuItem = styled(MenuItem)(
     `
 );
 
-const Navbar = ({ setShowSidebar, showSidebar, setOpen }) => {
+const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
   const { loggedUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -114,16 +114,10 @@ const Navbar = ({ setShowSidebar, showSidebar, setOpen }) => {
     { avatar: <Avatar />, name: "hamza", description: "Want approval for the lead" },
   ];
 
-  const handleCreateopen = () => {
-    setOpen(true)
-  };
-
-
   const handleLogout = () => {
     dispatch(logout(navigate));
   };
 
-  
   return (
     <>
       <div className="flex flex-col z-10 sticky top-0 w-full sm:h-[4rem] h-[4rem] bg-white border-b-[1px] border-b-[#eeeff0]">
@@ -200,11 +194,13 @@ const Navbar = ({ setShowSidebar, showSidebar, setOpen }) => {
                 </Menu>
               </Dropdown>
 
+              <Link to="/tasks/create">
                 <Tooltip title="Add Task" arrow placement="bottom">
-                  <IconButton onClick={handleCreateopen} className="h-fit hover:text-red-400" size="small" aria-label="menu">
+                  <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
                     <PiListChecks className="text-[25px]" />
                   </IconButton>
                 </Tooltip>
+              </Link>
               <Tooltip title="Settings" arrow placement="bottom">
                 <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
                   <PiGear className="text-[25px]" />

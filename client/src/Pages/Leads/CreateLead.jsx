@@ -18,6 +18,8 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 
@@ -38,7 +40,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
 
   //////////////////////////////////////// STATES ////////////////////////////////////
   const [clientData, setClientData] = useState({
-    gender: "male",
+    gender: "",
     firstName: "",
     lastName: "",
     phone: "",
@@ -48,15 +50,15 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   const [leadData, setLeadData] = useState({
     city: "",
     address: "",
-    propertyType: "Comercial",
-    homeType: "House",
+    propertyType: "",
+    homeType: "",
     minBudget: "",
     maxBudget: "",
     minArea: "",
-    minAreaUnit: "squareFeet",
+    minAreaUnit: "Marla",
     maxArea: "",
-    maxAreaUnit: "squareFeet",
-    priority: "high",
+    maxAreaUnit: "Marla",
+    priority: "",
     clientType: "",
     allocatedTo: loggedUser._id,
     beds: "",
@@ -91,28 +93,37 @@ const CreateLead = ({ setOpen, open, scroll }) => {
       beds,
       source,
     } = leadData;
-    if (
-      !city ||
-      !address ||
-      !propertyType ||
-      !homeType ||
-      !minBudget ||
-      !maxBudget ||
-      !minAreaUnit ||
-      !minArea ||
-      !maxAreaUnit ||
-      !maxArea ||
-      !priority ||
-      !clientType ||
-      !allocatedTo ||
-      !beds ||
-      !source
-    )
-      return alert("make sure to provide all lead fields");
-    if (!gender || !firstName || !lastName || !phone || !email || !cnic)
-      return alert("make sure to provide all client fields");
 
     dispatch(createOnsiteLead({ ...leadData, ...clientData }, navigate));
+
+    setClientData({
+      gender: "",
+      firstName: "",
+      lastName: "",
+      phone: "",
+      email: "",
+      cnic: "",
+    });
+
+    setLeadData({
+      city: "",
+      address: "",
+      propertyType: "",
+      homeType: "",
+      minBudget: "",
+      maxBudget: "",
+      minArea: "",
+      minAreaUnit: "Marla",
+      maxArea: "",
+      maxAreaUnit: "Marla",
+      priority: "",
+      clientType: "",
+      allocatedTo: loggedUser._id,
+      beds: "",
+      source: [],
+    });
+
+    setOpen(false);
   };
 
   const handleLeadDataChange = (e) => {
@@ -131,6 +142,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
 
   return (
     <div>
@@ -160,44 +172,79 @@ const CreateLead = ({ setOpen, open, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">First Name </td>
                 <td className="pb-4">
-                  <TextField size="small" fullWidth />
+                  <TextField
+                    name="firstName"
+                    value={clientData.firstName}
+                    onChange={handleClientDataChange}
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Last Name </td>
                 <td className="pb-4">
-                  <TextField size="small" fullWidth />
+                  <TextField
+                    name="lastName"
+                    value={clientData.lastName}
+                    onChange={handleClientDataChange}
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Gender </td>
                 <td className="pb-4">
-                  <Autocomplete
+                  <Select
+                    onChange={handleClientDataChange}
+                    value={clientData.gender}
+                    name="gender"
+                    type="text"
                     size="small"
-                    disablePortal
-                    id="combo-box-demo"
-                    options={["Male", "Female"]}
-                    className="w-full"
-                    renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                  />
+                    fullWidth>
+                    <MenuItem value="male">Male</MenuItem>
+                    <MenuItem value="female">Female</MenuItem>
+                  </Select>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Phone </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    type="number"
+                    onChange={handleClientDataChange}
+                    value={clientData.phone}
+                    name="phone"
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">CNIC </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    type="number"
+                    onChange={handleClientDataChange}
+                    value={clientData.cnic}
+                    name="cnic"
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Email </td>
                 <td className="pb-4">
-                  <TextField type="email" size="small" fullWidth />
+                  <TextField
+                    type="email"
+                    onChange={handleClientDataChange}
+                    value={clientData.email}
+                    name="email"
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
             </table>
@@ -213,114 +260,318 @@ const CreateLead = ({ setOpen, open, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
-                  <Autocomplete
+                  <Select
+                    onChange={handleLeadDataChange}
+                    value={leadData.city}
+                    name="city"
+                    type="text"
                     size="small"
-                    disablePortal
-                    id="combo-box-demo"
-                    options={pakistanCities}
-                    className="w-full"
-                    renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                  />
+                    fullWidth>
+                    {pakistanCities.map((item) => (
+                      <MenuItem value={item}>{item}</MenuItem>
+                    ))}
+                  </Select>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Area Location </td>
                 <td className="pb-4">
-                  <TextField size="small" fullWidth />
+                  <TextField
+                    onChange={handleLeadDataChange}
+                    value={leadData.address}
+                    name="address"
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Proprty Type </td>
+                <td className="pb-4 text-lg">Property Type </td>
                 <td className="pb-4">
-                  <Autocomplete
+                  <Select
+                    onChange={handleLeadDataChange}
+                    value={leadData.propertyType}
+                    name="propertyType"
+                    type="text"
                     size="small"
-                    disablePortal
-                    id="combo-box-demo"
-                    options={["Commercial", "Residential"]}
-                    className="w-full"
-                    renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                  />
+                    fullWidth>
+                    <MenuItem value="Residential">Residential</MenuItem>
+                    <MenuItem value="Commercial">Commercial</MenuItem>
+                    <MenuItem value="Industrial">Industrial</MenuItem>
+                    <MenuItem value="Agricultural">Agricultural</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                  </Select>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Home Type </td>
                 <td className="pb-4">
-                  <Autocomplete
+                  <Select
+                    onChange={handleLeadDataChange}
+                    value={leadData.homeType}
+                    name="homeType"
+                    type="text"
                     size="small"
-                    disablePortal
-                    id="combo-box-demo"
-                    options={["Appartment", "Bangla", "Resturent"]}
-                    className="w-full"
-                    renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                  />
+                    fullWidth>
+                    <MenuItem value="House">House</MenuItem>
+                    <MenuItem value="Upper Portion">Upper Portion</MenuItem>
+                    <MenuItem value="Lower Portion">Lower Portion</MenuItem>
+                    <MenuItem value="Farm House">Farm House</MenuItem>
+                    <MenuItem value="Pent House">Pent House</MenuItem>
+                    <MenuItem value="Room">Room</MenuItem>
+                    <MenuItem value="Basement">Basement</MenuItem>
+                    <MenuItem value="Flat">Flat</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                  </Select>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Minimum Area </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    onChange={handleLeadDataChange}
+                    value={leadData.minArea}
+                    name="minArea"
+                    type="number"
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Maximum Area </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    onChange={handleLeadDataChange}
+                    value={leadData.maxArea}
+                    name="maxArea"
+                    type="number"
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Priority </td>
                 <td className="pb-4">
-                  <Autocomplete
+                  <Select
+                    onChange={handleLeadDataChange}
+                    value={leadData.priority}
+                    name="priority"
+                    type="text"
                     size="small"
-                    disablePortal
-                    id="combo-box-demo"
-                    options={["High", "Moderate", "Low"]}
-                    className="w-full"
-                    renderInput={(params) => <TextField {...params} fullWidth size="small" />}
+                    fullWidth>
+                    <MenuItem value="low">Low</MenuItem>
+                    <MenuItem value="Moderate">Moderate</MenuItem>
+                    <MenuItem value="high">High</MenuItem>
+                  </Select>
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Maximum Budget </td>
+                <td className="pb-4">
+                  <TextField
+                    onChange={handleLeadDataChange}
+                    value={leadData.minBudget}
+                    name="minBudget"
+                    type="number"
+                    size="small"
+                    fullWidth
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Maximum Budget </td>
+                <td className="pb-4">
+                  <TextField
+                    onChange={handleLeadDataChange}
+                    value={leadData.maxBudget}
+                    name="maxBudget"
+                    type="number"
+                    size="small"
+                    fullWidth
                   />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Client Type </td>
                 <td className="pb-4">
-                  <Autocomplete
+                  <Select
+                    onChange={handleLeadDataChange}
+                    value={leadData.clientType}
+                    name="clientType"
+                    type="text"
                     size="small"
-                    disablePortal
-                    id="combo-box-demo"
-                    options={["Direct Client", "Agent", "Investor", "Investment Fund", "Other"]}
-                    className="w-full"
-                    renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                  />
+                    fullWidth>
+                    <MenuItem value="Direct Client">Direct Client</MenuItem>
+                    <MenuItem value="Agent">Agent</MenuItem>
+                    <MenuItem value="Investor">Investor</MenuItem>
+                    <MenuItem value="Investment Fund">Investment Fund</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                  </Select>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Beds Required </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    onChange={handleLeadDataChange}
+                    value={leadData.beds}
+                    name="beds"
+                    type="number"
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg flex mt-1 items-start">Source </td>
                 <td className="pb-4 columns-2">
-                  <FormGroup>
-                    <FormControlLabel control={<Checkbox />} label="SMS Lead" />
-                    <FormControlLabel control={<Checkbox />} label="OLX" />
-                    <FormControlLabel control={<Checkbox />} label="Email Blast" />
-                    <FormControlLabel control={<Checkbox />} label="Client Reference" />
-                    <FormControlLabel control={<Checkbox />} label="Google Adword" />
-                    <FormControlLabel control={<Checkbox />} label="Radio" />
-                    <FormControlLabel control={<Checkbox />} label="TV" />
-                    <FormControlLabel control={<Checkbox />} label="Facebook" />
-                    <FormControlLabel control={<Checkbox />} label="Personal" />
-                    <FormControlLabel control={<Checkbox />} label="Newspaper" />
-                    <FormControlLabel control={<Checkbox />} label="Email Lead" />
-                    <FormControlLabel control={<Checkbox />} label="Youtube" />
-                    <FormControlLabel control={<Checkbox />} label="Walk-in" />
-                    <FormControlLabel control={<Checkbox />} label="Bill Board" />
-                    <FormControlLabel control={<Checkbox />} label="Streamers" />
-                    <FormControlLabel control={<Checkbox />} label="SMS Marketing" />
-                    <FormControlLabel control={<Checkbox />} label="Client Facebook " />
-                    <FormControlLabel control={<Checkbox />} label="Other" />
+                  <FormGroup onChange={handleLeadDataChange} value={leadData.source} name="source">
+                    <FormControlLabel
+                      name="source"
+                      value="smsLead"
+                      onChange={handleLeadDataChange}
+                      id="smsLead"
+                      control={<Checkbox />}
+                      label="SMS Lead"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="olx"
+                      onChange={handleLeadDataChange}
+                      id="olx"
+                      control={<Checkbox />}
+                      label="OLX"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="emailBlast"
+                      onChange={handleLeadDataChange}
+                      id="emailBlast"
+                      control={<Checkbox />}
+                      label="Email Blast"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="clientReference"
+                      onChange={handleLeadDataChange}
+                      id="clientReference"
+                      control={<Checkbox />}
+                      label="Client Reference"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="googleAdword"
+                      onChange={handleLeadDataChange}
+                      id="googleAdword"
+                      control={<Checkbox />}
+                      label="Google Adword"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="radio"
+                      onChange={handleLeadDataChange}
+                      id="radio"
+                      control={<Checkbox />}
+                      label="Radio"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="tv"
+                      onChange={handleLeadDataChange}
+                      id="tv"
+                      control={<Checkbox />}
+                      label="TV"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="facebook"
+                      onChange={handleLeadDataChange}
+                      id="facebook"
+                      control={<Checkbox />}
+                      label="Facebook"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="personal"
+                      onChange={handleLeadDataChange}
+                      id="personal"
+                      control={<Checkbox />}
+                      label="Personal"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="newspaper"
+                      onChange={handleLeadDataChange}
+                      id="newspaper"
+                      control={<Checkbox />}
+                      label="Newspaper"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="emailLead"
+                      onChange={handleLeadDataChange}
+                      id="emailLead"
+                      control={<Checkbox />}
+                      label="Email Lead"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="youtube"
+                      onChange={handleLeadDataChange}
+                      id="youtube"
+                      control={<Checkbox />}
+                      label="Youtube"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="walk"
+                      onChange={handleLeadDataChange}
+                      id="walk-in"
+                      control={<Checkbox />}
+                      label="Walk-in"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="billBoard"
+                      onChange={handleLeadDataChange}
+                      id="billBoard"
+                      control={<Checkbox />}
+                      label="Bill Board"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="streamers"
+                      onChange={handleLeadDataChange}
+                      id="streamers"
+                      control={<Checkbox />}
+                      label="Streamers"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="smsMarketing"
+                      onChange={handleLeadDataChange}
+                      id="smsMarketing"
+                      control={<Checkbox />}
+                      label="SMS Marketing"
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="clientFacebook"
+                      onChange={handleLeadDataChange}
+                      id="clientFacebook"
+                      control={<Checkbox />}
+                      label="Client Facebook "
+                    />
+                    <FormControlLabel
+                      name="source"
+                      value="other"
+                      onChange={handleLeadDataChange}
+                      id="other"
+                      control={<Checkbox />}
+                      label="Other"
+                    />
                   </FormGroup>
                 </td>
               </tr>
@@ -335,9 +586,10 @@ const CreateLead = ({ setOpen, open, scroll }) => {
             Cancel
           </button>
           <button
+            onClick={handleSubmit}
             variant="contained"
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
-            Submit
+            {isFetching ? "Saving" : "Save"}
           </button>
         </DialogActions>
       </Dialog>

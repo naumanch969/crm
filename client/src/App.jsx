@@ -41,7 +41,7 @@ const App = () => {
           </Routes>
         </div>
       ) : (
-        <div className="flex h-full ">
+        <div className="flex h-screen ">
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
           <div className={`${showSidebar ? 'w-full ' : 'w-full '} flex flex-col h-full overflow-y-scroll `}>
             <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />

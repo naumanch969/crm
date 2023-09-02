@@ -11,23 +11,20 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const FilterDrawer = ({ open, setOpen }) => {
-
   const dispatch = useDispatch();
   const [filters, setFilters] = useState({
-    city: '',
-    status: '',
-    startingDate: '',
-    endingDate: '',
-    minBudget: '',
-    maxBudget: '',
-    propertyType: '',
-    homeType: '',
-    beds: '',
-    minArea: '',
-    maxArea: '',
+    city: "",
+    status: "",
+    startingDate: "",
+    endingDate: "",
+    minBudget: "",
+    maxBudget: "",
+    propertyType: "",
+    homeType: "",
+    beds: "",
+    minArea: "",
+    maxArea: "",
   });
-
-
 
   const handleInputChange = (field, value) => {
     setFilters((prevFilters) => ({
@@ -70,7 +67,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                 fullWidth
                 label="City"
                 value={filters.city}
-                onChange={(e) => handleInputChange("city", e.target.value)}
+                onChange={(e) => handleInputChange("city", e.target.value, console.log(e))}
               />
             )}
           />
@@ -96,12 +93,12 @@ const FilterDrawer = ({ open, setOpen }) => {
             <div className="flex gap-3">
               <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={['DesktopDatePicker']}>
+                  <DemoContainer components={["DesktopDatePicker"]}>
                     <DesktopDatePicker
                       slotProps={{ textField: { size: "small", maxWidth: 200 } }}
                       label="Starting Date"
                       value={filters.startingDate}
-                      onChange={(date) => handleInputChange('startingDate', date.$d)}
+                      onChange={(date) => handleInputChange("startingDate", date.$d)}
                     />
                   </DemoContainer>
                 </LocalizationProvider>
@@ -114,7 +111,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                       className="w-3/6"
                       label="Ending Date"
                       value={filters.endingDate}
-                      onChange={(date) => handleInputChange('endingDate', date.$d)}
+                      onChange={(date) => handleInputChange("endingDate", date.$d)}
                       slotProps={{ textField: { size: "small" } }}
                     />
                   </DemoContainer>
@@ -127,10 +124,22 @@ const FilterDrawer = ({ open, setOpen }) => {
             <div>Budget : </div>
             <div className="flex gap-3">
               <div>
-                <TextField value={filters.minBudget} onChange={(e) => handleInputChange('minBudget', e.target.value)} label="Minimum" type="number" size="small" />
+                <TextField
+                  value={filters.minBudget}
+                  onChange={(e) => handleInputChange("minBudget", e.target.value)}
+                  label="Minimum"
+                  type="number"
+                  size="small"
+                />
               </div>
               <div>
-                <TextField value={filters.maxBudget} onChange={(e) => handleInputChange('maxBudget', e.target.value)} label="Maximum" type="number" size="small" />
+                <TextField
+                  value={filters.maxBudget}
+                  onChange={(e) => handleInputChange("maxBudget", e.target.value)}
+                  label="Maximum"
+                  type="number"
+                  size="small"
+                />
               </div>
             </div>
           </div>
@@ -182,10 +191,22 @@ const FilterDrawer = ({ open, setOpen }) => {
             <div>Area : </div>
             <div className="flex gap-3">
               <div>
-                <TextField value={filters.minArea} onChange={(e) => handleInputChange('minArea', e.target.value)} label="Minimum" type="number" size="small" />
+                <TextField
+                  value={filters.minArea}
+                  onChange={(e) => handleInputChange("minArea", e.target.value)}
+                  label="Minimum"
+                  type="number"
+                  size="small"
+                />
               </div>
               <div>
-                <TextField value={filters.maxArea} onChange={(e) => handleInputChange('maxArea', e.target.value)} label="Maximum" type="number" size="small" />
+                <TextField
+                  value={filters.maxArea}
+                  onChange={(e) => handleInputChange("maxArea", e.target.value)}
+                  label="Maximum"
+                  type="number"
+                  size="small"
+                />
               </div>
             </div>
           </div>
