@@ -12,7 +12,7 @@ function DashBoard() {
     <div className="w-full h-auto">
       <PaymentStats />
 
-      <Box className="flex-none mt-5 md:flex">
+      <Box className="flex-none mt-5 lg:flex">
         <IncomeAndExpense />
         <LeadsStat />
       </Box>

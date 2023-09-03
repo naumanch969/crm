@@ -8,6 +8,7 @@ import { rejectRequestApproval } from '../../../redux/action/approval'
 import { register } from '../../../redux/action/user'
 import DeleteModal from './DeleteModal'
 import Request from './Request'
+import { PiTrashLight } from 'react-icons/pi'
 
 function RequestApprovals() {
 
@@ -62,7 +63,7 @@ function RequestApprovals() {
       field: "action", headerName: "Action", width: 100, renderCell: (params) => (
         <div className='flex gap-[4px] ' >
           <Tooltip placement='top' title='Delete' >
-            <button onClick={() => handleOpenDeleteModal(params.row._id)} className='cursor-pointer ' ><DeleteOutline /></button>
+            <button onClick={() => handleOpenDeleteModal(params.row._id)} className='cursor-pointer ' ><PiTrashLight /></button>
           </Tooltip>
         </div>
       ),

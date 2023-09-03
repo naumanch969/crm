@@ -26,7 +26,6 @@ const App = () => {
 
   const ClientPanelLayout = () => (<ClientHeader />)
 
-
   return (
     <div className="flex flex-col w-full h-full bg-[#f6f9fa]">
 

@@ -57,7 +57,7 @@ const Topbar = ({ view, setView }) => {
               <FormControl>
                 <Input
                   name="search"
-                  placeholder="Search Clients"
+                  placeholder="Search Employees"
                   startAdornment={
                     <InputAdornment position="start">
                       <PiMagnifyingGlass className="text-[25px]" />
@@ -96,7 +96,7 @@ const Topbar = ({ view, setView }) => {
                 <Input
                   name="search"
                   fullWidth="true"
-                  placeholder="Search Leads"
+                  placeholder="Search Clients"
                   startAdornment={
                     <InputAdornment position="start">
                       <PiMagnifyingGlass className="text-[25px]" />

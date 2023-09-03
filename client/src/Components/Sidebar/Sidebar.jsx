@@ -63,19 +63,9 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       id: 3,
       title: "Projects",
       icon: <PiFoldersLight className="text-[25px]" />,
-      childrens: [
-        {
-          title: "All Projects",
-          icon: <PiFolderOpenLight className="text-[25px]" />,
-          link: "/projects",
-          role: ["employee", "manager", "super_admin"],
-        },
-        {
-          title: "My Projects",
-          icon: <CiEdit className="text-[25px]" />,
-          role: ["employee", "manager", "super_admin"],
-        },
-      ],
+      link: "/projects",
+      role: ["employee", "manager", "super_admin"],
+      childrens: [],
     },
     {
       id: 4,
@@ -121,32 +111,15 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
           link: "/authorization/refund",
           role: ["employee", "manager", "super_admin"],
         },
-        {
-          title: "Vouchers",
-          icon: <PiReceiptLight className="text-[25px]" />,
-          link: "/voucher",
-          role: ["employee", "manager", "super_admin"],
-        },
       ],
     },
     {
       id: 7,
       title: "Sales",
       icon: <PiShoppingCartSimpleLight className="text-[25px]" />,
-      childrens: [
-        {
-          title: "Generate Sale",
-          icon: <CiEdit className="text-[25px]" />,
-          link: "/sales/create",
-          role: ["employee", "manager", "super_admin"],
-        },
-        {
-          title: "All Sales",
-          icon: <PiShoppingCartSimpleDuotone className="text-[25px]" />,
-          link: "/sales",
-          role: ["employee", "manager", "super_admin"],
-        },
-      ],
+      role: ["employee", "manager", "super_admin"],
+      link: "/sales",
+      childrens: [],
     },
     {
       id: 8,
@@ -154,7 +127,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       icon: <PiBankLight className="text-[25px]" />,
       childrens: [
         {
-          title: "Today Cash Book",
+          title: "All Cash Book",
           icon: <PiMoneyLight className="text-[25px]" />,
           link: "/cashbook",
           role: ["employee", "manager", "super_admin"],
@@ -207,7 +180,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     <>
       {/* desktop sidebar */}
       <Box
-        className={`w-[17vw] sticky top-0 flex flex-col shadow-none h-screen  ${
+        className={`w-[250px] sticky top-0 flex flex-col shadow-none h-screen  ${
           showSidebar ? "md:flex hidden" : "hidden"
         } bg-white z-[1000] border-r-[1px] border-r-[#eeeff0] border-b-[1px] border-b-[#eeeff0]`}>
         <a href="/">
