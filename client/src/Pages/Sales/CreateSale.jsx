@@ -156,7 +156,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
                     value={saleData.fop}
                     name="fop"
                     size="small"
-                    type="number"
+                    type="text"
                     placeholder="Fraction of Payment"
                     fullWidth
                   />

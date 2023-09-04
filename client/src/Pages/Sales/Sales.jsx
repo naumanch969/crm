@@ -4,9 +4,9 @@ import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getSales } from "../../redux/action/sale";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
-import { Tooltip } from "recharts";
-import EditModal from "../Leads/EditModal";
-import DeleteModal from "../CashBook/DeleteModal";
+import { Tooltip } from "@mui/material";
+import EditModal from "./EditModal";
+import DeleteModal from "./DeleteModal";
 import { PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
@@ -56,32 +56,25 @@ function Sales() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <div className="flex gap-[10px] items-center transition-all">
+          <div>
           <Tooltip placement="top" title="Delete">
             {" "}
-            <PiTrashLight className="cursor-pointer text-red-500 text-[23px] hover:text-red-400" />
+            <PiTrashLight onClick={() => handleOpenDeleteModal(params.row._id)} className="cursor-pointer text-red-500 text-[23px] hover:text-red-400" />
           </Tooltip>
+          </div>
           <Tooltip placement="top" title="View">
             {" "}
             <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
           </Tooltip>
           <Tooltip placement="top" title="Edit">
             {" "}
-            <CiEdit className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />
+            <CiEdit onClick={() => handleOpenEditModal(params.row)} className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />
           </Tooltip>
         </div>
       ),
     },
+    
   ];
-
-  /* <button  className="cursor-pointer ">
-              <EditOutlined />
-            </button> */
-
-  // <button
-  //   onClick={() => handleOpenDeleteModal(params.row._id)}
-  //   className="cursor-pointer ">
-  //   <DeleteOutline />
-  // </button>
   ////////////////////////////////////// STATES //////////////////////////////
   const [view, setView] = useState("table");
   const [openEditModal, setOpenEditModal] = useState(false);

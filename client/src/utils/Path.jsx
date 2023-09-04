@@ -1,5 +1,6 @@
 import { KeyboardArrowRight } from '@mui/icons-material'
 import React from 'react'
+import { PiArrowArcRightLight, PiArrowRightLight, PiCaretRightLight } from 'react-icons/pi'
 import { Link, useLocation } from 'react-router-dom'
 
 const Path = () => {
@@ -21,7 +22,7 @@ const Path = () => {
                 pathObjects.map((path, index) => (
                     <React.Fragment key={index} >
                         <Link to={path.link} className='capitalize hover:text-primary-blue ' >{path.name}</Link>
-                        {index !== pathObjects.length - 1 && <KeyboardArrowRight className='text-primary-gray ' />}
+                        {index !== pathObjects.length - 1 && <PiCaretRightLight className='text-primary-gray ' />}
                     </React.Fragment>
                 ))
             }

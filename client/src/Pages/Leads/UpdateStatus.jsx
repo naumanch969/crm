@@ -55,7 +55,7 @@ const UpateStatusModal = ({ open, setOpen }) => {
         maxWidth="xs"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-xl text-sky-400">Update Status</div>
+          <div className="text-xl text-sky-400 font-primary">Update Status</div>
           <div className="cursor-pointer" onClick={() => setOpen(false)}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -66,7 +66,7 @@ const UpateStatusModal = ({ open, setOpen }) => {
           </div>
         ) : (
           <DialogContent>
-            <div className="flex flex-col gap-2 p-3 text-gray-500">
+            <div className="flex flex-col gap-2 p-3 text-gray-500 font-primary">
               <table className="w-full">
                 <tr>
                   <td className="pb-4 text-lg">Status </td>
@@ -88,13 +88,13 @@ const UpateStatusModal = ({ open, setOpen }) => {
           <button
             onClick={() => setOpen(false)}
             variant="contained"
-            className="bg-[#d7d7d7] px-4 py-2 rounded-lg text-gray-500 mt-4 hover:text-white hover:bg-[#6c757d] border-[2px] border-[#efeeee] hover:border-[#d7d7d7] font-thin transition-all">
+            className="bg-[#d7d7d7] font-primary px-4 py-2 rounded-lg text-gray-100 mt-4 hover:text-white hover:bg-[#6c757d] border-[2px] border-[#efeeee] hover:border-[#d7d7d7] font-normal transition-all">
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             variant="contained"
-            className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
+            className="bg-primary-red font-primary px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-normal">
             {isFetching ? "Saving" : "Save"}
           </button>
         </DialogActions>

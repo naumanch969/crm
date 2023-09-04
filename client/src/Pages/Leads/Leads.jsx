@@ -105,7 +105,7 @@ function Leads({ type, showSidebar }) {
       maxWidth: 250,
       renderCell: (params) => (
         <div
-          className={`text-[#20aee3] hover:text-[#007bff] capitalize cursor-pointer`}
+          className={`text-[#20aee3] hover:text-[#007bff] capitalize cursor-pointer font-primary font-light`}
           onClick={() => handleOpenViewModal(params.row._id)}>
           {params.row.clientId?.firstName} {params.row.clientId?.lastName}
         </div>
@@ -117,14 +117,14 @@ function Leads({ type, showSidebar }) {
       minWidth: 200,
       maxWidth: 250,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <>{format(params.row.createdAt)}</>,
+      renderCell: (params) => <div className="font-primary font-light">{format(params.row.createdAt)}</div>,
     },
     {
       field: "priority",
       headerClassName: "super-app-theme--header",
       headerName: "Priority",
       width: 150,
-      renderCell: (params) => <div className="capitalize">{params.row.priority}</div>,
+      renderCell: (params) => <div className="capitalize font-primary font-light">{params.row.priority}</div>,
     },
     {
       field: "status",
@@ -133,7 +133,7 @@ function Leads({ type, showSidebar }) {
       width: 200,
       renderCell: (params) => (
         <span
-          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize ${
+          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize font-primary font-medium ${
             params.row.status == "successful" ? "border-green-500 text-green-500" : ""
           } ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${
             params.row.status == "declined" ? "border-red-400 text-red-400" : ""
@@ -151,8 +151,7 @@ function Leads({ type, showSidebar }) {
       headerName: "Allocated To",
       width: 230,
       headerClassName: "super-app-theme--header",
-      valueGetter: (params) => params.row.allocatedTo?.email,
-    },
+      renderCell : (params) => <div className="font-primary font-light">{params.row.allocatedTo?.email}</div>,    },
     {
       field: "actions",
       headerName: "Action",
@@ -189,19 +188,19 @@ function Leads({ type, showSidebar }) {
 
             <Menu slots={{ listbox: StyledListbox }}>
               <StyledMenuItem
-                className="text-gray-600 flex"
+                className="text-gray-600 flex font-primary"
                 onClick={() => handleOpenStatusModal(params.row)}>
                 Update Status
               </StyledMenuItem>
               <StyledMenuItem
-                className="text-gray-600 flex"
+                className="text-gray-600 flex font-primary"
                 onClick={() => handleOpenShiftLeadModal(params.row)}>
                 Shift Lead
               </StyledMenuItem>
-              <StyledMenuItem className="text-gray-600 flex" onClick={() => {}}>
+              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => {}}>
                 Refund
               </StyledMenuItem>
-              <StyledMenuItem className="text-gray-600 flex" onClick={() => {}}>
+              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => {}}>
                 Share Lead
               </StyledMenuItem>
             </Menu>

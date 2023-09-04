@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../../utils";
 import { Add } from "@mui/icons-material";
-import { FormControl, Input, InputAdornment, TextField, Tooltip } from "@mui/material";
+import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { FiFilter } from "react-icons/fi";
 import FilterDrawer from "./Filter";
 import { PiMagnifyingGlass } from "react-icons/pi";
@@ -36,14 +36,11 @@ const Topbar = (view, setView) => {
 
         {showAddButton && (
           <div className="flex items-center justify-end gap-2 md:mt-0 mt-4">
-            <div className="bg-[#ebf2f5] hover:bg-[#dfe6e8]  rounded-md w-48">
+            <div className="bg-[#ebf2f5] hover:bg-[#dfe6e8] p-1 pl-2 pr-2 rounded-md w-48">
               <FormControl>
-                <TextField
-                size="small"
-                fullWidth
+                <Input
                   name="search"
                   placeholder="Search Requests"
-                  variant="outlined"
                   onChange={(e) => handleSearch(e.target.value)}
                   startAdornment={
                     <InputAdornment position="start">

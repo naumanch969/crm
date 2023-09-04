@@ -44,7 +44,7 @@ const FilterDrawer = ({ open, setOpen }) => {
 
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
-      <div style={{ minWidth: "50vh", maxWidth: "60vh" }}>
+      <div className="font-primary" style={{ minWidth: "50vh", maxWidth: "60vh" }}>
         <div className="flex justify-between items-center h-[10vh] bg-[#20aee3] p-5 text-white font-thin">
           <div className="flex items-center text-[25px] gap-2">
             <PiFunnelLight className="text-[25px]" />

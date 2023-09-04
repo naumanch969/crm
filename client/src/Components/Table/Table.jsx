@@ -33,11 +33,11 @@ const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
               border: "1px solid #f6f9fa",
               "& .super-app-theme--header": {
                 color: "#20aee3",
-                fontWeight: "lighter",
+                fontFamily:'Montserrat, sans-serif',
               },
             }}>
               <DataGrid
-                className="bg-white rounded-[6px] p-[15px] font-primary"
+                className="bg-white rounded-[6px] p-[15px]"
                 rows={rows}
                 columns={columns}
                 initialState={{

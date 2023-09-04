@@ -70,7 +70,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   };
 
   return (
-    <div className="flex flex-col tracking-wide pb-8">
+    <div className="flex flex-col tracking-wide pb-8 font-primary">
       <div className="w-full text-[14px]">
         <Path />
       </div>

@@ -15,6 +15,8 @@ import {
   DialogActions,
   TextField,
   Autocomplete,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { PiImages, PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { pakistanCities } from "../../constant";
@@ -32,12 +34,12 @@ const CreateProject = ({ open, setOpen, scroll }) => {
   const initialState = {
     city: "",
     region: "",
-    propertyType: "Homes",
-    homeType: "House",
+    propertyType: "",
+    homeType: "",
     price: "",
     area: "",
-    areaUnit: "squareFeet",
-    priority: "high",
+    areaUnit: "Marla",
+    priority: "",
     beds: "",
     images: [],
   };
@@ -54,8 +56,8 @@ const CreateProject = ({ open, setOpen, scroll }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createProject(projectData, navigate));
-
     dispatch(deleteAllImagesReducer());
+    setProjectData(initialState);
   };
   const handleChange = (e) => {
     setProjectData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
@@ -74,7 +76,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
         keepMounted
         onClose={handleClose}
         fullWidth="sm"
-        maxWidth="sm"
+        maxWidth="md"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
           <div className="text-sky-400">Add New Project</div>
@@ -103,77 +105,117 @@ const CreateProject = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
-                  <Autocomplete
+                  <Select
+                    name="city"
+                    value={projectData.city}
+                    onChange={handleChange}
                     size="small"
-                    disablePortal
-                    id="combo-box-demo"
-                    options={pakistanCities}
-                    className="w-full"
-                    renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                  />
+                    fullWidth>
+                    {pakistanCities.map((index, item) => (
+                      <MenuItem key={item} value={index.toLocaleLowerCase()}>
+                        {index}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Area Location </td>
                 <td className="pb-4">
-                  <TextField size="small" fullWidth />
+                  <TextField
+                    name="region"
+                    value={projectData.region}
+                    onChange={handleChange}
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Property Type </td>
                 <td className="pb-4">
-                  <Autocomplete
+                  <Select
+                    name="propertyType"
+                    value={projectData.propertyType}
+                    onChange={handleChange}
                     size="small"
-                    disablePortal
-                    id="combo-box-demo"
-                    options={["Homes", "Commercial", "Residential"]}
-                    className="w-full"
-                    renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                  />
+                    fullWidth>
+                    <MenuItem value="residential">Residential</MenuItem>
+                    <MenuItem value="commercial">Commercial</MenuItem>
+                  </Select>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Home Type </td>
                 <td className="pb-4">
-                  <Autocomplete
+                  <Select
+                    name="homeType"
+                    value={projectData.homeType}
+                    onChange={handleChange}
                     size="small"
-                    disablePortal
-                    id="combo-box-demo"
-                    options={["House", "Bangla", "Apartment", "Restaurant"]}
-                    className="w-full"
-                    renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                  />
+                    fullWidth>
+                    <MenuItem value="house">House</MenuItem>
+                    <MenuItem value="appartment">Appartment</MenuItem>
+                    <MenuItem value="restaurant">Restaurant</MenuItem>
+                    <MenuItem value="office">Office</MenuItem>
+                    <MenuItem value="shop">Shop</MenuItem>
+                    <MenuItem value="other">Other</MenuItem>
+                  </Select>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Price </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    name="price"
+                    value={projectData.price}
+                    onChange={handleChange}
+                    type="number"
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Area </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    name="area"
+                    value={projectData.area}
+                    onChange={handleChange}
+                    placeholder="Area in Marla"
+                    type="number"
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Project Priority </td>
                 <td className="pb-4">
-                  <Autocomplete
+                  <Select
+                    name="priority"
+                    value={projectData.priority}
+                    onChange={handleChange}
                     size="small"
-                    disablePortal
-                    id="combo-box-demo"
-                    options={["High", "Moderate", "Low"]}
-                    className="w-full"
-                    renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                  />
+                    fullWidth>
+                    <MenuItem value="high">High</MenuItem>
+                    <MenuItem value="moderate">Moderate</MenuItem>
+                    <MenuItem value="low">Low</MenuItem>
+                  </Select>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Beds </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    name="beds"
+                    value={projectData.beds}
+                    onChange={handleChange}
+                    type="number"
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
             </table>
@@ -187,6 +229,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
             Cancel
           </button>
           <button
+            onClick={handleSubmit}
             variant="contained"
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
             Submit

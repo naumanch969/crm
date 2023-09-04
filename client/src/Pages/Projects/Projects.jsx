@@ -3,7 +3,11 @@ import { Table } from "../../Components";
 import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjects, updateProject } from "../../redux/action/project";
-import { getProjectReducer, archiveProjectReducer, unarchiveProjectReducer } from "../../redux/reducer/project";
+import {
+  getProjectReducer,
+  archiveProjectReducer,
+  unarchiveProjectReducer,
+} from "../../redux/reducer/project";
 import { Avatar, AvatarGroup, Tooltip, styled } from "@mui/material";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
 import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
@@ -11,10 +15,10 @@ import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import EditModal from "./EditModal";
 import DeleteModal from "./DeleteModal";
-import UpdateStatusModal from './UpdateStatus'
+import UpdateStatusModal from "./UpdateStatus";
 import Project from "./Project";
-import Filter from './Filter'
-import Kanban from './Kanban/Kanban'
+import Filter from "./Filter";
+import Kanban from "./Kanban/Kanban";
 
 const blue = {
   100: "#DAECFF",
@@ -86,7 +90,7 @@ const StyledMenuItem = styled(MenuItem)(
       `
 );
 
-function Projects({ scroll, setScroll }) {
+function Projects() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
@@ -109,28 +113,46 @@ function Projects({ scroll, setScroll }) {
     {
       field: "price",
       headerName: "Price",
-      width: 200,
+      width: 160,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <span className="">Rs.{params.row.price}</span>,
+      renderCell: (params) => <span className="font-primary">Rs.{params.row.price}</span>,
     },
     {
       field: "city",
       headerName: "City",
       headerClassName: "super-app-theme--header",
       width: 150,
-      renderCell: (params) => <span className="capitalize text-[#20aee3]">{params.row.city}</span>,
+      renderCell: (params) => (
+        <span className="capitalize text-[#20aee3] font-primary">{params.row.city}</span>
+      ),
     },
     {
       field: "region",
       headerName: "Location Area",
       headerClassName: "super-app-theme--header",
       width: 170,
+      renderCell: (params) => <span className="capitalize font-primary">{params.row.region}</span>,
     },
     {
-      field: "priority",
-      headerName: "Priority",
+      field: "status",
+      headerName: "Status",
       headerClassName: "super-app-theme--header",
-      width: 150,
+      width: 200,
+      renderCell: (params) => (
+        <span
+          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize font-primary font-medium ${
+            params.row.status == "completed" ? "border-green-500 text-green-500" : ""
+          } ${params.row.status == "notStarted" ? "border-sky-400 text-sky-400" : ""} ${
+            params.row.status == "overDue" ? "border-red-400 text-red-400" : ""
+          } ${
+            params.row.status == "inProgress" ? "border-yellow-500 text-yellow-500" : ""
+          } `}>
+          {params.row.status == "notStarted" && <span>Not Started</span>}
+          {params.row.status == "overDue" && <span>Over Due</span>}
+          {params.row.status == "inProgress" && <span>In Progress</span>}
+          {params.row.status == "completed" && <span>Completed</span>}
+          </span>
+      ),
     },
     {
       field: "area",
@@ -138,7 +160,7 @@ function Projects({ scroll, setScroll }) {
       width: 170,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <span className="capitalize">
+        <span className="capitalize font-primary">
           {params.row.area} {params.row.areaUnit == "square feet" ? "Sq. foot" : "Marla"}
         </span>
       ),
@@ -158,7 +180,7 @@ function Projects({ scroll, setScroll }) {
             />
           </Tooltip>
           <Tooltip placement="top" title="View">
-            <div onClick={handleCreateopen("body")}>
+            <div onClick={() => handleOpenViewModal(params.row._id)}>
               <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
             </div>
           </Tooltip>
@@ -179,16 +201,16 @@ function Projects({ scroll, setScroll }) {
 
             <Menu slots={{ listbox: StyledListbox }}>
               <StyledMenuItem
-                className="text-gray-600 flex"
+                className="text-gray-600 flex font-primary"
                 onClick={() => handleOpenStatusModal(params.row)}>
                 Update Status
               </StyledMenuItem>
               <StyledMenuItem
-                className="text-gray-600 flex"
+                className="text-gray-600 flex font-primary"
                 onClick={() => {
-                  params.row.isArchived ? handleUnArchive(params.row) : handleArchive(params.row)
+                  params.row.isArchived ? handleUnArchive(params.row) : handleArchive(params.row);
                 }}>
-                {params.row.isArchived ? 'Un Archive' : 'Archive'}
+                {params.row.isArchived ? "Un Archive" : "Archive"}
               </StyledMenuItem>
             </Menu>
           </Dropdown>
@@ -198,8 +220,8 @@ function Projects({ scroll, setScroll }) {
   ];
 
   ////////////////////////////////////// STATES //////////////////////////////
-  const [view, setView] = useState("table");
-  const [open, setOpen] = useState(false);
+  const [scroll, setScroll] = useState("paper");
+  const [openViewModel, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
@@ -231,15 +253,16 @@ function Projects({ scroll, setScroll }) {
     dispatch(getProjectReducer(project));
   };
   const handleArchive = (project) => {
-    dispatch(archiveProjectReducer(project))
-    dispatch(updateProject(project._id, { isArchived: true }, { loading: false }))
-  }
+    dispatch(archiveProjectReducer(project));
+    dispatch(updateProject(project._id, { isArchived: true }, { loading: false }));
+  };
   const handleUnArchive = (project) => {
-    dispatch(unarchiveProjectReducer(project))
-    dispatch(updateProject(project._id, { isArchived: false }, { loading: false }))
-  }
-  const handleClickOpen = () => {
-    setOpen(true);
+    dispatch(unarchiveProjectReducer(project));
+    dispatch(updateProject(project._id, { isArchived: false }, { loading: false }));
+  };
+  const handleOpenViewModal = (leadId) => {
+    setOpenViewModal(true);
+    setSelectedProjectId(leadId);
   };
   const handleOpenEditModal = (project) => {
     setOpenEditModal(true);
@@ -249,20 +272,34 @@ function Projects({ scroll, setScroll }) {
     setOpenDeleteModal(true);
     setSelectedProjectId(projectId);
   };
-  const handleCreateopen = (scrollType) => () => {
-    setOpen(true);
-    setScroll(scrollType);
-  };
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
-      <EditModal open={openEditModal} setOpen={setOpenEditModal} />
-      <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} projectId={selectedProjectId} />
-      <UpdateStatusModal open={openDeleteModal} setOpen={setOpenDeleteModal} projectId={selectedProjectId} />
+      <EditModal scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
+      <DeleteModal
+        open={openDeleteModal}
+        setOpen={setOpenDeleteModal}
+        projectId={selectedProjectId}
+      />
+      <UpdateStatusModal
+        open={openStatusModal}
+        setOpen={setOpenStatusModal}
+        projectId={selectedProjectId}
+      />
       <Filter open={openFilters} setOpen={setOpenFilters} />
-      <Project scroll={scroll} open={open} setOpen={setOpen} />
+      <Project
+        scroll={scroll}
+        open={openViewModel}
+        setOpen={setOpenViewModal}
+        projectId={selectedProjectId}
+      />
 
-      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters} />
+      <Topbar
+        options={options}
+        setOptions={setOptions}
+        openFilters={openFilters}
+        setOpenFilters={setOpenFilters}
+      />
       {options.isKanbanView ? (
         <Kanban options={options} setOptions={setOptions} />
       ) : (

@@ -15,13 +15,13 @@ const Stats = () => {
   }, []);
 
   return (
-    <Box className="w-auto md:columns-3 font-primary">
+    <Box className="w-auto md:columns-3">
       <Link to="/cashbook">
         <div className="bg-white border-b-[3px] border-b-emerald-300 md:mt-0 mt-4 shadow-none rounded-md">
-          <CardContent className="flex-grow-[1] flex justify-between items-center">
+          <CardContent className="flex-grow-[1] flex justify-between items-center font-primary">
             <div>
-              <p className="text-2xl font-extralight text-[#455a64]">${payments?.todayReceived}</p>
-              <p className="text-md font-Mulish text-slate-500 text-opacity-70">Payments - Today</p>
+              <p className="text-2xl text-[#455a64]">${payments?.todayReceived}</p>
+              <p className="text-md text-slate-500 text-opacity-70">Payments - Today</p>
             </div>
             <div className="flex justify-end">
               <CiCreditCard1 className="text-emerald-300 text-[50px]" />
@@ -32,10 +32,10 @@ const Stats = () => {
 
       <Link to="/cashbook">
         <div className="bg-white border-b-[3px] border-b-sky-400 md:mt-0 mt-4 shadow-none rounded-md">
-          <CardContent className="flex-grow-[1] flex justify-between items-center">
+          <CardContent className="flex-grow-[1] flex justify-between items-center font-primary">
             <div>
               <p className="text-2xl text-[#455a64]">${payments?.thisMonthReceived}</p>
-              <p className="text-md font-Mulish text-slate-500 text-opacity-70">
+              <p className="text-md text-slate-500 text-opacity-70">
                 Payments - This Month
               </p>
             </div>

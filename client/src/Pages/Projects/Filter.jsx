@@ -43,7 +43,7 @@ const FilterDrawer = ({ open, setOpen }) => {
 
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
-      <div style={{ minWidth: "50vh", maxWidth: "60vh" }}>
+      <div className="font-primary" style={{ minWidth: "50vh", maxWidth: "60vh" }}>
         <div className="flex justify-between items-center h-[10vh] bg-[#20aee3] p-5 text-white font-thin">
           <div className="flex items-center text-[25px] gap-2">
             <PiFunnelLight className="text-[25px]" />
@@ -75,7 +75,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             <div>Date : </div>
             <div className="flex gap-3">
               <div>
-                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={['DesktopDatePicker']}>
                     <DesktopDatePicker
                       slotProps={{ textField: { size: "small", maxWidth: 200 } }}
@@ -84,11 +84,11 @@ const FilterDrawer = ({ open, setOpen }) => {
                       onChange={(date) => handleInputChange('startingDate', date.$d)}
                     />
                   </DemoContainer>
-                </LocalizationProvider> */}
+                </LocalizationProvider>
               </div>
 
               <div>
-                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DesktopDatePicker"]}>
                     <DesktopDatePicker
                       className="w-3/6"
@@ -98,7 +98,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                       onChange={(date) => handleInputChange('endingDate', date.$d)}
                     />
                   </DemoContainer>
-                </LocalizationProvider> */}
+                </LocalizationProvider>
               </div>
             </div>
           </div>

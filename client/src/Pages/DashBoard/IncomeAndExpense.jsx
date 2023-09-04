@@ -19,7 +19,7 @@ const IncomeAndExpense = () => {
 
 
     return (
-        <Box className="w-full bg-white h-96 rounded-lg p-6 float-none pb-20 lg:w-7/12 lg:float-left">
+        <Box className="w-full bg-white h-96 rounded-lg p-6 float-none pb-20 lg:w-7/12 lg:float-left font-primary">
 
             {
                 isFetching

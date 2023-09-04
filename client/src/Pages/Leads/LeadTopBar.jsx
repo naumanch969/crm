@@ -99,7 +99,7 @@ const Topbar = ({ leadId, isAppliedForRefund }) => {
         <Path />
       </div>
 
-      <div className="flex justify-between items-center ">
+      <div className="flex justify-between items-center font-primary">
         <h1 className="text-primary-blue text-[32px] capitalize">{title}</h1>
         <Dropdown>
           <MenuButton className="bg-primary-red hover:bg-red-500 text-white w-[40px] h-[40px] flex justify-center items-center rounded-full shadow-lg">

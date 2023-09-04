@@ -14,10 +14,10 @@ const Leads = () => {
   }, []);
 
   return (
-    <Box className="bg-white flex flex-col items-center h-96 rounded-lg p-6 mt-5 float-left ml-0 lg:w-auto w-full lg:ml-5 md:mt-0">
+    <Box className="bg-white flex flex-col items-center h-96 rounded-lg p-6 mt-5 float-left ml-0 lg:w-auto w-full lg:ml-5 md:mt-0 font-primary">
       <div className="w-full flex flex-col items-center  text-xl font-light text-gray-600">
         Leads This Year
-        <PieChart className="flex justify-center" width={450} height={240}>
+        <PieChart className="flex justify-center font-primary capitalize" width={450} height={240}>
           <Pie
             data={leadsStat}
             innerRadius={60}

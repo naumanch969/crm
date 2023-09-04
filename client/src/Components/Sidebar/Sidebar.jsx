@@ -180,7 +180,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     <>
       {/* desktop sidebar */}
       <Box
-        className={`w-[250px] sticky top-0 flex flex-col shadow-none h-screen  ${
+        className={`w-[250px] sticky top-0 flex flex-col shadow-none h-screen ${
           showSidebar ? "md:flex hidden" : "hidden"
         } bg-white z-[1000] border-r-[1px] border-r-[#eeeff0] border-b-[1px] border-b-[#eeeff0]`}>
         <a href="/">

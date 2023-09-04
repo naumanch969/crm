@@ -65,7 +65,7 @@ const Lead = ({ open, setOpen, leadId, scroll }) => {
           <div className="flex justify-center"><Loader /></div>
         ) : (
           <DialogContent>
-            <div className="md:flex text-[#67757c]">
+            <div className="md:flex text-[#67757c] font-primary">
               <div className="bg-white md:w-[65%] w-full h-full px-4">
                 <div className="text-2xl flex justify-center">Lead Details</div>
 

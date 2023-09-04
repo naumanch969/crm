@@ -21,10 +21,10 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar })
 
   return (
     <div
-      className={`${child ? "pl-4 hover:text-[#20aee3] font-thin" : "pl-4"} ${isMenuOpen
-          ? "text-[#20aee3] font-normal border-l-[3px] border-l-[#20aee3]"
-          : " text-gray-700 font-thin"
-        } hover:text-[#20aee3] hover:border-l-[3px] hover:border-l-[#20aee3] pr-2 transition-all`}>
+      className={`${child ? "pl-4 hover:text-[#20aee3] font-primary font-light" : "pl-4"} ${isMenuOpen
+          ? "text-[#20aee3] font-primary font-medium border-l-[3px] border-l-[#20aee3]"
+          : " text-gray-700 font-light font-primary"
+        } hover:text-[#20aee3] hover:border-l-[3px] hover:border-l-[#20aee3] pr-2 transition-all text-sm`}>
       <Link
         to={item.link}
         className="flex items-center justify-between cursor-pointer py-[12px]"

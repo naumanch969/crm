@@ -24,7 +24,7 @@ const DeleteModal = ({ open, setOpen, projectId }) => {
       onClose={() => setOpen(false)}
     >
       <DialogTitle id="alert-dialog-title">
-        Delete the User?
+        Delete the Project?
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
@@ -32,8 +32,8 @@ const DeleteModal = ({ open, setOpen, projectId }) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Close</Button>
-        <Button onClick={handleDelete} autoFocus>
+        <Button variant='contained' style={{ backgroundColor:'gray' }} onClick={handleClose}>Cancel</Button>
+        <Button variant='contained' color='error' onClick={handleDelete} autoFocus>
           {isFetching ? 'Deleting' : 'Delete'}
         </Button>
       </DialogActions>

@@ -105,7 +105,6 @@ export const createProject = (projectData) => API.post(`/project/create`, projec
 export const updateProject = (projectId, projectData) => API.put(`/project/update/${projectId}`, projectData)
 export const deleteProject = (projectId) => API.delete(`/project/delete/${projectId}`)
 
-
 // CASHBOOK
 export const getCashbook = (cashbookId) => API.get(`/cashbook/get/single/${cashbookId}`)
 export const getIncomeAndExpenses = (year) => API.get(`/cashbook/get/income_and_expenses`, { year })

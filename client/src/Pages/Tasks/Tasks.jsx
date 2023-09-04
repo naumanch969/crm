@@ -99,7 +99,7 @@ function Tasks() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <span
-          className="cursor-pointer text-[#20aee3] hover:text-[#007bff] capitalize font-thin"
+          className="cursor-pointer text-[#20aee3] hover:text-[#007bff] capitalize font-primary"
           onClick={() => handleClickOpen(params.row)}>
           {params.row.title}
         </span>
@@ -110,12 +110,18 @@ function Tasks() {
       headerName: "Description",
       width: 200,
       headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <Tooltip arrow title={params.row.description}>
+          <div className="capitalize font-primary">{params.row.description}</div>
+        </Tooltip>
+      ),
     },
     {
       field: "dueDate",
       headerName: "Due Date",
       width: 150,
       headerClassName: "super-app-theme--header",
+      renderCell: (params) => <div className="font-primary">{format(params.row.dueDate)}</div>,
     },
     {
       field: "priority",
@@ -123,7 +129,11 @@ function Tasks() {
       width: 120,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <Tooltip className="capitalize" placeholder="bottom" arrow title={params.row.priority}>
+        <Tooltip
+          className="capitalize font-primary"
+          placeholder="bottom"
+          arrow
+          title={params.row.priority}>
           {params.row.priority}
         </Tooltip>
       ),
@@ -133,7 +143,7 @@ function Tasks() {
       headerName: "Created",
       width: 130,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <>{format(params.row.createdAt)}</>,
+      renderCell: (params) => <div className="font-primary">{format(params.row.createdAt)}</div>,
     },
     {
       field: "status",
@@ -142,7 +152,7 @@ function Tasks() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <span
-          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize 
+          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize  font-primary font-medium
           ${params.row.status == "completed" ? "border-green-500 text-green-500" : ""}
           ${params.row.status == "new" ? "border-sky-400 text-sky-400" : ""} 
           ${params.row.status == "overDue" ? "border-red-400 text-red-400" : ""} 
@@ -193,12 +203,12 @@ function Tasks() {
             </Tooltip>
             <Menu slots={{ listbox: StyledListbox }}>
               <StyledMenuItem
-                className="text-gray-500 flex"
+                className="text-gray-500 flex font-primary"
                 onClick={() => handleOpenStatusModal(params.row)}>
                 Update Status
               </StyledMenuItem>
               <StyledMenuItem
-                className="text-gray-500 flex"
+                className="text-gray-500 flex font-primary"
                 onClick={() => handleOpenArchive(params.row)}>
                 Archive
               </StyledMenuItem>

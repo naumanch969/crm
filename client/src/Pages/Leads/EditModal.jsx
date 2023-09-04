@@ -120,16 +120,16 @@ const EditModal = ({ open, setOpen, scroll }) => {
         keepMounted
         onClose={handleClose}
         fullWidth="sm"
-        maxWidth="sm"
+        maxWidth="md"
         aria-describedby="alert-dialog-slide-description">
-        <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400">Add New Lead</div>
+        <DialogTitle className="flex items-center justify-between font-primary">
+          <div className="text-sky-400 font-primary">Add New Lead</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
         </DialogTitle>
         <DialogContent>
-          <div className="flex flex-col gap-2 p-3 text-gray-500">
+          <div className="flex flex-col gap-2 p-3 text-gray-500 font-primary">
             <div className="text-xl flex justify-start items-center gap-2 font-normal">
               <PiUser />
               <span>Customer Details</span>
@@ -217,7 +217,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
             </table>
           </div>
 
-          <div className="flex flex-col gap-2 p-3 text-gray-500">
+          <div className="flex flex-col gap-2 p-3 text-gray-500 font-primary">
             <div className="text-xl flex justify-start items-center gap-2 font-normal">
               <PiNotepad />
               <span>Customer Requirements</span>
