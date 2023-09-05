@@ -15,15 +15,23 @@ const SettingProject = () => {
       <div className='flex justify-center text-lg pt-3 text-[#cecece] font-light'>Select The things which want and unselect those which you don't want.</div>
       <div className='flex flex-col gap-10 md:p-14 text-lg text-[#cecece]'>
         <div className='flex items-center gap-[300px]'>
-          <div className='font-light'>Cashbook Stats</div>
+          <div className='font-light'>Search Bar</div>
           <Checkbox defaultChecked style={{ color:'skyblue'}} />
         </div>
-        <div className='flex items-center gap-[190px]'>
-          <div className='font-light'>Income and Expanses Stats</div>
+        <div className='flex items-center gap-[320px]'>
+          <div className='font-light'>Archives</div>
           <Checkbox defaultChecked style={{ color:'skyblue'}} />
         </div>
-        <div className='flex items-center gap-[340px]'>
-          <div className='font-light'>Lead Stats</div>
+        <div className='flex items-center gap-[278px]'>
+          <div className='font-light'>Kanban View</div>
+          <Checkbox defaultChecked style={{ color:'skyblue'}} />
+        </div>
+        <div className='flex items-center gap-[293px]'>
+          <div className='font-light'>Quick Stats</div>
+          <Checkbox defaultChecked style={{ color:'skyblue'}} />
+        </div>
+        <div className='flex items-center gap-[350px]'>
+          <div className='font-light'>Filter</div>
           <Checkbox defaultChecked style={{ color:'skyblue'}} />
         </div>
       </div>
