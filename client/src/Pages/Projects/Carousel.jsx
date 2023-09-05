@@ -12,6 +12,8 @@ import { Button } from "@mui/material";
 const Carousel = ({ src }) => {
   return (
     <>
+    {
+
       <Swiper
         effect={"coverflow"}
         grabCursor={true}
@@ -33,17 +35,18 @@ const Carousel = ({ src }) => {
         navigation={true}
         modules={[EffectCoverflow, Pagination, Navigation, Keyboard]}
         className="mySwiper w-full">
-          {/* {src.map((item) => {
-            return (
-              <SwiperSlide className="shadow-lg border-[1px] border-gray-400">
-                <img className="h-full" src={item} />
-              </SwiperSlide>
-            );
-          })} */}
+        {src?.map((item) => {
+          return (
+            <SwiperSlide className="shadow-lg border-[1px] border-gray-400">
+              <img className="h-full" src={item} />
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
+    }
     </>
   );
 };
 
-export {};
+export { };
 export default Carousel;
