@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Drawer, Button, TextField, Autocomplete } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
-import { filterLead } from "../../redux/action/lead";
+import { filterProject } from "../../redux/action/project";
 import { FiFilter } from "react-icons/fi";
 import { PiFunnelLight, PiXLight } from "react-icons/pi";
 import { pakistanCities } from "../../constant";
@@ -15,8 +15,6 @@ const FilterDrawer = ({ open, setOpen }) => {
 
   const [filters, setFilters] = useState({
     city: "",
-    startingDate: "",
-    endingDate: "",
     minPrice: '',
     maxPrice: '',
     propertyType: '',
@@ -27,14 +25,16 @@ const FilterDrawer = ({ open, setOpen }) => {
   });
 
   const handleInputChange = (field, value) => {
+    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [field]: value,
+      [field]: inputValue,
     }));
   };
 
   const handleApplyFilters = () => {
-    dispatch(filterLead(filters));
+    console.log('filters',filters)
+    dispatch(filterProject(filters));
     setOpen(false);
   };
 
@@ -59,6 +59,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={pakistanCities}
+            onSelect={(e) => handleInputChange("city", e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField
@@ -66,12 +67,11 @@ const FilterDrawer = ({ open, setOpen }) => {
                 fullWidth
                 label="City"
                 value={filters.city}
-                onChange={(e) => handleInputChange("city", e.target.value)}
               />
             )}
           />
 
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <div>Date : </div>
             <div className="flex gap-3">
               <div>
@@ -101,7 +101,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                 </LocalizationProvider>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="flex flex-col gap-2">
             <div>Price : </div>
@@ -120,6 +120,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={demoPropertyType}
+            onSelect={(e) => handleInputChange("propertyType", e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField
@@ -127,8 +128,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                 fullWidth
                 label="Propery Type"
                 value={filters.propertyType}
-                onChange={(e) => handleInputChange("propertyType", e.target.value)}
-              />
+               />
             )}
           />
 
@@ -137,15 +137,15 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={demoHomeType}
-            className="w-full"
+            onSelect={(e) => handleInputChange("homeType", e.target.value)}
+            className="w-full"homeType
             renderInput={(params) => (
               <TextField
                 {...params}
                 fullWidth
                 label="Home Type"
                 value={filters.homeType}
-                onChange={(e) => handleInputChange("homeType", e.target.value)}
-              />
+               />
             )}
           />
 

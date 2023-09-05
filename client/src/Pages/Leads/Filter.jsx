@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Drawer, Button, TextField, Autocomplete } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
@@ -12,7 +12,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const FilterDrawer = ({ open, setOpen }) => {
   const dispatch = useDispatch();
-  const [filters, setFilters] = useState({
+  const initialFilters = {
     city: "",
     status: "",
     startingDate: "",
@@ -24,17 +24,24 @@ const FilterDrawer = ({ open, setOpen }) => {
     beds: "",
     minArea: "",
     maxArea: "",
-  });
+  }
+  const [filters, setFilters] = useState(initialFilters);
+
+  useEffect(() => {
+    console.log('filters', filters)
+  }, [filters])
 
   const handleInputChange = (field, value) => {
+    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [field]: value,
+      [field]: inputValue,
     }));
   };
 
   const handleApplyFilters = () => {
     dispatch(filterLead(filters));
+    setFilters(initialFilters)
     setOpen(false);
   };
 
@@ -60,14 +67,15 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={pakistanCities}
+            onSelect={(e) => handleInputChange("city", e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField
                 {...params}
+                autoComplete="false"
                 fullWidth
                 label="City"
                 value={filters.city}
-                onChange={(e) => handleInputChange("city", e.target.value, console.log(e))}
               />
             )}
           />
@@ -77,13 +85,14 @@ const FilterDrawer = ({ open, setOpen }) => {
             id="combo-box-demo"
             options={demoStatus}
             className="w-full"
+            onSelect={(e) => handleInputChange("status", e.target.value)}
             renderInput={(params) => (
               <TextField
                 {...params}
+                autoComplete="false"
                 fullWidth
                 label="Status"
                 value={filters.status}
-                onChange={(e) => handleInputChange("status", e.target.value)}
               />
             )}
           />
@@ -126,6 +135,7 @@ const FilterDrawer = ({ open, setOpen }) => {
               <div>
                 <TextField
                   value={filters.minBudget}
+                  autoComplete="false"
                   onChange={(e) => handleInputChange("minBudget", e.target.value)}
                   label="Minimum"
                   type="number"
@@ -135,6 +145,7 @@ const FilterDrawer = ({ open, setOpen }) => {
               <div>
                 <TextField
                   value={filters.maxBudget}
+                  autoComplete="false"
                   onChange={(e) => handleInputChange("maxBudget", e.target.value)}
                   label="Maximum"
                   type="number"
@@ -149,15 +160,16 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={demoPropertyType}
+            onSelect={(e) => handleInputChange("propertyType", e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField
                 {...params}
+                autoComplete="false"
                 fullWidth
                 label="Propery Type"
                 value={filters.propertyType}
-                onChange={(e) => handleInputChange("propertyType", e.target.value)}
-              />
+               />
             )}
           />
 
@@ -166,20 +178,22 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={demoHomeType}
+            onSelect={(e) => handleInputChange("homeType", e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField
                 {...params}
+                autoComplete="false"
                 fullWidth
                 label="Home Type"
                 value={filters.homeType}
-                onChange={(e) => handleInputChange("homeType", e.target.value)}
-              />
+               />
             )}
           />
 
           <TextField
             size="small"
+            autoComplete="false"
             type="number"
             fullWidth
             label="Number of Beds"
@@ -193,6 +207,7 @@ const FilterDrawer = ({ open, setOpen }) => {
               <div>
                 <TextField
                   value={filters.minArea}
+                  autoComplete="false"
                   onChange={(e) => handleInputChange("minArea", e.target.value)}
                   label="Minimum"
                   type="number"
@@ -202,6 +217,7 @@ const FilterDrawer = ({ open, setOpen }) => {
               <div>
                 <TextField
                   value={filters.maxArea}
+                  autoComplete="false"
                   onChange={(e) => handleInputChange("maxArea", e.target.value)}
                   label="Maximum"
                   type="number"

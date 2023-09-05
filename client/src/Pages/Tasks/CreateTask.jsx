@@ -54,10 +54,13 @@ const CreateTask = ({ open, setOpen }) => {
     dispatch(createTask(taskData, navigate));
   };
 
-  const handleChange = (e) => {
-    setTaskData({ ...taskData, [e.target.name]: e.target.value });
+  const handleInputChange = (field, value) => {
+    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
+    setTaskData((prevFilters) => ({
+      ...prevFilters,
+      [field]: inputValue,
+    }));
   };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -89,7 +92,11 @@ const CreateTask = ({ open, setOpen }) => {
               <tr>
                 <td className="pb-4 text-lg">Title </td>
                 <td className="pb-4">
-                  <TextField size="small" fullWidth />
+                  <TextField
+                    size="small"
+                    onChange={(e) => handleInputChange("title", e.target.value)}
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
@@ -98,6 +105,7 @@ const CreateTask = ({ open, setOpen }) => {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DesktopDatePicker"]}>
                       <DesktopDatePicker
+                        onChange={(date) => handleInputChange("dueDate", date.$d)}
                         slotProps={{ textField: { size: "small", fullWidth: "true" } }}
                       />
                     </DemoContainer>
@@ -113,6 +121,7 @@ const CreateTask = ({ open, setOpen }) => {
                     disablePortal
                     id="combo-box-demo"
                     options={["High", "Moderate", "Low"]}
+                    onSelect={(e) => handleInputChange("priority", e.target.value)}
                     className="w-full"
                     renderInput={(params) => <TextField {...params} fullWidth size="small" />}
                   />
@@ -121,7 +130,14 @@ const CreateTask = ({ open, setOpen }) => {
               <tr>
                 <td className="flex items-start pt-2 text-lg">Description </td>
                 <td className="pb-4">
-                  <TextField multiline rows={5} type="text" size="small" fullWidth />
+                  <TextField
+                    multiline
+                    rows={5}
+                    type="text"
+                    onChange={(e) => handleInputChange("description", e.target.value)}
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
             </table>

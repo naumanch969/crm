@@ -21,13 +21,14 @@ const FilterDrawer = ({ open, setOpen }) => {
   });
 
   const handleInputChange = (field, value) => {
+    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [field]: value,
+      [field]: inputValue,
     }));
   };
-
   const handleApplyFilters = () => {
+    console.log('filters', filters)
     dispatch(filterTask(filters));
     setOpen(false);
   };
@@ -53,6 +54,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={demoStatus}
+            onSelect={(e) => handleInputChange("status", e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField
@@ -60,7 +62,6 @@ const FilterDrawer = ({ open, setOpen }) => {
                 fullWidth
                 label="Status"
                 value={filters.status}
-                onChange={(e) => handleInputChange("status", e.target.value)}
               />
             )}
           />
@@ -70,6 +71,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={demoPriority}
+            onSelect={(e) => handleInputChange("priority", e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField
@@ -77,7 +79,6 @@ const FilterDrawer = ({ open, setOpen }) => {
                 fullWidth
                 label="Priority"
                 value={filters.priority}
-                onChange={(e) => handleInputChange("priority", e.target.value)}
               />
             )}
           />

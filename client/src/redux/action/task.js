@@ -57,6 +57,7 @@ export const filterTask = (filters) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.filterTask(filters)
+        console.log('filtered tasks data',data)
         dispatch(getTasksReducer(data.result))
         dispatch(end())
     } catch (err) {

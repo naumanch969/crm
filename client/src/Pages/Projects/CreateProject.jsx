@@ -59,8 +59,12 @@ const CreateProject = ({ open, setOpen, scroll }) => {
     dispatch(deleteAllImagesReducer());
     setProjectData(initialState);
   };
-  const handleChange = (e) => {
-    setProjectData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
+  const handleInputChange = (field, value) => {
+    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
+    setProjectData((prevFilters) => ({
+      ...prevFilters,
+      [field]: inputValue,
+    }));
   };
 
   const handleClose = () => {
@@ -108,7 +112,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <Select
                     name="city"
                     value={projectData.city}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     size="small"
                     fullWidth>
                     {pakistanCities.map((index, item) => (
@@ -125,7 +129,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <TextField
                     name="region"
                     value={projectData.region}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     size="small"
                     fullWidth
                   />
@@ -137,7 +141,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <Select
                     name="propertyType"
                     value={projectData.propertyType}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     size="small"
                     fullWidth>
                     <MenuItem value="residential">Residential</MenuItem>
@@ -151,7 +155,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <Select
                     name="homeType"
                     value={projectData.homeType}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     size="small"
                     fullWidth>
                     <MenuItem value="house">House</MenuItem>
@@ -169,7 +173,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <TextField
                     name="price"
                     value={projectData.price}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     type="number"
                     size="small"
                     fullWidth
@@ -182,7 +186,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <TextField
                     name="area"
                     value={projectData.area}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     placeholder="Area in Marla"
                     type="number"
                     size="small"
@@ -196,7 +200,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <Select
                     name="priority"
                     value={projectData.priority}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     size="small"
                     fullWidth>
                     <MenuItem value="high">High</MenuItem>
@@ -211,7 +215,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <TextField
                     name="beds"
                     value={projectData.beds}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     type="number"
                     size="small"
                     fullWidth
