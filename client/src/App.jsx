@@ -36,6 +36,7 @@ import SettingNavbar from "./Pages/Settings/Components/Navbar/SettingNavbar";
 import SettingDashboard from "./Pages/Settings/DashBoard/SettingDashboard";
 import { Path } from "./utils";
 import SettingSidebar from "./Pages/Settings/Components/Sidebar/SettingSidebar";
+import SettingProject from "./Pages/Settings/Project/SettingProject";
 
 const App = () => {
   ///////////////////////////////////// VARIABLES ////////////////////////////////////////
@@ -75,6 +76,7 @@ const App = () => {
       <Routes>
         <Route path="/settings" element={<Layout />}>
           <Route path="/settings/dashboard" element={<SettingDashboard />} />
+          <Route path="/settings/project" element={<SettingProject />} />
         </Route>
       </Routes>
       <div className="flex flex-col w-full h-full bg-[#f6f9fa]">

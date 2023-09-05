@@ -61,7 +61,7 @@ const SettingSidebar = ({ showSidebar, setShowSidebar }) => {
     {
       id: 3,
       title: "Projects",
-      link: "/projects",
+      link: "/settings/project",
       role: ["employee", "manager", "super_admin"],
       childrens: [],
     },

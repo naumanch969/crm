@@ -2,7 +2,7 @@ import React from 'react'
 import { PiCaretRightLight } from 'react-icons/pi'
 import { Checkbox } from '@mui/material'
 
-const SettingDashboard = () => {
+const SettingProject = () => {
   return (
     <div className='font-primary'>
       <div className="w-full text-2xl text-sky-400">
@@ -31,4 +31,4 @@ const SettingDashboard = () => {
   )
 }
 
-export default SettingDashboard
+export default SettingProject
