@@ -1,14 +1,14 @@
-import { Avatar, IconButton, Tooltip } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Dropdown } from "@mui/base/Dropdown";
 import { Menu } from "@mui/base/Menu";
 import { MenuItem, menuItemClasses } from "@mui/base/MenuItem";
+import { Avatar, IconButton, Tooltip } from "@mui/material";
 import { styled } from "@mui/system";
 import { MenuButton } from "@mui/base/MenuButton";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import React from "react";
-import { logout } from "../../redux/action/user";
+import { getNotifications } from "../../../../redux/action/notification";
+import { logout } from "../../../../redux/action/user";
 import {
   PiAlarm,
   PiBell,
@@ -19,7 +19,6 @@ import {
   PiTimerLight,
   PiUserPlus,
 } from "react-icons/pi";
-import { getNotifications } from "../../redux/action/notification";
 
 const blue = {
   100: "#DAECFF",
@@ -92,18 +91,17 @@ const StyledMenuItem = styled(MenuItem)(
     `
 );
 
-const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
-  /////////////////////////////////////////// VARIABLES ////////////////////////////////////////////
+const SettingNavbar = () => {
+  ///////////////////////////////////// VARIABLES ////////////////////////////////////////
   const { loggedUser } = useSelector((state) => state.user);
   const { notifications } = useSelector((state) => state.notification);
-  const { pathname } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  /////////////////////////////////////////// STATES ////////////////////////////////////////////
+  ///////////////////////////////////// STATES ////////////////////////////////////////
   const [date, setDate] = useState(new Date());
 
-  /////////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////
+  ///////////////////////////////////// USE EFFECTS ////////////////////////////////////////
   useEffect(() => {
     var timer = setInterval(() => setDate(new Date()), 1000);
 
@@ -115,26 +113,17 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
     dispatch(getNotifications());
   }, []);
 
-  // let notifications = [
-  //   { avatar: <Avatar />, name: "hamza", description: "Want approval for the lead" },
-  // ];
-
-  /////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////
+  ///////////////////////////////////// FUNCTIONS ////////////////////////////////////////
   const handleLogout = () => {
     dispatch(logout(navigate));
   };
 
   return (
-    <div className={`${pathname.includes("/settings") ? "hidden" : "" }`}>
-      <div className={`flex flex-col z-10 sticky top-0 w-full sm:h-[4rem] h-[4rem] bg-white border-b-[1px] border-b-[#eeeff0] font-primary`}>
-        <div className={`sm:h-full h-[4rem] md:pl-[20px] sm:pl-[1rem] pl-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-[#eeeff0] sm:shadow-none`}>
+    <div className="font-primary">
+      <div className="flex flex-col z-10 sticky w-full top-0 sm:h-[4rem] h-[4rem] bg-[#2d4356] text-[#8d97ad] border-b-[1px] border-b-[#eeeff0]">
+        <div className="sm:h-full h-[4rem] md:pl-[20px] sm:pl-[1rem] pl-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-[#eeeff0] sm:shadow-none ">
           {/* left section */}
-          <div className={`flex justify-start gap-[10px] items-center`}>
-            <IconButton
-              onClick={() => setShowSidebar((pre) => !pre)}
-              className={`md:hidden flex cursor-pointer hover:text-red-400 ${pathname.includes('/settings' ? "hidden" : "")}`}>
-              <PiList className="text-[25px]" />
-            </IconButton>
+          <div className="flex justify-start gap-[10px] items-center md:pl-[220px]">
             <div>
               <p className="text-red-400 text-xl gap-1 flex items-center">
                 <PiTimerLight className="text-[25px]" /> {date.toLocaleTimeString()}
@@ -189,8 +178,8 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
               <Dropdown>
                 <MenuButton>
                   <Tooltip title="Your Tasks" arrow placement="bottom">
-                    <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
-                      <PiAlarm className="text-[25px] font-bold" />
+                    <IconButton className="h-fit" size="small" aria-label="menu">
+                      <PiAlarm className="text-[25px] font-bold hover:text-red-400 text-[#8d97ad]" />
                     </IconButton>
                   </Tooltip>
                 </MenuButton>
@@ -213,29 +202,27 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
 
               <Link to="/tasks/create">
                 <Tooltip title="Add Task" arrow placement="bottom">
-                  <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
-                    <PiListChecks className="text-[25px]" />
+                  <IconButton className="h-fit" size="small" aria-label="menu">
+                    <PiListChecks className="text-[25px] hover:text-red-400 text-[#8d97ad]" />
                   </IconButton>
                 </Tooltip>
               </Link>
-              <Link to="/settings/dashboard">
               <Tooltip title="Settings" arrow placement="bottom">
-                <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
-                  <PiGear className="text-[25px]" />
+                <IconButton className="h-fit " size="small" aria-label="menu">
+                  <PiGear className="text-[25px] text-[#8d97ad] hover:text-red-400" />
                 </IconButton>
               </Tooltip>
-              </Link>
 
               <Link to="/employees/create">
                 <Tooltip title="Add User" arrow placement="bottom">
-                  <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
-                    <PiUserPlus className="text-[25px]" />
+                  <IconButton className="h-fit " size="small" aria-label="menu">
+                    <PiUserPlus className="text-[25px] hover:text-red-400 text-[#8d97ad]" />
                   </IconButton>
                 </Tooltip>
               </Link>
             </div>
             {/* profile */}
-            <div className="flex items-center border-l-[1px] border-l-[#eeeff0] hover:bg-gray-100">
+            <div className="flex items-center border-l-[1px] border-l-[#eeeff0] hover:bg-[#354e63]">
               <Dropdown>
                 <MenuButton>
                   <Tooltip className="flex items-center" title="Profile" arrow placement="bottom">
@@ -258,8 +245,11 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
           </div>
         </div>
       </div>
+      <div className="bg-[#67757c] md:pl-[240px] p-4 h-screen">
+        <Outlet />
+      </div>
     </div>
   );
 };
 
-export default Navbar;
+export default SettingNavbar;
