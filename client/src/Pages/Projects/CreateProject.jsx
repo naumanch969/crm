@@ -58,12 +58,13 @@ const CreateProject = ({ open, setOpen, scroll }) => {
     dispatch(createProject(projectData, navigate));
     dispatch(deleteAllImagesReducer());
     setProjectData(initialState);
+    setOpen(false)
   };
-  const handleInputChange = (field, value) => {
-    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value.charAt(0).toLowerCase() + e.target.value.slice(1).replace(/\s+/g, '');
     setProjectData((prevFilters) => ({
       ...prevFilters,
-      [field]: inputValue,
+      [e.target.name]: inputValue,
     }));
   };
 
