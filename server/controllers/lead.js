@@ -138,30 +138,38 @@ export const searchLead = async (req, res, next) => {
 };
 
 export const filterLead = async (req, res, next) => {
-    const { startingDate, endingDate, ...filters } = req.body;
-
+    const { startingDate, endingDate, ...filters } = req.query;
     try {
         let query = Lead.find(filters);
 
-        // Check if startingDate and endingDate are provided and valid date strings
-        if (startingDate && endingDate && isValidDate(startingDate) && isValidDate(endingDate)) {
+        // Check if startingDate is provided and valid
+        if (startingDate && isValidDate(startingDate)) {
             const startDate = new Date(startingDate);
             startDate.setHours(0, 0, 0, 0);
 
+            // Add createdAt filtering for startingDate
+            query = query.where('createdAt').gte(startDate);
+        }
+
+        // Check if endingDate is provided and valid
+        if (endingDate && isValidDate(endingDate)) {
             const endDate = new Date(endingDate);
             endDate.setHours(23, 59, 59, 999);
 
-            // Add createdAt filtering to the query
-            query = query.where('createdAt').gte(startDate).lte(endDate);
+            // Add createdAt filtering for endingDate
+            if (query.model.modelName === 'Lead') { // Check if the query has not been executed yet
+                query = query.where('createdAt').lte(endDate);
+            }
         }
 
-        const filteredLeads = await query.exec();
+        query = await query.populate('clientId').populate('createdBy').populate('allocatedTo').exec();
+        res.status(200).json({ result: query });
 
-        res.status(200).json({ result: filteredLeads });
     } catch (error) {
         next(createError(500, error.message));
     }
 };
+
 
 
 

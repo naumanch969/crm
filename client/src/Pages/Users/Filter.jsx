@@ -22,12 +22,13 @@ const FilterDrawer = ({ open, setOpen }) => {
 
 
 
-  const handleInputChange = (field, value) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [field]: value,
-    }));
-  };
+    const handleInputChange = (field, value) => {
+      const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [field]: inputValue,
+      }));
+    };
 
   const handleApplyFilters = () => {
     dispatch(filterLead(filters));
@@ -52,6 +53,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={["Married", "Unmarried"]}
+            onSelect={(e) => handleInputChange("status", e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField
@@ -59,8 +61,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                 fullWidth
                 label="Martial Status"
                 value={filters.city}
-                onChange={(e) => handleInputChange("status", e.target.value)}
-              />
+               />
             )}
           />
           <Autocomplete
@@ -68,6 +69,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={["Online", "Cash", "Cheque", "Bank Transfer"]}
+            onSelect={(e) => handleInputChange("salaryType", e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField
@@ -75,8 +77,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                 fullWidth
                 label="Salary Type"
                 value={filters.city}
-                onChange={(e) => handleInputChange("status", e.target.value)}
-              />
+               />
             )}
           />
 

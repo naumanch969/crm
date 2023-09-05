@@ -14,6 +14,27 @@ API.interceptors.request.use((req) => {
     return req
 })
 
+const objectToQueryString = (obj) => {
+    const keyValuePairs = [];
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const value = obj[key];
+            // Check if the value is null, undefined, or an empty string
+            if (value !== null && value !== undefined && value !== '') {
+                // Encode both the key and value to handle special characters
+                const encodedKey = encodeURIComponent(key);
+                const encodedValue = encodeURIComponent(value);
+                keyValuePairs.push(`${encodedKey}=${encodedValue}`);
+            }
+        }
+    }
+    // Join the key-value pairs with '&' to form the query string
+    console.log('keyValuePairs.join();', keyValuePairs.join('&'))
+    return keyValuePairs.join('&');
+}
+
+
+
 // UPLOAD
 export const uploadImage = (image) => API.post(`/upload_image`, image)
 export const deleteImage = (filename) => API.delete(`/delete_image/${filename}`)
@@ -40,7 +61,7 @@ export const getTasks = () => API.get(`/task/get/all`)
 export const getArchivedTasks = () => API.get(`/task/get/archived`)
 export const getTask = (taskId) => API.get(`/task/get/single/${taskId}`)
 export const searchTask = (searchTerm) => API.get(`/task/search?searchTerm=${searchTerm}`)
-export const filterTask = (filters) => API.get(`/task/filter`, filters)
+export const filterTask = (filters) => API.get(`/task/filter?${objectToQueryString(filters)}`)
 export const createTask = (taskData) => API.post(`/task/create`, taskData)
 export const updateTask = (taskId, taskData) => API.put(`/task/update/${taskId}`, taskData)
 export const deleteTask = (taskId) => API.delete(`/task/delete/${taskId}`)
@@ -87,7 +108,7 @@ export const getEmployeeLeads = () => API.get(`/lead/get/employee`)
 export const getArchivedLeads = () => API.get(`/lead/get/archived`)
 export const getLeadsStat = () => API.get(`/lead/get/stats`)
 export const searchLead = (searchTerm) => API.get(`/lead/search?searchTerm=${searchTerm}`)
-export const filterLead = (filters) => API.get(`/lead/search`, filters)
+export const filterLead = (filters) => API.get(`/lead/filter?${objectToQueryString(filters)}`)
 export const createOnsiteLead = (leadData) => API.post(`/lead/create/onsite`, leadData)
 export const createOnlineLead = (leadData) => API.post(`/lead/create/online`, leadData)
 export const updateLead = (leadId, leadData) => API.put(`/lead/update/${leadId}`, leadData)
@@ -100,7 +121,7 @@ export const getProjects = () => API.get(`/project/get/all`)
 export const getArchivedProjects = () => API.get(`/project/get/archived`)
 export const getUserAssignedProjectsStats = () => API.get(`/project/get/user_assigned_projects_stats`)
 export const searchProject = (searchTerm) => API.get(`/project/search?searchTerm=${searchTerm}`)
-export const filterProject = (filters) => API.get(`/project/filter`, filters)
+export const filterProject = (filters) => API.get(`/project/filter?${objectToQueryString(filters)}`)
 export const createProject = (projectData) => API.post(`/project/create`, projectData)
 export const updateProject = (projectId, projectData) => API.put(`/project/update/${projectId}`, projectData)
 export const deleteProject = (projectId) => API.delete(`/project/delete/${projectId}`)

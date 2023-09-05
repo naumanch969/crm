@@ -57,6 +57,7 @@ export const filterProject = (filters) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.filterProject(filters)
+        console.log(data.result)
         dispatch(getProjectsReducer(data.result))
         dispatch(end())
     } catch (err) {

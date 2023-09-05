@@ -67,6 +67,14 @@ const CreateUser = ({ open, setOpen, scroll }) => {
       : setEmployeeData({ ...employeeData, [e.target.name]: e.target.value });
   };
 
+  const handleInputChange = (field, value) => {
+    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
+    setProjectData((prevFilters) => ({
+      ...prevFilters,
+      [field]: inputValue,
+    }));
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -74,7 +82,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
   return (
     <div>
       <Dialog
-      scroll={scroll}
+        scroll={scroll}
         open={open}
         TransitionComponent={Transition}
         keepMounted
@@ -122,6 +130,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                     disablePortal
                     id="combo-box-demo"
                     options={["Male", "Female"]}
+                    onSelect={(e) => handleInputChange("gender", e.target.value)}
                     className="w-full"
                     renderInput={(params) => <TextField {...params} fullWidth size="small" />}
                   />
@@ -130,31 +139,56 @@ const CreateUser = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="flex items-start pt-2 text-lg">Email </td>
                 <td className="pb-4">
-                  <TextField type="email" size="small" fullWidth />
+                  <TextField
+                    type="email"
+                    size="small"
+                    fullWidth
+                    onChange={(e) => handleInputChange("email", e.target.value)}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="flex items-start pt-2 text-lg">Password </td>
                 <td className="pb-4">
-                  <TextField type="password" size="small" fullWidth />
+                  <TextField
+                    type="password"
+                    onChange={(e) => handleInputChange("password", e.target.value)}
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="flex items-start pt-2 text-lg">CNIC </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    type="number"
+                    size="small"
+                    onChange={(e) => handleInputChange("cnic", e.target.value)}
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="flex items-start pt-2 text-lg">Mobile Number </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    type="number"
+                    size="small"
+                    onChange={(e) => handleInputChange("phone", e.target.value)}
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="flex items-start pt-2 text-lg">Whatsapp Number </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    type="number"
+                    size="small"
+                    onChange={(e) => handleInputChange("whatsapp", e.target.value)}
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
@@ -165,6 +199,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                     disablePortal
                     id="combo-box-demo"
                     options={["Married", "Unmarried"]}
+                    onSelect={(e) => handleInputChange("martialStatus", e.target.value)}
                     className="w-full"
                     renderInput={(params) => <TextField {...params} fullWidth size="small" />}
                   />
@@ -178,6 +213,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                     disablePortal
                     id="combo-box-demo"
                     options={["Online", "Pay Check", "Cash"]}
+                    onSelect={(e) => handleInputChange("salaryType", e.target.value)}
                     className="w-full"
                     renderInput={(params) => <TextField {...params} fullWidth size="small" />}
                   />
@@ -195,6 +231,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
             Cancel
           </button>
           <button
+            onClick={handleSubmit}
             variant="contained"
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
             Submit

@@ -57,8 +57,12 @@ const CreateProject = ({ open, setOpen, scroll }) => {
 
     dispatch(deleteAllImagesReducer());
   };
-  const handleChange = (e) => {
-    setProjectData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
+  const handleInputChange = (field, value) => {
+    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
+    setProjectData((prevFilters) => ({
+      ...prevFilters,
+      [field]: inputValue,
+    }));
   };
 
   const handleClose = () => {
@@ -108,6 +112,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                     disablePortal
                     id="combo-box-demo"
                     options={pakistanCities}
+                    onChange={(e) => handleInputChange("city", e.target.value)}
                     className="w-full"
                     renderInput={(params) => <TextField {...params} fullWidth size="small" />}
                   />
@@ -116,7 +121,11 @@ const CreateProject = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Area Location </td>
                 <td className="pb-4">
-                  <TextField size="small" fullWidth />
+                  <TextField
+                    size="small"
+                    onChange={(e) => handleInputChange("region", e.target.value)}
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
@@ -127,6 +136,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                     disablePortal
                     id="combo-box-demo"
                     options={["Homes", "Commercial", "Residential"]}
+                    onSelect={(e) => handleInputChange("propertyType", e.target.value)}
                     className="w-full"
                     renderInput={(params) => <TextField {...params} fullWidth size="small" />}
                   />
@@ -140,6 +150,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                     disablePortal
                     id="combo-box-demo"
                     options={["House", "Bangla", "Apartment", "Restaurant"]}
+                    onSelect={(e) => handleInputChange("homeType", e.target.value)}
                     className="w-full"
                     renderInput={(params) => <TextField {...params} fullWidth size="small" />}
                   />
@@ -148,13 +159,23 @@ const CreateProject = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Price </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    type="number"
+                    size="small"
+                    onChange={(e) => handleInputChange("price", e.target.value)}
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Area </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    type="number"
+                    size="small"
+                    onChange={(e) => handleInputChange("area", e.target.value)}
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
@@ -165,6 +186,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                     disablePortal
                     id="combo-box-demo"
                     options={["High", "Moderate", "Low"]}
+                    onSelect={(e) => handleInputChange("priority", e.target.value)}
                     className="w-full"
                     renderInput={(params) => <TextField {...params} fullWidth size="small" />}
                   />
@@ -173,7 +195,12 @@ const CreateProject = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Beds </td>
                 <td className="pb-4">
-                  <TextField type="number" size="small" fullWidth />
+                  <TextField
+                    type="number"
+                    size="small"
+                    onChange={(e) => handleInputChange("beds", e.target.value)}
+                    fullWidth
+                  />
                 </td>
               </tr>
             </table>
@@ -187,6 +214,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
             Cancel
           </button>
           <button
+            onSubmit={handleSubmit}
             variant="contained"
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
             Submit

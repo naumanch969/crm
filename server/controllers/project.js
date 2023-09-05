@@ -67,26 +67,12 @@ export const searchProject = async (req, res, next) => {
 };
 
 export const filterProject = async (req, res, next) => {
-    const { startingDate, endingDate, ...filters } = req.body;
-
+    const { startingDate, endingDate, ...filters } = req.query;
     try {
-        let query = Project.find(filters);
+        let query = await Project.find(filters).populate('assignedTo').exec();
 
-        // Check if startingDate and endingDate are provided and valid date strings
-        if (startingDate && endingDate && isValidDate(startingDate) && isValidDate(endingDate)) {
-            const startDate = new Date(startingDate);
-            startDate.setHours(0, 0, 0, 0);
+        res.status(200).json({ result: query });
 
-            const endDate = new Date(endingDate);
-            endDate.setHours(23, 59, 59, 999);
-
-            // Add createdAt filtering to the query
-            query = query.where('createdAt').gte(startDate).lte(endDate);
-        }
-
-        const filteredProjects = await query.exec();
-
-        res.status(200).json({ result: filteredProjects });
     } catch (error) {
         next(createError(500, error.message));
     }
