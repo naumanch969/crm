@@ -1,42 +1,72 @@
 import React, { useEffect, useState } from "react";
-import { Button, IconButton, Tooltip } from "@mui/material";
-import { Add, DeleteOutline, FilterAltOutlined, KeyboardArrowRight, Search, TrendingUp, } from "@mui/icons-material";
+import { Tooltip } from "@mui/material";
 import Cards from "./Cards";
 import { Table } from "../../Components";
 import { Link } from "react-router-dom";
 import Topbar from "./Topbar";
-import { useDispatch, useSelector } from 'react-redux'
-import { getCashbooks } from '../../redux/action/cashbook'
+import { useDispatch, useSelector } from "react-redux";
+import { getCashbooks } from "../../redux/action/cashbook";
 import DeleteModal from "./DeleteModal";
 import { format } from "timeago.js";
+import { PiTrashLight, PiTrashThin } from "react-icons/pi";
 
 function CashBook() {
-
   ///////////////////////////////////// VARIABLES ////////////////////////////////////////
-  const dispatch = useDispatch()
-  const { cashbooksIn, cashbooksOut, isFetching, error } = useSelector(state => state.cashbook)
+  const dispatch = useDispatch();
+  const { cashbooksIn, cashbooksOut, isFetching, error } = useSelector((state) => state.cashbook);
   const columns = [
-    { field: "_id", headerName: "ID", width: 70 },
-    { field: "customerName", headerName: "Customer Name", width: 140 },
+    { field: "_id", headerName: "ID", headerClassName: "super-app-theme--header", width: 100, renderCell: (params) => <div className="font-primary">{params.row._id}</div> },
     {
-      field: "createdAt", headerName: "Time", width: 120, renderCell: (params) => (
-        <>{format(params.row.createdAt)}</>
-      )
+      field: "customerName",
+      headerName: "Customer Name",
+      headerClassName: "super-app-theme--header",
+      width: 170,
+      renderCell: (params) => <div className="font-primary capitalize px-8">{params.row.customerName}</div>,
     },
-    { field: "paymentType", headerName: "Type", width: 120 },
-    { field: "paymentDetail", headerName: "Payment details", width: 250 },
-    { field: "amountPaid", headerName: "Amount In", width: 140 },
-    { field: "branch", headerName: "Branch", width: 190 },
+    {
+      field: "createdAt",
+      headerName: "Time",
+      width: 120,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => <div className="font-primary">{format(params.row.createdAt)}</div>,
+    },
+    {
+      field: "paymentType",
+      headerName: "Type",
+      headerClassName: "super-app-theme--header",
+      width: 120,
+      renderCell: (params) => <div className="font-primary capitalize">{params.row.paymentType}</div>,
+    },
+    {
+      field: "paymentDetail",
+      headerName: "Payment details",
+      headerClassName: "super-app-theme--header",
+      width: 250,
+      renderCell: (params) => <div className="font-primary">{params.row.paymentDetail}</div>,
+    },
+    {
+      field: "amountPaid",
+      headerName: "Amount In",
+      headerClassName: "super-app-theme--header",
+      width: 140,
+      renderCell: (params) => <div className="font-primary">{params.row.amountPaid}</div>,
+    },
+    {
+      field: "branch",
+      headerName: "Branch",
+      headerClassName: "super-app-theme--header",
+      width: 190,
+      renderCell: (params) => <div className="font-primary">{params.row.branch}</div>,
+    },
     {
       field: "action",
       headerName: "Action",
+      headerClassName: "super-app-theme--header",
       width: 100,
       renderCell: () => (
         <div className="flex gap-[4px] ">
-          <Tooltip placement="top" title="Delete">
-            <IconButton onClick={handleOpenDeleteModal} className="hover:text-red-500">
-              <DeleteOutline />
-            </IconButton>
+          <Tooltip arrow placement="top" title="Delete">
+              <PiTrashThin onClick={handleOpenDeleteModal} className="text-red-500 text-[23px] cursor-pointer" />
           </Tooltip>
         </div>
       ),
@@ -44,26 +74,23 @@ function CashBook() {
   ];
 
   ///////////////////////////////////// STATES //////////////////////////////////////
-  const [openDeleteModal, setOpenDeleteModal] = useState(false)
-  const [cashbookId, setCashbookId] = useState('')
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [cashbookId, setCashbookId] = useState("");
 
   ///////////////////////////////////// USE EFFECTS //////////////////////////////////////
   useEffect(() => {
-    dispatch(getCashbooks('out'))
-    dispatch(getCashbooks('in'))
-  }, [])
+    dispatch(getCashbooks("out"));
+    dispatch(getCashbooks("in"));
+  }, []);
 
   ///////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleOpenDeleteModal = (cId) => {
     setOpenDeleteModal(true);
-    setCashbookId(cId)
-  }
-
-
+    setCashbookId(cId);
+  };
 
   return (
     <div className="h-auto w-full ">
-
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} cashbookId={cashbookId} />
 
       <Topbar />
@@ -99,16 +126,6 @@ function CashBook() {
           />
         </div>
       </div>
-
-
-      <div className="flex justify-center mt-5 pb-5">
-        <Button variant="contained" color="error">
-          Close Today's Cashbook
-        </Button>
-      </div>
-
-
-
     </div>
   );
 }

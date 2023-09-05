@@ -21,34 +21,54 @@ function Sales() {
       headerClassName: "super-app-theme--header",
       headerName: "Inv No.",
       width: 150,
+      renderCell: (params) => <div className="font-primary">{params.row.invoiceNumber}</div>,
     },
     {
       field: "createdAt",
       headerClassName: "super-app-theme--header",
       headerName: "Created At",
-      width: 180,
-      renderCell: (params) => <div>{new Date(params.row.createdAt).toLocaleDateString()}</div>,
+      width: 130,
+      renderCell: (params) => (
+        <div className="font-primary">{new Date(params.row.createdAt).toLocaleDateString()}</div>
+      ),
     },
     {
       field: "supplierName",
       headerClassName: "super-app-theme--header",
       headerName: "Supplier",
       width: 150,
+      renderCell: (params) => (
+        <div className="font-primary capitalize">{params.row.supplierName}</div>
+      ),
     },
     {
       field: "net",
       headerClassName: "super-app-theme--header",
       headerName: "Net Worth",
-      width: 120,
+      width: 140,
+      renderCell: (params) => <div className="font-primary">{params.row.net}</div>,
     },
     {
       field: "received",
       headerClassName: "super-app-theme--header",
       headerName: "Amount Received",
       width: 180,
+      renderCell: (params) => <div className="font-primary">{params.row.received}</div>,
     },
-    { field: "psf", headerClassName: "super-app-theme--header", headerName: "PSF", width: 130 },
-    { field: "fop", headerClassName: "super-app-theme--header", headerName: "FOP", width: 130 },
+    {
+      field: "psf",
+      headerClassName: "super-app-theme--header",
+      headerName: "PSF",
+      width: 130,
+      renderCell: (params) => <div className="font-primary">{params.row.psf}</div>,
+    },
+    {
+      field: "fop",
+      headerClassName: "super-app-theme--header",
+      headerName: "FOP",
+      width: 130,
+      renderCell: (params) => <div className="font-primary">{params.row.fop}</div>,
+    },
     {
       field: "action",
       headerName: "Action",
@@ -57,10 +77,13 @@ function Sales() {
       renderCell: (params) => (
         <div className="flex gap-[10px] items-center transition-all">
           <div>
-          <Tooltip placement="top" title="Delete">
-            {" "}
-            <PiTrashLight onClick={() => handleOpenDeleteModal(params.row._id)} className="cursor-pointer text-red-500 text-[23px] hover:text-red-400" />
-          </Tooltip>
+            <Tooltip placement="top" title="Delete">
+              {" "}
+              <PiTrashLight
+                onClick={() => handleOpenDeleteModal(params.row._id)}
+                className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
+              />
+            </Tooltip>
           </div>
           <Tooltip placement="top" title="View">
             {" "}
@@ -68,12 +91,14 @@ function Sales() {
           </Tooltip>
           <Tooltip placement="top" title="Edit">
             {" "}
-            <CiEdit onClick={() => handleOpenEditModal(params.row)} className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />
+            <CiEdit
+              onClick={() => handleOpenEditModal(params.row)}
+              className="cursor-pointer text-green-500 text-[23px] hover:text-green-600"
+            />
           </Tooltip>
         </div>
       ),
     },
-    
   ];
   ////////////////////////////////////// STATES //////////////////////////////
   const [view, setView] = useState("table");

@@ -48,10 +48,10 @@ const Stats = () => {
 
       <Link to="/cashbook">
         <div className="bg-white border-b-[3px] border-b-amber-400 md:mt-0 mt-4 shadow-none rounded-md">
-          <CardContent className="flex-grow-[1] flex justify-between items-center">
+          <CardContent className="flex-grow-[1] flex justify-between items-center font-primary">
             <div>
               <p className="text-2xl text-[#455a64]">${payments?.thisYearReceived}</p>
-              <p className="text-md font-Mulish text-slate-500 text-opacity-70">
+              <p className="text-md text-slate-500 text-opacity-70">
                 Payments - This Year
               </p>
             </div>

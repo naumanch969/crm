@@ -70,13 +70,13 @@ const CreateSale = ({ open, setOpen, scroll }) => {
         maxWidth="sm"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400">Add New Sale</div>
+          <div className="text-sky-400 font-primary">Add New Sale</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
         </DialogTitle>
         <DialogContent>
-          <div className="flex flex-col gap-2 p-3 pb-0 text-gray-500">
+          <div className="flex flex-col gap-2 p-3 pb-0 text-gray-500 font-primary">
             <div className="text-xl flex justify-start items-center gap-2 font-normal">
               <PiNotepad size={23} />
               <span>Report Details</span>

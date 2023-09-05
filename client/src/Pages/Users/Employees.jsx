@@ -26,7 +26,9 @@ const Employees = memo(() => {
       headerClassName: "super-app-theme--header",
       width: "200",
       renderCell: (params) => (
-        <div className="text-[#20aee3] capitalize cursor-pointer" onClick={() => handleClickOpen()}>
+        <div
+          className="text-[#20aee3] capitalize cursor-pointer font-primary"
+          onClick={() => handleClickOpen()}>
           {params.row.firstName} {params.row.lastName}
         </div>
       ),
@@ -36,20 +38,41 @@ const Employees = memo(() => {
       headerName: "Username",
       headerClassName: "super-app-theme--header",
       width: "170",
+      renderCell: (params) => (
+        <div className="capitalize font-primary" onClick={() => handleClickOpen()}>
+          {params.row.username}
+        </div>
+      ),
     },
     {
       field: "email",
       headerName: "Email",
       headerClassName: "super-app-theme--header",
       width: "220",
+      renderCell: (params) => (
+        <div className="font-primary" onClick={() => handleClickOpen()}>
+          {params.row.email}
+        </div>
+      ),
     },
     {
       field: "phone",
       headerName: "Phone",
       headerClassName: "super-app-theme--header",
       width: "170",
+      renderCell: (params) => (
+        <div className="font-primary" onClick={() => handleClickOpen()}>
+          {params.row.phone}
+        </div>
+      ),
     },
-    { field: "cnic", headerName: "CNIC", headerClassName: "super-app-theme--header", width: 200 },
+    {
+      field: "cnic",
+      headerName: "CNIC",
+      headerClassName: "super-app-theme--header",
+      width: 200,
+      renderCell: (params) => <div className="font-primary">{params.row.cnic}</div>,
+    },
     {
       field: "action",
       headerName: "Action",

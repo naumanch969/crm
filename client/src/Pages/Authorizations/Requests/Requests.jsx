@@ -17,42 +17,42 @@ function RequestApprovals() {
   const { requestApprovals: approvals, isFetching, error } = useSelector(state => state.approval)
   const columns = [
     {
-      field: 'sr', headerName: 'Sr.', width: 80, renderCell: (params) => (
-        <>{params.id}</>
+      field: 'sr', headerName: 'Sr.', width: 80,headerClassName: "super-app-theme--header", renderCell: (params) => (
+        <div className='font-primary'>{params.id}</div>
       )
     },
     {
-      field: 'data.firstName', headerName: 'First Name', width: 130, renderCell: (params) => (
-        <span className='cursor-pointer text-blue-600 ' onClick={() => handleOpenRequest(params.row)} >{params.row?.data?.firstName}</span>
+      field: 'data.firstName', headerName: 'First Name', width: 130,headerClassName: "super-app-theme--header", renderCell: (params) => (
+        <span className='cursor-pointer text-blue-600 font-primary' onClick={() => handleOpenRequest(params.row)} >{params.row?.data?.firstName}</span>
       )
     },
     {
-      field: 'data.lastName', headerName: 'Last Name', width: 130, renderCell: (params) => (
-        <span className='cursor-pointer text-gray-600 '  >{params.row?.data?.lastName}</span>
+      field: 'data.lastName', headerName: 'Last Name', width: 130,headerClassName: "super-app-theme--header", renderCell: (params) => (
+        <span className='cursor-pointer text-gray-600 font-primary'  >{params.row?.data?.lastName}</span>
       )
     },
     {
-      field: 'data.username', headerName: 'Username', width: 130, renderCell: (params) => (
-        <span className='cursor-pointer text-gray-600 '  >{params.row?.data?.username}</span>
+      field: 'data.username', headerName: 'Username', width: 130,headerClassName: "super-app-theme--header", renderCell: (params) => (
+        <span className='cursor-pointer text-gray-600 font-primary'  >{params.row?.data?.username}</span>
       )
     },
     {
-      field: 'data.email', headerName: 'email', width: 160, renderCell: (params) => (
-        <span className='cursor-pointer text-gray-600 '  >{params.row?.data?.email}</span>
+      field: 'data.email', headerName: 'email', width: 160,headerClassName: "super-app-theme--header", renderCell: (params) => (
+        <span className='cursor-pointer text-gray-600 font-primary'  >{params.row?.data?.email}</span>
       )
     },
     {
-      field: 'data.phone', headerName: 'Phone', width: 150, renderCell: (params) => (
-        <span className='cursor-pointer text-gray-600 '  >{format(params.row.phone)}</span>
+      field: 'data.phone', headerName: 'Phone', width: 150,headerClassName: "super-app-theme--header", renderCell: (params) => (
+        <span className='cursor-pointer text-gray-600 font-primary'  >{format(params.row.phone)}</span>
       )
     },
     {
-      field: 'data.password', headerName: 'Password', width: 150, renderCell: (params) => (
-        <span className='cursor-pointer text-gray-600 '  >{format(params.row.password)}</span>
+      field: 'data.password', headerName: 'Password', width: 150, headerClassName: "super-app-theme--header",renderCell: (params) => (
+        <span className='cursor-pointer text-gray-600 font-primary'  >{format(params.row.password)}</span>
       )
     },
     {
-      field: "approve/reject", headerName: "Approve/Reject", width: 150, renderCell: (params) => (
+      field: "approve/reject", headerName: "Approve/Reject", width: 150,headerClassName: "super-app-theme--header", renderCell: (params) => (
         <div className='flex gap-[4px] ' >
           <button onClick={() => handleApprove(params.row)} className='cursor-pointer bg-green-700 text-white px-[8px] py-[2px] rounded-[12px] text-[14x] ' >Approve</button>
           <button onClick={() => handleReject(params.row)} className='cursor-pointer bg-red-700 text-white px-[8px] py-[2px] rounded-[12px] text-[14x] ' >Reject</button>
@@ -60,7 +60,7 @@ function RequestApprovals() {
       ),
     },
     {
-      field: "action", headerName: "Action", width: 100, renderCell: (params) => (
+      field: "action", headerName: "Action", width: 100,headerClassName: "super-app-theme--header", renderCell: (params) => (
         <div className='flex gap-[4px] ' >
           <Tooltip placement='top' title='Delete' >
             <button onClick={() => handleOpenDeleteModal(params.row._id)} className='cursor-pointer ' ><PiTrashLight /></button>

@@ -93,7 +93,7 @@ const Clients = () => {
       headerName: "Client Name",
       width: "200",
       renderCell: (params) => (
-        <div className="capitalize text-[#20aee3] font-thin">
+        <div className="capitalize text-[#20aee3] font-primary">
           {params.row.firstName} {params.row.lastName}
         </div>
       ),
@@ -103,20 +103,29 @@ const Clients = () => {
       headerName: "Client Username",
       headerClassName: "super-app-theme--header",
       width: "200",
+      renderCell: (params) => <div className="capitalize font-primary">{params.row.username}</div>,
     },
     {
       field: "email",
       headerName: "Client Email",
       headerClassName: "super-app-theme--header",
       width: "200",
+      renderCell: (params) => <div className="font-primary">{params.row.email}</div>,
     },
     {
       field: "phone",
       headerName: "Phone",
       headerClassName: "super-app-theme--header",
       width: "150",
+      renderCell: (params) => <div className="font-primary">{params.row.phone}</div>,
     },
-    { field: "cnic", headerName: "CNIC", headerClassName: "super-app-theme--header", width: "220" },
+    {
+      field: "cnic",
+      headerName: "CNIC",
+      headerClassName: "super-app-theme--header",
+      width: "220",
+      renderCell: (params) => <div className="font-primary">{params.row.cnic}</div>,
+    },
     {
       field: "action",
       headerName: "Action",
@@ -147,7 +156,7 @@ const Clients = () => {
             </Tooltip>
             <Menu slots={{ listbox: StyledListbox }}>
               <StyledMenuItem
-                className="text-gray-500 flex"
+                className="text-gray-500 flex font-primary"
                 onClick={() => handleOpenStatusModal(params.row)}>
                 Block
               </StyledMenuItem>
@@ -177,7 +186,6 @@ const Clients = () => {
 
   return (
     <div className="w-full">
-      
       <Topbar />
       <Table
         rows={clients}
@@ -186,7 +194,6 @@ const Clients = () => {
         error={error}
         rowsPerPage={10}
       />
-      
     </div>
   );
 };
