@@ -1,4 +1,5 @@
 import Notification from '../models/notification.js'
+import Task from '../models/task.js'
 import { createError } from '../utils/error.js'
 import validator from 'validator'
 
@@ -18,15 +19,49 @@ export const getNotification = async (req, res, next) => {
 
 export const getNotifications = async (req, res, next) => {
     try {
+        const oneDayAhead = new Date();
+        oneDayAhead.setDate(oneDayAhead.getDate() + 1);
+
+        // Find urgent tasks due within one day
+        const urgentTasks = await Task.find({ dueDate: oneDayAhead });
+
+        const taskNotifications = await Promise.all(
+            urgentTasks.map(async (task) => {
+                // Check if a notification already exists for this task
+                const existingNotification = await Notification.findOne({
+                    type: 'urgent-task',
+                    'data._id': task._id,
+                });
+
+                if (!existingNotification) {
+                    // Create a notification object with the required fields
+                    const notification = new Notification({
+                        title: 'Task Urgency',
+                        description: 'A task is about to reach its due date.',
+                        type: 'urgent-task',
+                        data: task.toObject(),
+                    });
+
+                    await notification.save();
+                    console.log('notification', notification)
+                    return notification.toObject();
+                } else {
+                    console.log('existingNotification', existingNotification)
+                    return existingNotification.toObject();
+                }
+            })
+        );
 
         const notifications = await Notification.find()
+        const allNotifications = [...notifications, ...taskNotifications]
 
-        res.status(200).json({ result: notifications, message: 'notifications fetched seccessfully', success: true })
-
+        console.log('notifications,', allNotifications)
+        res.status(200).json({ message: 'Notification check completed.', result: allNotifications });
     } catch (err) {
-        next(createError(500, err.message))
+        next(createError(500, err.message));
     }
-}
+};
+
 
 export const createRequestNotification = async (req, res, next) => {
     try {
@@ -52,6 +87,11 @@ export const createRequestNotification = async (req, res, next) => {
         next(createError(500, err.message))
     }
 }
+
+
+
+
+
 
 export const deleteNotification = async (req, res, next) => {
     try {
