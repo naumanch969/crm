@@ -127,8 +127,11 @@ function RequestApprovals() {
     dispatch(rejectRefundApproval(approvalId));
   };
 
+
+
   return (
     <div className="w-full h-fit bg-inherit flex flex-col gap-[2rem]  ">
+      {error && <></>}
       <Topbar />
       <Table
         rows={approvals}

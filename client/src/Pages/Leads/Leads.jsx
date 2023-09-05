@@ -19,6 +19,7 @@ import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
 import Lead from "./Lead";
+import { useNavigate } from "react-router-dom";
 
 const blue = {
   100: "#DAECFF",
@@ -93,6 +94,7 @@ const StyledMenuItem = styled(MenuItem)(
 function Leads({ type, showSidebar }) {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { archived, leads, isFetching, error } = useSelector((state) => state.lead);
   const { loggedUser } = useSelector((state) => state.user);
   const role = loggedUser.role;
@@ -133,13 +135,10 @@ function Leads({ type, showSidebar }) {
       width: 200,
       renderCell: (params) => (
         <span
-          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize font-primary font-medium ${
-            params.row.status == "successful" ? "border-green-500 text-green-500" : ""
-          } ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${
-            params.row.status == "declined" ? "border-red-400 text-red-400" : ""
-          } ${params.row.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${
-            params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
-          }`}>
+          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize font-primary font-medium ${params.row.status == "successful" ? "border-green-500 text-green-500" : ""
+            } ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${params.row.status == "declined" ? "border-red-400 text-red-400" : ""
+            } ${params.row.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
+            }`}>
           {params.row.status == "underProcess" && <span>Under Process</span>}
           {params.row.status != "underProcess" && <span>{params.row.status}</span>}
         </span>
@@ -151,7 +150,8 @@ function Leads({ type, showSidebar }) {
       headerName: "Allocated To",
       width: 230,
       headerClassName: "super-app-theme--header",
-      renderCell : (params) => <div className="font-primary font-light">{params.row.allocatedTo?.email}</div>,    },
+      renderCell: (params) => <div className="font-primary font-light">{params.row.allocatedTo?.email}</div>,
+    },
     {
       field: "actions",
       headerName: "Action",
@@ -197,10 +197,10 @@ function Leads({ type, showSidebar }) {
                 onClick={() => handleOpenShiftLeadModal(params.row)}>
                 Shift Lead
               </StyledMenuItem>
-              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => {}}>
-                Refund
+              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => navigateToRefund(params.row)}>
+                {params.row.isAppliedForRefund ? 'Applied for Refund' : 'Refund'}
               </StyledMenuItem>
-              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => {}}>
+              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => { }}>
                 Share Lead
               </StyledMenuItem>
             </Menu>
@@ -255,6 +255,14 @@ function Leads({ type, showSidebar }) {
   const handleOpenViewModal = (leadId) => {
     setSelectedLeadId(leadId);
     setOpenViewModal(true);
+  };
+  const navigateToRefund = (lead) => {
+    if (lead.isAppliedForRefund) {
+      return
+    }
+    else {
+      navigate('/leads/refund', { state: { leadId: lead._id } })
+    }
   };
 
   return (

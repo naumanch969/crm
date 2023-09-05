@@ -1,5 +1,6 @@
 import * as api from '../api'
 import { start, end, error, getApprovalReducer, getApprovalsReducer, createRequestApprovalReducer, rejectRequestApprovalReducer, createVoucherApprovalReducer, createReceiptApprovalReducer, createRefundApprovalReducer, rejectRefundApprovalReducer, deleteApprovalReducer, } from '../reducer/approval'
+import { createNotificationReducer } from '../reducer/notification'
 
 
 export const getApproval = () => async (dispatch) => {
@@ -67,7 +68,10 @@ export const createRefundApproval = (approvalData, navigate) => async (dispatch)
         dispatch(start())
         const { data } = await api.createRefundApproval(approvalData)
         dispatch(createRefundApprovalReducer(data.result))
-        navigate(`/leads/` + approvalData.leadId)
+        if(data.notification){
+            dispatch(createNotificationReducer(data.notification))
+        }
+        navigate(`/leads`)
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

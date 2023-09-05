@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { start, end, error, getNotificationReducer, getNotificationsReducer, createRequestNotificationReducer, deleteNotificationReducer, } from '../reducer/notification'
+import { start, end, error, getNotificationReducer, getNotificationsReducer, createNotificationReducer, deleteNotificationReducer, } from '../reducer/notification'
 
 
 export const getNotification = () => async (dispatch) => {
@@ -26,7 +26,7 @@ export const createRequestNotification = () => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.createRequestNotification()
-        dispatch(createRequestNotificationReducer(data.result))
+        dispatch(createNotificationReducer(data.result))
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

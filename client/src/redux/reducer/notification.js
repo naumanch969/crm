@@ -15,11 +15,11 @@ const notificationSlice = createSlice({
 
         getNotificationReducer: (state, action) => { state.currentnotification = action.payload },
         getNotificationsReducer: (state, action) => { state.notifications = action.payload },
-        createRequestNotificationReducer: (state, action) => { state.notifications = [action.payload, ...state.notifications] },
+        createNotificationReducer: (state, action) => { state.notifications = [action.payload, ...state.notifications] },
         deleteNotificationReducer: (state, action) => { state.notifications = state.notifications.filter(n => n._id !== action.payload._id) },
 
     }
 })
 
-export const { start, end, error, getNotificationReducer, getNotificationsReducer, createRequestNotificationReducer, deleteNotificationReducer, } = notificationSlice.actions
+export const { start, end, error, getNotificationReducer, getNotificationsReducer, createNotificationReducer, deleteNotificationReducer, } = notificationSlice.actions
 export default notificationSlice.reducer

@@ -119,6 +119,11 @@ export const createRefundApproval = async (req, res, next) => {
 
         const { branch, issuingDate, amount, customerName, cnic, phone, leadId, reason } = req.body
 
+        const findedLead = await Lead.findById(leadId)
+
+        if (!findedLead) return next(createError(401, 'leadId is not provided'))
+        if (findedLead.isAppliedForRefund) return res.status(201).json({ result: findedLead, message: 'Refund request has already been submitted.' })
+
         const result = await Approval.create({
             title: 'Refund Approval',
             type: 'refund',
@@ -126,11 +131,21 @@ export const createRefundApproval = async (req, res, next) => {
             data: { branch, issuingDate, amount, customerName, cnic, phone, leadId, reason }
         })
 
+
+        const notification = await Notification.create({
+            title: 'Need Approval for Refund.',
+            type: 'refund-approval',
+            description: `${customerName} needs approval for the refund.`,
+            data: { branch, issuingDate, amount, customerName, cnic, phone, leadId, reason }
+        })
+
+
         await Lead.findByIdAndUpdate(leadId, { $set: { isAppliedForRefund: true } }, { new: true })
 
-        res.status(200).json({ result, message: 'Refund request has been sent to the admin for approval', success: true })
+        res.status(200).json({ result, notification, message: 'Refund request has been sent to the admin for approval', success: true })
 
     } catch (err) {
+        console.log(err)
         next(createError(500, err.message))
     }
 }

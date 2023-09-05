@@ -73,13 +73,10 @@ function CashBook() {
       headerName: "Action",
       headerClassName: "super-app-theme--header",
       width: 100,
-      renderCell: () => (
+      renderCell: (params) => (
         <div className="flex gap-[4px] ">
           <Tooltip arrow placement="top" title="Delete">
-            <PiTrashThin
-              onClick={handleOpenDeleteModal}
-              className="text-red-500 text-[23px] cursor-pointer"
-            />
+              <PiTrashThin onClick={()=>handleOpenDeleteModal(params.row._id)} className="text-red-500 text-[23px] cursor-pointer" />
           </Tooltip>
         </div>
       ),
@@ -98,8 +95,8 @@ function CashBook() {
 
   ///////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleOpenDeleteModal = (cId) => {
-    setOpenDeleteModal(true);
     setCashbookId(cId);
+    setOpenDeleteModal(true);
   };
 
   return (
@@ -120,7 +117,7 @@ function CashBook() {
           <Table
             rows={cashbooksIn}
             columns={columns}
-            rowsPerPage={5}
+            rowsPerPage={10}
             isFetching={isFetching}
             error={error}
           />
@@ -133,7 +130,7 @@ function CashBook() {
           <Table
             rows={cashbooksOut}
             columns={columns}
-            rowsPerPage={5}
+            rowsPerPage={10}
             isFetching={isFetching}
             error={error}
           />
