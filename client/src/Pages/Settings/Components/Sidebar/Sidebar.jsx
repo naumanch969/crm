@@ -1,4 +1,4 @@
-import SidebarItem from "./SettingSidebarItem";
+import SidebarItem from "./SidebarItem";
 import { Box, IconButton } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { Close } from "@mui/icons-material";
