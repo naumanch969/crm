@@ -24,6 +24,7 @@ import {
 } from "react-icons/pi";
 import { BsListTask } from "react-icons/bs";
 import { getNotifications } from "../../redux/action/notification";
+import { getTasks } from "../../redux/action/task";
 
 const blue = {
   100: "#DAECFF",
@@ -101,6 +102,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
   /////////////////////////////////////////// VARIABLES ////////////////////////////////////////////
   const { loggedUser } = useSelector((state) => state.user);
   const { notifications } = useSelector(state => state.notification)
+  const { tasks } = useSelector(state => state.task)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -117,6 +119,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
   });
   useEffect(() => {
     dispatch(getNotifications())
+    dispatch(getTasks())
   }, [])
 
   // let notifications = [
@@ -167,20 +170,21 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                     notifications.length > 0
                       ?
                       <div className="flex flex-col gap-[8px] ">
+                        {notifications.slice(0, 5).map((notification, index) => (
+                          <React.Fragment key={index}>
+                            <StyledMenuItem onClick={()=>navigate('/tasks')} className="text-gray-600 flex">
+                              <div>
+                                <span className="text-lg font-extralight text-sky-400">{notification.title}</span>
+                                <br />
+                                {notification.description}
+                                <br />
+                              </div>
+                            </StyledMenuItem>
+                          </React.Fragment>
+                        ))}
                         {
-                          notifications.map((notification, index) => (
-                            <React.Fragment key={index}>
-                              <StyledMenuItem className={`${notification.isRead ? 'bg-gray-100' : 'bg-gray-200'} text-gray-600 flex`}>
-                                <div className="p-1 pr-2">{notification.avatar}</div>
-                                <div>
-                                  <span className="text-lg font-extralight text-sky-400">{notification.title}</span>
-                                  <br />
-                                  {notification.description}
-                                  <br />
-                                </div>
-                              </StyledMenuItem>
-                            </React.Fragment>
-                          ))
+                          tasks.length > 5 &&
+                          <Link to='/notifications' className='hover:underline text-blue-500 ' >More</Link>
                         }
                       </div>
                       :
@@ -198,19 +202,22 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                   </Tooltip>
                 </MenuButton>
                 <Menu slots={{ listbox: StyledListbox }}>
-                  {notifications.map((item, index) => (
+                  {tasks.slice(0, 5).map((task, index) => (
                     <React.Fragment key={index}>
                       <StyledMenuItem className="text-gray-600 flex">
-                        <div className="p-1 pr-2">{item.avatar}</div>
                         <div>
-                          <span className="text-lg font-extralight text-sky-400">{item.name}</span>
+                          <span className="text-lg font-extralight text-sky-400">{task.title}</span>
                           <br />
-                          {item.description}
+                          {task.description}
                           <br />
                         </div>
                       </StyledMenuItem>
                     </React.Fragment>
                   ))}
+                  {
+                    tasks.length > 5 &&
+                    <Link to='/tasks' className='hover:underline text-blue-500 ' >More</Link>
+                  }
                 </Menu>
               </Dropdown>
 

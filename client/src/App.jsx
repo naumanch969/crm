@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
-import { DashBoard, Leads, CreateLead, Tasks, CashBook, Sales, Vouchers, Login, Register, CreateUser, CreateTask, CreateSale, User, Request, Refunds, Projects, CreateProject, Employees, Clients, CreateCashBook, ViewCashBook, CreateVouchers, Lead, } from "./Pages";
+import { DashBoard, Leads, CreateLead, Tasks, CashBook, Sales, Vouchers, Login, Register, CreateUser, CreateTask, CreateSale, User, Request, Refunds, Projects, CreateProject, Employees, Clients, CreateCashBook, ViewCashBook, CreateVouchers, Lead, Notifications } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
 import Home from "./Client Panel/pages/Dashboard/Home";
@@ -59,6 +59,7 @@ const App = () => {
                 <Route path="/tasks" element={<Tasks />} />
                 <Route path="/tasks/create" element={<CreateTask />} />
                 <Route path="/employees" element={<Employees />} />
+                <Route path="/notifications" element={<Notifications />} />
                 <Route path="/clients" element={<Clients />} />
                 <Route path="/employees/create" element={<CreateUser />} />
                 <Route path="/users/:userId" element={<User />} />

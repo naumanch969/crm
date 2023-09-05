@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { getNotification, getNotifications, createRequestNotification, deleteNotification, deleteWholeCollection } from '../controllers/notification.js'
+import { getNotification, getNotifications,  createRequestNotification, deleteNotification, deleteWholeCollection } from '../controllers/notification.js'
 
 const router = express.Router()
 
