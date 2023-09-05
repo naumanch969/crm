@@ -35,7 +35,6 @@ import RefundForm from "./Pages/Refund/Refund";
 import SettingNavbar from "./Pages/Settings/Components/Navbar/SettingNavbar";
 import SettingDashboard from "./Pages/Settings/DashBoard/SettingDashboard";
 import { Path } from "./utils";
-import SettingSidebar from "./Pages/Settings/Components/Sidebar/SettingSidebar";
 import SettingProject from "./Pages/Settings/Project/SettingProject";
 
 const App = () => {
@@ -61,7 +60,7 @@ const App = () => {
     return (
       <div className="flex h-screen">
         <div className="">
-          <SettingSidebar showSidebar={showSidebarForSettings} setShowSidebar={setShowSidebar} />
+          <Sidebar showSidebar={showSidebarForSettings} setShowSidebar={setShowSidebar} />
         </div>
         <div className="w-full sticky">
           <SettingNavbar />
