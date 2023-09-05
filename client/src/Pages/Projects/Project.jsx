@@ -3,15 +3,14 @@ import { PiHandCoins, PiHouseLine, PiImage, PiMapPinLine, PiRuler, PiXLight } fr
 import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
 import Carousel from "./Carousel";
 import { useDispatch, useSelector } from "react-redux";
-import { getProject } from "../../redux/api";
 import { Loader } from "../../utils";
+import { getProject } from "../../redux/action/project";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
 const Project = ({ open, setOpen, scroll, projectId }) => {
-  
   const dispatch = useDispatch();
   const { currentProject, isFetching } = useSelector((state) => state.project);
 
@@ -36,7 +35,8 @@ const Project = ({ open, setOpen, scroll, projectId }) => {
         fullWidth="sm"
         maxWidth="sm"
         aria-describedby="alert-dialog-slide-description">
-        <DialogTitle className="flex items-center justify-end">
+        <DialogTitle className="flex items-center justify-between">
+          <div className="text-sky-400 font-primary">View Project</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -47,7 +47,7 @@ const Project = ({ open, setOpen, scroll, projectId }) => {
           </div>
         ) : (
           <DialogContent>
-            <div className="text-[#67757c]">
+            <div className="text-[#67757c] font-primary">
               <div className="bg-white w-full h-full px-4">
                 <div className="flex items-center pt-6 pb-2 gap-3 text-[20px]">
                   <PiHouseLine className="text-[25px]" />
@@ -55,52 +55,69 @@ const Project = ({ open, setOpen, scroll, projectId }) => {
                 </div>
                 <Divider />
 
-                <div>
-                  <div className="pt-2 text-lg font-[350]">
-                    Property Type :{" "}
-                    <span className="text-black font-normal">{currentProject?.propertyType}</span>
-                  </div>
-                  <div className="text-lg font-[350]">
-                    Home Type :{" "}
-                    <span className="text-black font-normal">{currentProject?.homeType}</span>
-                  </div>
-                  <div className="text-lg font-[350] pb-6">
-                    Total Beds : <span className="text-black font-normal">{currentProject?.beds}</span>
-                  </div>
-                </div>
+                <table className="flex flex-col gap-2">
+                  <tr className="pt-2 text-lg font-[350] flex items-center gap-8">
+                    <td>Property Type : </td>
+                    <td className="text-black font-normal capitalize">
+                      {currentProject?.propertyType}
+                    </td>
+                  </tr>
+                  <td className="text-lg font-[350] flex items-center gap-[52px]">
+                    <td>Home Type : </td>
+                    <td className="text-black font-normal capitalize">
+                      {currentProject?.homeType}
+                    </td>
+                  </td>
+                  <tr className="text-lg font-[350] pb-6 flex items-center gap-[64px]">
+                    <td>Total Beds :</td>
+                    <td className="text-black font-normal">{currentProject?.beds}</td>
+                  </tr>
+                </table>
 
                 <div className="flex items-center pb-2 gap-3 text-[20px]">
                   <PiMapPinLine className="text-[25px]" />
                   Location
                 </div>
                 <Divider />
-                <div className="pt-2 text-lg font-[350]">
-                  City : <span className="text-black font-normal">City</span>
-                </div>
-                <div className="text-lg font-[350] pb-6">
-                  Location Area : <span className="text-black font-normal">e.g : Johar Town</span>
-                </div>
+                <table>
+                  <tr className="pt-2 text-lg font-[350] flex items-center gap-[120px]">
+                    <td>City : </td>
+                    <td className="text-black font-normal capitalize">{currentProject?.city}</td>
+                  </tr>
+                  <tr className="text-lg font-[350] pb-6 flex items-center gap-[30px]">
+                    <td>Location Area : </td>
+                    <td className="text-black font-normal capitalize">{currentProject?.region}</td>
+                  </tr>
+                </table>
 
                 <div className="flex items-center pb-2 gap-3 text-[20px]">
                   <PiRuler className="text-[25px]" />
                   Area
                 </div>
                 <Divider />
-                <div className="pt-2 text-lg font-[350]">
-                  Area in Marla : <span className="text-black font-normal">Area</span>
-                </div>
-                <div className="text-lg font-[350] pb-6">
-                  Area is square feets : <span className="text-black font-normal">Area</span>
-                </div>
+                <table>
+                <tr className="pt-2 text-lg font-[350] flex items-center gap-[34px]">
+                  <td>Area in Marla : </td>
+                  <td className="text-black font-normal">{currentProject?.area} Marla</td>
+                </tr>
+                <tr className="text-lg font-[350] pb-6 flex items-center gap-[15px]">
+                  <td>Area in sq feets : </td>
+                  <td className="text-black font-normal">
+                    {currentProject?.area * 273} sq feets
+                  </td>
+                </tr>
+                </table>
 
                 <div className="flex items-center pb-2 gap-3 text-[20px]">
                   <PiHandCoins className="text-[25px]" />
                   Price
                 </div>
                 <Divider />
-                <div className="text-lg font-[350] pb-6 pt-2">
-                  Selling Price : <span className="text-black font-normal">Amount</span>
-                </div>
+                <table>
+                <tr className="text-lg font-[350] pb-6 pt-2 flex items-center gap-[40px]">
+                  <td>Selling Price : </td><td className="text-black font-normal">Rs. {currentProject?.price}</td>
+                </tr>
+                </table>
 
                 <div className="flex items-center pb-2 gap-3 text-[20px]">
                   <PiImage className="text-[25px]" />
@@ -108,7 +125,7 @@ const Project = ({ open, setOpen, scroll, projectId }) => {
                 </div>
                 <Divider />
                 <div>
-                  <Carousel />
+                  <Carousel src={currentProject?.images} />
                 </div>
               </div>
             </div>

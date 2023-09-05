@@ -33,24 +33,24 @@ const Leads = () => {
         </PieChart>
         <div className="flex flex-col items-center gap-2">
           <div className="flex items-center gap-2 w-full justify-center">
-            <div className="bg-[#ff5c6c] font-semibold px-[10px] py-[5px] rounded-full capitalize text-white text-xs">
+            <div className="bg-[#ff5c6c] font-normal px-[10px] py-[5px] rounded-full capitalize text-white text-xs">
               Declined
             </div>
 
-            <div className="bg-[#20aee3] font-semibold px-[8px] py-[4px] rounded-full capitalize text-white text-xs">
+            <div className="bg-[#20aee3] font-normal px-[8px] py-[4px] rounded-full capitalize text-white text-xs">
               Remaining
             </div>
 
-            <div className="bg-[#ff9041] font-semibold px-[8px] py-[4px] rounded-full capitalize text-white text-xs">
+            <div className="bg-[#ff9041] font-normal px-[8px] py-[4px] rounded-full capitalize text-white text-xs">
               Unsuccessful
             </div>
           </div>
           <div className="flex items-center gap-2 w-full justify-center">
-            <div className="bg-[#cddc39] font-semibold px-[8px] py-[4px] rounded-full capitalize text-white text-xs">
+            <div className="bg-[#cddc39] font-normal px-[8px] py-[4px] rounded-full capitalize text-white text-xs">
               Under Process
             </div>
 
-            <div className="bg-[#24d2b5] font-semibold px-[8px] py-[4px] rounded-full capitalize text-white text-xs">
+            <div className="bg-[#24d2b5] font-normal px-[8px] py-[4px] rounded-full capitalize text-white text-xs">
               Successful
             </div>
           </div>

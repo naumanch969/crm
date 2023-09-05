@@ -9,7 +9,7 @@ import "./Carousel.css";
 import { EffectCoverflow, Pagination, Navigation, Keyboard } from "swiper/modules";
 import { Button } from "@mui/material";
 
-const Carousel = () => {
+const Carousel = ({ src }) => {
   return (
     <>
       <Swiper
@@ -33,19 +33,17 @@ const Carousel = () => {
         navigation={true}
         modules={[EffectCoverflow, Pagination, Navigation, Keyboard]}
         className="mySwiper w-full">
-        <SwiperSlide className="shadow-lg border-[1px] border-gray-400">
-          <img src="#" />
-        </SwiperSlide>
-        <SwiperSlide className="shadow-lg border-[1px] border-gray-400">
-          <img src="#" />
-        </SwiperSlide>
-        <SwiperSlide className="shadow-lg border-[1px] border-gray-400">
-          <img src="#" />
-        </SwiperSlide>
+          {/* {src.map((item) => {
+            return (
+              <SwiperSlide className="shadow-lg border-[1px] border-gray-400">
+                <img className="h-full" src={item} />
+              </SwiperSlide>
+            );
+          })} */}
       </Swiper>
     </>
   );
 };
 
-export {}
+export {};
 export default Carousel;

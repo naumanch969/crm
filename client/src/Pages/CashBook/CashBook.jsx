@@ -15,27 +15,37 @@ function CashBook() {
   const dispatch = useDispatch();
   const { cashbooksIn, cashbooksOut, isFetching, error } = useSelector((state) => state.cashbook);
   const columns = [
-    { field: "_id", headerName: "ID", headerClassName: "super-app-theme--header", width: 100, renderCell: (params) => <div className="font-primary">{params.row._id}</div> },
+    {
+      field: "_id",
+      headerName: "ID",
+      headerClassName: "super-app-theme--header",
+      width: 100,
+      renderCell: (params) => <div className="font-primary">{params.row._id}</div>,
+    },
     {
       field: "customerName",
       headerName: "Customer Name",
       headerClassName: "super-app-theme--header",
       width: 170,
-      renderCell: (params) => <div className="font-primary capitalize px-8">{params.row.customerName}</div>,
+      renderCell: (params) => (
+        <div className="font-primary capitalize px-8">{params.row.customerName}</div>
+      ),
     },
     {
       field: "createdAt",
-      headerName: "Time",
+      headerName: "Created",
       width: 120,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary">{format(params.row.createdAt)}</div>,
+      renderCell: (params) => <div className="font-primary">{new Date(params.row.createdAt).toLocaleDateString()}</div>,
     },
     {
       field: "paymentType",
       headerName: "Type",
       headerClassName: "super-app-theme--header",
       width: 120,
-      renderCell: (params) => <div className="font-primary capitalize">{params.row.paymentType}</div>,
+      renderCell: (params) => (
+        <div className="font-primary capitalize">{params.row.paymentType}</div>
+      ),
     },
     {
       field: "paymentDetail",
@@ -66,7 +76,10 @@ function CashBook() {
       renderCell: () => (
         <div className="flex gap-[4px] ">
           <Tooltip arrow placement="top" title="Delete">
-              <PiTrashThin onClick={handleOpenDeleteModal} className="text-red-500 text-[23px] cursor-pointer" />
+            <PiTrashThin
+              onClick={handleOpenDeleteModal}
+              className="text-red-500 text-[23px] cursor-pointer"
+            />
           </Tooltip>
         </div>
       ),
@@ -90,7 +103,7 @@ function CashBook() {
   };
 
   return (
-    <div className="h-auto w-full ">
+    <div className="h-auto w-full font-primary">
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} cashbookId={cashbookId} />
 
       <Topbar />
