@@ -23,6 +23,7 @@ import {
   PiUserPlusLight,
 } from "react-icons/pi";
 import { BsListTask } from "react-icons/bs";
+import { getNotifications } from "../../redux/action/notification";
 
 const blue = {
   100: "#DAECFF",
@@ -96,12 +97,17 @@ const StyledMenuItem = styled(MenuItem)(
 );
 
 const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
+
+  /////////////////////////////////////////// VARIABLES ////////////////////////////////////////////
   const { loggedUser } = useSelector((state) => state.user);
+  const { notifications } = useSelector(state => state.notification)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  /////////////////////////////////////////// STATES ////////////////////////////////////////////
   const [date, setDate] = useState(new Date());
 
+  /////////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////
   useEffect(() => {
     var timer = setInterval(() => setDate(new Date()), 1000);
 
@@ -109,11 +115,15 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
       clearInterval(timer);
     };
   });
+  useEffect(() => {
+    dispatch(getNotifications())
+  }, [])
 
-  let notifications = [
-    { avatar: <Avatar />, name: "hamza", description: "Want approval for the lead" },
-  ];
+  // let notifications = [
+  //   { avatar: <Avatar />, name: "hamza", description: "Want approval for the lead" },
+  // ];
 
+  /////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////
   const handleLogout = () => {
     dispatch(logout(navigate));
   };
@@ -153,19 +163,29 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                   </Tooltip>
                 </MenuButton>
                 <Menu slots={{ listbox: StyledListbox }}>
-                  {notifications.map((item, index) => (
-                    <React.Fragment key={index}>
-                      <StyledMenuItem className="text-gray-600 flex">
-                        <div className="p-1 pr-2">{item.avatar}</div>
-                        <div>
-                          <span className="text-lg font-extralight text-sky-400">{item.name}</span>
-                          <br />
-                          {item.description}
-                          <br />
-                        </div>
-                      </StyledMenuItem>
-                    </React.Fragment>
-                  ))}
+                  {
+                    notifications.length > 0
+                      ?
+                      <div className="flex flex-col gap-[8px] ">
+                        {
+                          notifications.map((notification, index) => (
+                            <React.Fragment key={index}>
+                              <StyledMenuItem className={`${notification.isRead ? 'bg-gray-100' : 'bg-gray-200'} text-gray-600 flex`}>
+                                <div className="p-1 pr-2">{notification.avatar}</div>
+                                <div>
+                                  <span className="text-lg font-extralight text-sky-400">{notification.title}</span>
+                                  <br />
+                                  {notification.description}
+                                  <br />
+                                </div>
+                              </StyledMenuItem>
+                            </React.Fragment>
+                          ))
+                        }
+                      </div>
+                      :
+                      <span>Your notifications will show here</span>
+                  }
                 </Menu>
               </Dropdown>
 

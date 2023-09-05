@@ -38,7 +38,14 @@ const approvalSlice = createSlice({
         createRequestApprovalReducer: (state, action) => { state.requestApprovals = [action.payload, ...state.requestApprovals] },
         rejectRequestApprovalReducer: (state, action) => { state.requestApprovals = [action.payload, ...state.requestApprovals] },
         createVoucherApprovalReducer: (state, action) => { state.voucherApprovals = [action.payload, ...state.requestApprovals] },
-        createReceiptApprovalReducer: (state, action) => { state.receiptApprovals = [action.payload, ...state.requestApprovals] },
+        createReceiptApprovalReducer: (state, action) => {
+            if (action.payload.isAppliedForRefund) {
+                return state
+            }
+            else {
+                state.receiptApprovals = [action.payload, ...state.requestApprovals]
+            }
+        },
         createRefundApprovalReducer: (state, action) => { state.refundApprovals = [action.payload, ...state.refundApprovals] },
         rejectRefundApprovalReducer: (state, action) => { state.refundApprovals = state.refundApprovals.filter(a => a._id != action.payload._id) },
         deleteApprovalReducer: (state, action) => {
