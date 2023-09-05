@@ -224,10 +224,12 @@ export const deleteCashbook = async (req, res, next) => {
     try {
 
         const { cashbookId } = req.params
+        console.log('cashbookId', cashbookId)
         const findedCashbook = await Cashbook.findById(cashbookId)
         if (!findedCashbook) return next(createError(400, 'Cashbook not exist'))
 
         const deletedCashbook = await Cashbook.findByIdAndDelete(cashbookId)
+        console.log('deletedCashboak',deletedCashbook)
         res.status(200).json({ result: deletedCashbook, message: 'cashbook deleted successfully', success: true })
 
     } catch (err) {
