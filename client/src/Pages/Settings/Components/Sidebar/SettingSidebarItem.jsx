@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { PiCaretDownLight, PiCaretUpLight } from "react-icons/pi";
 import { Link } from "react-router-dom";
 
-const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar }) => {
+const SettingSidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar }) => {
   const isMenuOpen = openedMenu === item.title.toLowerCase();
 
   const handleMenuClick = (e) => {
@@ -24,14 +24,13 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar })
       className={`${child ? "pl-4 hover:text-[#20aee3] font-primary font-light" : "pl-4"} ${
         isMenuOpen
           ? "text-[#20aee3] font-primary font-medium border-l-[3px] border-l-[#20aee3]"
-          : " text-gray-700 font-light font-primary"
-      } hover:text-[#20aee3] hover:border-l-[3px] hover:border-l-[#20aee3] pr-2 transition-all text-sm`}>
+          : " text-[#8d97ad] font-light font-primary"
+      } hover:text-[#20aee3]  hover:border-l-[3px] hover:border-l-[#20aee3] pr-2 transition-all text-sm`}>
       <Link
         to={item.link}
         className="flex items-center justify-between cursor-pointer py-[12px]"
         onClick={handleMenuClick}>
         <span className="flex items-center gap-2">
-          {item.icon && <div>{item.icon}</div>}
           {item.title}
         </span>
         {item.childrens?.length > 0 &&
@@ -45,7 +44,7 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar })
       {item.childrens?.length > 0 && isMenuOpen && (
         <div className="py-2">
           {item.childrens.map((child, index) => (
-            <SidebarItem
+            <SettingSidebarItem
               className="transition-all"
               key={index}
               item={child}
@@ -60,4 +59,4 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar })
   );
 };
 
-export default SidebarItem;
+export default SettingSidebarItem;

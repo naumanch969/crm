@@ -91,7 +91,7 @@ const StyledMenuItem = styled(MenuItem)(
     `
 );
 
-const SettingNavbar = () => {
+const SettingNavbar = ({ setShowSidebar, showSidebar }) => {
   ///////////////////////////////////// VARIABLES ////////////////////////////////////////
   const { loggedUser } = useSelector((state) => state.user);
   const { notifications } = useSelector((state) => state.notification);
@@ -123,7 +123,12 @@ const SettingNavbar = () => {
       <div className="flex flex-col z-10 sticky w-full top-0 sm:h-[4rem] h-[4rem] bg-[#2d4356] text-[#8d97ad] border-b-[1px] border-b-[#eeeff0]">
         <div className="sm:h-full h-[4rem] md:pl-[20px] sm:pl-[1rem] pl-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-[#eeeff0] sm:shadow-none ">
           {/* left section */}
-          <div className="flex justify-start gap-[10px] items-center md:pl-[220px]">
+          <div className="flex justify-start gap-[10px] items-center">
+          <IconButton
+              onClick={() => setShowSidebar((pre) => !pre)}
+              className={`md:hidden flex cursor-pointer hover:text-red-400`}>
+              <PiList className="text-[25px] text-[#8d97ad]" />
+            </IconButton>
             <div>
               <p className="text-red-400 text-xl gap-1 flex items-center">
                 <PiTimerLight className="text-[25px]" /> {date.toLocaleTimeString()}
@@ -245,7 +250,7 @@ const SettingNavbar = () => {
           </div>
         </div>
       </div>
-      <div className="bg-[#67757c] md:pl-[240px] p-4 h-screen">
+      <div className="bg-[#67757c] pl-6 pt-4 h-screen">
         <Outlet />
       </div>
     </div>

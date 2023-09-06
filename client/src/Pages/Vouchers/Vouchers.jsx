@@ -19,6 +19,7 @@ import { DeleteOutline, OpenInNewOutlined } from "@mui/icons-material";
 import View from "./View";
 import Topbar from "./Topbar";
 import DeleteModal from "./DeleteModal";
+import { PiTrashLight } from "react-icons/pi";
 
 function Vouchers() {
   //////////////////////////////////////// VARIABLES ////////////////////////////////////
@@ -96,14 +97,14 @@ function Vouchers() {
                 setSelectedVoucherId(params.row._id);
               }}
               className="hover:text-red-500">
-              <DeleteOutline />
+              <PiTrashLight className="text-red-500" />
             </IconButton>
           </Tooltip>
-          <Tooltip placement="top" title="View">
+          {/* <Tooltip placement="top" title="View">
             <IconButton onClick={() => setOpenViewModal(true)} className="hover:text-red-500">
               <OpenInNewOutlined />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
         </div>
       ),
     },

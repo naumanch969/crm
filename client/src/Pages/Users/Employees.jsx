@@ -87,13 +87,13 @@ const Employees = memo(() => {
               className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
             />
           </Tooltip>
-          <Tooltip placement="top" title="View" arrow>
+          {/* <Tooltip placement="top" title="View" arrow>
             {" "}
             <IoOpenOutline
               onClick={() => handleClickOpen()}
               className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400"
             />
-          </Tooltip>
+          </Tooltip> */}
           <Tooltip placement="top" title="Edit" arrow>
             {" "}
             <CiEdit

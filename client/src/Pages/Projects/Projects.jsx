@@ -113,7 +113,7 @@ function Projects() {
     {
       field: "price",
       headerName: "Price",
-      width: 160,
+      width: 150,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => <span className="font-primary">Rs.{params.row.price}</span>,
     },

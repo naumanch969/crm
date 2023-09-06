@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Outlet, Navigate, Router, useLocation } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
 import {
   DashBoard,
   Leads,
@@ -24,6 +24,7 @@ import {
   ViewCashBook,
   CreateVouchers,
   Lead,
+  Notifications,
 } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
@@ -35,7 +36,15 @@ import RefundForm from "./Pages/Refund/Refund";
 import SettingNavbar from "./Pages/Settings/Components/Navbar/SettingNavbar";
 import SettingDashboard from "./Pages/Settings/DashBoard/SettingDashboard";
 import { Path } from "./utils";
+import SettingSidebar from "./Pages/Settings/Components/Sidebar/SettingSidebar";
 import SettingProject from "./Pages/Settings/Project/SettingProject";
+import SettingLead from "./Pages/Settings/Leads/SettingLead";
+import SettingTask from "./Pages/Settings/Task/SettingTask";
+import SettingUser from "./Pages/Settings/User/SettingUser";
+import SettingSale from "./Pages/Settings/Sale/SettingSale";
+import SettingVoucher from "./Pages/Settings/Voucher/SettingVoucher";
+import SettingCashbook from "./Pages/Settings/Cashbook/SettingCashbook";
+import SettingAuth from "./Pages/Settings/Authorization/SettingAuth";
 
 const App = () => {
   ///////////////////////////////////// VARIABLES ////////////////////////////////////////
@@ -59,13 +68,12 @@ const App = () => {
   const Layout = () => {
     return (
       <div className="flex h-screen">
-        <div className="">
-          <Sidebar showSidebar={showSidebarForSettings} setShowSidebar={setShowSidebar} />
+        <div className={`${showSidebar ? "w-[250px]" : ""}`}>
+          <SettingSidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
         <div className="w-full sticky">
-          <SettingNavbar />
+          <SettingNavbar showSidebar={showSidebar} setShowSidebar={setShowSidebar}  />
         </div>
-        
       </div>
     );
   };
@@ -76,6 +84,13 @@ const App = () => {
         <Route path="/settings" element={<Layout />}>
           <Route path="/settings/dashboard" element={<SettingDashboard />} />
           <Route path="/settings/project" element={<SettingProject />} />
+          <Route path="/settings/lead" element={<SettingLead />} />
+          <Route path="/settings/task" element={<SettingTask />} />
+          <Route path="/settings/user" element={<SettingUser />} />
+          <Route path="/settings/sale" element={<SettingSale />} />
+          <Route path="/settings/voucher" element={<SettingVoucher />} />
+          <Route path="/settings/cashbook" element={<SettingCashbook />} />
+          <Route path="/settings/authorization" element={<SettingAuth />} />
         </Route>
       </Routes>
       <div className="flex flex-col w-full h-full bg-[#f6f9fa]">
@@ -92,9 +107,7 @@ const App = () => {
           <div className="flex h-screen font-primary">
             <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
             <div
-              className={`${
-                showSidebar ? "w-full " : "w-full "
-              } flex flex-col overflow-y-scroll `}>
+              className={`${showSidebar ? "w-full " : "w-full "} flex flex-col overflow-y-scroll `}>
               <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
               <div className="flex p-[1rem] w-full">
                 <Routes>
