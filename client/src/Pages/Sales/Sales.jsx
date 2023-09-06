@@ -46,7 +46,7 @@ function Sales() {
       headerClassName: "super-app-theme--header",
       headerName: "Net Worth",
       width: 140,
-      renderCell: (params) => <div className="font-primary">{params.row.net}</div>,
+      renderCell: (params) => <div className="font-primary">{(params.row.net).toLocaleString()}</div>,
     },
     {
       field: "received",

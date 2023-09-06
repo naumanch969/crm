@@ -34,7 +34,7 @@ const IncomeAndExpense = () => {
                                 width={500}
                                 height={300}
                                 data={incomeAndExpenses}
-                                margin={{ top: 20, right: 5, left: 30, bottom: 5, }}
+                                margin={{ top: 20, right: 5, left: 35, bottom: 5, }}
                             >
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="name" />
@@ -46,9 +46,9 @@ const IncomeAndExpense = () => {
                             </LineChart>
                         </ResponsiveContainer>
                         <div className="columns-3 mt-2">
-                            <div className="flex justify-center font-extralight text-3xl">{currentYear}</div>
-                            <div className="flex justify-center font-extralight text-3xl">${incomeSum}</div>
-                            <div className="flex justify-center font-extralight text-3xl">${expensesSum}</div>
+                            <div className="flex justify-center font-extralight sm:text-3xl text-2xl">{currentYear}</div>
+                            <div className="flex justify-center font-extralight sm:text-3xl text-2xl">${incomeSum}</div>
+                            <div className="flex justify-center font-extralight sm:text-3xl text-2xl">${expensesSum}</div>
                         </div>
                         <div className="columns-3">
                             <div className="flex justify-center text-sm font-thin text-gray-600">Period</div>

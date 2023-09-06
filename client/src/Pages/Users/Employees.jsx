@@ -27,7 +27,7 @@ const Employees = memo(() => {
       width: "200",
       renderCell: (params) => (
         <div
-          className="text-[#20aee3] capitalize cursor-pointer font-primary"
+          className="text-[#20aee3] capitalize cursor-pointer font-primary font-light hover:text-[#007bff]"
           onClick={() => handleClickOpen()}>
           {params.row.firstName} {params.row.lastName}
         </div>

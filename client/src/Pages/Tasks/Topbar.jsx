@@ -85,7 +85,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
         <Path />
       </div>
 
-      <div className="md:flex justify-between items-center flex-none">
+      <div className="md:flex justify-between items-center flex-none mb-4">
         <h1 className="text-primary-blue text-[32px] capitalize font-light">{title}</h1>
 
         {showOptionButtons && (

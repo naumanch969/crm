@@ -96,7 +96,7 @@ const Clients = () => {
       headerName: "Client Name",
       width: "200",
       renderCell: (params) => (
-        <div className="capitalize text-[#20aee3] font-primary">
+        <div className="capitalize text-[#20aee3] font-primary hover:text-[#007bff] cursor-pointer font-light">
           {params.row.firstName} {params.row.lastName}
         </div>
       ),
@@ -146,7 +146,7 @@ const Clients = () => {
           <Tooltip placement="top" title="View" arrow>
             {" "}
             <IoOpenOutline
-              onClick={() => handleClickOpen()}
+              onClick={() => handleClickOpen(params.row._id)}
               className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400"
             />
           </Tooltip>
@@ -182,8 +182,8 @@ const Clients = () => {
     dispatch(getUserReducer(employee));
     setOpenEditModal(true);
   };
-  const handleOpenDeleteModal = (taskId) => {
-    setSelectedUserId(taskId);
+  const handleOpenDeleteModal = (userId) => {
+    setSelectedUserId(userId);
     setOpenDeleteModal(true);
   };
 

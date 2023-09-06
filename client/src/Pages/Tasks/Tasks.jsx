@@ -99,7 +99,7 @@ function Tasks() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <span
-          className="cursor-pointer text-[#20aee3] hover:text-[#007bff] capitalize font-primary"
+          className="cursor-pointer text-[#20aee3] hover:text-[#007bff] capitalize font-primary font-light"
           onClick={() => handleClickOpen(params.row)}>
           {params.row.title}
         </span>
@@ -260,7 +260,7 @@ function Tasks() {
   };
 
   return (
-    <div className="w-full h-fit bg-inherit flex flex-col gap-[12px]  ">
+    <div className="w-full h-fit bg-inherit flex flex-col">
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} taskId={selectedTaskId} />
       <Task open={openTask} setOpen={setOpenTask} />

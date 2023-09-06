@@ -103,7 +103,7 @@ const App = () => {
             </Routes>
           </div>
         ) : (
-          <div className="flex h-screen font-primary">
+          <div className="flex font-primary">
             <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
             <div
               className={`${showSidebar ? "w-full " : "w-full "} flex flex-col overflow-y-scroll `}>

@@ -25,6 +25,7 @@ import {
   PiUserListLight,
   PiUsersFourLight,
   PiUsersThreeLight,
+  PiXLight,
 } from "react-icons/pi";
 import SettingSidebarItem from "./SettingSidebarItem";
 import { IoExitOutline } from "react-icons/io5";
@@ -145,7 +146,7 @@ const SettingSidebar = ({ showSidebar, setShowSidebar }) => {
             <div className="w-full flex justify-between items-center mb-[1rem] h-[4rem]">
               <img src="/favicon/GrowLOGO.png" />
               <IconButton onClick={() => setShowSidebar(false)}>
-                <Close />
+                <PiXLight className="text-[25px] text-[#8d97ad]" />
               </IconButton>
             </div>
             <div
