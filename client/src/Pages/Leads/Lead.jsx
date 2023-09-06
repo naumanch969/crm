@@ -96,10 +96,6 @@ const Lead = ({ open, setOpen, leadId, scroll }) => {
                   Required City :{" "}
                   <span className="text-black font-normal">{currentLead?.city}</span>
                 </div>
-                <div className="text-lg font-[350] pb-2">
-                  Specific Area :{" "}
-                  <span className="text-black font-normal">{currentLead?.region}</span>
-                </div>
 
                 <div className="flex items-center pt-4 pb-2 gap-3 text-[20px]">
                   <PiRuler className="text-[25px]" />
@@ -156,14 +152,8 @@ const Lead = ({ open, setOpen, leadId, scroll }) => {
                   </div>
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                     <div className="flex items-center gap-2">
-                      <PiEnvelopeSimple className="text-gray-700" /> Email :{" "}
+                      <PiEnvelopeSimple className="text-gray-700" /> Email:{" "}
                       <span className="text-black">{currentLead?.clientId?.email}</span>
-                    </div>
-                  </div>
-                  <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <PiGitBranch className="text-gray-700" /> Source :{" "}
-                      <span className="text-black capitalize">{currentLead?.source}</span>
                     </div>
                   </div>
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">

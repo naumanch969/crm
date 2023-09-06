@@ -22,7 +22,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const CreateTask = ({ open, setOpen }) => {
+const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const { isFetching, error } = useSelector((state) => state.task);
   const dispatch = useDispatch();
@@ -65,12 +65,13 @@ const CreateTask = ({ open, setOpen }) => {
   };
   const handleClose = () => {
     setOpen(false);
+    setOpenFromNavbar(false);
   };
 
   return (
     <div>
       <Dialog
-        open={open}
+        open={open || openFromNavbar}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}

@@ -77,7 +77,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
     setOpen(true);
   };
 
-  <Navbar setOpen={setOpen} />;
+  <Navbar open={open} setOpen={setOpen} />;
 
   return (
     <div className="flex flex-col tracking-wide font-primary">

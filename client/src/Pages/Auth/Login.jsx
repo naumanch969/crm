@@ -86,7 +86,7 @@ const Login = () => {
     setShowSnackbar({ ...showSnackbar, open: false });
   };
   return (
-    <div>
+    <div className="font-primary">
       <div className="md:opacity-100 opacity-0 left-0 bottom-10 absolute h-[53%] w-[28%]">
         <img src="/images/login-1.png" />
       </div>

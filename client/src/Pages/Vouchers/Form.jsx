@@ -13,6 +13,8 @@ import {
   DialogActions,
   TextField,
   Autocomplete,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
 
@@ -22,7 +24,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-const FORM = () => {
+const FORM = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////// VARIBALES ///////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -205,6 +207,10 @@ const FORM = () => {
     setVoucherData(initialVoucherState);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div>
       <Dialog
@@ -217,7 +223,7 @@ const FORM = () => {
         maxWidth="sm"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400 font-primary">Add New Sale</div>
+          <div className="text-sky-400 font-primary">Add New Voucher</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -226,7 +232,7 @@ const FORM = () => {
           <div className="flex flex-col gap-2 p-3 pb-0 text-gray-500 font-primary">
             <div className="text-xl flex justify-start items-center gap-2 font-normal">
               <PiNotepad size={23} />
-              <span>Report Details</span>
+              <span>Voucher Details</span>
             </div>
             <Divider />
             <table className="mt-4">
@@ -234,9 +240,9 @@ const FORM = () => {
                 <td className="pb-4 text-lg">Voucher Number </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={handleChange}
-                    value={saleData.invoiceNumber}
-                    name="invoiceNumber"
+                    name="branch"
+                    value={voucherData.branch}
+                    onChange={handleInputChange}
                     size="small"
                     type="number"
                     fullWidth
@@ -244,91 +250,122 @@ const FORM = () => {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Supplier Name </td>
+                <td className="pb-4 text-lg">Date of Issue </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={handleChange}
-                    value={saleData.supplierName}
-                    name="supplierName"
+                    type="date"
+                    name="issuingDate"
+                    value={voucherData.issuingDate}
+                    onChange={handleInputChange}
                     size="small"
                     fullWidth
                   />
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Net Worth </td>
+                <td className="pb-4 text-lg">Due Date </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={handleChange}
-                    value={saleData.net}
-                    name="net"
+                    name="dueDate"
+                    value={voucherData.dueDate}
+                    onChange={handleInputChange}
                     size="small"
-                    type="number"
+                    type="date"
                     fullWidth
                   />
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Recieved </td>
+                <td className="pb-4 text-lg">Customer Name </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={handleChange}
-                    value={saleData.received}
-                    name="received"
-                    size="small"
-                    type="number"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">PSF </td>
-                <td className="pb-4">
-                  <TextField
-                    onChange={handleChange}
-                    value={saleData.psf}
-                    name="psf"
-                    size="small"
-                    type="number"
-                    placeholder="Price Per Square Foot"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">FOP </td>
-                <td className="pb-4">
-                  <TextField
-                    onChange={handleChange}
-                    value={saleData.fop}
-                    name="fop"
+                    name="customerName"
+                    value={voucherData.customerName}
+                    onChange={handleInputChange}
                     size="small"
                     type="text"
-                    placeholder="Fraction of Payment"
                     fullWidth
                   />
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Branch </td>
+                <td className="pb-4 text-lg">CNIC </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={handleChange}
-                    value={saleData.branch}
-                    name="branch"
+                    name="cnic"
+                    value={voucherData.cnic}
+                    onChange={handleInputChange}
                     size="small"
+                    type="number"
                     fullWidth
                   />
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Staff </td>
+                <td className="pb-4 text-lg">Phone </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={handleChange}
-                    value={saleData.staff}
-                    name="staff"
+                    name="phone"
+                    value={voucherData.phone}
+                    onChange={handleInputChange}
                     size="small"
+                    type="text"
+                    fullWidth
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Payment Type </td>
+                <td className="pb-4">
+                  <Select
+                    name="type"
+                    value={voucherData.type}
+                    onChange={handleInputChange}
+                    size="small"
+                    fullWidth>
+                    <MenuItem value="cash">Cash</MenuItem>
+                    <MenuItem value="cheque">Cheque</MenuItem>
+                    <MenuItem value="creditCard">Credit Card</MenuItem>
+                    <MenuItem value="online">Onlone</MenuItem>
+                  </Select>
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Total Amount </td>
+                <td className="pb-4">
+                  <TextField
+                    name="total"
+                    value={voucherData.total}
+                    onChange={handleInputChange}
+                    size="small"
+                    type="text"
+                    fullWidth
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Amount Paying </td>
+                <td className="pb-4">
+                  <TextField
+                    name="paid"
+                    value={voucherData.paid}
+                    onChange={handleInputChange}
+                    size="small"
+                    type="text"
+                    fullWidth
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Remainig Amount </td>
+                <td className="pb-4">
+                  <TextField
+                    disabled
+                    name="remained"
+                    value={voucherData.total - voucherData.paid}
+                    onChange={handleInputChange}
+                    size="small"
+                    type="text"
                     fullWidth
                   />
                 </td>
@@ -345,7 +382,7 @@ const FORM = () => {
             Cancel
           </button>
           <button
-            onClick={handleSubmit}
+          onClick={(e) => handleDownloadPDF(e)}
             variant="contained"
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
             Submit

@@ -42,20 +42,9 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       id: 2,
       title: "Leads",
       icon: <PiUsersThreeLight className="text-[25px]" />,
-      childrens: [
-        {
-          title: "My Leads",
-          icon: <PiFolderSimpleUserLight className="text-[25px]" />,
-          link: "/myLeads",
-          role: ["employee", "manager", "super_admin"],
-        },
-        {
-          title: "Get All Leads",
-          icon: <PiUsersFourLight className="text-[25px]" />,
-          link: "/leads?type=all",
-          role: ["employee", "manager", "super_admin"],
-        },
-      ],
+      link: "/leads?type=all",
+      role: ["employee", "manager", "super_admin"],
+      childrens: [],
     },
     {
       id: 3,
@@ -142,20 +131,9 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       id: 9,
       title: "Vouchers",
       icon: <PiReceiptLight className="text-[25px]" />,
-      childrens: [
-        {
-          title: "All Vouchers",
-          icon: <PiDatabaseLight className="text-[25px]" />,
-          link: "/voucher",
-          role: ["employee", "manager", "super_admin"],
-        },
-        {
-          title: "Create Voucher",
-          icon: <CiEdit className="text-[25px]" />,
-          link: "/voucher/create",
-          role: ["employee", "manager", "super_admin"],
-        },
-      ],
+      role: ["employee", "manager", "super_admin"],
+      link: "/voucher",
+      childrens: [],
     },
   ];
 

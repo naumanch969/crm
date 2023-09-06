@@ -32,7 +32,7 @@ const Topbar = (view, setView) => {
       </div>
 
       <div className="sm:flex justify-between items-center flex-none">
-        <h1 className="text-primary-blue text-[32px] capitalize">{title}</h1>
+        <h1 className="text-primary-blue text-[32px] capitalize font-light">Refunds</h1>
 
         {showAddButton && (
           <div className="flex items-center justify-end gap-2 md:mt-0 mt-4">

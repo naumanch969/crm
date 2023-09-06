@@ -22,7 +22,6 @@ import {
   Clients,
   CreateCashBook,
   ViewCashBook,
-  CreateVouchers,
   Lead,
   Notifications,
 } from "./Pages";
@@ -67,7 +66,7 @@ const App = () => {
   ///////////////////////////////////// Functions ////////////////////////////////////////
   const Layout = () => {
     return (
-      <div className="flex h-screen">
+      <div className="flex">
         <div className={`${showSidebar ? "w-[250px]" : ""}`}>
           <SettingSidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
@@ -135,7 +134,6 @@ const App = () => {
                   <Route path="/sales" element={<Sales />} />
                   <Route path="/sales/create" element={<CreateSale />} />
                   <Route path="/voucher" element={<Vouchers showSidebar={showSidebar} />} />
-                  <Route path="/voucher/create" element={<CreateVouchers />} />
                 </Routes>
               </div>
             </div>

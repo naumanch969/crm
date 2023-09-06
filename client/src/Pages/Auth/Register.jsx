@@ -122,7 +122,7 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <div className="font-primary">
       <div className="md:opacity-100 opacity-0 left-0 bottom-0 absolute h-[52%] w-[25%]">
         <img src="/images/login-1.png" />
       </div>

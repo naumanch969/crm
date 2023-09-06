@@ -130,7 +130,7 @@ function RequestApprovals() {
 
 
   return (
-    <div className="w-full h-fit bg-inherit flex flex-col gap-[2rem]  ">
+    <div className="w-full h-fit bg-inherit flex flex-col gap-[2rem] font-primary">
       {error && <></>}
       <Topbar />
       <Table

@@ -1,4 +1,4 @@
-import { Avatar, IconButton, Tooltip } from "@mui/material";
+import { Avatar, Divider, IconButton, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dropdown } from "@mui/base/Dropdown";
@@ -102,7 +102,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  /////////////////////////////////////////// STATES ////////////////////////////////////////////
+  /////////////////////////////////////////// STATES ////////////////////////////////////////////////
   const [date, setDate] = useState(new Date());
 
   /////////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////
@@ -126,6 +126,10 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
   const handleLogout = () => {
     dispatch(logout(navigate));
   };
+
+  const handleTaskOpen = () => {
+    setOpen(true);
+  }
 
   return (
     <div className={`${pathname.includes("/settings") ? "hidden" : "" }`}>
@@ -168,7 +172,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                       <div className="flex flex-col gap-[8px] ">
                         {notifications.slice(0, 5).map((notification, index) => (
                           <React.Fragment key={index}>
-                            <StyledMenuItem onClick={()=>navigate('/tasks')} className="text-gray-600 flex">
+                            <StyledMenuItem onClick={()=>navigate('/authorization/refund')} className="text-gray-600 flex">
                               <div>
                                 <span className="text-lg font-extralight text-sky-400">{notification.title}</span>
                                 <br />
@@ -217,7 +221,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                 </Menu>
               </Dropdown>
 
-              <Link to="/tasks/create">
+              <Link to="/tasks">
                 <Tooltip title="Add Task" arrow placement="bottom">
                   <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
                     <PiListChecks className="text-[25px]" />
@@ -232,8 +236,8 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
               </Tooltip>
               </Link>
 
-              <Link to="/employees/create">
-                <Tooltip title="Add User" arrow placement="bottom">
+              <Link to="/employees">
+                <Tooltip title="Add Employee" arrow placement="bottom">
                   <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
                     <PiUserPlus className="text-[25px]" />
                   </IconButton>
@@ -253,6 +257,10 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                 </MenuButton>
 
                 <Menu slots={{ listbox: StyledListbox }}>
+                  <div className="p-2 flex justify-center items-center">
+                      <div className="text-lg font-primary">{loggedUser?.username}</div>
+                  </div>
+                  <Divider />
                   <StyledMenuItem
                     onClick={handleLogout}
                     className="text-gray-600 flex items-center gap-4 font-primary">

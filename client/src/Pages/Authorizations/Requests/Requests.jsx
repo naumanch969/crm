@@ -101,7 +101,7 @@ function RequestApprovals() {
 
 
   return (
-    <div className='w-full h-fit bg-inherit flex flex-col gap-[2rem]  ' >
+    <div className='w-full h-fit bg-inherit flex flex-col gap-[2rem] font-primary' >
 
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} approvalId={selectedApprovalId} />
       <Request open={openRequest} setOpen={setOpenRequest} />
