@@ -32,7 +32,12 @@ const FilterDrawer = ({ open, setOpen }) => {
   }, [filters])
 
   const handleInputChange = (field, value) => {
-    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
+    let inputValue
+    if (field == 'startingDate' || field == 'endingDate')
+
+      inputValue = value
+    else
+      inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
     setFilters((prevFilters) => ({
       ...prevFilters,
       [field]: inputValue,
@@ -169,7 +174,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                 fullWidth
                 label="Propery Type"
                 value={filters.propertyType}
-               />
+              />
             )}
           />
 
@@ -187,7 +192,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                 fullWidth
                 label="Home Type"
                 value={filters.homeType}
-               />
+              />
             )}
           />
 

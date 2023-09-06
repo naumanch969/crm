@@ -76,8 +76,8 @@ const Kanban = ({ options, setOptions }) => {
         <DragDropContext onDragEnd={handleDragEnd}>
           <div className="flex justify-start gap-[1rem] w-full min-h-[30rem] h-fit pb-[1rem] overflow-x-scroll ">
             <Board projects={notStarted} title='Not Started' _id='1' />
-            <Board projects={inProgress} title="In Progress" _id="2" />
-            <Board projects={completed} title="Completed" _id="3" />
+            <Board projects={completed} title="Completed" _id="2" />
+            <Board projects={inProgress} title="In Progress" _id="3" />
             <Board projects={onHold} title="On Hold" _id="4" />
           </div>
         </DragDropContext>

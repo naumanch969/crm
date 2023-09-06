@@ -113,8 +113,6 @@ export const searchTask = async (req, res, next) => {
                 { description: searchPattern },
                 { status: searchPattern },
                 { priority: searchPattern },
-                { dueDate: searchPattern },
-                { isArchived: searchPattern },
             ],
         })
             .populate('userId')
@@ -122,14 +120,16 @@ export const searchTask = async (req, res, next) => {
 
         res.status(200).json({ result: searchResults });
     } catch (error) {
+        console.log(error)
         next(createError(500, error.message))
     }
 };
 
+
 export const filterTask = async (req, res, next) => {
     const { startingDate, endingDate, ...filters } = req.query;
     try {
-        let query = await Task.find(filters);
+        let query = Task.find(filters);
 
         // Check if startingDate is provided and valid
         if (startingDate && isValidDate(startingDate)) {
