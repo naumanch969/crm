@@ -46,7 +46,6 @@ const CreateUser = ({ open, setOpen, scroll }) => {
     cnic: "",
     phone: "",
     officialNumber: "",
-    branch: "",
     gender: "male",
     martialStatus: "married",
     salaryType: "",
@@ -54,11 +53,14 @@ const CreateUser = ({ open, setOpen, scroll }) => {
   });
 
   //////////////////////////////////////// USE EFFECTS /////////////////////////////////////
+  useEffect(() => {
+    console.log('employeeData', employeeData)
+  }, [employeeData])
 
   //////////////////////////////////////// FUNCTIONS /////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createEmployee(employeeData, navigate));
+    dispatch(createEmployee(employeeData, setOpen));
   };
 
   const handleChange = (e) => {
@@ -69,7 +71,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
 
   const handleInputChange = (field, value) => {
     const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
-    setProjectData((prevFilters) => ({
+    setEmployeeData((prevFilters) => ({
       ...prevFilters,
       [field]: inputValue,
     }));
@@ -107,19 +109,31 @@ const CreateUser = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">First Name </td>
                 <td className="pb-4">
-                  <TextField size="small" fullWidth />
+                  <TextField
+                    size="small"
+                    fullWidth
+                    onChange={(e) => handleInputChange('firstName', e.target.value)}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Last Name </td>
                 <td className="pb-4">
-                  <TextField size="small" fullWidth />
+                  <TextField
+                    size="small"
+                    fullWidth
+                    onChange={(e) => handleInputChange('lastName', e.target.value)}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">User Name </td>
                 <td className="pb-4">
-                  <TextField size="small" fullWidth />
+                  <TextField
+                    size="small"
+                    fullWidth
+                    onChange={(e) => handleInputChange('username', e.target.value)}
+                  />
                 </td>
               </tr>
               <tr>
@@ -170,7 +184,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                 </td>
               </tr>
               <tr>
-                <td className="flex items-start pt-2 text-lg">Mobile Number </td>
+                <td className="flex items-start pt-2 text-lg">Phone </td>
                 <td className="pb-4">
                   <TextField
                     type="number"
@@ -181,12 +195,12 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                 </td>
               </tr>
               <tr>
-                <td className="flex items-start pt-2 text-lg">Whatsapp Number </td>
+                <td className="flex items-start pt-2 text-lg">Official Number </td>
                 <td className="pb-4">
                   <TextField
                     type="number"
                     size="small"
-                    onChange={(e) => handleInputChange("whatsapp", e.target.value)}
+                    onChange={(e) => handleInputChange("officialNumber", e.target.value)}
                     fullWidth
                   />
                 </td>
@@ -234,7 +248,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
             onClick={handleSubmit}
             variant="contained"
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
-            Submit
+            {isFetching ? 'Submitting...' : 'Submit'}
           </button>
         </DialogActions>
       </Dialog>

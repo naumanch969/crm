@@ -29,6 +29,42 @@ export const getUser = async (req, res, next) => {
     }
 }
 
+export const filterUser = async (req, res, next) => {
+    const { startingDate, endingDate, ...filters } = req.query;
+     try {
+        let query = await User.find(filters);
+
+        // Check if startingDate is provided and valid
+        if (startingDate && isValidDate(startingDate)) {
+            const startDate = new Date(startingDate);
+            startDate.setHours(0, 0, 0, 0);
+
+            // Add createdAt filtering for startingDate
+            query = query.where('createdAt').gte(startDate);
+        }
+
+        // Check if endingDate is provided and valid
+        if (endingDate && isValidDate(endingDate)) {
+            const endDate = new Date(endingDate);
+            endDate.setHours(23, 59, 59, 999);
+
+            // Add createdAt filtering for endingDate
+            if (query.model.modelName === 'User') { // Check if the query has not been executed yet
+                query = query.where('createdAt').lte(endDate);
+            }
+        }
+        if (query.length > 0) {
+            query = await query.populate('userId').exec();
+        }
+        res.status(200).json({ result: query });
+
+    } catch (error) {
+        console.log(error)
+        next(createError(500, error.message));
+    }
+};
+
+
 export const getClients = async (req, res, next) => {
     try {
 
@@ -77,8 +113,8 @@ export const createEmployee = async (req, res, next) => {
         res.status(200).json({ result, message: 'employees fetched seccessfully', success: true })
 
     } catch (err) {
+        console.log(err)
         next(createError(500, err.message))
-
     }
 }
 

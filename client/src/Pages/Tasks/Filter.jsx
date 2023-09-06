@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Drawer, Button, TextField, Autocomplete } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
@@ -12,29 +12,38 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const FilterDrawer = ({ open, setOpen }) => {
   const dispatch = useDispatch();
-
-  const [filters, setFilters] = useState({
+  const initialState = {
     status: '',
     priority: '',
     startingDate: '',
     endingDate: ''
-  });
+  }
+
+  const [filters, setFilters] = useState(initialState);
+
+  useEffect(() => {
+    console.log('filters', filters)
+  }, [filters])
 
   const handleInputChange = (field, value) => {
-    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
+
+    let inputValue
+    if (field == 'startingDate' || field == 'endingDate')
+      inputValue = value
+    else
+      inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
     setFilters((prevFilters) => ({
       ...prevFilters,
       [field]: inputValue,
     }));
   };
   const handleApplyFilters = () => {
-    console.log('filters', filters)
     dispatch(filterTask(filters));
     setOpen(false);
   };
 
   const demoStatus = ["Completed", "Overdue", "Pending", "In Progress"];
-  const demoPriority = ["High", "Medium", "Low"];
+  const demoPriority = ["High", "Moderate", "Low"];
 
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -61,7 +70,6 @@ const FilterDrawer = ({ open, setOpen }) => {
                 {...params}
                 fullWidth
                 label="Status"
-                value={filters.status}
               />
             )}
           />
@@ -78,7 +86,6 @@ const FilterDrawer = ({ open, setOpen }) => {
                 {...params}
                 fullWidth
                 label="Priority"
-                value={filters.priority}
               />
             )}
           />
@@ -91,9 +98,8 @@ const FilterDrawer = ({ open, setOpen }) => {
                   <DemoContainer components={["DesktopDatePicker"]}>
                     <DesktopDatePicker
                       slotProps={{ textField: { size: "small", maxWidth: 200 } }}
-                      value={filters.startingDate}
-                      onChange={(date) => handleInputChange('startingDate', date.$d)}
                       label="Starting Date"
+                      onChange={(date) => handleInputChange("startingDate", date.$d)}
                     />
                   </DemoContainer>
                 </LocalizationProvider>
@@ -105,8 +111,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                     <DesktopDatePicker
                       className="w-3/6"
                       label="Ending Date"
-                      value={filters.endingDate}
-                      onChange={(date) => handleInputChange('endingDate', date.$d)}
+                      onChange={(date) => handleInputChange("endingDate", date.$d)}
                       slotProps={{ textField: { size: "small" } }}
                     />
                   </DemoContainer>

@@ -41,7 +41,7 @@ const FilterDrawer = ({ open, setOpen }) => {
         <div className="flex justify-between items-center h-[10vh] bg-[#20aee3] p-5 text-white font-thin">
           <div className="flex items-center text-[25px] gap-2">
             <PiFunnelLight className="text-[25px]" />
-            Filter Items
+            Filter Users
           </div>
           <div className="cursor-pointer" onClick={() => setOpen(false)}>
             <PiXLight className="text-[25px]" />
@@ -60,7 +60,6 @@ const FilterDrawer = ({ open, setOpen }) => {
                 {...params}
                 fullWidth
                 label="Martial Status"
-                value={filters.city}
                />
             )}
           />
@@ -76,7 +75,6 @@ const FilterDrawer = ({ open, setOpen }) => {
                 {...params}
                 fullWidth
                 label="Salary Type"
-                value={filters.city}
                />
             )}
           />

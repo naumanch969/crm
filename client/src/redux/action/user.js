@@ -88,12 +88,13 @@ export const createClient = (clientData) => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const createEmployee = (employeeData, navigate) => async (dispatch) => {
+export const createEmployee = (employeeData, setOpen) => async (dispatch) => {
     try {
+        console.log('employeeData', employeeData)
         dispatch(start())
         const { data } = await api.createEmployee(employeeData)
         dispatch(createEmployeeReducer(data.result))
-        navigate('/employees')
+        setOpen(false)
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

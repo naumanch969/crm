@@ -127,6 +127,7 @@ export const updateProject = async (req, res, next) => {
         res.status(200).json({ result: updatedProject, message: 'project updated successfully', success: true })
 
     } catch (err) {
+        console.log(err)
         next(createError(500, err.message))
     }
 }

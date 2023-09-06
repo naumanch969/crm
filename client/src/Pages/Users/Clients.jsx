@@ -4,13 +4,16 @@ import { Table } from "../../Components";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getClients } from "../../redux/action/user";
-import { getClientsReducer } from "../../redux/reducer/user";
+import { getClientsReducer, getUserReducer } from "../../redux/reducer/user";
 import { Tooltip, styled } from "@mui/material";
 import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
+import Filter from "./Filter";
 import User from "./User";
+import DeleteClient from "./Delete";
+import EditClient from "./Edit";
 
 const blue = {
   100: "#DAECFF",
@@ -129,15 +132,22 @@ const Clients = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 180,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <div className="flex gap-[10px] ">
+        <div className="flex gap-[10px]">
           <Tooltip placement="top" title="Delete" arrow>
             {" "}
             <PiTrashLight
               onClick={() => handleOpenDeleteModal(params.row._id)}
               className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
+            />
+          </Tooltip>
+          <Tooltip placement="top" title="View" arrow>
+            {" "}
+            <IoOpenOutline
+              onClick={() => handleClickOpen()}
+              className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400"
             />
           </Tooltip>
           <Tooltip placement="top" title="Edit" arrow>
@@ -147,27 +157,17 @@ const Clients = () => {
               className="cursor-pointer text-green-500 text-[23px] hover:text-green-600"
             />
           </Tooltip>
-
-          <Dropdown>
-            <Tooltip title="More" arrow placement="top">
-              <MenuButton>
-                <PiDotsThreeOutlineThin className="cursor-pointer text-[23px] text-gray-500 hover:text-gray-700" />
-              </MenuButton>
-            </Tooltip>
-            <Menu slots={{ listbox: StyledListbox }}>
-              <StyledMenuItem
-                className="text-gray-500 flex font-primary"
-                onClick={() => handleOpenStatusModal(params.row)}>
-                Block
-              </StyledMenuItem>
-            </Menu>
-          </Dropdown>
         </div>
       ),
     },
   ];
 
   ////////////////////////////////////// STATES ////////////////////////////////////////
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const [openFilters, setOpenFilters] = useState("");
+  const [openUser, setOpenUser] = useState(false);
 
   ////////////////////////////////////// USE EFFECTS ////////////////////////////////////
   useEffect(() => {
@@ -175,17 +175,26 @@ const Clients = () => {
   }, []);
 
   ////////////////////////////////////// FUNCTIONS //////////////////////////////////////////
-  const handleOpenStatusModal = (task) => {
-    //
-    //
+  const handleClickOpen = () => {
+    setOpenUser(true);
   };
-  const handleOpenArchive = () => {
-    //
-    //
+  const handleOpenEditModal = (employee) => {
+    dispatch(getUserReducer(employee));
+    setOpenEditModal(true);
+  };
+  const handleOpenDeleteModal = (taskId) => {
+    setSelectedUserId(taskId);
+    setOpenDeleteModal(true);
   };
 
   return (
     <div className="w-full">
+
+      <EditClient open={openEditModal} setOpen={setOpenEditModal} />
+      <DeleteClient open={openDeleteModal} setOpen={setOpenDeleteModal} userId={selectedUserId} />
+      <Filter open={openFilters} setOpen={setOpenFilters} />
+      <User open={openUser} setOpen={setOpenUser} />
+
       <Topbar />
       <Table
         rows={clients}

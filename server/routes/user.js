@@ -1,5 +1,5 @@
 import express from 'express'
-import { getUsers, getUser, createClient, createEmployee, updateRole, updateUser, deleteUser, getClients, getEmployees, deleteWholeCollection } from '../controllers/user.js'
+import { getUsers, getUser,filterUser, createClient, createEmployee, updateRole, updateUser, deleteUser, getClients, getEmployees, deleteWholeCollection } from '../controllers/user.js'
 import { verifyManager, verifyEmployee, verifyToken } from '../middleware/auth.js'
 
 const router = express.Router()
@@ -19,6 +19,7 @@ router.get('/get/all', verifyToken, verifyManager, getUsers)
 router.get('/get/single/:userId', verifyToken, verifyIsSameUser, getUser)
 router.get('/get/clients', verifyToken, verifyEmployee, getClients)
 router.get('/get/employees', verifyToken, verifyManager, getEmployees)
+router.get('/filter', verifyToken, verifyEmployee, filterUser)
 
 // POST 
 router.post('/create/client', verifyToken, verifyEmployee, createClient)

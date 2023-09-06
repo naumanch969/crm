@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createTask } from "../../redux/action/task";
 import { useLocation, useNavigate } from "react-router-dom";
-import Topbar from "./Topbar";
-import { deleteAllImagesReducer } from "../../redux/reducer/upload";
 import {
   Divider,
   Dialog,
@@ -51,11 +49,15 @@ const CreateTask = ({ open, setOpen }) => {
     e.preventDefault();
     if (!taskData.title || !taskData.description || !taskData.dueDate)
       return alert("Make sure to rovide all the fields");
-    dispatch(createTask(taskData, navigate));
+    dispatch(createTask(taskData, setOpen));
   };
 
   const handleInputChange = (field, value) => {
-    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
+    let inputValue
+    if (field == 'dueDate')
+      inputValue = value
+    else
+      inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
     setTaskData((prevFilters) => ({
       ...prevFilters,
       [field]: inputValue,
@@ -153,8 +155,9 @@ const CreateTask = ({ open, setOpen }) => {
           </button>
           <button
             variant="contained"
+            onClick={handleSubmit}
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
-            Submit
+            {isFetching ? 'Submitting...' : 'Submit'}
           </button>
         </DialogActions>
       </Dialog>
