@@ -85,7 +85,7 @@ export const getEmployees = async (req, res, next) => {
 
     } catch (err) {
         next(createError(500, err.message))
-
+        console.log(err)
     }
 }
 
@@ -132,7 +132,6 @@ export const updateRole = async (req, res, next) => {
 
     } catch (err) {
         next(createError(500, err.message))
-
     }
 }
 
@@ -155,7 +154,6 @@ export const updateUser = async (req, res, next) => {
 
 export const deleteUser = async (req, res, next) => {
     try {
-
         const { userId } = req.params
         const findedUser = await User.findById(userId)
         if (!findedUser) return next(createError(400, 'User not exist'))
@@ -165,6 +163,7 @@ export const deleteUser = async (req, res, next) => {
 
     } catch (err) {
         next(createError(500, err.message))
+        console.log(err)
     }
 }
 
