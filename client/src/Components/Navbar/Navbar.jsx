@@ -46,13 +46,13 @@ const grey = {
 
 const StyledListbox = styled("ul")(
   ({ theme }) => `
-    font-family: IBM Plex Sans, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 0.875rem;
     box-sizing: border-box;
     transition:all;
-    padding: 6px;
     margin: 12px 0;
     min-width: 200px;
+    max-width: 400px;
     border-radius: 12px;
     overflow: auto;
     outline: 0px;
@@ -68,10 +68,8 @@ const StyledMenuItem = styled(MenuItem)(
   ({ theme }) => `
     list-style: none;
     padding: 8px;
-    border-radius: 8px;
     cursor: pointer;
     user-select: none;
-
     &:last-of-type {
       border-bottom: none;
     }
@@ -98,7 +96,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
   const { loggedUser } = useSelector((state) => state.user);
   const { notifications } = useSelector((state) => state.notification);
   const { pathname } = useLocation();
-  const { tasks } = useSelector(state => state.task)
+  const { tasks } = useSelector((state) => state.task);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -114,13 +112,9 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
     };
   });
   useEffect(() => {
-    dispatch(getNotifications())
-    dispatch(getTasks())
-  }, [])
-
-  // let notifications = [
-  //   { avatar: <Avatar />, name: "hamza", description: "Want approval for the lead" },
-  // ];
+    dispatch(getNotifications());
+    dispatch(getTasks());
+  }, []);
 
   /////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////
   const handleLogout = () => {
@@ -129,17 +123,21 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
 
   const handleTaskOpen = () => {
     setOpen(true);
-  }
+  };
 
   return (
-    <div className={`${pathname.includes("/settings") ? "hidden" : "" }`}>
-      <div className={`flex flex-col z-10 sticky top-0 w-full sm:h-[4rem] h-[4rem] bg-white border-b-[1px] border-b-[#eeeff0] font-primary`}>
-        <div className={`sm:h-full h-[4rem] md:pl-[20px] sm:pl-[1rem] pl-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-[#eeeff0] sm:shadow-none`}>
+    <div className={`${pathname.includes("/settings") ? "hidden" : ""}`}>
+      <div
+        className={`flex flex-col z-10 sticky top-0 w-full sm:h-[4rem] h-[4rem] bg-white border-b-[1px] border-b-[#eeeff0] font-primary`}>
+        <div
+          className={`sm:h-full h-[4rem] md:pl-[20px] sm:pl-[1rem] pl-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-[#eeeff0] sm:shadow-none`}>
           {/* left section */}
           <div className={`flex justify-start gap-[10px] items-center`}>
             <IconButton
               onClick={() => setShowSidebar((pre) => !pre)}
-              className={`md:hidden flex cursor-pointer hover:text-red-400 ${pathname.includes('/settings' ? "hidden" : "")}`}>
+              className={`md:hidden flex cursor-pointer hover:text-red-400 ${pathname.includes(
+                "/settings" ? "hidden" : ""
+              )}`}>
               <PiList className="text-[25px]" />
             </IconButton>
             <div>
@@ -160,36 +158,43 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                       className="h-fit hover:text-red-400 inline-block relative"
                       size="small"
                       aria-label="menu">
-                      <PiBell className="text-[25px] animate-none text-primary-red" />
-                      <span class="animate-ping absolute top-1.5 right-2 block h-1 w-1 rounded-full ring-2 ring-primary-red bg-red-500"></span>
+                      <PiBell className={`text-[25px] animate-none ${notifications.length > 0 ? "text-primary-red" : ""}`} />
+                      {notifications.length > 0 && (
+                        <span class="animate-ping absolute top-1.5 right-2 block h-1 w-1 rounded-full ring-2 ring-primary-red bg-red-500"></span>
+                      )}
                     </IconButton>
                   </Tooltip>
                 </MenuButton>
                 <Menu slots={{ listbox: StyledListbox }}>
-                  {
-                    notifications.length > 0
-                      ?
-                      <div className="flex flex-col gap-[8px] ">
-                        {notifications.slice(0, 5).map((notification, index) => (
-                          <React.Fragment key={index}>
-                            <StyledMenuItem onClick={()=>navigate('/authorization/refund')} className="text-gray-600 flex">
-                              <div>
-                                <span className="text-lg font-extralight text-sky-400">{notification.title}</span>
-                                <br />
-                                {notification.description}
-                                <br />
-                              </div>
-                            </StyledMenuItem>
-                          </React.Fragment>
-                        ))}
-                        {
-                          tasks.length > 5 &&
-                          <Link to='/notifications' className='hover:underline text-blue-500 ' >More</Link>
-                        }
-                      </div>
-                      :
-                      <span>Your notifications will show here</span>
-                  }
+                  {notifications.length > 0 ? (
+                    <div className="flex flex-col gap-[8px]">
+                      <div className="w-full bg-sky-400 font-primary text-2xl text-white p-4">Notifications</div>
+                      {notifications.slice(0, 5).map((notification, index) => (
+                        <React.Fragment key={index}>
+                          <StyledMenuItem
+                            onClick={() => navigate("/authorization/refund")}
+                            className="text-gray-600 flex items-center gap-2">
+                              <div><Avatar /></div>
+                            <div className="font-primary">
+                              <span className="text-lg font-light text-sky-400 font-primary">
+                                {notification.title}
+                              </span>
+                              <br />
+                              {notification.description}
+                              <br />
+                            </div>
+                          </StyledMenuItem>
+                        </React.Fragment>
+                      ))}
+                      {notifications.length > 5 && (
+                        <Link to="/notifications" className="hover:underline text-blue-500 ">
+                          More
+                        </Link>
+                      )}
+                    </div>
+                  ) : (
+                    <span>Your notifications will show here</span>
+                  )}
                 </Menu>
               </Dropdown>
 
@@ -206,7 +211,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                     <React.Fragment key={index}>
                       <StyledMenuItem className="text-gray-600 flex">
                         <div>
-                          <span className="text-lg font-extralight text-sky-400">{task.title}</span>
+                          <span className="text-lg font-light text-sky-400">{task.title}</span>
                           <br />
                           {task.description}
                           <br />
@@ -214,10 +219,11 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                       </StyledMenuItem>
                     </React.Fragment>
                   ))}
-                  {
-                    tasks.length > 5 &&
-                    <Link to='/tasks' className='hover:underline text-blue-500 ' >More</Link>
-                  }
+                  {tasks.length > 5 && (
+                    <Link to="/tasks" className="hover:underline text-blue-500 ">
+                      More
+                    </Link>
+                  )}
                 </Menu>
               </Dropdown>
 
@@ -229,11 +235,11 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                 </Tooltip>
               </Link>
               <Link to="/settings/dashboard">
-              <Tooltip title="Settings" arrow placement="bottom">
-                <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
-                  <PiGear className="text-[25px]" />
-                </IconButton>
-              </Tooltip>
+                <Tooltip title="Settings" arrow placement="bottom">
+                  <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
+                    <PiGear className="text-[25px]" />
+                  </IconButton>
+                </Tooltip>
               </Link>
 
               <Link to="/employees">
@@ -258,7 +264,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
 
                 <Menu slots={{ listbox: StyledListbox }}>
                   <div className="p-2 flex justify-center items-center">
-                      <div className="text-lg font-primary">{loggedUser?.username}</div>
+                    <div className="text-lg font-primary">{loggedUser?.username}</div>
                   </div>
                   <Divider />
                   <StyledMenuItem

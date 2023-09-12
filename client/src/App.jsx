@@ -103,7 +103,7 @@ const App = () => {
             </Routes>
           </div>
         ) : (
-          <div className="flex font-primary">
+          <div className="flex h-screen font-primary">
             <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
             <div
               className={`${showSidebar ? "w-full " : "w-full "} flex flex-col overflow-y-scroll `}>
@@ -134,6 +134,7 @@ const App = () => {
                   <Route path="/sales" element={<Sales />} />
                   <Route path="/sales/create" element={<CreateSale />} />
                   <Route path="/voucher" element={<Vouchers showSidebar={showSidebar} />} />
+                  <Route path="/notifications" element={<Notifications />} />
                 </Routes>
               </div>
             </div>

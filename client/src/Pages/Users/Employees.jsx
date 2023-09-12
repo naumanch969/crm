@@ -87,13 +87,13 @@ const Employees = memo(() => {
               className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
             />
           </Tooltip>
-          {/* <Tooltip placement="top" title="View" arrow>
+          <Tooltip placement="top" title="View" arrow>
             {" "}
             <IoOpenOutline
-              onClick={() => handleClickOpen()}
+              onClick={() => hanldeOpenViewModal(params.row)}
               className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400"
             />
-          </Tooltip> */}
+          </Tooltip>
           <Tooltip placement="top" title="Edit" arrow>
             {" "}
             <CiEdit
@@ -111,7 +111,7 @@ const Employees = memo(() => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState("");
   const [openFilters, setOpenFilters] = useState("");
-  const [openTask, setOpenTask] = useState(false);
+  const [openView, setOpenViewk] = useState(false);
 
   /////////////////////////////////////// USE EFFECTS ////////////////////////////////////
   useEffect(() => {
@@ -119,8 +119,9 @@ const Employees = memo(() => {
   }, []);
 
   /////////////////////////////////////// FUNCTIONS /////////////////////////////////////
-  const handleClickOpen = () => {
-    setOpenTask(true);
+  const hanldeOpenViewModal = (taskId) => {
+    setSelectedUserId(taskId);
+    setOpenViewk(true);
   };
   const handleOpenEditModal = (employee) => {
     dispatch(getUserReducer(employee));
@@ -136,7 +137,7 @@ const Employees = memo(() => {
       <EditEmployee open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteEmployee open={openDeleteModal} setOpen={setOpenDeleteModal} userId={selectedUserId} />
       <Filter open={openFilters} setOpen={setOpenFilters} />
-      <User open={openTask} setOpen={setOpenTask} />
+      <User open={openView} setOpen={setOpenViewk} />
 
       <Topbar openFilters={openFilters} setOpenFilters={setOpenFilters} />
 

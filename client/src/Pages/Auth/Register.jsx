@@ -132,7 +132,7 @@ const Signup = () => {
         </div>
         <div className="flex justify-center pt-6 pl-0 ml-0 rounded-lg">
           <div className="w-96 h-auto shadow-xl rounded bg-white">
-            <p className="text-xl text-slate-500 tracking-wide flex justify-center pt-6 font-Mulish">
+            <p className="text-xl text-slate-500 tracking-wide flex justify-center pt-6">
               Create New Account
             </p>
             <p className="flex justify-center pt-2 font-Mulish text-slate-500 text-xs">
@@ -150,6 +150,7 @@ const Signup = () => {
                   placeholder="First Name"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px]"
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
                 {inputError.firstName && (
                   <Snackbar position="top" open={showSnackbar} autoHideDuration={1000}>
@@ -176,6 +177,7 @@ const Signup = () => {
                   placeholder="Last Name"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px]"
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
                 {inputError.lastName && (
                   <Snackbar open={showSnackbar} autoHideDuration={1000}>
@@ -202,6 +204,7 @@ const Signup = () => {
                   placeholder="Username"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px]"
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
                 {inputError.username && (
                   <Snackbar open={showSnackbar} autoHideDuration={1000}>
@@ -227,6 +230,7 @@ const Signup = () => {
                   onChange={handleChange}
                   placeholder="Phone"
                   variant="standard"
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
                   className="w-[20rem] h-[40px] px-[8px]"
                 />
                 {inputError.phone && (
@@ -254,6 +258,7 @@ const Signup = () => {
                   placeholder="Email"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px]"
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
                 {inputError.email && (
                   <Snackbar open={showSnackbar} autoHideDuration={1000}>
@@ -282,6 +287,7 @@ const Signup = () => {
                     placeholder="Password"
                     variant="standard"
                     className="w-[20rem] h-[40px] px-[8px]"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}
                     startAdornment={
                       <InputAdornment>
                         <button
@@ -344,9 +350,9 @@ const Signup = () => {
                   </Alert>
                 </Snackbar>
               )}
-              <p className="font-Mulish font-thin text-slate-500 pl-10">
+              <p className="font-Mulish font-light text-slate-500 pl-10">
                 Already have an account?
-                <Link to="/auth/login" className="text-blue-400">
+                <Link to="/auth/login" className="text-sky-400 hover:text-sky-600">
                   {" "}
                   Login
                 </Link>

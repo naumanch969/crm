@@ -109,7 +109,8 @@ const Login = () => {
                   value={userData.email}
                   onChange={handleChange}
                   placeholder="Email"
-                  className="w-[20rem] text-neutral-700 rounded-[4px]"
+                  className="w-[20rem] h-[40px] px-[8px] font-primary"
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
                 {inputError.email && (
                   <Snackbar
@@ -143,6 +144,7 @@ const Login = () => {
                     placeholder="Password"
                     variant="standard"
                     className="w-[20rem] h-[40px] px-[8px]"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}
                     startAdornment={
                       <InputAdornment>
                         <button
@@ -162,15 +164,11 @@ const Login = () => {
               </div>
               <FormGroup>
                 <FormControlLabel
-                  className="w-40 text-gray-400 pt-2"
-                  control={<Checkbox />}
+                  className="w-40 text-gray-400 pt-2 pb-6"
+                  control={<Checkbox style={{ color: "#20aee3" }} />}
                   label="Remember Me"
                 />
               </FormGroup>
-
-              <div className="cursor-pointer flex justify-end p-2 pr-8 text-gray-500 tracking-wide font-thin">
-                Forgot Password
-              </div>
 
               {inputError.password && (
                 <Snackbar
@@ -226,13 +224,13 @@ const Login = () => {
                   </Alert>
                 </Snackbar>
               )}
-              <p className="font-Mulish font-thin text-slate-500 flex justify-center">
+              <div className="font-Mulish font-light text-slate-500 flex justify-center p-2 pr-7">
                 Don't have account?&nbsp;
-                <Link to="/auth/register" className="text-blue-400">
+                <Link to="/auth/register" className="text-sky-400 hover:text-sky-600">
                   {" "}
                   Sign Up
                 </Link>
-              </p>
+              </div>
               <br />
             </form>
           </div>

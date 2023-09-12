@@ -3,6 +3,7 @@ import { Divider, IconButton } from "@mui/material";
 import { useState, useTransition } from "react";
 import { PiCaretDownLight, PiCaretUpLight } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import { TransitionGroup } from 'react-transition-group';
 
 const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar }) => {
   const isMenuOpen = openedMenu === item.title.toLowerCase();
