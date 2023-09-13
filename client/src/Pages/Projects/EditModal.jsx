@@ -110,7 +110,7 @@ const EditModal = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                     size="small"
                     fullWidth>
                     {pakistanCities.map((index, item) => (
-                      <MenuItem key={item} value={index.toLocaleLowerCase()}>
+                      <MenuItem key={item} value={index}>
                         {index}
                       </MenuItem>
                     ))}
