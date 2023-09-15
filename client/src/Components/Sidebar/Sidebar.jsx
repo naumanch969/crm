@@ -11,6 +11,7 @@ import {
   PiDatabaseLight,
   PiFolderSimpleUserLight,
   PiFoldersLight,
+  PiHardDrivesLight,
   PiHouseLight,
   PiListChecksLight,
   PiLockKeyLight,
@@ -22,6 +23,7 @@ import {
   PiUserListLight,
   PiUsersFourLight,
   PiUsersThreeLight,
+  PiWarehouseLight,
 } from "react-icons/pi";
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
@@ -48,11 +50,28 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     },
     {
       id: 3,
-      title: "Projects",
+      title: "Inventory",
       icon: <PiFoldersLight className="text-[25px]" />,
-      link: "/projects",
-      role: ["employee", "manager", "super_admin"],
-      childrens: [],
+      childrens: [
+        {
+          title: "Societies",
+          icon: <PiWarehouseLight className="text-[25px]" />,
+          link: "/societies",
+          role: ["employee", "manager", "super_admin"],
+        },
+        {
+          title: "Projects",
+          icon: <PiDatabaseLight className="text-[25px]" />,
+          link: "/projects?type=all",
+          role: ["employee", "manager", "super_admin"],
+        },
+        {
+          title: "Inventories",
+          icon: <PiHardDrivesLight className="text-[25px]" />,
+          link: "/inventory",
+          role: ["employee", "manager", "super_admin"],
+        },
+      ],
     },
     {
       id: 4,
@@ -90,13 +109,13 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
           title: "Approvals",
           icon: <PiSealCheckLight className="text-[25px]" />,
           link: "/authorization/request",
-          role: ["employee", "manager", "super_admin"],
+          role: ["manager", "super_admin"],
         },
         {
           title: "Refunds",
           icon: <PiMoneyLight className="text-[25px]" />,
           link: "/authorization/refund",
-          role: ["employee", "manager", "super_admin"],
+          role: ["manager", "super_admin"],
         },
       ],
     },

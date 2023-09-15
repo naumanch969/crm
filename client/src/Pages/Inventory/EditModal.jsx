@@ -1,32 +1,12 @@
-import { Close } from "@mui/icons-material";
-import {
-  Autocomplete,
-  DialogActions,
-  IconButton,
-  Input,
-  MenuItem,
-  Modal,
-  Select,
-  TextField,
-} from "@mui/material";
+import { DialogActions, MenuItem, Select, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
 import { updateProject } from "../../redux/action/project";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAllImagesReducer } from "../../redux/reducer/upload";
 import { Upload } from "../../utils";
-import {
-  PiHandCoins,
-  PiHouseLine,
-  PiImage,
-  PiImages,
-  PiMapPinLine,
-  PiNotepad,
-  PiRuler,
-  PiXLight,
-} from "react-icons/pi";
+import { PiImages, PiNotepad, PiXLight } from "react-icons/pi";
 import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
-import Carousel from "./Carousel";
 import { pakistanCities } from "../../constant";
 
 const Transition = React.forwardRef(function Transition(props, ref) {

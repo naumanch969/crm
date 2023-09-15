@@ -135,13 +135,13 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
           <div className={`flex justify-start gap-[10px] items-center`}>
             <IconButton
               onClick={() => setShowSidebar((pre) => !pre)}
-              className={`md:hidden flex cursor-pointer hover:text-red-400 ${pathname.includes(
+              className={`md:hidden flex cursor-pointer hover:text-sky-400 ${pathname.includes(
                 "/settings" ? "hidden" : ""
               )}`}>
               <PiList className="text-[25px]" />
             </IconButton>
             <div>
-              <p className="text-red-400 text-xl gap-1 flex items-center">
+              <p className="text-sky-400 text-xl gap-1 flex items-center">
                 <PiTimerLight className="text-[25px]" /> {date.toLocaleTimeString()}
               </p>
             </div>
@@ -158,9 +158,9 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                       className="h-fit hover:text-red-400 inline-block relative"
                       size="small"
                       aria-label="menu">
-                      <PiBell className={`text-[25px] animate-none ${notifications.length > 0 ? "text-primary-red" : ""}`} />
+                      <PiBell className={`text-[25px] animate-none ${notifications.length > 0 ? "text-sky-400" : ""}`} />
                       {notifications.length > 0 && (
-                        <span class="animate-ping absolute top-1.5 right-2 block h-1 w-1 rounded-full ring-2 ring-primary-red bg-red-500"></span>
+                        <span class="animate-ping absolute top-1.5 right-2 block h-1 w-1 rounded-full ring-2 ring-sky-400 bg-sky-600"></span>
                       )}
                     </IconButton>
                   </Tooltip>
@@ -201,7 +201,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
               <Dropdown>
                 <MenuButton>
                   <Tooltip title="Your Tasks" arrow placement="bottom">
-                    <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
+                    <IconButton className="h-fit hover:text-sky-400" size="small" aria-label="menu">
                       <PiAlarm className="text-[25px] font-bold" />
                     </IconButton>
                   </Tooltip>
@@ -229,14 +229,14 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
 
               <Link to="/tasks">
                 <Tooltip title="Add Task" arrow placement="bottom">
-                  <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
+                  <IconButton className="h-fit hover:text-sky-400" size="small" aria-label="menu">
                     <PiListChecks className="text-[25px]" />
                   </IconButton>
                 </Tooltip>
               </Link>
               <Link to="/settings/dashboard">
                 <Tooltip title="Settings" arrow placement="bottom">
-                  <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
+                  <IconButton className="h-fit hover:text-sky-400" size="small" aria-label="menu">
                     <PiGear className="text-[25px]" />
                   </IconButton>
                 </Tooltip>
@@ -244,7 +244,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
 
               <Link to="/employees">
                 <Tooltip title="Add Employee" arrow placement="bottom">
-                  <IconButton className="h-fit hover:text-red-400" size="small" aria-label="menu">
+                  <IconButton className="h-fit hover:text-sky-400" size="small" aria-label="menu">
                     <PiUserPlus className="text-[25px]" />
                   </IconButton>
                 </Tooltip>

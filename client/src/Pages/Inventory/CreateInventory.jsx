@@ -25,7 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const CreateProject = ({ open, setOpen, scroll }) => {
+const CreateInventory = ({ open, setOpen, scroll }) => {
   //////////////////////////////////////// VARIABLES ////////////////////////////////////
   let today = new Date();
   let time = today.toLocaleTimeString();
@@ -37,7 +37,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
   const { isFetching } = useSelector((state) => state.project);
   const { urls } = useSelector((state) => state.upload);
   const ProjectinitialState = {
-    property: "",
+    project: "",
     propertyNumber: "",
     propertyStreetNumber: "",
     propertyPrice: "",
@@ -99,7 +99,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
         maxWidth="md"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400 font-primary">Add New Project</div>
+          <div className="text-sky-400 font-primary">Add New Inventory</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -185,7 +185,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
           <div className="flex flex-col gap-2 p-3 text-gray-500">
             <div className="text-xl flex justify-start items-center gap-2 font-primary">
               <PiNotepad size={23} />
-              <span>Project Detials</span>
+              <span>Inventory Detials</span>
             </div>
             <Divider />
             <table className="mt-4">
@@ -202,12 +202,12 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Property </td>
+                <td className="pb-4 text-lg">Project </td>
                 <td className="pb-4">
                   <Select
-                    name="property"
+                    name="project"
                     size="small"
-                    value={projectData.property}
+                    value={projectData.project}
                     onChange={handleInputChange}
                     fullWidth>
                     <MenuItem value="1">
@@ -272,14 +272,14 @@ const CreateProject = ({ open, setOpen, scroll }) => {
               </tr>
               <tr>
                 <td className="text-lg pt-1 flex flex-col justify-start">Remarks </td>
-                <td className="pb-4">
+                <td>
                   <TextField
                     name="remarks"
                     value={projectData.remarks}
                     onChange={handleInputChange}
                     size="small"
                     multiline
-                    rows={3}
+                    rows={4}
                     fullWidth
                   />
                 </td>
@@ -287,17 +287,17 @@ const CreateProject = ({ open, setOpen, scroll }) => {
             </table>
           </div>
         </DialogContent>
-        <DialogActions>
+        <DialogActions className="mr-7 mb-5">
           <button
             onClick={handleClose}
             variant="contained"
-            className="bg-[#d7d7d7] px-4 py-2 rounded-lg text-gray-500 mt-4 hover:text-white hover:bg-[#6c757d] border-[2px] border-[#efeeee] hover:border-[#d7d7d7] font-thin transition-all">
+            className="bg-red-400 px-4 py-2 rounded-lg mt-4 text-white hover:bg-red-500 border-[2px] border-[#efeeee] hover:border-[#d7d7d7] font-thin transition-all">
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             variant="contained"
-            className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
+            className="bg-sky-400 px-4 py-2 rounded-lg text-white mt-4 hover:bg-sky-500 font-thin">
             Submit
           </button>
         </DialogActions>
@@ -306,4 +306,4 @@ const CreateProject = ({ open, setOpen, scroll }) => {
   );
 };
 
-export default CreateProject;
+export default CreateInventory;

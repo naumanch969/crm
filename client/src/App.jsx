@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import {
   DashBoard,
   Leads,
-  CreateLead,
   Tasks,
   CashBook,
   Sales,
   Vouchers,
   Login,
   Register,
-  CreateUser,
-  CreateTask,
   CreateSale,
   User,
   Request,
   Refunds,
   Projects,
-  CreateProject,
   Employees,
   Clients,
   CreateCashBook,
   ViewCashBook,
   Lead,
   Notifications,
+  Inventory,
+  Societies,
 } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
@@ -114,17 +112,15 @@ const App = () => {
                   <Route path="/auth/register" element={<Navigate to="/" />} />
                   <Route path="/auth/login" element={<Navigate to="/" />} />
                   <Route path="/projects" element={<Projects />} />
-                  <Route path="/projects/create" element={<CreateProject />} />
+                  <Route path="/inventory" element={<Inventory />} />
+                  <Route path="/societies" element={<Societies />} />
                   <Route path="/leads/refund" element={<RefundForm />} />
                   <Route path="/myLeads" element={<Leads type="mine" />} />
                   <Route path="/leads" element={<Leads type="all" />} />
                   <Route path="/leads/:leadId" element={<Lead />} />
-                  <Route path="/leads/create" element={<CreateLead />} />
                   <Route path="/tasks" element={<Tasks />} />
-                  <Route path="/tasks/create" element={<CreateTask />} />
                   <Route path="/employees" element={<Employees />} />
                   <Route path="/clients" element={<Clients />} />
-                  <Route path="/employees/create" element={<CreateUser />} />
                   <Route path="/users/:userId" element={<User />} />
                   <Route path="/authorization/request" element={<Request />} />
                   <Route path="/authorization/refund" element={<Refunds />} />

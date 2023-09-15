@@ -8,9 +8,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../utils";
 import { useDispatch } from "react-redux";
 import { getArchivedProjects, getProjects, searchProject } from "../../redux/action/project";
-import CreateProject from "./CreateProject";
+import CreateInventory from "./CreateInventory";
 
-  
 const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
   const navigate = useNavigate();
@@ -34,11 +33,8 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   const descriptionElementRef = React.useRef(null);
 
   ////////////////////////////////////////// STATES //////////////////////////////////////
-  const [showStatBar, setShowStatBar] = useState(true);
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState("paper");
-
-  
 
   ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
   useEffect(() => {
@@ -55,9 +51,6 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
       }
     }
   }, [open]);
-
-
-  
 
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleSearch = (searchTerm) => {
@@ -86,17 +79,14 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   const handleToggleFilters = () => {
     setOpenFilters((pre) => !pre);
   };
-  const handleToggleIsStatOpen = () => {
-    setShowStatBar(!showStatBar);
-  };
 
   const handleCreateopen = (scrollType) => () => {
     setOpen(true);
-    setScroll(scrollType);  
+    setScroll(scrollType);
   };
 
   return (
-    <div className="flex flex-col tracking-wide font-primary">
+    <div className="flex flex-col tracking-wide font-primary pb-5">
       <div className="w-full text-[14px]">
         <Path />
       </div>
@@ -110,7 +100,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
               <FormControl>
                 <Input
                   name="search"
-                  placeholder="Search Projects"
+                  placeholder="Search Inventory"
                   onChange={(e) => handleSearch(e.target.value)}
                   startAdornment={
                     <InputAdornment position="start">
@@ -131,17 +121,6 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
                 <PiArchive className="text-[25px]" />
               </div>
             </Tooltip>
-            <Tooltip title="My Projects" arrow placement="top">
-              <div
-                onClick={handleToggleShowEmployeeProjects}
-                className={` p-2 rounded-md cursor-pointer ${
-                  options?.showEmployeeProjects
-                    ? "text-[#20aee3] bg-[#e4f1ff]"
-                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
-                <FiUser className="text-[25px] " />
-              </div>
-            </Tooltip>
             <Tooltip title="View" arrow placement="top">
               <div
                 onClick={handleToggleIsKanbanView}
@@ -153,27 +132,21 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
                 <FiList className="text-[25px] " />
               </div>
             </Tooltip>
-            <Tooltip title="Quick Stats" arrow placement="top">
-              <div
-                onClick={handleToggleIsStatOpen}
-                className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
-                <PiTrendUp className="text-[25px] " />
-              </div>
-            </Tooltip>
             <Tooltip title="Filter" arrow placement="top">
               <div
                 onClick={handleToggleFilters}
-                className={` p-2 rounded-md cursor-pointer ${openFilters
-                  ? "text-[#20aee3] bg-[#e4f1ff]"
-                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                  }`}>
+                className={` p-2 rounded-md cursor-pointer ${
+                  openFilters
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                }`}>
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>
             <div>
-              <Tooltip title="Add New Lead" placement="top" arrow>
+              <Tooltip title="Add New Inventory" placement="top" arrow>
                 <div onClick={handleCreateopen("body")}>
-                  <button className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
+                  <button className="bg-sky-400 hover:bg-sky-500 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
                     <Add />
                   </button>
                 </div>
@@ -183,36 +156,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
         )}
       </div>
 
-      {showStatBar && (
-        <div className="mt-5 mb-10">
-          <Box className="w-auto md:columns-4 sm:columns-2 font-primary">
-            {statusArray.map((status, index) => (
-              <div
-                key={index}
-                className={`bg-white border-b-[3px]  sm:mt-0 mt-4 shadow-none rounded-md
-                    ${status.name == "completed" ? "border-b-green-400" : ""}
-                    ${status.name == "notStarted" ? "border-b-sky-400" : ""} 
-                    ${status.name == "onHold" ? "border-b-red-400" : ""} 
-                    ${status.name == "inProgress" ? "border-b-yellow-400" : ""}
-                  `}>
-                <CardContent className="flex-grow-[1] flex justify-between items-center">
-                  <div>
-                    <p className="text-2xl text-[#455a64]">{status.counts}</p>
-                    <p className="text-md font-Mulish text-slate-500 text-opacity-70 capitalize ">
-                      {status.name == "completed" ? "Completed" : ""}
-                      {status.name == "notStarted" ? "New" : ""}
-                      {status.name == "onHold" ? "Over Due" : ""}
-                      {status.name == "inProgress" ? "In Progress" : ""}
-                    </p>
-                  </div>
-                </CardContent>
-              </div>
-            ))}
-          </Box>
-        </div>
-      )}
-
-      <CreateProject scroll={scroll} open={open} setOpen={setOpen} />
+      <CreateInventory scroll={scroll} open={open} setOpen={setOpen} />
     </div>
   );
 };

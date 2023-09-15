@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { PiHandCoins, PiHouseLine, PiImage, PiMapPinLine, PiRuler, PiXLight } from "react-icons/pi";
 import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
-import Carousel from "./Carousel";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "../../utils";
 import { getProject } from "../../redux/action/project";
@@ -10,7 +9,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const Project = ({ open, setOpen, scroll, projectId }) => {
+const ViewInventory = ({ open, setOpen, scroll, projectId }) => {
   const dispatch = useDispatch();
   const { currentProject, isFetching } = useSelector((state) => state.project);
 
@@ -118,15 +117,6 @@ const Project = ({ open, setOpen, scroll, projectId }) => {
                   <td>Selling Price : </td><td className="text-black font-normal">Rs. {currentProject?.price}</td>
                 </tr>
                 </table>
-
-                <div className="flex items-center pb-2 gap-3 text-[20px]">
-                  <PiImage className="text-[25px]" />
-                  Images
-                </div>
-                <Divider />
-                <div>
-                  <Carousel src={currentProject?.images} />
-                </div>
               </div>
             </div>
           </DialogContent>
@@ -136,4 +126,4 @@ const Project = ({ open, setOpen, scroll, projectId }) => {
   );
 };
 
-export default Project;
+export default ViewInventory;

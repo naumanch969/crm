@@ -16,7 +16,7 @@ import { CiEdit } from "react-icons/ci";
 import EditModal from "./EditModal";
 import DeleteModal from "./DeleteModal";
 import UpdateStatusModal from "./UpdateStatus";
-import Project from "./Project";
+import Project from "./ViewInventory";
 import Filter from "./Filter";
 import Kanban from "./Kanban/Kanban";
 
@@ -90,130 +90,109 @@ const StyledMenuItem = styled(MenuItem)(
       `
 );
 
-function Projects() {
+function Inventory() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
   const { projects, archived, isFetching, error } = useSelector((state) => state.project);
   const columns = [
     {
-      field: "images",
-      headerName: "Images",
-      width: 180,
+      field: "id",
+      headerName: "ID",
+      width: 50,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <AvatarGroup max={3}>
-          {params.row.images.map((img, index) => (
-            <Avatar alt="img" src={img} key={index} />
-          ))}
-        </AvatarGroup>
+        <Tooltip title={""}>
+          <span className="font-primary capitalize"></span>
+        </Tooltip>
       ),
     },
-
     {
-      field: "price",
-      headerName: "Price",
+      field: "sellerName",
+      headerName: "Seller Name",
       width: 150,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <span className="font-primary">Rs.{params.row.price}</span>,
-    },
-    {
-      field: "city",
-      headerName: "City",
-      headerClassName: "super-app-theme--header",
-      width: 150,
       renderCell: (params) => (
-        <span className="capitalize text-[#20aee3] font-primary">{params.row.city}</span>
+        <Tooltip title={""}>
+          <span className="font-primary capitalize"></span>
+        </Tooltip>
       ),
     },
     {
-      field: "region",
-      headerName: "Location Area",
-      headerClassName: "super-app-theme--header",
-      width: 170,
-      renderCell: (params) => <span className="capitalize font-primary">{params.row.region}</span>,
-    },
-    {
-      field: "status",
-      headerName: "Status",
-      headerClassName: "super-app-theme--header",
-      width: 200,
-      renderCell: (params) => (
-        <span
-          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize font-primary font-medium ${
-            params.row.status == "completed" ? "border-green-500 text-green-500" : ""
-          } ${params.row.status == "notStarted" ? "border-sky-400 text-sky-400" : ""} ${
-            params.row.status == "overDue" ? "border-red-400 text-red-400" : ""
-          } ${
-            params.row.status == "inProgress" ? "border-yellow-500 text-yellow-500" : ""
-          } `}>
-          {params.row.status == "notStarted" && <span>Not Started</span>}
-          {params.row.status == "overDue" && <span>Over Due</span>}
-          {params.row.status == "inProgress" && <span>In Progress</span>}
-          {params.row.status == "completed" && <span>Completed</span>}
-          </span>
-      ),
-    },
-    {
-      field: "area",
-      headerName: "Area",
+      field: "sellerPhone",
+      headerName: "Seller Phone No.",
       width: 170,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <span className="capitalize font-primary">
-          {params.row.area} {params.row.areaUnit == "square feet" ? "Sq. foot" : "Marla"}
-        </span>
+        <Tooltip title={""}>
+          <span className="font-primary capitalize"></span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "project",
+      headerName: "Project",
+      headerClassName: "super-app-theme--header",
+      width: 190,
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize"></span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "property",
+      headerName: "Property",
+      headerClassName: "super-app-theme--header",
+      width: 190,
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize"></span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "propertyPrice",
+      headerName: "Property Price",
+      width: 140,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize"></span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      headerClassName: "super-app-theme--header",
+      width: 150,
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize"></span>
+        </Tooltip>
       ),
     },
     {
       field: "action",
       headerName: "Action",
-      width: 170,
+      width: 150,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <div className="flex gap-[10px] items-center transition-all">
-          <Tooltip placement="top" title="Delete">
+          <Tooltip arrow placement="top" title="Delete">
             {" "}
-            <PiTrashLight
-              onClick={() => handleOpenDeleteModal(params.row._id)}
-              className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
-            />
+            <PiTrashLight onClick={() => handleOpenDeleteModal(params.row._id)} className="cursor-pointer text-red-500 text-[23px] hover:text-red-400" />
           </Tooltip>
-          <Tooltip placement="top" title="View">
-            <div onClick={() => handleOpenViewModal(params.row._id)}>
+          <Tooltip arrow placement="top" title="View">
+            <div>
               <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
             </div>
           </Tooltip>
-          <Tooltip placement="top" title="Edit">
+          <Tooltip arrow placement="top" title="Edit">
             {" "}
-            <CiEdit
-              onClick={() => handleOpenEditModal(params.row)}
-              className="cursor-pointer text-green-500 text-[23px] hover:text-green-600"
-            />
+            <CiEdit className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />
           </Tooltip>
-
-          <Dropdown>
-            <Tooltip title="More" arrow placement="top">
-              <MenuButton>
-                <PiDotsThreeOutlineThin className="cursor-pointer text-[23px] text-gray-500 hover:text-gray-700" />
-              </MenuButton>
-            </Tooltip>
-
-            <Menu slots={{ listbox: StyledListbox }}>
-              <StyledMenuItem
-                className="text-gray-600 flex font-primary"
-                onClick={() => handleOpenStatusModal(params.row)}>
-                Update Status
-              </StyledMenuItem>
-              <StyledMenuItem
-                className="text-gray-600 flex font-primary"
-                onClick={() => {
-                  params.row.isArchived ? handleUnArchive(params.row) : handleArchive(params.row);
-                }}>
-                {params.row.isArchived ? "Un Archive" : "Archive"}
-              </StyledMenuItem>
-            </Menu>
-          </Dropdown>
         </div>
       ),
     },
@@ -307,7 +286,6 @@ function Projects() {
           rows={options.showArchivedProjects ? archived : projects}
           columns={columns}
           rowsPerPage={10}
-          isFetching={isFetching}
           error={error}
         />
       )}
@@ -315,4 +293,4 @@ function Projects() {
   );
 }
 
-export default Projects;
+export default Inventory;
