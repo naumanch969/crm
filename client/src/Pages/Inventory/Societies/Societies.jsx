@@ -13,6 +13,7 @@ import { PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import DeleteSociety from "./DeleteSociety";
+import EditSociety from "./EditSociety";
 
 function Societies() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
@@ -84,11 +85,14 @@ function Societies() {
         <div className="flex gap-[10px] items-center transition-all">
           <Tooltip arrow placement="top" title="Delete">
             {" "}
-            <PiTrashLight className="cursor-pointer text-red-500 text-[23px] hover:text-red-400" />
-          </Tooltip>   
+            <PiTrashLight
+              onClick={() => handleOpenDeleteModal(params.row._id)}
+              className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
+            />
+          </Tooltip>
           <Tooltip arrow placement="top" title="Edit">
             {" "}
-            <CiEdit className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />
+            <CiEdit onClick={() => handleOpenEditModal(params.row)} className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />
           </Tooltip>
         </div>
       ),
@@ -151,6 +155,8 @@ function Societies() {
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
+      <EditSociety scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
+
       <DeleteSociety
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}

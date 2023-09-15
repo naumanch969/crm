@@ -13,12 +13,12 @@ import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base
 import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
-import EditModal from "./EditModal";
-import DeleteModal from "./DeleteModal";
 import UpdateStatusModal from "./UpdateStatus";
 import Project from "./ViewInventory";
 import Filter from "./Filter";
 import Kanban from "./Kanban/Kanban";
+import DeleteInventory from "./DeleteInventory";
+import EditInventory from "./EditInventory";
 
 const blue = {
   100: "#DAECFF",
@@ -99,7 +99,7 @@ function Inventory() {
     {
       field: "id",
       headerName: "ID",
-      width: 50,
+      width: 70,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
@@ -121,7 +121,7 @@ function Inventory() {
     {
       field: "sellerPhone",
       headerName: "Seller Phone No.",
-      width: 170,
+      width: 160,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
@@ -133,7 +133,7 @@ function Inventory() {
       field: "project",
       headerName: "Project",
       headerClassName: "super-app-theme--header",
-      width: 190,
+      width: 180,
       renderCell: (params) => (
         <Tooltip title={""}>
           <span className="font-primary capitalize"></span>
@@ -144,7 +144,7 @@ function Inventory() {
       field: "property",
       headerName: "Property",
       headerClassName: "super-app-theme--header",
-      width: 190,
+      width: 180,
       renderCell: (params) => (
         <Tooltip title={""}>
           <span className="font-primary capitalize"></span>
@@ -182,7 +182,10 @@ function Inventory() {
         <div className="flex gap-[10px] items-center transition-all">
           <Tooltip arrow placement="top" title="Delete">
             {" "}
-            <PiTrashLight onClick={() => handleOpenDeleteModal(params.row._id)} className="cursor-pointer text-red-500 text-[23px] hover:text-red-400" />
+            <PiTrashLight
+              onClick={() => handleOpenDeleteModal(params.row._id)}
+              className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
+            />
           </Tooltip>
           <Tooltip arrow placement="top" title="View">
             <div>
@@ -191,7 +194,7 @@ function Inventory() {
           </Tooltip>
           <Tooltip arrow placement="top" title="Edit">
             {" "}
-            <CiEdit className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />
+            <CiEdit onClick={() => handleOpenEditModal(params.row)} className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />
           </Tooltip>
         </div>
       ),
@@ -254,8 +257,8 @@ function Inventory() {
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
-      <EditModal scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
-      <DeleteModal
+      <EditInventory scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
+      <DeleteInventory
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}
         projectId={selectedProjectId}

@@ -3,7 +3,7 @@ import React from 'react'
 import { deleteProject } from '../../redux/action/project'
 import { useDispatch, useSelector } from 'react-redux'
 
-const DeleteModal = ({ open, setOpen, projectId }) => {
+const DeleteInventory = ({ open, setOpen, projectId, scroll }) => {
 
   ////////////////////////////////////// VARIABLES ///////////////////////////////////////
   const dispatch = useDispatch()
@@ -19,26 +19,26 @@ const DeleteModal = ({ open, setOpen, projectId }) => {
   }
 
   return (
-    <Dialog
-      open={open}
-      onClose={() => setOpen(false)}
-    >
+    <Dialog open={open} onClose={() => setOpen(false)}>
       <DialogTitle id="alert-dialog-title">
-        Delete the Project?
+        <div className="font-primary">Delete the Inventory?</div>
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Are you sure you want to delete this project?
+          <div className="font-primary">Are you sure you want to delete this Inventory?</div>
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button variant='contained' style={{ backgroundColor:'gray' }} onClick={handleClose}>Cancel</Button>
-        <Button variant='contained' color='error' onClick={handleDelete} autoFocus>
-          {isFetching ? 'Deleting' : 'Delete'}
-        </Button>
+      <DialogActions className="mr-4 mb-2">
+        <button className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg font-primary" onClick={handleClose}>Cancel</button>
+        <button
+          className="bg-red-400 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-primary"
+          onClick={handleDelete}
+          autoFocus>
+          {isFetching ? "Deleting" : "Delete"}
+        </button>
       </DialogActions>
-    </Dialog >
+    </Dialog>
   )
 }
 
-export default DeleteModal
+export default DeleteInventory

@@ -1,87 +1,62 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createProject } from "../../../redux/action/project";
-import { CheckBox, Clear, UploadFile } from "@mui/icons-material";
-import FileBase from "react-file-base64";
-import { useNavigate } from "react-router-dom";
-import { deleteAllImagesReducer } from "../../../redux/reducer/upload";
 import {
-  Divider,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Slide,
-  DialogActions,
-  TextField,
-  Autocomplete,
-  Select,
-  MenuItem,
-  FormGroup,
-  FormControlLabel,
   Checkbox,
+  DialogActions,
+  FormControlLabel,
+  FormGroup,
+  MenuItem,
+  Select,
+  TextField,
 } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import React from "react";
+import { updateProject } from "../../../redux/action/project";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteAllImagesReducer } from "../../../redux/reducer/upload";
+import { Upload } from "../../../utils";
 import { PiImages, PiNotepad, PiUser, PiXLight } from "react-icons/pi";
+import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
 import { pakistanCities } from "../../../constant";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const CreateProject = ({ open, setOpen, scroll }) => {
-  //////////////////////////////////////// VARIABLES ////////////////////////////////////
-  let today = new Date();
-  let time = today.toLocaleTimeString();
-  let date = today.toLocaleDateString();
-  let dateTime = date + "  " + time;
-
-  const navigate = useNavigate();
+const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
+  //////////////////////////////////////// VARIABLES ////////////////////////////////////////////
   const dispatch = useDispatch();
-  const { isFetching } = useSelector((state) => state.project);
+  const { currentProject: project, isFetching } = useSelector((state) => state.project);
   const { urls } = useSelector((state) => state.upload);
-  const ProjectinitialState = {
-    title: "",
-    description: "",
-    status: "",
-    housingSociety: "",
-    city: "",
-    attachments: [],
-    createdAt: dateTime,
-  };
-  //////////////////////////////////////// STATES ////////////////////////////////////
-  const [projectData, setProjectData] = useState(ProjectinitialState);
 
-  //////////////////////////////////////// USE EFFECTS ////////////////////////////////
+  //////////////////////////////////////// STATES ////////////////////////////////////////////
+  const [projectData, setProjectData] = useState(project);
+
+  //////////////////////////////////////// USE EFFEECT ////////////////////////////////////////////
+  useEffect(() => {
+    setProjectData(project);
+  }, [project]);
   useEffect(() => {
     setProjectData({ ...projectData, images: urls });
   }, [urls]);
 
-  //////////////////////////////////////// FUNCTIONS //////////////////////////////////
+  //////////////////////////////////////// FUNCTION ////////////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProject(projectData, navigate));
+    dispatch(updateProject(project._id, { ...projectData }));
     dispatch(deleteAllImagesReducer());
-    setProjectData(ProjectinitialState);
     setOpen(false);
   };
-
-  const handleInputChange = (e) => {
-    const inputValue =
-      e.target.value.charAt(0).toLowerCase() + e.target.value.slice(1).replace(/\s+/g, "");
-    setProjectData((prevFilters) => ({
-      ...prevFilters,
-      [e.target.name]: inputValue,
-    }));
+  const handleChange = (e) => {
+    setProjectData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
   };
 
   const handleClose = () => {
-    setProjectData(ProjectinitialState);
-    setOpen(false);
+    setOpenEdit(false);
   };
 
   return (
     <div>
       <Dialog
-        open={open}
+        open={openEdit}
         scroll={scroll}
         TransitionComponent={Transition}
         keepMounted
@@ -90,7 +65,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
         maxWidth="md"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400 font-primary">Add New Project</div>
+          <div className="text-sky-400 font-primary">Edit Project</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -107,13 +82,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                 <tr>
                   <td className="pb-4 text-lg">Title </td>
                   <td className="pb-4">
-                    <TextField
-                      name="title"
-                      value={projectData.title}
-                      fullWidth
-                      size="small"
-                      type="text"
-                    />
+                    <TextField name="title" fullWidth size="small" type="text" />
                   </td>
                 </tr>
                 <tr>
@@ -121,7 +90,6 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       name="description"
-                      value={projectData.description}
                       fullWidth
                       size="small"
                       type="number"
@@ -133,13 +101,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                 <tr>
                   <td className="pb-4 text-lg">City </td>
                   <td className="pb-4">
-                    <Select
-                      name="city"
-                      size="small"
-                      value={projectData.city}
-                      displayEmpty
-                      placeholder="Seller City"
-                      fullWidth>
+                    <Select name="city" size="small" displayEmpty fullWidth>
                       {pakistanCities.map((city) => (
                         <MenuItem value={city}>{city}</MenuItem>
                       ))}
@@ -149,27 +111,15 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                 <tr>
                   <td className="pb-4 text-lg">Housing Society </td>
                   <td className="pb-4">
-                    <Select
-                      name="city"
-                      size="small"
-                      value={projectData.city}
-                      displayEmpty
-                      placeholder="Seller City"
-                      fullWidth>
-                        <MenuItem value="1">sasdsa</MenuItem>
+                    <Select name="housingSociety" size="small" displayEmpty fullWidth>
+                      <MenuItem value="1">sasdsa</MenuItem>
                     </Select>
                   </td>
                 </tr>
                 <tr>
                   <td className="pb-4 text-lg">Attachments </td>
                   <td className="pb-4">
-                    <TextField
-                      name="attachments"
-                      value={projectData.attachments}
-                      fullWidth
-                      size="small"
-                      type="file"
-                    />
+                    <TextField name="attachments" fullWidth size="small" type="file" />
                   </td>
                 </tr>
                 <tr>
@@ -206,4 +156,4 @@ const CreateProject = ({ open, setOpen, scroll }) => {
   );
 };
 
-export default CreateProject;
+export default EditProject;
