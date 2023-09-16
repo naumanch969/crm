@@ -3,10 +3,9 @@ import { Table } from "../../../Components";
 import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjects, updateProject } from "../../../redux/action/project";
+import { Loader } from "../../../utils";
 import {
   getProjectReducer,
-  archiveProjectReducer,
-  unarchiveProjectReducer,
 } from "../../../redux/reducer/project";
 import { Tooltip } from "@mui/material";
 import { PiTrashLight } from "react-icons/pi";
@@ -14,12 +13,14 @@ import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import DeleteProject from "./DeleteProject";
 import EditProject from "./EditProject";
+import { format } from "timeago.js";
+import { Archive, Unarchive } from "@mui/icons-material";
 
 function Projects() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
-  const { projects, archived, isFetching, error } = useSelector((state) => state.project);
+  const { projects, isFetching, error } = useSelector((state) => state.project);
   const columns = [
     {
       field: "id",
@@ -28,7 +29,7 @@ function Projects() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row._id}</span>
         </Tooltip>
       ),
     },
@@ -39,7 +40,7 @@ function Projects() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.title}</span>
         </Tooltip>
       ),
     },
@@ -50,7 +51,7 @@ function Projects() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.description}</span>
         </Tooltip>
       ),
     },
@@ -61,7 +62,7 @@ function Projects() {
       width: 140,
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.society?.title}</span>
         </Tooltip>
       ),
     },
@@ -72,7 +73,7 @@ function Projects() {
       width: 120,
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.city}</span>
         </Tooltip>
       ),
     },
@@ -83,7 +84,7 @@ function Projects() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.status}</span>
         </Tooltip>
       ),
     },
@@ -94,7 +95,7 @@ function Projects() {
       width: 150,
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{format(params.row.createdAt)}</span>
         </Tooltip>
       ),
     },
@@ -114,15 +115,27 @@ function Projects() {
           </Tooltip>
           <Tooltip arrow placement="top" title="Edit">
             {" "}
-            <CiEdit
-              onClick={() => handleOpenEditModal(params.row)}
-              className="cursor-pointer text-green-500 text-[23px] hover:text-green-600"
-            />
+            <CiEdit onClick={() => handleOpenEditModal(params.row)} className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />
+          </Tooltip>
+          <Tooltip arrow placement="top" title={params.row.isArchived ? "Un Archive" : "Archive"}>
+            {" "}
+            {
+              params.row.isArchived
+                ?
+                <Unarchive onClick={() => handleUnArchive(params.row)} className="cursor-pointer text-gray-500 text-[23px] hover:text-gray-600" />
+                :
+                <Archive onClick={() => handleArchive(params.row)} className="cursor-pointer text-gray-500 text-[23px] hover:text-gray-600" />
+            }
           </Tooltip>
         </div>
       ),
     },
+
   ];
+
+  const unarchivedProjects = projects.filter(p => !p.isArchived)
+  const archivedProjects = projects.filter(p => p.isArchived)
+
 
   ////////////////////////////////////// STATES //////////////////////////////
   const [scroll, setScroll] = useState("paper");
@@ -134,7 +147,6 @@ function Projects() {
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [options, setOptions] = useState({
     isKanbanView: false,
-    showEmployeeProjects: false,
     showArchivedProjects: false,
   });
 
@@ -158,11 +170,9 @@ function Projects() {
     dispatch(getProjectReducer(project));
   };
   const handleArchive = (project) => {
-    dispatch(archiveProjectReducer(project));
     dispatch(updateProject(project._id, { isArchived: true }, { loading: false }));
   };
   const handleUnArchive = (project) => {
-    dispatch(unarchiveProjectReducer(project));
     dispatch(updateProject(project._id, { isArchived: false }, { loading: false }));
   };
   const handleOpenViewModal = (leadId) => {
@@ -180,7 +190,13 @@ function Projects() {
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
-      <EditProject scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
+
+      <EditProject
+        scroll={scroll}
+        open={openEditModal}
+        setOpen={setOpenEditModal}
+      />
+
       <DeleteProject
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}
@@ -192,12 +208,21 @@ function Projects() {
         openFilters={openFilters}
         setOpenFilters={setOpenFilters}
       />
-      <Table
-        rows={options.showArchivedProjects ? archived : projects}
-        columns={columns}
-        rowsPerPage={10}
-        error={error}
-      />
+      <div className="flex justify-center items-center " >
+        {
+          isFetching
+            ?
+            <Loader />
+            :
+            <Table
+              rows={options.showArchivedProjects ? archivedProjects : unarchivedProjects}
+              columns={columns}
+              rowsPerPage={10}
+              error={error}
+            />
+        }
+      </div>
+
     </div>
   );
 }

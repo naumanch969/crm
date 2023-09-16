@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { start, end, error, getProjectReducer, getProjectsReducer, getUserAssignedProjectsStatsReducer, createProjectReducer, updateProjectReducer, deleteProjectReducer, } from '../reducer/project'
+import { start, end, error, getProjectReducer, getProjectsReducer, createProjectReducer, updateProjectReducer, deleteProjectReducer, } from '../reducer/project'
 import { getUsersReducer } from '../reducer/user'
 
 
@@ -23,16 +23,7 @@ export const getProjects = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const getArchivedProjects = () => async (dispatch) => {
-    try {
-        dispatch(start())
-        const { data } = await api.getArchivedProjects()
-        dispatch(getArchivedProjects(data.result))
-        dispatch(end())
-    } catch (err) {
-        dispatch(error(err.message))
-    }
-}
+
 export const getUsers = () => async (dispatch) => {
     try {
         dispatch(start())
@@ -46,7 +37,7 @@ export const getUsers = () => async (dispatch) => {
 export const searchProject = (searchTerm) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.searchProject(searchTerm)
+        const { data } = await api.searchProject(searchTerm, isArchived)
         dispatch(getProjectsReducer(data.result))
         dispatch(end())
     } catch (err) {
@@ -57,18 +48,7 @@ export const filterProject = (filters) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.filterProject(filters)
-        console.log(data.result)
         dispatch(getProjectsReducer(data.result))
-        dispatch(end())
-    } catch (err) {
-        dispatch(error(err.message))
-    }
-}
-export const getUserAssignedProjectsStats = () => async (dispatch) => {
-    try {
-        dispatch(start())
-        const { data } = await api.getUserAssignedProjectsStats()
-        dispatch(getUserAssignedProjectsStatsReducer(data.result))
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))
@@ -79,7 +59,7 @@ export const createProject = (projectData, navigate) => async (dispatch) => {
         dispatch(start())
         const { data } = await api.createProject(projectData)
         dispatch(createProjectReducer(data.result))
-        navigate('/projects')
+        navigate('/projects?type=all')
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

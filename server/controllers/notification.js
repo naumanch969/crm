@@ -43,10 +43,8 @@ export const getNotifications = async (req, res, next) => {
                     });
 
                     await notification.save();
-                    console.log('notification', notification)
                     return notification.toObject();
                 } else {
-                    console.log('existingNotification', existingNotification)
                     return existingNotification.toObject();
                 }
             })
@@ -55,7 +53,6 @@ export const getNotifications = async (req, res, next) => {
         const notifications = await Notification.find()
         const allNotifications = [...notifications, ...taskNotifications]
 
-        console.log('notifications,', allNotifications)
         res.status(200).json({ message: 'Notification check completed.', result: allNotifications });
     } catch (err) {
         next(createError(500, err.message));

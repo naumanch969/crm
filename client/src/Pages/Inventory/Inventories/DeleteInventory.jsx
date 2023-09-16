@@ -1,20 +1,20 @@
 import { Modal, Dialog, DialogTitle, DialogContent, DialogActions, Button, DialogContentText } from '@mui/material'
 import React from 'react'
-import { deleteProject } from '../../redux/action/project'
+import { deleteInventory } from '../../../redux/action/inventory'
 import { useDispatch, useSelector } from 'react-redux'
 
-const DeleteInventory = ({ open, setOpen, projectId, scroll }) => {
+const DeleteInventory = ({ open, setOpen, inventoryId, scroll }) => {
 
   ////////////////////////////////////// VARIABLES ///////////////////////////////////////
   const dispatch = useDispatch()
-  const { isFetching } = useSelector(state => state.project)
+  const { isFetching } = useSelector(state => state.inventory)
 
   ////////////////////////////////////// FUNCTIONS ///////////////////////////////////////
   const handleClose = () => {
     setOpen(false)
   }
   const handleDelete = () => {
-    dispatch(deleteProject(projectId))
+    dispatch(deleteInventory(inventoryId))
     setOpen(false)
   }
 

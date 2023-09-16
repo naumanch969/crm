@@ -27,9 +27,7 @@ const FilterDrawer = ({ open, setOpen }) => {
   }
   const [filters, setFilters] = useState(initialFilters);
 
-  useEffect(() => {
-    console.log('filters', filters)
-  }, [filters])
+
 
   const handleInputChange = (field, value) => {
     let inputValue

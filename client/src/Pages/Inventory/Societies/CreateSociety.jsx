@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createProject } from "../../../redux/action/project";
+import { createSociety } from "../../../redux/action/society";
 import { CheckBox, Clear, UploadFile } from "@mui/icons-material";
 import FileBase from "react-file-base64";
 import { useNavigate } from "react-router-dom";
 import { deleteAllImagesReducer } from "../../../redux/reducer/upload";
+import { Upload } from "../../../utils";
 import {
   Divider,
   Dialog,
@@ -36,45 +37,40 @@ const CreateSociety = ({ open, setOpen, scroll }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isFetching } = useSelector((state) => state.project);
+  const { isFetching } = useSelector((state) => state.society);
   const { urls } = useSelector((state) => state.upload);
-  const ProjectinitialState = {
+  const societyInitialState = {
     title: "",
     description: "",
     status: "",
-    housingSociety: "",
-    city: "",
-    attachments: [],
-    createdAt: dateTime,
+    images: [],
   };
   //////////////////////////////////////// STATES ////////////////////////////////////
-  const [projectData, setProjectData] = useState(ProjectinitialState);
+  const [societyData, setSocietyData] = useState(societyInitialState);
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
   useEffect(() => {
-    setProjectData({ ...projectData, images: urls });
+    setSocietyData({ ...societyData, images: urls });
   }, [urls]);
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProject(projectData, navigate));
+    dispatch(createSociety(societyData, navigate));
     dispatch(deleteAllImagesReducer());
-    setProjectData(ProjectinitialState);
+    setSocietyData(societyInitialState);
     setOpen(false);
   };
 
-  const handleInputChange = (e) => {
-    const inputValue =
-      e.target.value.charAt(0).toLowerCase() + e.target.value.slice(1).replace(/\s+/g, "");
-    setProjectData((prevFilters) => ({
+  const handleInputChange = (field, value) => {
+    setSocietyData((prevFilters) => ({
       ...prevFilters,
-      [e.target.name]: inputValue,
+      [field]: value,
     }));
   };
 
   const handleClose = () => {
-    setProjectData(ProjectinitialState);
+    setSocietyData(societyInitialState);
     setOpen(false);
   };
 
@@ -109,7 +105,8 @@ const CreateSociety = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       name="title"
-                      value={projectData.title}
+                      value={societyData.title}
+                      onChange={(e) => handleInputChange('title', e.target.value)}
                       fullWidth
                       size="small"
                       type="text"
@@ -121,7 +118,8 @@ const CreateSociety = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       name="description"
-                      value={projectData.description}
+                      value={societyData.description}
+                      onChange={(e) => handleInputChange('description', e.target.value)}
                       fullWidth
                       size="small"
                       type="number"
@@ -131,15 +129,9 @@ const CreateSociety = ({ open, setOpen, scroll }) => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="pb-4 text-lg">Attachments </td>
-                  <td className="pb-4">
-                    <TextField
-                      name="attachments"
-                      value={projectData.attachments}
-                      fullWidth
-                      size="small"
-                      type="file"
-                    />
+                  <td className="pb-4 text-lg">Images </td>
+                  <td className="pb-4 flex flex-wrap gap-[8px] ">
+                    <Upload image={societyData.images} isMultiple={true} />
                   </td>
                 </tr>
                 <tr>
@@ -148,6 +140,7 @@ const CreateSociety = ({ open, setOpen, scroll }) => {
                     <FormGroup>
                       <FormControlLabel
                         className="w-40 text-gray-400"
+                        onChange={(e) => setSocietyData({ ...societyData, 'status': e.target.checked ? "active" : "nonActive" })}
                         control={<Checkbox defaultChecked style={{ color: "#20aee3" }} />}
                       />
                     </FormGroup>
@@ -168,7 +161,7 @@ const CreateSociety = ({ open, setOpen, scroll }) => {
             onClick={handleSubmit}
             variant="contained"
             className="bg-sky-400 px-4 py-2 rounded-lg text-white mt-4 hover:bg-sky-500 font-thin">
-            Submit
+            {isFetching ? 'Submitting...' : 'Submit'}
           </button>
         </DialogActions>
       </Dialog>

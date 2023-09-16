@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
-import { updateProject } from "../../../redux/action/project";
+import { updateSociety } from "../../../redux/action/society";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAllImagesReducer } from "../../../redux/reducer/upload";
 import { Upload } from "../../../utils";
@@ -21,42 +21,44 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const EditSociety = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
+const EditSociety = ({ open, setOpen, scroll }) => {
   //////////////////////////////////////// VARIABLES ////////////////////////////////////////////
   const dispatch = useDispatch();
-  const { currentProject: project, isFetching } = useSelector((state) => state.project);
+  const { currentSociety: society, isFetching } = useSelector((state) => state.society);
   const { urls } = useSelector((state) => state.upload);
 
   //////////////////////////////////////// STATES ////////////////////////////////////////////
-  const [projectData, setProjectData] = useState(project);
+  const [societyData, setSocietyData] = useState(society);
 
   //////////////////////////////////////// USE EFFEECT ////////////////////////////////////////////
   useEffect(() => {
-    setProjectData(project);
-  }, [project]);
+    setSocietyData(society);
+  }, [society]);
   useEffect(() => {
-    setProjectData({ ...projectData, images: urls });
+    setSocietyData({ ...societyData, images: urls });
   }, [urls]);
 
   //////////////////////////////////////// FUNCTION ////////////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateProject(project._id, { ...projectData }));
+    dispatch(updateSociety(society._id, { ...societyData }));
     dispatch(deleteAllImagesReducer());
     setOpen(false);
   };
-  const handleChange = (e) => {
-    setProjectData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
+  const handleInputChange = (field, value) => {
+    setSocietyData((prevFilters) => ({
+      ...prevFilters,
+      [field]: value,
+    }));
   };
-
   const handleClose = () => {
-    setOpenEdit(false);
+    setOpen(false);
   };
 
   return (
     <div>
       <Dialog
-        open={openEdit}
+        open={open}
         scroll={scroll}
         TransitionComponent={Transition}
         keepMounted
@@ -65,13 +67,13 @@ const EditSociety = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
         maxWidth="md"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400 font-primary">Edit Socirty</div>
+          <div className="text-sky-400 font-primary">Add New Society</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
         </DialogTitle>
         <DialogContent>
-          <div className="p-3 flex flex-col gap-2 text-gray-500 font-primary">
+          <div className="p-3 flex flex-col gap-2 text-gray-500">
             <div className="text-xl flex justify-start items-center gap-2 font-normal">
               <PiUser size={23} />
               <span>Society Details</span>
@@ -82,7 +84,14 @@ const EditSociety = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                 <tr>
                   <td className="pb-4 text-lg">Title </td>
                   <td className="pb-4">
-                    <TextField name="title" fullWidth size="small" type="text" />
+                    <TextField
+                      name="title"
+                      value={societyData?.title}
+                      onChange={(e) => handleInputChange('title', e.target.value)}
+                      fullWidth
+                      size="small"
+                      type="text"
+                    />
                   </td>
                 </tr>
                 <tr>
@@ -90,6 +99,8 @@ const EditSociety = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       name="description"
+                      value={societyData?.description}
+                      onChange={(e) => handleInputChange('description', e.target.value)}
                       fullWidth
                       size="small"
                       type="number"
@@ -99,9 +110,9 @@ const EditSociety = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="pb-4 text-lg">Attachments </td>
-                  <td className="pb-4">
-                    <TextField name="attachments" fullWidth size="small" type="file" />
+                  <td className="pb-4 text-lg">Images </td>
+                  <td className="pb-4 flex flex-wrap gap-[8px] ">
+                    <Upload image={societyData?.images} isMultiple={true} />
                   </td>
                 </tr>
                 <tr>
@@ -110,6 +121,7 @@ const EditSociety = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                     <FormGroup>
                       <FormControlLabel
                         className="w-40 text-gray-400"
+                        onChange={(e) => setSocietyData({ ...societyData, 'status': e.target.checked ? "active" : "nonActive" })}
                         control={<Checkbox defaultChecked style={{ color: "#20aee3" }} />}
                       />
                     </FormGroup>
@@ -130,7 +142,7 @@ const EditSociety = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
             onClick={handleSubmit}
             variant="contained"
             className="bg-sky-400 px-4 py-2 rounded-lg text-white mt-4 hover:bg-sky-500 font-thin">
-            Submit
+            {isFetching ? 'Submitting...' : 'Submit'}
           </button>
         </DialogActions>
       </Dialog>

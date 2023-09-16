@@ -2,24 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Table } from "../../../Components";
 import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjects, updateProject } from "../../../redux/action/project";
+import { getSocieties, updateSociety } from "../../../redux/action/society";
 import {
-  getProjectReducer,
-  archiveProjectReducer,
-  unarchiveProjectReducer,
-} from "../../../redux/reducer/project";
+  getSocietyReducer,
+} from "../../../redux/reducer/society";
 import { Tooltip } from "@mui/material";
 import { PiTrashLight } from "react-icons/pi";
-import { IoOpenOutline } from "react-icons/io5";
+import { format } from "timeago.js";
 import { CiEdit } from "react-icons/ci";
 import DeleteSociety from "./DeleteSociety";
 import EditSociety from "./EditSociety";
+import { Loader } from "../../../utils";
+import { Archive, Unarchive } from "@mui/icons-material";
 
 function Societies() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
-  const { projects, archived, isFetching, error } = useSelector((state) => state.project);
+  const { societies, isFetching, error } = useSelector((state) => state.society);
   const columns = [
     {
       field: "id",
@@ -28,7 +28,7 @@ function Societies() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row._id}</span>
         </Tooltip>
       ),
     },
@@ -39,7 +39,7 @@ function Societies() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.title}</span>
         </Tooltip>
       ),
     },
@@ -50,7 +50,7 @@ function Societies() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.description}</span>
         </Tooltip>
       ),
     },
@@ -61,7 +61,7 @@ function Societies() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.status}</span>
         </Tooltip>
       ),
     },
@@ -72,7 +72,7 @@ function Societies() {
       width: 200,
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{format(params.row.createdAt)}</span>
         </Tooltip>
       ),
     },
@@ -94,10 +94,23 @@ function Societies() {
             {" "}
             <CiEdit onClick={() => handleOpenEditModal(params.row)} className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />
           </Tooltip>
+          <Tooltip arrow placement="top" title={params.row.isArchived ? "Un Archive" : "Archive"}>
+            {" "}
+            {
+              params.row.isArchived
+                ?
+                <Unarchive onClick={() => handleUnArchive(params.row)} className="cursor-pointer text-gray-500 text-[23px] hover:text-gray-600" />
+                :
+                <Archive onClick={() => handleArchive(params.row)} className="cursor-pointer text-gray-500 text-[23px] hover:text-gray-600" />
+            }
+          </Tooltip>
         </div>
       ),
     },
   ];
+
+  const unarchivedSocieties = societies.filter(s => !s.isArchived)
+  const archivedSocieties = societies.filter(s => s.isArchived)
 
   ////////////////////////////////////// STATES //////////////////////////////
   const [scroll, setScroll] = useState("paper");
@@ -105,17 +118,16 @@ function Societies() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
-  const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [selectedSocietyId, setSelectedSocietyId] = useState(null);
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [options, setOptions] = useState({
     isKanbanView: false,
-    showEmployeeProjects: false,
-    showArchivedProjects: false,
+    showArchivedSocieties: false,
   });
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
-    dispatch(getProjects());
+    dispatch(getSocieties());
   }, []);
 
   useEffect(() => {
@@ -128,39 +140,42 @@ function Societies() {
   }, [open]);
 
   ////////////////////////////////////// FUNCTION //////////////////////////////\
-  const handleOpenStatusModal = (project) => {
+  const handleOpenStatusModal = (society) => {
     setOpenStatusModal(true);
-    dispatch(getProjectReducer(project));
+    dispatch(getSocietyReducer(society));
   };
-  const handleArchive = (project) => {
-    dispatch(archiveProjectReducer(project));
-    dispatch(updateProject(project._id, { isArchived: true }, { loading: false }));
+  const handleArchive = (society) => {
+    dispatch(updateSociety(society._id, { isArchived: true }, { loading: false }));
   };
-  const handleUnArchive = (project) => {
-    dispatch(unarchiveProjectReducer(project));
-    dispatch(updateProject(project._id, { isArchived: false }, { loading: false }));
+  const handleUnArchive = (society) => {
+    dispatch(updateSociety(society._id, { isArchived: false }, { loading: false }));
   };
   const handleOpenViewModal = (leadId) => {
     setOpenViewModal(true);
-    setSelectedProjectId(leadId);
+    setSelectedSocietyId(leadId);
   };
-  const handleOpenEditModal = (project) => {
+  const handleOpenEditModal = (society) => {
     setOpenEditModal(true);
-    dispatch(getProjectReducer(project));
+    dispatch(getSocietyReducer(society));
   };
-  const handleOpenDeleteModal = (projectId) => {
+  const handleOpenDeleteModal = (societyId) => {
     setOpenDeleteModal(true);
-    setSelectedProjectId(projectId);
+    setSelectedSocietyId(societyId);
   };
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
-      <EditSociety scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
+
+      <EditSociety
+        scroll={scroll}
+        open={openEditModal}
+        setOpen={setOpenEditModal}
+      />
 
       <DeleteSociety
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}
-        projectId={selectedProjectId}
+        societyId={selectedSocietyId}
       />
       <Topbar
         options={options}
@@ -168,12 +183,22 @@ function Societies() {
         openFilters={openFilters}
         setOpenFilters={setOpenFilters}
       />
-      <Table
-        rows={options.showArchivedProjects ? archived : projects}
-        columns={columns}
-        rowsPerPage={10}
-        error={error}
-      />
+
+      <div className="flex justify-center items-center " >
+        {
+          isFetching
+            ?
+            <Loader />
+            :
+            <Table
+              rows={options.showArchivedSocieties ? archivedSocieties : unarchivedSocieties}
+              columns={columns}
+              rowsPerPage={10}
+              error={error}
+            />
+        }
+      </div>
+
     </div>
   );
 }

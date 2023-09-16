@@ -145,7 +145,6 @@ export const createRefundApproval = async (req, res, next) => {
         res.status(200).json({ result, notification, message: 'Refund request has been sent to the admin for approval', success: true })
 
     } catch (err) {
-        console.log(err)
         next(createError(500, err.message))
     }
 }

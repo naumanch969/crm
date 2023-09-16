@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createProject } from "../../../redux/action/project";
 import { CheckBox, Clear, UploadFile } from "@mui/icons-material";
-import FileBase from "react-file-base64";
+import { Loader, Upload } from "../../../utils";
 import { useNavigate } from "react-router-dom";
 import { deleteAllImagesReducer } from "../../../redux/reducer/upload";
 import {
@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { PiImages, PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { pakistanCities } from "../../../constant";
+import { getSocieties } from "../../../redux/action/society";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -37,15 +38,15 @@ const CreateProject = ({ open, setOpen, scroll }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isFetching } = useSelector((state) => state.project);
+  const { societies, isFetching: societiesFetching } = useSelector((state) => state.society);
   const { urls } = useSelector((state) => state.upload);
   const ProjectinitialState = {
     title: "",
     description: "",
-    status: "",
-    housingSociety: "",
     city: "",
-    attachments: [],
-    createdAt: dateTime,
+    society: "",
+    images: [],
+    status: "nonActive",
   };
   //////////////////////////////////////// STATES ////////////////////////////////////
   const [projectData, setProjectData] = useState(ProjectinitialState);
@@ -54,6 +55,9 @@ const CreateProject = ({ open, setOpen, scroll }) => {
   useEffect(() => {
     setProjectData({ ...projectData, images: urls });
   }, [urls]);
+  useEffect(() => {
+    dispatch(getSocieties())
+  }, [])
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
@@ -64,12 +68,10 @@ const CreateProject = ({ open, setOpen, scroll }) => {
     setOpen(false);
   };
 
-  const handleInputChange = (e) => {
-    const inputValue =
-      e.target.value.charAt(0).toLowerCase() + e.target.value.slice(1).replace(/\s+/g, "");
+  const handleInputChange = (field, value) => {
     setProjectData((prevFilters) => ({
       ...prevFilters,
-      [e.target.name]: inputValue,
+      [field]: value,
     }));
   };
 
@@ -108,8 +110,8 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <td className="pb-4 text-lg">Title </td>
                   <td className="pb-4">
                     <TextField
-                      name="title"
                       value={projectData.title}
+                      onChange={(e) => handleInputChange('title', e.target.value)}
                       fullWidth
                       size="small"
                       type="text"
@@ -120,8 +122,8 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <td className="text-lg pt-1 flex flex-col justify-start">Description </td>
                   <td className="pb-4">
                     <TextField
-                      name="description"
                       value={projectData.description}
+                      onChange={(e) => handleInputChange('description', e.target.value)}
                       fullWidth
                       size="small"
                       type="number"
@@ -134,9 +136,9 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <td className="pb-4 text-lg">City </td>
                   <td className="pb-4">
                     <Select
-                      name="city"
                       size="small"
                       value={projectData.city}
+                      onChange={(e) => handleInputChange('city', e.target.value)}
                       displayEmpty
                       placeholder="Seller City"
                       fullWidth>
@@ -147,29 +149,31 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="pb-4 text-lg">Housing Society </td>
+                  <td className="pb-4 text-lg">Society </td>
                   <td className="pb-4">
                     <Select
-                      name="city"
                       size="small"
-                      value={projectData.city}
+                      value={projectData.society}
+                      onChange={(e) => handleInputChange('society', e.target.value)}
                       displayEmpty
-                      placeholder="Seller City"
+                      placeholder="Society"
                       fullWidth>
-                        <MenuItem value="1">sasdsa</MenuItem>
+                      {
+                        societiesFetching
+                          ?
+                          <Loader />
+                          :
+                          societies.map((society, index) => (
+                            <MenuItem key={index} value={society._id}>{society.title}</MenuItem>
+                          ))
+                      }
                     </Select>
                   </td>
                 </tr>
                 <tr>
-                  <td className="pb-4 text-lg">Attachments </td>
-                  <td className="pb-4">
-                    <TextField
-                      name="attachments"
-                      value={projectData.attachments}
-                      fullWidth
-                      size="small"
-                      type="file"
-                    />
+                  <td className="pb-4 text-lg">images </td>
+                  <td className="pb-4 flex flex-wrap gap-[8px] ">
+                    <Upload image={projectData.images} isMultiple={true} />
                   </td>
                 </tr>
                 <tr>
@@ -178,6 +182,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                     <FormGroup>
                       <FormControlLabel
                         className="w-40 text-gray-400"
+                        onChange={(e) => setProjectData({ ...projectData, 'status': e.target.checked ? "active" : "nonActive" })}
                         control={<Checkbox defaultChecked style={{ color: "#20aee3" }} />}
                       />
                     </FormGroup>
@@ -198,7 +203,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
             onClick={handleSubmit}
             variant="contained"
             className="bg-sky-400 px-4 py-2 rounded-lg text-white mt-4 hover:bg-sky-500 font-thin">
-            Submit
+            {isFetching ? 'Submitting...' : 'Submit'}
           </button>
         </DialogActions>
       </Dialog>

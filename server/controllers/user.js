@@ -59,7 +59,6 @@ export const filterUser = async (req, res, next) => {
         res.status(200).json({ result: query });
 
     } catch (error) {
-        console.log(error)
         next(createError(500, error.message));
     }
 };
@@ -85,7 +84,6 @@ export const getEmployees = async (req, res, next) => {
 
     } catch (err) {
         next(createError(500, err.message))
-        console.log(err)
     }
 }
 
@@ -113,7 +111,6 @@ export const createEmployee = async (req, res, next) => {
         res.status(200).json({ result, message: 'employees fetched seccessfully', success: true })
 
     } catch (err) {
-        console.log(err)
         next(createError(500, err.message))
     }
 }
@@ -163,7 +160,6 @@ export const deleteUser = async (req, res, next) => {
 
     } catch (err) {
         next(createError(500, err.message))
-        console.log(err)
     }
 }
 

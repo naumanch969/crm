@@ -29,7 +29,6 @@ const objectToQueryString = (obj) => {
         }
     }
     // Join the key-value pairs with '&' to form the query string
-    console.log('keyValuePairs.join();', keyValuePairs.join('&'))
     return keyValuePairs.join('&');
 }
 
@@ -118,13 +117,29 @@ export const deleteLead = (leadId) => API.delete(`/lead/delete/${leadId}`)
 // PROJECT
 export const getProject = (projectId) => API.get(`/project/get/single/${projectId}`)
 export const getProjects = () => API.get(`/project/get/all`)
-export const getArchivedProjects = () => API.get(`/project/get/archived`)
-export const getUserAssignedProjectsStats = () => API.get(`/project/get/user_assigned_projects_stats`)
-export const searchProject = (searchTerm) => API.get(`/project/search?searchTerm=${searchTerm}`)
+export const searchProject = (searchTerm, isArchived) => API.get(`/project/search?searchTerm=${searchTerm}`, { isArchived })
 export const filterProject = (filters) => API.get(`/project/filter?${objectToQueryString(filters)}`)
 export const createProject = (projectData) => API.post(`/project/create`, projectData)
 export const updateProject = (projectId, projectData) => API.put(`/project/update/${projectId}`, projectData)
 export const deleteProject = (projectId) => API.delete(`/project/delete/${projectId}`)
+
+// SOCIETY
+export const getSociety = (societyId) => API.get(`/society/get/single/${societyId}`)
+export const getSocieties = () => API.get(`/society/get/all`)
+export const searchSociety = (searchTerm, isArchived) => API.get(`/society/search?searchTerm=${searchTerm}`, { isArchived })
+export const filterSociety = (filters) => API.get(`/society/filter?${objectToQueryString(filters)}`)
+export const createSociety = (societyData) => API.post(`/society/create`, societyData)
+export const updateSociety = (societyId, societyData) => API.put(`/society/update/${societyId}`, societyData)
+export const deleteSociety = (societyId) => API.delete(`/society/delete/${societyId}`)
+
+// INVENTORY
+export const getInventory = (inventoryId) => API.get(`/inventory/get/single/${inventoryId}`)
+export const getInventories = () => API.get(`/inventory/get/all`)
+export const searchInventory = (searchTerm, isArchived) => API.get(`/inventory/search?searchTerm=${searchTerm}`, { isArchived })
+export const filterInventory = (filters) => API.get(`/inventory/filter?${objectToQueryString(filters)}`)
+export const createInventory = (inventoryData) => API.post(`/inventory/create`, inventoryData)
+export const updateInventory = (inventoryId, inventoryData) => API.put(`/inventory/update/${inventoryId}`, inventoryData)
+export const deleteInventory = (inventoryId) => API.delete(`/inventory/delete/${inventoryId}`)
 
 // CASHBOOK
 export const getCashbook = (cashbookId) => API.get(`/cashbook/get/single/${cashbookId}`)
@@ -141,4 +156,3 @@ export const getVoucher = (voucherId) => API.get(`/voucher/get/single/${voucherI
 export const getVouchers = () => API.get(`/voucher/get/all`)
 export const createVoucher = (voucherData) => API.post(`/voucher/create`, voucherData)
 export const deleteVoucher = (voucherId) => API.delete(`/voucher/delete/${voucherId}`)
-export const deleteWholeCollection = () => API.delete(`/voucher/delete-whole-collection`)

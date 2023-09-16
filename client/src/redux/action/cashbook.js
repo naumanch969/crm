@@ -66,7 +66,6 @@ export const deleteCashbook = (cashbookId) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.deleteCashbook(cashbookId)
-        console.log('data', data.result)
         dispatch(deleteCashbookReducer(data.result))
         dispatch(end())
     } catch (err) {
