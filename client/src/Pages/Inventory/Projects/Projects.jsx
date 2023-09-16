@@ -14,6 +14,7 @@ import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import DeleteProject from "./DeleteProject";
 import EditProject from "./EditProject";
+import ProjectFilter from "./ProjectFilter";
 
 function Projects() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
@@ -181,6 +182,8 @@ function Projects() {
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
       <EditProject scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
+      <ProjectFilter open={openFilters} setOpen={setOpenFilters} />
+
       <DeleteProject
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}

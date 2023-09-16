@@ -14,6 +14,7 @@ import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import DeleteSociety from "./DeleteSociety";
 import EditSociety from "./EditSociety";
+import SocietyFilter from "./SocietyFilter";
 
 function Societies() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
@@ -156,6 +157,7 @@ function Societies() {
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
       <EditSociety scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
+      <SocietyFilter open={openFilters} setOpen={setOpenFilters} />
 
       <DeleteSociety
         open={openDeleteModal}
