@@ -5,9 +5,9 @@ import { FiFilter, FiList, FiUser } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Add, Archive, Person2 } from "@mui/icons-material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Path } from "../../utils";
+import { Path } from "../../../utils";
 import { useDispatch } from "react-redux";
-import { getArchivedProjects, getProjects, searchProject } from "../../redux/action/project";
+import { searchInventory } from "../../../redux/action/inventory";
 import CreateInventory from "./CreateInventory";
 
 const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
@@ -17,11 +17,11 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   const title = pathname.split("/")[1];
   const pathArr = pathname.split("/").filter((item) => item !== "");
   const showOptionButtons = !pathArr.includes("create");
-  const { projects } = useSelector((state) => state.project);
+  const { inventories } = useSelector((state) => state.inventory);
   const dispatch = useDispatch();
   // Count occurrences of each status
-  const statusCounts = projects.reduce((acc, project) => {
-    acc[project.status] = (acc[project.status] || 0) + 1;
+  const statusCounts = inventories.reduce((acc, inventory) => {
+    acc[inventory.status] = (acc[inventory.status] || 0) + 1;
     return acc;
   }, {});
   const allStatusOptions = ["notStarted", "onHold", "completed", "inProgress"];
@@ -37,11 +37,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   const [scroll, setScroll] = useState("paper");
 
   ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
-  useEffect(() => {
-    options?.showArchivedProjects && dispatch(getArchivedProjects());
-    options?.showEmployeeProjects && dispatch(getProjects());
-    !options?.showArchivedProjects && !options?.showEmployeeProjects && dispatch(getProjects());
-  }, [options]);
+
 
   useEffect(() => {
     if (open) {
@@ -54,20 +50,20 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
 
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleSearch = (searchTerm) => {
-    dispatch(searchProject(searchTerm));
+    dispatch(searchInventory(searchTerm, options.showArchivedSocieties));
   };
-  const handleToggleShowArchivedProjects = () => {
+  const handleToggleShowArchivedInventories = () => {
     setOptions((pre) => ({
       ...pre,
-      showArchivedProjects: !options?.showArchivedProjects,
-      showEmployeeProjects: false,
+      showArchivedInventories: !options?.showArchivedInventories,
+      showEmployeeInventories: false,
     }));
   };
-  const handleToggleShowEmployeeProjects = () => {
+  const handleToggleShowEmployeeInventories = () => {
     setOptions((pre) => ({
       ...pre,
-      showEmployeeProjects: !options?.showEmployeeProjects,
-      showArchivedProjects: false,
+      showEmployeeInventories: !options?.showEmployeeInventories,
+      showArchivedInventories: false,
     }));
   };
   const handleToggleIsKanbanView = () => {
@@ -112,34 +108,31 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
             </div>
             <Tooltip title="Archived" arrow placement="top">
               <div
-                onClick={handleToggleShowArchivedProjects}
-                className={` p-2 rounded-md cursor-pointer ${
-                  options?.showArchivedProjects
-                    ? "text-[#20aee3] bg-[#e4f1ff]"
-                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                onClick={handleToggleShowArchivedInventories}
+                className={` p-2 rounded-md cursor-pointer ${options?.showArchivedInventories
+                  ? "text-[#20aee3] bg-[#e4f1ff]"
+                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                  }`}>
                 <PiArchive className="text-[25px]" />
               </div>
             </Tooltip>
             <Tooltip title="View" arrow placement="top">
               <div
                 onClick={handleToggleIsKanbanView}
-                className={` p-2 rounded-md cursor-pointer ${
-                  options?.isKanbanView
-                    ? "text-[#20aee3] bg-[#e4f1ff]"
-                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                className={` p-2 rounded-md cursor-pointer ${options?.isKanbanView
+                  ? "text-[#20aee3] bg-[#e4f1ff]"
+                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                  }`}>
                 <FiList className="text-[25px] " />
               </div>
             </Tooltip>
             <Tooltip title="Filter" arrow placement="top">
               <div
                 onClick={handleToggleFilters}
-                className={` p-2 rounded-md cursor-pointer ${
-                  openFilters
-                    ? "text-[#20aee3] bg-[#e4f1ff]"
-                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                className={` p-2 rounded-md cursor-pointer ${openFilters
+                  ? "text-[#20aee3] bg-[#e4f1ff]"
+                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                  }`}>
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>

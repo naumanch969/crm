@@ -53,7 +53,6 @@ const cashbookSlice = createSlice({
             }
         },
         deleteCashbookReducer: (state, action) => {
-            console.log('action.apyload',action.payload)
             switch (action.payload.type) {
                 case 'in':
                     state.cashbooksIn = state.cashbooksIn.filter(c => c._id != action.payload._id)

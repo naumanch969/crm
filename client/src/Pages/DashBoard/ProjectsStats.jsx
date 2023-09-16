@@ -1,7 +1,6 @@
 import { Avatar, Box, Divider, List, ListItemAvatar, ListItemButton, ListItemText, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserAssignedProjectsStats } from '../../redux/action/project'
 import { CircularProgress } from '@mui/material'
 
 const Projects = () => {
@@ -10,7 +9,7 @@ const Projects = () => {
     const { stats: projectsStats, isFetching } = useSelector(state => state.project)
 
     useEffect(() => {
-        dispatch(getUserAssignedProjectsStats())
+        // dispatch(getUserAssignedProjectsStats())
     }, [])
 
     return (

@@ -1,54 +1,87 @@
-import { DialogActions, MenuItem, Select, TextField } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import React from "react";
-import { updateProject } from "../../redux/action/project";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAllImagesReducer } from "../../redux/reducer/upload";
-import { Upload } from "../../utils";
+import { createInventory } from "../../../redux/action/inventory";
+import { Clear, UploadFile } from "@mui/icons-material";
+import FileBase from "react-file-base64";
+import { useNavigate } from "react-router-dom";
+import { Upload } from "../../../utils";
+import { deleteAllImagesReducer } from "../../../redux/reducer/upload";
+import {
+  Divider,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Slide,
+  DialogActions,
+  TextField,
+  Autocomplete,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { PiImages, PiNotepad, PiUser, PiXLight } from "react-icons/pi";
-import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
-import { pakistanCities } from "../../constant";
+import { pakistanCities } from "../../../constant";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
-  //////////////////////////////////////// VARIABLES ////////////////////////////////////////////
+const CreateInventory = ({ open, setOpen, scroll }) => {
+  //////////////////////////////////////// VARIABLES ////////////////////////////////////
+  let today = new Date();
+  let time = today.toLocaleTimeString();
+  let date = today.toLocaleDateString();
+  let dateTime = date + "  " + time;
+
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { currentProject: project, isFetching } = useSelector((state) => state.project);
-  const { urls } = useSelector((state) => state.upload);
+  const { isFetching: projectsFetching, projects } = useSelector((state) => state.project);
+  const { isFetching } = useSelector((state) => state.inventory);
+  const InventoryinitialState = {
+    project: "",
+    propertyNumber: "",
+    propertyStreetNumber: "",
+    price: "",
+    remarks: "",
+    sellerName: "",
+    sellerEmail: "",
+    sellerPhone: "",
+    sellerCompamyName: "",
+    sellerCity: "",
+  };
 
-  //////////////////////////////////////// STATES ////////////////////////////////////////////
-  const [projectData, setProjectData] = useState(project);
 
-  //////////////////////////////////////// USE EFFEECT ////////////////////////////////////////////
-  useEffect(() => {
-    setProjectData(project);
-  }, [project]);
-  useEffect(() => {
-    setProjectData({ ...projectData, images: urls });
-  }, [urls]);
 
-  //////////////////////////////////////// FUNCTION ////////////////////////////////////////////
+  //////////////////////////////////////// STATES ////////////////////////////////////
+  const [inventoryData, setInventoryData] = useState(InventoryinitialState);
+
+  //////////////////////////////////////// USE EFFECTS ////////////////////////////////
+
+
+  //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateProject(project._id, { ...projectData }));
+    dispatch(createInventory(inventoryData, navigate));
     dispatch(deleteAllImagesReducer());
+    setInventoryData(InventoryinitialState);
     setOpen(false);
   };
-  const handleChange = (e) => {
-    setProjectData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
+
+  const handleInputChange = (field, value) => {
+    setInventoryData((prevFilters) => ({
+      ...prevFilters,
+      [field]: value,
+    }));
   };
 
   const handleClose = () => {
-    setOpenEdit(false);
+    setInventoryData(InventoryinitialState);
+    setOpen(false);
   };
 
   return (
     <div>
       <Dialog
-        open={openEdit}
+        open={open}
         scroll={scroll}
         TransitionComponent={Transition}
         keepMounted
@@ -57,7 +90,7 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
         maxWidth="md"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400 font-primary">Edit Project</div>
+          <div className="text-sky-400 font-primary">Add New Inventory</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -75,8 +108,8 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                   <td className="pb-4 text-lg">Seller Email Address </td>
                   <td className="pb-4">
                     <TextField
-                      name="sellerEmail"
-                      // value={sellerData.sellerEmail}
+                      value={inventoryData.sellerEmail}
+                      onChange={(e) => handleInputChange('sellerEmail', e.target.value)}
                       fullWidth
                       size="small"
                       placeholder="Optional"
@@ -88,8 +121,8 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                   <td className="pb-4 text-lg">Seller Phone Number </td>
                   <td className="pb-4">
                     <TextField
-                      name="sellerPhone"
-                      // value={sellerData.sellerEmail}
+                      value={inventoryData.sellerPhone}
+                      onChange={(e) => handleInputChange('sellerPhone', e.target.value)}
                       fullWidth
                       size="small"
                       type="number"
@@ -100,9 +133,8 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                   <td className="pb-4 text-lg">Seller Name </td>
                   <td className="pb-4">
                     <TextField
-                      name="sellerName"
-                      // value={sellerData.sellerName}
-                      fullWidth
+                      value={inventoryData.sellerName}
+                      onChange={(e) => handleInputChange('sellerName', e.target.value)}
                       size="small"
                       type="text"
                     />
@@ -112,8 +144,8 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                   <td className="pb-4 text-lg">Seller Company Name </td>
                   <td className="pb-4">
                     <TextField
-                      name="sellerCompamyName"
-                      // value={sellerData.sellerCompamyName}
+                      value={inventoryData.sellerCompamyName}
+                      onChange={(e) => handleInputChange('sellerCompamyName', e.target.value)}
                       fullWidth
                       size="small"
                       type="text"
@@ -125,14 +157,14 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                   <td className="pb-4 text-lg">Seller City </td>
                   <td className="pb-4">
                     <Select
-                      name="sellerCity"
                       size="small"
-                      // value={sellerData.sellerCity}
+                      value={inventoryData.sellerCity}
+                      onChange={(e) => handleInputChange('sellerCity', e.target.value)}
                       displayEmpty
                       placeholder="Seller City"
                       fullWidth>
                       {pakistanCities.map((city) => (
-                        <MenuItem value={city}>{city}</MenuItem>
+                        <MenuItem value={city.toLowerCase()}>{city}</MenuItem>
                       ))}
                     </Select>
                   </td>
@@ -147,57 +179,46 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
             </div>
             <Divider />
             <table className="mt-4">
-              <tr>
+              {/* <tr>
                 <td className="text-lg pt-1 flex flex-col justify-start">Creation Date </td>
                 <td className="pb-4">
                   <TextField
-                    name="remarks"
-                    // value={projectData.createdAt}
                     size="small"
                     disabled
                     fullWidth
                   />
                 </td>
-              </tr>
+              </tr> */}
               <tr>
                 <td className="pb-4 text-lg">Project </td>
                 <td className="pb-4">
-                  <Select
-                    name="project"
-                    size="small"
-                    // value={projectData.project}
-                    // onChange={handleInputChange}
-                    fullWidth>
-                    <MenuItem value="1">
-                      Blue World City (Blue World City - Blue World City)
-                    </MenuItem>
-                    <MenuItem value="2">Kingdom Valley (Kingdom Valley - Kingdom Valley)</MenuItem>
-                    <MenuItem value="3">Ruden Enclave (Ruden Enclave - Ruden Enclave)</MenuItem>
-                    <MenuItem value="4">
-                      Smart City (Smart City - Smart City Canal Road Lahore)
-                    </MenuItem>
-                    <MenuItem value="6">Blue Town (Blue Town - Blue Town Sapphire)</MenuItem>
-                    <MenuItem value="6">Alnoor Orchard (Alnoor Orchard - Alnoor Orchard)</MenuItem>
-                    <MenuItem value="7">
-                      Lahore Ent City (Lahore Ent City - Lahore Ent City)
-                    </MenuItem>
-                    <MenuItem value="8">
-                      Soul City Lahore (Blue World City - Blue World City)
-                    </MenuItem>
-                    <MenuItem value="9">Mid City (Mid City Lahore - Mid City Lahore)</MenuItem>
-                    <MenuItem value="10">
-                      Urban City (Urban City Lahore - Urban City Lahore)
-                    </MenuItem>
-                  </Select>
+                  <td className="pb-4">
+                    <Select
+                      size="small"
+                      value={inventoryData.project}
+                      onChange={(e) => handleInputChange('project', e.target.value)}
+                      displayEmpty
+                      placeholder="Project"
+                      fullWidth>
+                      {
+                        projectsFetching
+                          ?
+                          <Loader />
+                          :
+                          projects.map((project, index) => (
+                            <MenuItem key={index} value={project._id}>{project.title}</MenuItem>
+                          ))
+                      }
+                    </Select>
+                  </td>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Property Number </td>
                 <td className="pb-4">
                   <TextField
-                    name="propertyNumber"
-                    // value={projectData.propertyNumber}
-                    // onChange={handleInputChange}
+                    value={inventoryData.propertyNumber}
+                    onChange={(e) => handleInputChange('propertyNumber', e.target.value)}
                     size="small"
                     placeholder="Plot/Shop/Appartment etc. No."
                     fullWidth
@@ -208,21 +229,19 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                 <td className="pb-4 text-lg">Property Street Number </td>
                 <td className="pb-4">
                   <TextField
-                    name="propertyStreetNumber"
-                    // value={projectData.propertyStreetNumber}
-                    // onChange={handleInputChange}
+                    value={inventoryData.propertyStreetNumber}
+                    onChange={(e) => handleInputChange('propertyStreetNumber', e.target.value)}
                     size="small"
                     fullWidth
                   />
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Property Price </td>
+                <td className="pb-4 text-lg">Price </td>
                 <td className="pb-4">
                   <TextField
-                    name="propertyPrice"
-                    // value={projectData.propertyPrice}
-                    // onChange={handleInputChange}
+                    value={inventoryData.price}
+                    onChange={(e) => handleInputChange('price', e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -232,9 +251,8 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                 <td className="text-lg pt-1 flex flex-col justify-start">Remarks </td>
                 <td>
                   <TextField
-                    name="remarks"
-                    // value={projectData.remarks}
-                    // onChange={handleInputChange}
+                    value={inventoryData.remarks}
+                    onChange={(e) => handleInputChange('remarks', e.target.value)}
                     size="small"
                     multiline
                     rows={4}
@@ -245,18 +263,18 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
             </table>
           </div>
         </DialogContent>
-        <DialogActions>
+        <DialogActions className="mr-7 mb-5">
           <button
             onClick={handleClose}
             variant="contained"
-            className="bg-[#d7d7d7] px-4 py-2 rounded-lg text-gray-500 mt-4 font-primary hover:text-white hover:bg-[#6c757d] border-[2px] border-[#efeeee] hover:border-[#d7d7d7] transition-all">
+            className="bg-red-400 px-4 py-2 rounded-lg mt-4 text-white hover:bg-red-500 border-[2px] border-[#efeeee] hover:border-[#d7d7d7] font-primary transition-all">
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             variant="contained"
-            className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 font-primary hover:bg-red-400">
-            Submit
+            className="bg-sky-400 px-4 py-2 rounded-lg text-white mt-4 hover:bg-sky-500 font-primary">
+            {isFetching ? 'Submitting...' : 'Submit'}
           </button>
         </DialogActions>
       </Dialog>
@@ -264,4 +282,4 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
   );
 };
 
-export default EditInventory;
+export default CreateInventory;

@@ -116,7 +116,6 @@ export const archiveLead = (leadId) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.archiveLead(leadId)
-        console.log('data', data.result)
         dispatch(updateLeadReducer(data.result))
         dispatch(end())
     } catch (err) {

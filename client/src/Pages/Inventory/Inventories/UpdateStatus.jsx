@@ -2,7 +2,7 @@ import { Close } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProject } from "../../redux/action/project";
+import { updateInventory } from "../../../redux/action/inventory";
 import {
     Dialog,
     DialogActions,
@@ -13,7 +13,7 @@ import {
     Slide,
   } from "@mui/material";
   import { PiXLight } from "react-icons/pi";
-  import { Loader } from "../../utils";
+  import { Loader } from "../../../utils";
   
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -22,20 +22,20 @@ import {
 const UpateStatusModal = ({ open, setOpen }) => {
   ////////////////////////////////////// VARIABLES  /////////////////////////////////////
   const dispatch = useDispatch();
-  const { currentProject, isFetching } = useSelector((state) => state.project);
+  const { currentInventory, isFetching } = useSelector((state) => state.inventory);
 
   ////////////////////////////////////// STATES  /////////////////////////////////////
-  const [status, setStatus] = useState(currentProject?.status);
+  const [status, setStatus] = useState(currentInventory?.status);
 
   ////////////////////////////////////// USE EFFECTS  /////////////////////////////////////
   useEffect(() => {
-    setStatus(currentProject?.status);
-  }, [currentProject]);
+    setStatus(currentInventory?.status);
+  }, [currentInventory]);
 
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateProject(currentProject?._id, { status }));
+    dispatch(updateInventory(currentInventory?._id, { status }));
     setOpen(false);
   };
   const handleChange = (e) => {

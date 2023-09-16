@@ -120,7 +120,6 @@ export const searchTask = async (req, res, next) => {
 
         res.status(200).json({ result: searchResults });
     } catch (error) {
-        console.log(error)
         next(createError(500, error.message))
     }
 };

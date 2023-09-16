@@ -12,10 +12,11 @@ import React from "react";
 import { updateProject } from "../../../redux/action/project";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAllImagesReducer } from "../../../redux/reducer/upload";
-import { Upload } from "../../../utils";
+import { Loader, Upload } from "../../../utils";
 import { PiImages, PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
 import { pakistanCities } from "../../../constant";
+import { getSocieties } from "../../../redux/action/society";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -26,6 +27,7 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
   const dispatch = useDispatch();
   const { currentProject: project, isFetching } = useSelector((state) => state.project);
   const { urls } = useSelector((state) => state.upload);
+  const { societies, isFetching: societiesFetching } = useSelector((state) => state.society);
 
   //////////////////////////////////////// STATES ////////////////////////////////////////////
   const [projectData, setProjectData] = useState(project);
@@ -37,6 +39,9 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
   useEffect(() => {
     setProjectData({ ...projectData, images: urls });
   }, [urls]);
+  useEffect(() => {
+    dispatch(getSocieties())
+  }, [])
 
   //////////////////////////////////////// FUNCTION ////////////////////////////////////////////
   const handleSubmit = (e) => {
@@ -45,8 +50,12 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
     dispatch(deleteAllImagesReducer());
     setOpen(false);
   };
-  const handleChange = (e) => {
-    setProjectData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
+
+  const handleInputChange = (field, value) => {
+    setProjectData((prevFilters) => ({
+      ...prevFilters,
+      [field]: value,
+    }));
   };
 
   const handleClose = () => {
@@ -56,7 +65,7 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
   return (
     <div>
       <Dialog
-        open={openEdit}
+        open={open}
         scroll={scroll}
         TransitionComponent={Transition}
         keepMounted
@@ -65,7 +74,7 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
         maxWidth="md"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400 font-primary">Edit Project</div>
+          <div className="text-sky-400 font-primary">Add New Project</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -82,14 +91,21 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                 <tr>
                   <td className="pb-4 text-lg">Title </td>
                   <td className="pb-4">
-                    <TextField name="title" fullWidth size="small" type="text" />
+                    <TextField
+                      value={projectData?.title}
+                      onChange={(e) => handleInputChange('title', e.target.value)}
+                      fullWidth
+                      size="small"
+                      type="text"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td className="text-lg pt-1 flex flex-col justify-start">Description </td>
                   <td className="pb-4">
                     <TextField
-                      name="description"
+                      value={projectData?.description}
+                      onChange={(e) => handleInputChange('description', e.target.value)}
                       fullWidth
                       size="small"
                       type="number"
@@ -101,7 +117,13 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                 <tr>
                   <td className="pb-4 text-lg">City </td>
                   <td className="pb-4">
-                    <Select name="city" size="small" displayEmpty fullWidth>
+                    <Select
+                      size="small"
+                      value={projectData?.city}
+                      onChange={(e) => handleInputChange('city', e.target.value)}
+                      displayEmpty
+                      placeholder="Seller City"
+                      fullWidth>
                       {pakistanCities.map((city) => (
                         <MenuItem value={city}>{city}</MenuItem>
                       ))}
@@ -109,17 +131,31 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="pb-4 text-lg">Housing Society </td>
+                  <td className="pb-4 text-lg">Society </td>
                   <td className="pb-4">
-                    <Select name="housingSociety" size="small" displayEmpty fullWidth>
-                      <MenuItem value="1">sasdsa</MenuItem>
+                    <Select
+                      size="small"
+                      value={projectData?.society}
+                      onChange={(e) => handleInputChange('society', e.target.value)}
+                      displayEmpty
+                      placeholder="Society"
+                      fullWidth>
+                      {
+                        societiesFetching
+                          ?
+                          <Loader />
+                          :
+                          societies.map((society, index) => (
+                            <MenuItem key={index} value={society?._id}>{society?.title}</MenuItem>
+                          ))
+                      }
                     </Select>
                   </td>
                 </tr>
                 <tr>
-                  <td className="pb-4 text-lg">Attachments </td>
-                  <td className="pb-4">
-                    <TextField name="attachments" fullWidth size="small" type="file" />
+                  <td className="pb-4 text-lg">images </td>
+                  <td className="pb-4 flex flex-wrap gap-[8px] ">
+                    <Upload image={projectData?.images} isMultiple={true} />
                   </td>
                 </tr>
                 <tr>
@@ -128,6 +164,7 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                     <FormGroup>
                       <FormControlLabel
                         className="w-40 text-gray-400"
+                        onChange={(e) => setProjectData({ ...projectData, 'status': e.target.checked ? "active" : "nonActive" })}
                         control={<Checkbox defaultChecked style={{ color: "#20aee3" }} />}
                       />
                     </FormGroup>
@@ -148,7 +185,7 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
             onClick={handleSubmit}
             variant="contained"
             className="bg-sky-400 px-4 py-2 rounded-lg text-white mt-4 hover:bg-sky-500 font-thin">
-            Submit
+            {isFetching ? 'Submitting...' : 'Submit'}
           </button>
         </DialogActions>
       </Dialog>

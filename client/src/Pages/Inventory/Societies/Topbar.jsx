@@ -7,7 +7,7 @@ import { Add } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../../utils";
 import { useDispatch } from "react-redux";
-import { getArchivedProjects, getProjects, searchProject } from "../../../redux/action/project";
+import { searchSociety } from "../../../redux/action/society";
 import CreateSociety from "./CreateSociety";
 
 const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
@@ -17,19 +17,14 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   const title = pathname.split("/")[1];
   const pathArr = pathname.split("/").filter((item) => item !== "");
   const showOptionButtons = !pathArr.includes("create");
-  const { projects } = useSelector((state) => state.project);
+  const { societies } = useSelector((state) => state.society);
   const dispatch = useDispatch();
   // Count occurrences of each status
-  const statusCounts = projects.reduce((acc, project) => {
-    acc[project.status] = (acc[project.status] || 0) + 1;
+  const statusCounts = societies.reduce((acc, society) => {
+    acc[society.status] = (acc[society.status] || 0) + 1;
     return acc;
   }, {});
   const allStatusOptions = ["notStarted", "onHold", "completed", "inProgress"];
-  // Transform the status counts into the desired format
-  const statusArray = allStatusOptions.map((status) => ({
-    name: status,
-    counts: statusCounts[status] || 0,
-  }));
   const descriptionElementRef = React.useRef(null);
 
   ////////////////////////////////////////// STATES //////////////////////////////////////
@@ -37,12 +32,6 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   const [scroll, setScroll] = useState("paper");
 
   ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
-  useEffect(() => {
-    options?.showArchivedProjects && dispatch(getArchivedProjects());
-    options?.showEmployeeProjects && dispatch(getProjects());
-    !options?.showArchivedProjects && !options?.showEmployeeProjects && dispatch(getProjects());
-  }, [options]);
-
   useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
@@ -54,26 +43,13 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
 
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleSearch = (searchTerm) => {
-    dispatch(searchProject(searchTerm));
+    dispatch(searchSociety(searchTerm, options.showArchivedSocieties));
   };
-  const handleToggleShowArchivedProjects = () => {
+  const handleToggleShowArchivedSocieties = () => {
     setOptions((pre) => ({
       ...pre,
-      showArchivedProjects: !options?.showArchivedProjects,
-      showEmployeeProjects: false,
-    }));
-  };
-  const handleToggleShowEmployeeProjects = () => {
-    setOptions((pre) => ({
-      ...pre,
-      showEmployeeProjects: !options?.showEmployeeProjects,
-      showArchivedProjects: false,
-    }));
-  };
-  const handleToggleIsKanbanView = () => {
-    setOptions((pre) => ({
-      ...pre,
-      isKanbanView: !options?.isKanbanView,
+      showArchivedSocieties: !options?.showArchivedSocieties,
+      showEmployeeSocieties: false,
     }));
   };
   const handleToggleFilters = () => {
@@ -113,23 +89,21 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
               </div>
               <Tooltip title="Archived" arrow placement="top">
                 <div
-                  onClick={handleToggleShowArchivedProjects}
-                  className={` p-2 rounded-md cursor-pointer ${
-                    options?.showArchivedProjects
-                      ? "text-[#20aee3] bg-[#e4f1ff]"
-                      : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                  }`}>
+                  onClick={handleToggleShowArchivedSocieties}
+                  className={` p-2 rounded-md cursor-pointer ${options?.showArchivedSocieties
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                    }`}>
                   <PiArchive className="text-[25px]" />
                 </div>
               </Tooltip>
               <Tooltip title="Filter" arrow placement="top">
                 <div
                   onClick={handleToggleFilters}
-                  className={` p-2 rounded-md cursor-pointer ${
-                    openFilters
-                      ? "text-[#20aee3] bg-[#e4f1ff]"
-                      : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                  }`}>
+                  className={` p-2 rounded-md cursor-pointer ${openFilters
+                    ? "text-[#20aee3] bg-[#e4f1ff]"
+                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                    }`}>
                   <FiFilter className="text-[25px] " />
                 </div>
               </Tooltip>

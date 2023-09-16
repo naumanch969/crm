@@ -53,9 +53,6 @@ const CreateUser = ({ open, setOpen, scroll }) => {
   });
 
   //////////////////////////////////////// USE EFFECTS /////////////////////////////////////
-  useEffect(() => {
-    console.log('employeeData', employeeData)
-  }, [employeeData])
 
   //////////////////////////////////////// FUNCTIONS /////////////////////////////////////
   const handleSubmit = (e) => {

@@ -35,7 +35,6 @@ export const getTask = (taskId) => async (dispatch) => {
 export const createTask = (taskData, setOpen) => async (dispatch) => {
     try {
         dispatch(start())
-        console.log('taskData', taskData)
         const { data } = await api.createTask(taskData)
         setOpen(false)
         dispatch(createTaskReducer(data.result))
@@ -58,7 +57,6 @@ export const filterTask = (filters) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.filterTask(filters)
-        console.log('filtered tasks data', data)
         dispatch(getTasksReducer(data.result))
         dispatch(end())
     } catch (err) {

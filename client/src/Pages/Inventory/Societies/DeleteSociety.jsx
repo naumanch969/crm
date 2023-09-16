@@ -8,20 +8,20 @@ import {
   DialogContentText,
 } from "@mui/material";
 import React from "react";
-import { deleteProject } from "../../../redux/action/project";
+import { deleteSociety } from "../../../redux/action/society";
 import { useDispatch, useSelector } from "react-redux";
 
-const DeleteSociety = ({ open, setOpen, projectId }) => {
+const DeleteSociety = ({ open, setOpen, societyId }) => {
   ////////////////////////////////////// VARIABLES ///////////////////////////////////////
   const dispatch = useDispatch();
-  const { isFetching } = useSelector((state) => state.project);
+  const { isFetching } = useSelector((state) => state.society);
 
   ////////////////////////////////////// FUNCTIONS ///////////////////////////////////////
   const handleClose = () => {
     setOpen(false);
   };
   const handleDelete = () => {
-    dispatch(deleteProject(projectId));
+    dispatch(deleteSociety(societyId));
     setOpen(false);
   };
 

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Drawer, Button, TextField, Autocomplete } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
-import { filterProject } from "../../redux/action/project";
+import { filterInventory } from "../../../redux/action/inventory";
 import { FiFilter } from "react-icons/fi";
 import { PiFunnelLight, PiXLight } from "react-icons/pi";
-import { pakistanCities } from "../../constant";
+import { pakistanCities } from "../../../constant";
 import { DatePicker, DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -28,8 +28,7 @@ const FilterDrawer = ({ open, setOpen }) => {
   };
 
   const handleApplyFilters = () => {
-    console.log("filters", filters);
-    dispatch(filterProject(filters));
+    dispatch(filterInventory(filters));
     setOpen(false);
   };
 

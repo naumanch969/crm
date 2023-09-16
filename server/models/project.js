@@ -1,19 +1,13 @@
 import { Schema, model } from 'mongoose'
 
 const projectSchema = Schema({
+    title: { type: String, required: true },
+    description: { type: String, required: true },
     city: { type: String, required: true },
-    region: { type: String, required: true },
-    propertyType: { type: String, required: true },
-    homeType: { type: String, required: true },         // define enum
-    price: { type: Number, requried: true },
-    area: { type: String, requried: true },
-    areaUnit: { type: String, required: true },
-    priority: { type: String, required: true, enum: ['high', 'moderate', 'low'] },
-    beds: { type: Number, required: false },
-    images: { type: Array, required: false },
-    assignedTo: { type: Schema.Types.ObjectId, ref: 'User' },
-    status: { type: String, default: 'notStarted', enum: ['notStarted', 'completed', 'inProgress', 'onHold'] },
-    isArchived: { type: Boolean, default: false },
+    status: { type: String, default: 'active', enum: ['active', 'nonActive'] },
+    society: { type: Schema.Types.ObjectId, ref: 'Society', required: true },
+    inventories: { type: [Schema.Types.ObjectId], ref: 'Inventory', default: [] },
+    isArchived: { type:Boolean,default:false },
 }, { timestamps: true })
 
 const projectModel = model('Project', projectSchema)

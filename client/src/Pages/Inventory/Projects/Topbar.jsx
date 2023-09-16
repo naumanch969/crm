@@ -7,7 +7,7 @@ import { Add, Archive, Person2 } from "@mui/icons-material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../../utils";
 import { useDispatch } from "react-redux";
-import { getArchivedProjects, getProjects, searchProject } from "../../../redux/action/project";
+import { searchProject } from "../../../redux/action/project";
 import CreateProject from "./CreateProject";
 
 const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
@@ -37,11 +37,6 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   const [scroll, setScroll] = useState("paper");
 
   ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
-  useEffect(() => {
-    options?.showArchivedProjects && dispatch(getArchivedProjects());
-    options?.showEmployeeProjects && dispatch(getProjects());
-    !options?.showArchivedProjects && !options?.showEmployeeProjects && dispatch(getProjects());
-  }, [options]);
 
   useEffect(() => {
     if (open) {
@@ -54,7 +49,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
 
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleSearch = (searchTerm) => {
-    dispatch(searchProject(searchTerm));
+    dispatch(searchProject(searchTerm,options.showArchivedSocieties));
   };
   const handleToggleShowArchivedProjects = () => {
     setOptions((pre) => ({
@@ -114,22 +109,20 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
               <Tooltip title="Archived" arrow placement="top">
                 <div
                   onClick={handleToggleShowArchivedProjects}
-                  className={` p-2 rounded-md cursor-pointer ${
-                    options?.showArchivedProjects
+                  className={` p-2 rounded-md cursor-pointer ${options?.showArchivedProjects
                       ? "text-[#20aee3] bg-[#e4f1ff]"
                       : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                  }`}>
+                    }`}>
                   <PiArchive className="text-[25px]" />
                 </div>
               </Tooltip>
               <Tooltip title="Filter" arrow placement="top">
                 <div
                   onClick={handleToggleFilters}
-                  className={` p-2 rounded-md cursor-pointer ${
-                    openFilters
+                  className={` p-2 rounded-md cursor-pointer ${openFilters
                       ? "text-[#20aee3] bg-[#e4f1ff]"
                       : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                  }`}>
+                    }`}>
                   <FiFilter className="text-[25px] " />
                 </div>
               </Tooltip>

@@ -14,6 +14,8 @@ import taskRoutes from './routes/task.js'
 import meetingRoutes from './routes/meeting.js'
 import approvalRoutes from './routes/approval.js'
 import projectRoutes from './routes/project.js'
+import societyRoutes from './routes/society.js'
+import inventoryRoutes from './routes/inventory.js'
 import leadRoutes from './routes/lead.js'
 import cashbookRoutes from './routes/cashbook.js'
 import voucherRoutes from './routes/voucher.js'
@@ -41,6 +43,8 @@ app.use('/api/v1/meeting', meetingRoutes)
 app.use('/api/v1/approval', approvalRoutes)
 app.use('/api/v1/sale', saleRoutes)
 app.use('/api/v1/project', projectRoutes)
+app.use('/api/v1/society', societyRoutes)
+app.use('/api/v1/inventory', inventoryRoutes)
 app.use('/api/v1/lead', leadRoutes)
 app.use('/api/v1/cashbook', cashbookRoutes)
 app.use('/api/v1/refund', cashbookRoutes)

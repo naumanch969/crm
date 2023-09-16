@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "../../Components";
+import { Table } from "../../../Components";
 import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjects, updateProject } from "../../redux/action/project";
+import { getInventories, updateInventory } from "../../../redux/action/inventory";
 import {
-  getProjectReducer,
-  archiveProjectReducer,
-  unarchiveProjectReducer,
-} from "../../redux/reducer/project";
+  getInventoryReducer,
+} from "../../../redux/reducer/inventory";
 import { Avatar, AvatarGroup, Tooltip, styled } from "@mui/material";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
 import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import UpdateStatusModal from "./UpdateStatus";
-import Project from "./ViewInventory";
+import ViewInventory from "./ViewInventory";
 import Filter from "./Filter";
 import Kanban from "./Kanban/Kanban";
 import DeleteInventory from "./DeleteInventory";
 import EditInventory from "./EditInventory";
+import { format } from "timeago.js";
+import { Loader } from "../../../utils";
+import { Archive, Unarchive } from "@mui/icons-material";
 
 const blue = {
   100: "#DAECFF",
@@ -94,7 +95,7 @@ function Inventory() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
-  const { projects, archived, isFetching, error } = useSelector((state) => state.project);
+  const { inventories, isFetching, error } = useSelector((state) => state.inventory);
   const columns = [
     {
       field: "id",
@@ -103,7 +104,7 @@ function Inventory() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row._id}</span>
         </Tooltip>
       ),
     },
@@ -114,7 +115,7 @@ function Inventory() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.sellerName}</span>
         </Tooltip>
       ),
     },
@@ -125,7 +126,7 @@ function Inventory() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.sellerPhone}</span>
         </Tooltip>
       ),
     },
@@ -136,29 +137,29 @@ function Inventory() {
       width: 180,
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.project?.title}</span>
         </Tooltip>
       ),
     },
     {
-      field: "property",
-      headerName: "Property",
+      field: "propertyNumber",
+      headerName: "Property Number",
       headerClassName: "super-app-theme--header",
       width: 180,
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.propertyNumber}</span>
         </Tooltip>
       ),
     },
     {
-      field: "propertyPrice",
-      headerName: "Property Price",
+      field: "price",
+      headerName: "Price",
       width: 140,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{params.row.price}</span>
         </Tooltip>
       ),
     },
@@ -169,7 +170,7 @@ function Inventory() {
       width: 150,
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize"></span>
+          <span className="font-primary capitalize">{format(params.row.createdAt)}</span>
         </Tooltip>
       ),
     },
@@ -187,19 +188,27 @@ function Inventory() {
               className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
             />
           </Tooltip>
-          <Tooltip arrow placement="top" title="View">
-            <div>
-              <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
-            </div>
-          </Tooltip>
           <Tooltip arrow placement="top" title="Edit">
             {" "}
             <CiEdit onClick={() => handleOpenEditModal(params.row)} className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />
+          </Tooltip>
+          <Tooltip arrow placement="top" title={params.row.isArchived ? "Un Archive" : "Archive"}>
+            {" "}
+            {
+              params.row.isArchived
+                ?
+                <Unarchive onClick={() => handleUnArchive(params.row)} className="cursor-pointer text-gray-500 text-[23px] hover:text-gray-600" />
+                :
+                <Archive onClick={() => handleArchive(params.row)} className="cursor-pointer text-gray-500 text-[23px] hover:text-gray-600" />
+            }
           </Tooltip>
         </div>
       ),
     },
   ];
+
+  const unarchivedInventories = inventories.filter(i => !i.isArchived)
+  const archivedInventories = inventories.filter(i => i.isArchived)
 
   ////////////////////////////////////// STATES //////////////////////////////
   const [scroll, setScroll] = useState("paper");
@@ -207,17 +216,16 @@ function Inventory() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
-  const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [selectedInventoryId, setSelectedInventoryId] = useState(null);
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [options, setOptions] = useState({
     isKanbanView: false,
-    showEmployeeProjects: false,
-    showArchivedProjects: false,
+    showArchivedInventories: false,
   });
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
-    dispatch(getProjects());
+    dispatch(getInventories());
   }, []);
 
   useEffect(() => {
@@ -230,50 +238,54 @@ function Inventory() {
   }, [open]);
 
   ////////////////////////////////////// FUNCTION //////////////////////////////\
-  const handleOpenStatusModal = (project) => {
+  const handleOpenStatusModal = (inventory) => {
     setOpenStatusModal(true);
-    dispatch(getProjectReducer(project));
+    dispatch(getInventoryReducer(inventory));
   };
-  const handleArchive = (project) => {
-    dispatch(archiveProjectReducer(project));
-    dispatch(updateProject(project._id, { isArchived: true }, { loading: false }));
+  const handleArchive = (inventory) => {
+    dispatch(updateInventory(inventory._id, { isArchived: true }, { loading: false }));
   };
-  const handleUnArchive = (project) => {
-    dispatch(unarchiveProjectReducer(project));
-    dispatch(updateProject(project._id, { isArchived: false }, { loading: false }));
+  const handleUnArchive = (inventory) => {
+    dispatch(updateInventory(inventory._id, { isArchived: false }, { loading: false }));
   };
   const handleOpenViewModal = (leadId) => {
     setOpenViewModal(true);
-    setSelectedProjectId(leadId);
+    setSelectedInventoryId(leadId);
   };
-  const handleOpenEditModal = (project) => {
+  const handleOpenEditModal = (inventory) => {
     setOpenEditModal(true);
-    dispatch(getProjectReducer(project));
+    dispatch(getInventoryReducer(inventory));
   };
-  const handleOpenDeleteModal = (projectId) => {
+  const handleOpenDeleteModal = (inventoryId) => {
     setOpenDeleteModal(true);
-    setSelectedProjectId(projectId);
+    setSelectedInventoryId(inventoryId);
   };
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
-      <EditInventory scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
+
+      <EditInventory
+        scroll={scroll}
+        open={openEditModal}
+        setOpen={setOpenEditModal}
+      />
+
       <DeleteInventory
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}
-        projectId={selectedProjectId}
+        inventoryId={selectedInventoryId}
       />
       <UpdateStatusModal
         open={openStatusModal}
         setOpen={setOpenStatusModal}
-        projectId={selectedProjectId}
+        inventoryId={selectedInventoryId}
       />
       <Filter open={openFilters} setOpen={setOpenFilters} />
-      <Project
+      <ViewInventory
         scroll={scroll}
         open={openViewModel}
         setOpen={setOpenViewModal}
-        projectId={selectedProjectId}
+        inventoryId={selectedInventoryId}
       />
 
       <Topbar
@@ -282,16 +294,26 @@ function Inventory() {
         openFilters={openFilters}
         setOpenFilters={setOpenFilters}
       />
-      {options.isKanbanView ? (
-        <Kanban options={options} setOptions={setOptions} />
-      ) : (
-        <Table
-          rows={options.showArchivedProjects ? archived : projects}
-          columns={columns}
-          rowsPerPage={10}
-          error={error}
-        />
-      )}
+      {
+        options.isKanbanView
+          ?
+          <Kanban options={options} setOptions={setOptions} />
+          :
+          <div className="flex justify-center items-center " >
+            {
+              isFetching
+                ?
+                <Loader />
+                :
+                <Table
+                  rows={options.showArchivedInventories ? archivedInventories : unarchivedInventories}
+                  columns={columns}
+                  rowsPerPage={10}
+                  error={error}
+                />
+            }
+          </div>
+      }
     </div>
   );
 }
