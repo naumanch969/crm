@@ -129,7 +129,7 @@ function Societies() {
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
     dispatch(getSocieties());
-  }, []);
+  }, [options.showArchivedSocieties]);
 
   useEffect(() => {
     if (open) {

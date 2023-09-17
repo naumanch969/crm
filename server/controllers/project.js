@@ -1,4 +1,5 @@
 import Project from '../models/project.js'
+import Society from '../models/society.js'
 import { createError, isValidDate } from '../utils/error.js'
 
 
@@ -56,19 +57,40 @@ export const searchProject = async (req, res, next) => {
 };
 
 
-
 export const filterProject = async (req, res, next) => {
-    const { startingDate, endingDate, ...filters } = req.query;
+    const { startingDate, endingDate, society, ...filters } = req.query;
+    
     try {
-        let query = await Project.find(filters).populate('society').exec()
+        let query = Project.find(filters);
+
+        // Check if startingDate is provided and valid
+        if (startingDate && isValidDate(startingDate)) {
+            const startDate = new Date(startingDate);
+            startDate.setHours(0, 0, 0, 0);
+            
+            // Add createdAt filtering for startingDate
+            query = query.where('createdAt').gte(startDate);
+        }
+
+        // Check if endingDate is provided and valid
+        if (endingDate && isValidDate(endingDate)) {
+            const endDate = new Date(endingDate);
+            endDate.setHours(23, 59, 59, 999);
+            query = query.where('createdAt').lte(endDate);
+        }
+
+        // Check if society is provided and filter by the title of the referenced document
+        if (society) {
+            query = query.where('society').in(await Society.find({ title: new RegExp(society, 'i') }).select('_id').exec());
+        }
+
+        query = await query.populate('society').exec();
 
         res.status(200).json({ result: query });
-
     } catch (error) {
         next(createError(500, error.message));
     }
 };
-
 
 
 export const createProject = async (req, res, next) => {

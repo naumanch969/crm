@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Drawer, Button, TextField, Autocomplete } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { filterInventory } from "../../../redux/action/inventory";
 import { FiFilter } from "react-icons/fi";
 import { PiFunnelLight, PiXLight } from "react-icons/pi";
@@ -9,26 +9,40 @@ import { pakistanCities } from "../../../constant";
 import { DatePicker, DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { getProjects } from "../../../redux/action/project";
+import { Loader } from "../../../utils";
+import { MenuItem, Select } from "@mui/base";
 
 const FilterDrawer = ({ open, setOpen }) => {
+
   const dispatch = useDispatch();
+  const { projects, isFetching: projectsFetching } = useSelector(state => state.project)
+  const projectsTitleArr = projects.map(project => project.title)
 
   const [filters, setFilters] = useState({
-    city: "",
-    minPrice: "",
-    maxPrice: "",
+    sellerCity: '',
+    startingDate: '',
+    endingDate: '',
+    minPrice: '',
+    maxPrice: '',
+    status: '',
+    project: ''
   });
 
+  useEffect(() => {
+    dispatch(getProjects())
+  }, [])
+
   const handleInputChange = (field, value) => {
-    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, "");
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [field]: inputValue,
+      [field]: value,
     }));
   };
 
   const handleApplyFilters = () => {
-    dispatch(filterInventory(filters));
+    console.log(filters)
+    // dispatch(filterInventory(filters));
     setOpen(false);
   };
 
@@ -72,7 +86,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={pakistanCities}
-            onSelect={(e) => handleInputChange("city", e.target.value)}
+            onSelect={(e) => handleInputChange("sellerCity", e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField {...params} fullWidth label="Seller City" value={filters.city} />
@@ -135,12 +149,13 @@ const FilterDrawer = ({ open, setOpen }) => {
             </div>
           </div>
 
+     
           <Autocomplete
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={ProjectOptions}
-            onSelect={(e) => handleInputChange("city", e.target.value)}
+            options={projectsTitleArr}
+            onSelect={(e) => handleInputChange("project", e.target.value)}
             className="w-full"
             renderInput={(params) => <TextField {...params} fullWidth label="Projects" />}
           />
@@ -149,8 +164,8 @@ const FilterDrawer = ({ open, setOpen }) => {
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={["Sold", "Unsold", "Under Process"]}
-            onSelect={(e) => handleInputChange("city", e.target.value)}
+            options={["sold", "unsold", "underProcess"]}
+            onSelect={(e) => handleInputChange("status", e.target.value)}
             className="w-full"
             renderInput={(params) => <TextField {...params} fullWidth label="Status" />}
           />

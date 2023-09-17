@@ -7,45 +7,34 @@ import { pakistanCities } from "../../../constant";
 import { DatePicker, DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { filterSociety } from "../../../redux/action/society";
 
 const SocietyFilter = ({ open, setOpen }) => {
   const dispatch = useDispatch();
 
   const initialState = {
-    city: "",
-    minPrice: "",
-    maxPrice: "",
-    propertyType: "",
-    homeType: "",
-    beds: "",
-    minArea: "",
-    maxArea: "",
+    startingDate: '',
+    endingDate: '',
+    status: ''
   };
 
-  const [filters, setFilters] = useState({
-    initialState,
-  });
+  const [filters, setFilters] = useState(initialState);
 
   const handleInputChange = (field, value) => {
-    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, "");
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [field]: inputValue,
+      [field]: value,
     }));
   };
 
   const handleApplyFilters = () => {
-    console.log("filters", filters);
-    dispatch(filterProject(filters));
+    dispatch(filterSociety(filters));
     setOpen(false);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
-
-  const demoPropertyType = ["Residential", "Commercial", "Agricultural", "Industrial"];
-  const demoHomeType = ["Apartment", "House", "Farm House", "Plot", "Shop", "Office"];
 
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -96,8 +85,8 @@ const SocietyFilter = ({ open, setOpen }) => {
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={["Active", "Not Active"]}
-            onSelect={(e) => handleInputChange("city", e.target.value)}
+            options={["active", "nonActive"]}
+            onSelect={(e) => handleInputChange("status", e.target.value)}
             className="w-full"
             renderInput={(params) => <TextField {...params} fullWidth label="Status" />}
           />

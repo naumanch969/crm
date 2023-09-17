@@ -1,3 +1,4 @@
+import Project from '../models/project.js'
 import Inventory from '../models/inventory.js'
 import { createError, isValidDate } from '../utils/error.js'
 
@@ -40,9 +41,14 @@ export const searchInventory = async (req, res, next) => {
         const inventoryFilter = {
             $or: [
                 { sellerName: new RegExp(searchTerm, 'i') },
-                { sellerPhone: new RegExp(searchTerm, 'i') },
-                { property: new RegExp(searchTerm, 'i') },
-                { price: numberSearch }, // Search directly as a number
+                { sellerEmail: new RegExp(searchTerm, 'i') },
+                { sellerCompamyName: new RegExp(searchTerm, 'i') },
+                { sellerCity: new RegExp(searchTerm, 'i') },
+                { remarks: new RegExp(searchTerm, 'i') },
+                { propertyStreetNumber: numberSearch },
+                { propertyNumber: numberSearch },
+                { price: numberSearch },
+                { sellerPhone: numberSearch },
             ],
         };
 
@@ -63,18 +69,51 @@ export const searchInventory = async (req, res, next) => {
 
 
 export const filterInventory = async (req, res, next) => {
-    const { startingDate, endingDate, ...filters } = req.query;
+    const { startingDate, endingDate, minPrice, maxPrice, project, ...filters } = req.query;
+
     try {
-        let query = await Inventory.find(filters).populate('project').exec();
+        let query = Inventory.find(filters);
+
+        // Check if startingDate is provided and valid
+        if (startingDate && isValidDate(startingDate)) {
+            const startDate = new Date(startingDate);
+            startDate.setHours(0, 0, 0, 0);
+
+            // Add createdAt filtering for startingDate
+            query = query.where('createdAt').gte(startDate);
+        }
+
+        // Check if endingDate is provided and valid
+        if (endingDate && isValidDate(endingDate)) {
+            const endDate = new Date(endingDate);
+            endDate.setHours(23, 59, 59, 999);
+            query = query.where('createdAt').lte(endDate);
+        }
+
+        // Check if minPrice and maxPrice are provided
+        if (minPrice !== undefined && maxPrice !== undefined) {
+            // Filter by price within the specified range
+            query = query.where('price').gte(Number(minPrice)).lte(Number(maxPrice));
+        } else if (minPrice !== undefined) {
+            // Filter by minimum price
+            query = query.where('price').gte(Number(minPrice));
+        } else if (maxPrice !== undefined) {
+            // Filter by maximum price
+            query = query.where('price').lte(Number(maxPrice));
+        }
+
+        // Check if project is provided and filter by the title of the referenced document
+        if (project) {
+            query = query.where('project').in(await Project.find({ title: new RegExp(project, 'i') }).select('_id').exec());
+        }
+
+        query = await query.populate('project').exec();
 
         res.status(200).json({ result: query });
-
     } catch (error) {
         next(createError(500, error.message));
     }
 };
-
-
 
 export const createInventory = async (req, res, next) => {
     try {

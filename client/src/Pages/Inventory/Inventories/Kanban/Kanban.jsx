@@ -2,36 +2,37 @@ import React, { useEffect, useState } from "react";
 import Board from "./Board";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProject } from "../../../../redux/action/project";
+import { updateInventory } from "../../../../redux/action/inventory";
 import { Loader } from "../../../../utils";
 
 const Kanban = ({ options, setOptions }) => {
   /////////////////////////////////////// VARIABLES ////////////////////////////////////////
   const dispatch = useDispatch();
-  const { archived, projects, isFetching } = useSelector((state) => state.project);
-  let initialFilteredProjectsState = {
-    notStarted: [],
-    completed: [],
-    inProgress: [],
-    onHold: [],
-    remaining: [],
+  const { inventories, isFetching } = useSelector((state) => state.inventory);
+  const archivedInventories = inventories.filter(p => p.isArchived)
+  const unarchivedInventories = inventories.filter(p => !p.isArchived)
+  console.log(archivedInventories, unarchivedInventories)
+  let initialFilteredInventoriesState = {
+    sold: [],
+    unsold: [],
+    underProcess: [],
   };
-  const statusEnum = ["notStarted", "completed", "inProgress", "onHold"];
+  const statusEnum = ["sold", "unsold", "underProcess"];
 
   /////////////////////////////////////// STATE ////////////////////////////////////////
-  let [filteredProjects, setFilteredProjects] = useState(initialFilteredProjectsState);
-  const { notStarted, completed, inProgress, onHold } = filteredProjects;
+  let [filteredInventories, setFilteredInventories] = useState(initialFilteredInventoriesState);
+  const { sold, unsold, underProcess } = filteredInventories;
 
   /////////////////////////////////////// USE EFFECT /////////////////////////////////////
   useEffect(() => {
     statusEnum.forEach(
       (status) =>
-      (filteredProjects[status] = (options.showArchivedProjects ? archived : projects).filter(
-        (project) => project.status == status
+      (filteredInventories[status] = (options.showArchivedInventories ? archivedInventories : unarchivedInventories).filter(
+        (inventory) => inventory.status == status
       ))
     );
-    setFilteredProjects({ ...filteredProjects });
-  }, [projects, archived]);
+    setFilteredInventories({ ...filteredInventories });
+  }, []);
 
   /////////////////////////////////////// FUNCTION ///////////////////////////////////////
   const handleDragEnd = (result) => {
@@ -41,28 +42,26 @@ const Kanban = ({ options, setOptions }) => {
     const sourceColumn = getSourceColumn(result.source.droppableId);
     const destinationColumn = getSourceColumn(result.destination.droppableId);
 
-    // Move the dragged project from the source to the destination column
-    const draggedProject = sourceColumn.projects[result.source.index];
-    filteredProjects[sourceColumn.title].splice(result.source.index, 1);
-    filteredProjects[destinationColumn.title].splice(result.destination.index, 0, draggedProject);
-    setFilteredProjects({ ...filteredProjects });
+    // Move the dragged inventory from the source to the destination column
+    const draggedInventory = sourceColumn.inventories[result.source.index];
+    filteredInventories[sourceColumn.title].splice(result.source.index, 1);
+    filteredInventories[destinationColumn.title].splice(result.destination.index, 0, draggedInventory);
+    setFilteredInventories({ ...filteredInventories });
 
-    // upating project status in backend/database
-    dispatch(updateProject(draggedProject._id, { status: destinationColumn.title }));
+    // upating inventory status in backend/database
+    dispatch(updateInventory(draggedInventory._id, { status: destinationColumn.title }));
   };
 
   const getSourceColumn = (droppableId) => {
     switch (droppableId) {
       case "1":
-        return { projects: notStarted, title: "notStarted" };
+        return { inventories: sold, title: "sold" };
       case "2":
-        return { projects: completed, title: "completed" };
+        return { inventories: unsold, title: "unsold" };
       case "3":
-        return { projects: inProgress, title: "inProgress" };
-      case "4":
-        return { projects: onHold, title: "onHold" };
+        return { inventories: underProcess, title: "underProcess" };
       default:
-        return notStarted;
+        return underProcess;
     }
   };
 
@@ -75,10 +74,9 @@ const Kanban = ({ options, setOptions }) => {
       ) : (
         <DragDropContext onDragEnd={handleDragEnd}>
           <div className="flex justify-start gap-[1rem] w-full min-h-[30rem] h-fit pb-[1rem] overflow-x-scroll ">
-            <Board projects={notStarted} title='Not Started' _id='1' />
-            <Board projects={completed} title="Completed" _id="2" />
-            <Board projects={inProgress} title="In Progress" _id="3" />
-            <Board projects={onHold} title="On Hold" _id="4" />
+            <Board inventories={sold} title='Sold' _id='1' />
+            <Board inventories={unsold} title="On Sold" _id="2" />
+            <Board inventories={underProcess} title="Under Progress" _id="3" />
           </div>
         </DragDropContext>
       )}
