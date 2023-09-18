@@ -4,11 +4,9 @@ import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjects, updateProject } from "../../../redux/action/project";
 import { Loader } from "../../../utils";
-import {
-  getProjectReducer,
-} from "../../../redux/reducer/project";
+import { getProjectReducer } from "../../../redux/reducer/project";
 import { Tooltip } from "@mui/material";
-import { PiTrashLight } from "react-icons/pi";
+import { PiArchiveBoxLight, PiArchiveLight, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import DeleteProject from "./DeleteProject";
@@ -116,27 +114,32 @@ function Projects() {
           </Tooltip>
           <Tooltip arrow placement="top" title="Edit">
             {" "}
-            <CiEdit onClick={() => handleOpenEditModal(params.row)} className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />
+            <CiEdit
+              onClick={() => handleOpenEditModal(params.row)}
+              className="cursor-pointer text-green-500 text-[23px] hover:text-green-600"
+            />
           </Tooltip>
           <Tooltip arrow placement="top" title={params.row.isArchived ? "Un Archive" : "Archive"}>
             {" "}
-            {
-              params.row.isArchived
-                ?
-                <Unarchive onClick={() => handleUnArchive(params.row)} className="cursor-pointer text-gray-500 text-[23px] hover:text-gray-600" />
-                :
-                <Archive onClick={() => handleArchive(params.row)} className="cursor-pointer text-gray-500 text-[23px] hover:text-gray-600" />
-            }
+            {params.row.isArchived ? (
+              <PiArchiveLight
+                onClick={() => handleUnArchive(params.row)}
+                className="cursor-pointer text-amber-500 text-[23px] hover:text-amber-600"
+              />
+            ) : (
+              <PiArchiveBoxLight
+                onClick={() => handleArchive(params.row)}
+                className="cursor-pointer text-amber-500 text-[23px] hover:text-amber-600"
+              />
+            )}
           </Tooltip>
         </div>
       ),
     },
-
   ];
 
-  const unarchivedProjects = projects.filter(p => !p.isArchived)
-  const archivedProjects = projects.filter(p => p.isArchived)
-
+  const unarchivedProjects = projects.filter((p) => !p.isArchived);
+  const archivedProjects = projects.filter((p) => p.isArchived);
 
   ////////////////////////////////////// STATES //////////////////////////////
   const [scroll, setScroll] = useState("paper");
@@ -194,11 +197,7 @@ function Projects() {
       <EditProject scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
       <ProjectFilter open={openFilters} setOpen={setOpenFilters} />
 
-      <EditProject
-        scroll={scroll}
-        open={openEditModal}
-        setOpen={setOpenEditModal}
-      />
+      <EditProject scroll={scroll} open={openEditModal} setOpen={setOpenEditModal} />
 
       <DeleteProject
         open={openDeleteModal}
@@ -211,21 +210,18 @@ function Projects() {
         openFilters={openFilters}
         setOpenFilters={setOpenFilters}
       />
-      <div className="flex justify-center items-center " >
-        {
-          isFetching
-            ?
-            <Loader />
-            :
-            <Table
-              rows={options.showArchivedProjects ? archivedProjects : unarchivedProjects}
-              columns={columns}
-              rowsPerPage={10}
-              error={error}
-            />
-        }
+      <div className="flex justify-center items-center ">
+        {isFetching ? (
+          <Loader />
+        ) : (
+          <Table
+            rows={options.showArchivedProjects ? archivedProjects : unarchivedProjects}
+            columns={columns}
+            rowsPerPage={10}
+            error={error}
+          />
+        )}
       </div>
-
     </div>
   );
 }

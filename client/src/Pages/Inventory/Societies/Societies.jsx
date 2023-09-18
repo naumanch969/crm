@@ -7,7 +7,7 @@ import {
   getSocietyReducer,
 } from "../../../redux/reducer/society";
 import { Tooltip } from "@mui/material";
-import { PiTrashLight } from "react-icons/pi";
+import { PiArchiveBoxLight, PiArchiveLight, PiTrashLight } from "react-icons/pi";
 import { format } from "timeago.js";
 import { CiEdit } from "react-icons/ci";
 import DeleteSociety from "./DeleteSociety";
@@ -100,9 +100,9 @@ function Societies() {
             {
               params.row.isArchived
                 ?
-                <Unarchive onClick={() => handleUnArchive(params.row)} className="cursor-pointer text-gray-500 text-[23px] hover:text-gray-600" />
+                <PiArchiveLight onClick={() => handleUnArchive(params.row)} className="cursor-pointer text-amber-500 text-[23px] hover:text-amber-600" />
                 :
-                <Archive onClick={() => handleArchive(params.row)} className="cursor-pointer text-gray-500 text-[23px] hover:text-gray-600" />
+                <PiArchiveBoxLight onClick={() => handleArchive(params.row)} className="cursor-pointer text-amber-500 text-[23px] hover:text-amber-600" />
             }
           </Tooltip>
         </div>

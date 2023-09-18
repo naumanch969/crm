@@ -56,8 +56,8 @@ const CreateProject = ({ open, setOpen, scroll }) => {
     setProjectData({ ...projectData, images: urls });
   }, [urls]);
   useEffect(() => {
-    dispatch(getSocieties())
-  }, [])
+    dispatch(getSocieties());
+  }, []);
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
@@ -111,7 +111,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       value={projectData.title}
-                      onChange={(e) => handleInputChange('title', e.target.value)}
+                      onChange={(e) => handleInputChange("title", e.target.value)}
                       fullWidth
                       size="small"
                       type="text"
@@ -123,7 +123,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       value={projectData.description}
-                      onChange={(e) => handleInputChange('description', e.target.value)}
+                      onChange={(e) => handleInputChange("description", e.target.value)}
                       fullWidth
                       size="small"
                       type="number"
@@ -138,7 +138,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                     <Select
                       size="small"
                       value={projectData.city}
-                      onChange={(e) => handleInputChange('city', e.target.value)}
+                      onChange={(e) => handleInputChange("city", e.target.value)}
                       displayEmpty
                       placeholder="Seller City"
                       fullWidth>
@@ -154,19 +154,19 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                     <Select
                       size="small"
                       value={projectData.society}
-                      onChange={(e) => handleInputChange('society', e.target.value)}
+                      onChange={(e) => handleInputChange("society", e.target.value)}
                       displayEmpty
                       placeholder="Society"
                       fullWidth>
-                      {
-                        societiesFetching
-                          ?
-                          <Loader />
-                          :
-                          societies.map((society, index) => (
-                            <MenuItem key={index} value={society._id}>{society.title}</MenuItem>
-                          ))
-                      }
+                      {societiesFetching ? (
+                        <Loader />
+                      ) : (
+                        societies.map((society, index) => (
+                          <MenuItem key={index} value={society._id}>
+                            {society.title}
+                          </MenuItem>
+                        ))
+                      )}
                     </Select>
                   </td>
                 </tr>
@@ -182,7 +182,12 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                     <FormGroup>
                       <FormControlLabel
                         className="w-40 text-gray-400"
-                        onChange={(e) => setProjectData({ ...projectData, 'status': e.target.checked ? "active" : "nonActive" })}
+                        onChange={(e) =>
+                          setProjectData({
+                            ...projectData,
+                            status: e.target.checked ? "active" : "nonActive",
+                          })
+                        }
                         control={<Checkbox defaultChecked style={{ color: "#20aee3" }} />}
                       />
                     </FormGroup>
@@ -203,7 +208,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
             onClick={handleSubmit}
             variant="contained"
             className="bg-sky-400 px-4 py-2 rounded-lg text-white mt-4 hover:bg-sky-500 font-thin">
-            {isFetching ? 'Submitting...' : 'Submit'}
+            {isFetching ? "Submitting..." : "Submit"}
           </button>
         </DialogActions>
       </Dialog>

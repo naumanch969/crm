@@ -94,17 +94,23 @@ const StyledMenuItem = styled(MenuItem)(
 function Leads({ type, showSidebar }) {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { archived, leads, isFetching, error } = useSelector((state) => state.lead);
   const { loggedUser } = useSelector((state) => state.user);
   const role = loggedUser.role;
   const columns = [
     {
+      field: "leadId",
+      headerName: "ID",
+      headerClassName: "super-app-theme--header",
+      width: 70,
+      renderCell: (params) => <div className="font-primary font-light">ID</div>,
+    },
+    {
       field: "clientId.firstName",
       headerName: "Client Name",
       headerClassName: "super-app-theme--header",
-      minWidth: 200,
-      maxWidth: 250,
+      width: 180,
       renderCell: (params) => (
         <div
           className={`text-[#20aee3] hover:text-[#007bff] capitalize cursor-pointer font-primary font-light`}
@@ -116,17 +122,20 @@ function Leads({ type, showSidebar }) {
     {
       field: "createdAt",
       headerName: "Date",
-      minWidth: 200,
-      maxWidth: 250,
+      width: 120,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary font-light">{format(params.row.createdAt)}</div>,
+      renderCell: (params) => (
+        <div className="font-primary font-light">{format(params.row.createdAt)}</div>
+      ),
     },
     {
       field: "priority",
       headerClassName: "super-app-theme--header",
       headerName: "Priority",
-      width: 150,
-      renderCell: (params) => <div className="capitalize font-primary font-light">{params.row.priority}</div>,
+      width: 120,
+      renderCell: (params) => (
+        <div className="capitalize font-primary font-light">{params.row.priority}</div>
+      ),
     },
     {
       field: "status",
@@ -135,28 +144,41 @@ function Leads({ type, showSidebar }) {
       width: 200,
       renderCell: (params) => (
         <span
-          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize font-primary font-medium ${params.row.status == "successful" ? "border-green-500 text-green-500" : ""
-            } ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${params.row.status == "declined" ? "border-red-400 text-red-400" : ""
-            } ${params.row.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
-            }`}>
+          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize font-primary font-medium ${
+            params.row.status == "successful" ? "border-green-500 text-green-500" : ""
+          } ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${
+            params.row.status == "declined" ? "border-red-400 text-red-400" : ""
+          } ${params.row.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${
+            params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
+          }`}>
           {params.row.status == "underProcess" && <span>Under Process</span>}
           {params.row.status != "underProcess" && <span>{params.row.status}</span>}
         </span>
       ),
     },
-
     {
-      field: "allocatedTo",
-      headerName: "Allocated To",
-      width: 230,
+      field: "property",
+      headerName: "Property",
+      width: 170,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary font-light">{params.row.allocatedTo?.email}</div>,
+      renderCell: (params) => (
+        <div className="font-primary font-light">Projects</div>
+      ),
+    },
+    {
+      field: "projects",
+      headerName: "Projects",
+      width: 200,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <div className="font-primary font-light">Inventories</div>
+      ),
     },
     {
       field: "actions",
       headerName: "Action",
       headerClassName: "super-app-theme--header",
-      width: 200,
+      width: 160,
       renderCell: (params) => (
         <div className="flex gap-[10px] items-center transition-all">
           <Tooltip placement="top" title="Delete">
@@ -197,10 +219,12 @@ function Leads({ type, showSidebar }) {
                 onClick={() => handleOpenShiftLeadModal(params.row)}>
                 Shift Lead
               </StyledMenuItem>
-              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => navigateToRefund(params.row)}>
-                {params.row.isAppliedForRefund ? 'Applied for Refund' : 'Refund'}
+              <StyledMenuItem
+                className="text-gray-600 flex font-primary"
+                onClick={() => navigateToRefund(params.row)}>
+                {params.row.isAppliedForRefund ? "Applied for Refund" : "Refund"}
               </StyledMenuItem>
-              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => { }}>
+              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => {}}>
                 Share Lead
               </StyledMenuItem>
             </Menu>
@@ -258,10 +282,9 @@ function Leads({ type, showSidebar }) {
   };
   const navigateToRefund = (lead) => {
     if (lead.isAppliedForRefund) {
-      return
-    }
-    else {
-      navigate('/leads/refund', { state: { leadId: lead._id } })
+      return;
+    } else {
+      navigate("/leads/refund", { state: { leadId: lead._id } });
     }
   };
 

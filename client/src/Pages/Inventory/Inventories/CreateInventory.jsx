@@ -4,7 +4,7 @@ import { createInventory } from "../../../redux/action/inventory";
 import { Clear, UploadFile } from "@mui/icons-material";
 import FileBase from "react-file-base64";
 import { useNavigate } from "react-router-dom";
-import { Upload } from "../../../utils";
+import { Loader, Upload } from "../../../utils";
 import { deleteAllImagesReducer } from "../../../redux/reducer/upload";
 import {
   Divider,
@@ -49,13 +49,10 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
     sellerCity: "",
   };
 
-
-
   //////////////////////////////////////// STATES ////////////////////////////////////
   const [inventoryData, setInventoryData] = useState(InventoryinitialState);
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
-
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
@@ -109,7 +106,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       value={inventoryData.sellerEmail}
-                      onChange={(e) => handleInputChange('sellerEmail', e.target.value)}
+                      onChange={(e) => handleInputChange("sellerEmail", e.target.value)}
                       fullWidth
                       size="small"
                       placeholder="Optional"
@@ -122,7 +119,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       value={inventoryData.sellerPhone}
-                      onChange={(e) => handleInputChange('sellerPhone', e.target.value)}
+                      onChange={(e) => handleInputChange("sellerPhone", e.target.value)}
                       fullWidth
                       size="small"
                       type="number"
@@ -133,8 +130,9 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                   <td className="pb-4 text-lg">Seller Name </td>
                   <td className="pb-4">
                     <TextField
+                      fullWidth
                       value={inventoryData.sellerName}
-                      onChange={(e) => handleInputChange('sellerName', e.target.value)}
+                      onChange={(e) => handleInputChange("sellerName", e.target.value)}
                       size="small"
                       type="text"
                     />
@@ -145,7 +143,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       value={inventoryData.sellerCompamyName}
-                      onChange={(e) => handleInputChange('sellerCompamyName', e.target.value)}
+                      onChange={(e) => handleInputChange("sellerCompamyName", e.target.value)}
                       fullWidth
                       size="small"
                       type="text"
@@ -159,7 +157,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                     <Select
                       size="small"
                       value={inventoryData.sellerCity}
-                      onChange={(e) => handleInputChange('sellerCity', e.target.value)}
+                      onChange={(e) => handleInputChange("sellerCity", e.target.value)}
                       displayEmpty
                       placeholder="Seller City"
                       fullWidth>
@@ -179,38 +177,26 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
             </div>
             <Divider />
             <table className="mt-4">
-              {/* <tr>
-                <td className="text-lg pt-1 flex flex-col justify-start">Creation Date </td>
-                <td className="pb-4">
-                  <TextField
-                    size="small"
-                    disabled
-                    fullWidth
-                  />
-                </td>
-              </tr> */}
               <tr>
                 <td className="pb-4 text-lg">Project </td>
                 <td className="pb-4">
-                  <td className="pb-4">
                     <Select
                       size="small"
                       value={inventoryData.project}
-                      onChange={(e) => handleInputChange('project', e.target.value)}
+                      onChange={(e) => handleInputChange("project", e.target.value)}
                       displayEmpty
                       placeholder="Project"
                       fullWidth>
-                      {
-                        projectsFetching
-                          ?
-                          <Loader />
-                          :
-                          projects.map((project, index) => (
-                            <MenuItem key={index} value={project._id}>{project.title}</MenuItem>
-                          ))
-                      }
+                      {projectsFetching ? (
+                        <Loader />
+                      ) : (
+                        projects.map((project, index) => (
+                          <MenuItem key={index} value={project._id}>
+                            {project.title}
+                          </MenuItem>
+                        ))
+                      )}
                     </Select>
-                  </td>
                 </td>
               </tr>
               <tr>
@@ -218,7 +204,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     value={inventoryData.propertyNumber}
-                    onChange={(e) => handleInputChange('propertyNumber', e.target.value)}
+                    onChange={(e) => handleInputChange("propertyNumber", e.target.value)}
                     size="small"
                     placeholder="Plot/Shop/Appartment etc. No."
                     fullWidth
@@ -230,7 +216,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     value={inventoryData.propertyStreetNumber}
-                    onChange={(e) => handleInputChange('propertyStreetNumber', e.target.value)}
+                    onChange={(e) => handleInputChange("propertyStreetNumber", e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -241,7 +227,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     value={inventoryData.price}
-                    onChange={(e) => handleInputChange('price', e.target.value)}
+                    onChange={(e) => handleInputChange("price", e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -252,7 +238,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                 <td>
                   <TextField
                     value={inventoryData.remarks}
-                    onChange={(e) => handleInputChange('remarks', e.target.value)}
+                    onChange={(e) => handleInputChange("remarks", e.target.value)}
                     size="small"
                     multiline
                     rows={4}
@@ -274,7 +260,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
             onClick={handleSubmit}
             variant="contained"
             className="bg-sky-400 px-4 py-2 rounded-lg text-white mt-4 hover:bg-sky-500 font-primary">
-            {isFetching ? 'Submitting...' : 'Submit'}
+            {isFetching ? "Submitting..." : "Submit"}
           </button>
         </DialogActions>
       </Dialog>

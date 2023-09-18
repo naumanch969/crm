@@ -47,7 +47,6 @@ const Table = ({ columns, rows, isFetching, error, rowsPerPage }) => {
                 }}
                 getRowId={(row) => row._id}
                 pageSizeOptions={[5, 10]}
-                checkboxSelection
                 disableRowSelectionOnClick
                 disableColumnMenu
                 disableSelectionOnClick

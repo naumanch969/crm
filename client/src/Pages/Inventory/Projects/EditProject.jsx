@@ -59,7 +59,7 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
   };
 
   const handleClose = () => {
-    setOpenEdit(false);
+    setOpen(false);
   };
 
   return (

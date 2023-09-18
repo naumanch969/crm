@@ -8,7 +8,7 @@ import {
 } from "../../../redux/reducer/inventory";
 import { Avatar, AvatarGroup, Tooltip, styled } from "@mui/material";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
-import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
+import { PiArchiveBoxLight, PiArchiveLight, PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import UpdateStatusModal from "./UpdateStatus";
@@ -197,9 +197,9 @@ function Inventory() {
             {
               params.row.isArchived
                 ?
-                <Unarchive onClick={() => handleUnArchive(params.row)} className="cursor-pointer text-gray-500 text-[23px] hover:text-gray-600" />
+                <PiArchiveLight onClick={() => handleUnArchive(params.row)} className="cursor-pointer text-amber-500 text-[23px] hover:text-amber-600" />
                 :
-                <Archive onClick={() => handleArchive(params.row)} className="cursor-pointer text-gray-500 text-[23px] hover:text-gray-600" />
+                <PiArchiveBoxLight onClick={() => handleArchive(params.row)} className="cursor-pointer text-amber-500 text-[23px] hover:text-amber-600" />
             }
           </Tooltip>
         </div>
