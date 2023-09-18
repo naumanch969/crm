@@ -4,7 +4,7 @@ import { createInventory } from "../../../redux/action/inventory";
 import { Clear, UploadFile } from "@mui/icons-material";
 import FileBase from "react-file-base64";
 import { useNavigate } from "react-router-dom";
-import { Loader, Upload } from "../../../utils";
+import { Upload } from "../../../utils";
 import { deleteAllImagesReducer } from "../../../redux/reducer/upload";
 import {
   Divider,
