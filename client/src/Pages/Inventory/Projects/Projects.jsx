@@ -157,7 +157,7 @@ function Projects() {
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
     dispatch(getProjects());
-  }, []);
+  }, [options.showArchivedProjects]);
 
   useEffect(() => {
     if (open) {

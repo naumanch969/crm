@@ -59,7 +59,25 @@ export const searchSociety = async (req, res, next) => {
 export const filterSociety = async (req, res, next) => {
     const { startingDate, endingDate, ...filters } = req.query;
     try {
-        let query = await Society.find(filters);
+        let query = Society.find(filters);
+
+        // Check if startingDate is provided and valid
+        if (startingDate && isValidDate(startingDate)) {
+            const startDate = new Date(startingDate);
+            startDate.setHours(0, 0, 0, 0);
+
+            // Add createdAt filtering for startingDate
+            query = query.where('createdAt').gte(startDate);
+        }
+
+        // Check if endingDate is provided and valid
+        if (endingDate && isValidDate(endingDate)) {
+            const endDate = new Date(endingDate);
+            endDate.setHours(23, 59, 59, 999);
+            query = query.where('createdAt').lte(endDate);
+        }
+
+        query = await query.exec();
 
         res.status(200).json({ result: query });
 

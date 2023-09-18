@@ -164,6 +164,17 @@ function Inventory() {
       ),
     },
     {
+      field: "status",
+      headerName: "Status",
+      width: 140,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize">{params.row.status}</span>
+        </Tooltip>
+      ),
+    },
+    {
       field: "createdAt",
       headerName: "Created At",
       headerClassName: "super-app-theme--header",
@@ -226,7 +237,7 @@ function Inventory() {
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
     dispatch(getInventories());
-  }, []);
+  }, [options.showArchivedInventories]);
 
   useEffect(() => {
     if (open) {

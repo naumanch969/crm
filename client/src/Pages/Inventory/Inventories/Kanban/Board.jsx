@@ -1,17 +1,16 @@
 import React from "react";
-import KanbanProject from "./KanbanProject";
+import KanbanInventory from "./KanbanInventory";
 import { Add } from "@mui/icons-material";
 import { Droppable } from "react-beautiful-dnd";
 
-const Board = ({ projects, title, _id }) => {
+const Board = ({ inventories, title, _id }) => {
 
   return (
     <div
       className={`bg-[#ebf2f5] border-t-[2px]
-        ${title == "completed" ? "border-t-green-500" : ""}
-        ${title == "inProgress" ? "border-t-sky-400" : ""} 
-        ${title == "notStarted" ? "border-t-red-400" : ""} 
-        ${title == "onHold" ? "border-t-yellow-500" : ""}
+        ${title == "sold" ? "border-t-green-500" : ""}
+        ${title == "unsold" ? "border-t-sky-400" : ""} 
+        ${title == "underProcess" ? "border-t-yellow-500" : ""}
         } rounded-[10px] min-w-[260px] -[270px] h-[700px]`}>
       <div className="flex justify-between items-center h-[32px] px-[4px] ">
         <h4 className="text-[16px] text-primary-gray ">{title}</h4>
@@ -28,10 +27,10 @@ const Board = ({ projects, title, _id }) => {
               {...provided.droppableProps}
               className={`relative flex-1 flex flex-col gap-[1rem] p-[12px] h-full ${snapshot.isDraggingOver ? "bg-gray-300" : ""
                 }`}>
-              {projects.map((project, index) => (
+              {inventories.map((inventory, index) => (
                 <React.Fragment key={index}>
-                  <KanbanProject key={project?._id} project={project} index={index} />
-                  {snapshot.draggingOverWith == project?._id && (
+                  <KanbanInventory key={inventory?._id} inventory={inventory} index={index} />
+                  {snapshot.draggingOverWith == inventory?._id && (
                     <div className="custom-placeholder">{provided.placeholder}</div>
                   )}
                 </React.Fragment>

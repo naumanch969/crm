@@ -1,36 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Drawer, TextField, Autocomplete } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { filterProject } from "../../../redux/action/project";
 import { PiFunnelLight, PiXLight } from "react-icons/pi";
 import { pakistanCities } from "../../../constant";
 import { DatePicker, DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { getSocieties } from "../../../redux/action/society";
+import { MenuItem, Select } from "@mui/base";
+import { Loader } from "../../../utils";
 
 const ProjectFilter = ({ open, setOpen }) => {
+
   const dispatch = useDispatch();
+  const { societies, isFetching: societiesFetching } = useSelector(state => state.society)
+  const societiesTitleArr = societies.map(s => s.title)
 
   const initialState = {
-    city: "",
-    minPrice: "",
-    maxPrice: "",
-    propertyType: "",
-    homeType: "",
-    beds: "",
-    minArea: "",
-    maxArea: "",
+    city: '',
+    startingDate: '',
+    endingDate: '',
+    status: '',
+    society: ''
   };
 
-  const [filters, setFilters] = useState({
-    initialState,
-  });
+  const [filters, setFilters] = useState(initialState);
+
+  useEffect(() => {
+    dispatch(getSocieties())
+  }, [])
 
   const handleInputChange = (field, value) => {
-    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, "");
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [field]: inputValue,
+      [field]: value,
     }));
   };
 
@@ -43,9 +47,6 @@ const ProjectFilter = ({ open, setOpen }) => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const demoPropertyType = ["Residential", "Commercial", "Agricultural", "Industrial"];
-  const demoHomeType = ["Apartment", "House", "Farm House", "Plot", "Shop", "Office"];
 
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -71,15 +72,14 @@ const ProjectFilter = ({ open, setOpen }) => {
               <TextField {...params} fullWidth label="City" value={filters.city} />
             )}
           />
-
           <Autocomplete
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={["demo1", "demo2", "demo3"]}
-            onSelect={(e) => handleInputChange("city", e.target.value)}
+            options={societiesTitleArr}
+            onSelect={(e) => handleInputChange("society", e.target.value)}
             className="w-full"
-            renderInput={(params) => <TextField {...params} fullWidth label="Societies" />}
+            renderInput={(params) => <TextField {...params} fullWidth label="Society" />}
           />
 
           <div className="flex flex-col">
@@ -118,8 +118,8 @@ const ProjectFilter = ({ open, setOpen }) => {
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={["Active", "Not Active"]}
-            onSelect={(e) => handleInputChange("city", e.target.value)}
+            options={["active", "nonActive"]}
+            onSelect={(e) => handleInputChange("status", e.target.value)}
             className="w-full"
             renderInput={(params) => <TextField {...params} fullWidth label="Status" />}
           />
