@@ -4,6 +4,7 @@ import { deleteImage, uploadImage } from '../redux/action/upload.js';
 import { Camera, Clear } from '@mui/icons-material';
 import { CircularProgress } from '@mui/material';
 import Loader from './Loader.jsx';
+import { PiCameraLight } from 'react-icons/pi';
 
 const Upload = ({ image, isMultiple }) => {
 
@@ -47,7 +48,7 @@ const Upload = ({ image, isMultiple }) => {
                     <div className="w-full h-full bg-gray-200 rounded-[8px] flex justify-center items-center" >
                         <input ref={imageRef} type="file" accept="image/*" className='hidden' onChange={handleUploadImage} />
                         <button onClick={(e) => { e.preventDefault(); imageRef.current.click() }} className="flex flex-col justify-center items-center text-textGray  " >
-                            <Camera style={{ fontSize: '36px' }} />
+                            <PiCameraLight className='text-[40px]' />
                             Upload Image
                         </button>
                     </div>

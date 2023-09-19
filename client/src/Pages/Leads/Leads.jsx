@@ -19,7 +19,8 @@ import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
 import Lead from "./Lead";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Attachments from "./Attachments/Attachments";
 
 const blue = {
   100: "#DAECFF",
@@ -161,18 +162,14 @@ function Leads({ type, showSidebar }) {
       headerName: "Property",
       width: 170,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <div className="font-primary font-light">Projects</div>
-      ),
+      renderCell: (params) => <div className="font-primary font-light">Projects</div>,
     },
     {
       field: "projects",
       headerName: "Projects",
       width: 200,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <div className="font-primary font-light">Inventories</div>
-      ),
+      renderCell: (params) => <div className="font-primary font-light">Inventories</div>,
     },
     {
       field: "actions",
@@ -219,13 +216,25 @@ function Leads({ type, showSidebar }) {
                 onClick={() => handleOpenShiftLeadModal(params.row)}>
                 Shift Lead
               </StyledMenuItem>
-              <StyledMenuItem
-                className="text-gray-600 flex font-primary"
-                onClick={() => navigateToRefund(params.row)}>
-                {params.row.isAppliedForRefund ? "Applied for Refund" : "Refund"}
-              </StyledMenuItem>
+              {params.row.isAppliedForRefund ? (
+                <></>
+              ) : (
+                <StyledMenuItem
+                  className="text-gray-600 flex font-primary"
+                  onClick={() => navigateToRefund(params.row)}>
+                  Apply for Refund
+                </StyledMenuItem>
+              )}
               <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => {}}>
                 Share Lead
+              </StyledMenuItem>
+              <StyledMenuItem
+                onClick={() => navigateToFollowUps()}
+                className="text-gray-600 flex font-primary">
+                Follow Ups
+              </StyledMenuItem>
+              <StyledMenuItem onClick={() => handleOpenAttachmentModal()} className="text-gray-600 flex font-primary">
+                Attachments
               </StyledMenuItem>
             </Menu>
           </Dropdown>
@@ -240,6 +249,7 @@ function Leads({ type, showSidebar }) {
   }
 
   ////////////////////////////////////// STATES //////////////////////////////
+  const [openAttachmentModal, setOpenAttachmentModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -259,6 +269,9 @@ function Leads({ type, showSidebar }) {
   }, [type]);
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
+  const handleOpenAttachmentModal = () => {
+    setOpenAttachmentModal(true);
+  };
   const handleOpenEditModal = (lead) => {
     setOpenEditModal(true);
     dispatch(getLeadReducer(lead));
@@ -288,6 +301,10 @@ function Leads({ type, showSidebar }) {
     }
   };
 
+  const navigateToFollowUps = () => {
+    navigate("/leads/followups");
+  };
+
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
@@ -296,6 +313,7 @@ function Leads({ type, showSidebar }) {
       <ShiftLeadModal open={openShiftLeadModal} setOpen={setOpenShiftLeadModal} />
       <Filter open={openFilters} setOpen={setOpenFilters} />
       <Lead open={openViewModal} setOpen={setOpenViewModal} leadId={selectedLeadId} />
+      <Attachments open={openAttachmentModal} setOpen={setOpenAttachmentModal} />
 
       <Topbar
         options={options}

@@ -8,7 +8,7 @@ export { default as CreateSale } from "./Sales/CreateSale";
 export { default as Tasks } from "./Tasks/Tasks";
 export { default as CreateTask } from "./Tasks/CreateTask";
 export { default as Clients } from "./Users/Clients";
-export { default as Employees } from './Users/Employees'
+export { default as Employees } from "./Users/Employees";
 export { default as CreateUser } from "./Users/CreateEmployee";
 export { default as User } from "./Users/User";
 export { default as Vouchers } from "./Vouchers/Vouchers";
@@ -22,3 +22,4 @@ export { default as ViewCashBook } from "./CashBook/ViewCashBook";
 export { default as Notifications } from "./Notifications/Notifications";
 export { default as Inventory } from "./Inventory/Inventories/Inventory";
 export { default as Societies } from "./Inventory/Societies/Societies";
+export { default as FollowUps } from "./Leads/FollowUps/FollowUps";

@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import {
   DashBoard,
   Leads,
+  FollowUps,
   Tasks,
   CashBook,
   Sales,
@@ -118,6 +119,7 @@ const App = () => {
                   <Route path="/myLeads" element={<Leads type="mine" />} />
                   <Route path="/leads" element={<Leads type="all" />} />
                   <Route path="/leads/:leadId" element={<Lead />} />
+                  <Route path="/leads/followUps" element={<FollowUps />} />
                   <Route path="/tasks" element={<Tasks />} />
                   <Route path="/employees" element={<Employees />} />
                   <Route path="/clients" element={<Clients />} />
