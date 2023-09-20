@@ -20,6 +20,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
+import { getInventories } from "../../redux/action/inventory";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -28,88 +29,56 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const EditModal = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////// VARIABLES  /////////////////////////////////////
   const dispatch = useDispatch();
-  const { currentLead: lead, isFetching } = useSelector((state) => state.lead);
+  const { currentLead, isFetching } = useSelector(state => state.lead);
   const { employees, loggedUser } = useSelector((state) => state.user);
-  const employeeNames = employees
-    .filter((employee) => employee.username !== null && employee.username !== undefined)
-    .map(({ _id, username }) => ({ _id, username }));
-
+  const { inventories } = useSelector(state => state.inventory)
+  const inventoriesNumbers = inventories.map(({ _id, propertyNumber }) => ({ _id, propertyNumber }));
+  let initialLeadState = {
+    clientFirstName: "",
+    clientLastName: "",
+    clientPhone: "",
+    clientCNIC: "",
+    clientCity: "",
+    clientEmail: "",
+    city: "",
+    priority: "",
+    property: "",
+    status: "",
+    source: "",
+    description: "",
+  }
   ////////////////////////////////////// STATES  /////////////////////////////////////
-  // todo: separate the client and lead fields from currentLead
-  const [clientData, setClientData] = useState(lead?.clientId); // clientId = {gender: 'male', firstName: '', lastName: '', phone: '', email: '', cnic: ''}
-  const [leadData, setLeadData] = useState(lead);
+  const [leadData, setLeadData] = useState(currentLead);
 
   ////////////////////////////////////// USE EFFECTS  /////////////////////////////////////
   useEffect(() => {
-    setClientData(lead?.clientId);
-    setLeadData(lead);
-  }, [lead]);
+    setLeadData(currentLead);
+  }, [currentLead]);
+  useEffect(() => {
+    dispatch(getInventories())
+  }, [])
 
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { gender, firstName, lastName, phone, email, cnic } = clientData;
-    const {
-      city,
-      project,
-      block,
-      propertyType,
-      homeType,
-      minBudget,
-      maxBudget,
-      minAreaUnit,
-      minArea,
-      maxAreaUnit,
-      maxArea,
-      clientType,
-      allocatedTo,
-      beds,
-    } = leadData;
-    // todo: add priority field as well in the condition
-    if (
-      !gender ||
-      !firstName ||
-      !lastName ||
-      !phone ||
-      !email ||
-      !cnic ||
-      !city ||
-      !project ||
-      !block ||
-      !propertyType ||
-      !homeType ||
-      !minBudget ||
-      !maxBudget ||
-      !minAreaUnit ||
-      !minArea ||
-      !maxAreaUnit ||
-      !maxArea ||
-      !clientType ||
-      !allocatedTo ||
-      !beds
-    )
-      return alert("make sure to provide all the fields");
-
-    dispatch(updateLead(lead?._id, { ...leadData, ...clientData }));
+    const { clientFirstName, clientLastName, clientPhone, clientCNIC, clientCity, city, priority, property, status, source, description } = leadData
+    if (!clientFirstName || !clientLastName || !clientPhone || !clientCNIC || !clientCity || !city || !priority || !property || !status || !source || !description)
+      return alert("Make sure to provide all the fields")
+    dispatch(updateLead(currentLead?._id, leadData));
+    setLeadData(initialLeadState);
     setOpen(false);
   };
 
-  const handleLeadDataChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    name == "source"
-      ? leadData?.source.includes(value)
-        ? setLeadData((pre) => ({ ...pre, source: leadData?.source.filter((s) => s != value) }))
-        : setLeadData((pre) => ({ ...pre, source: [...leadData?.source, value] }))
-      : setLeadData((pre) => ({ ...pre, [name]: value }));
-  };
-
-  const handleClientDataChange = (e) => {
-    setClientData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
+    setLeadData((pre) => ({ ...pre, [name]: value }));
   };
 
   const handleClose = () => {
+    setLeadData(initialLeadState);
     setOpen(false);
   };
+
 
   return (
     <div>
@@ -122,7 +91,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
         fullWidth="sm"
         maxWidth="md"
         aria-describedby="alert-dialog-slide-description">
-        <DialogTitle className="flex items-center justify-between font-primary">
+        <DialogTitle className="flex items-center justify-between">
           <div className="text-sky-400 font-primary">Add New Lead</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
@@ -132,7 +101,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
           <div className="flex flex-col gap-2 p-3 text-gray-500 font-primary">
             <div className="text-xl flex justify-start items-center gap-2 font-normal">
               <PiUser />
-              <span>Customer Details</span>
+              <span>Client Details</span>
             </div>
             <Divider />
             <table className="mt-4">
@@ -140,9 +109,9 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg">First Name </td>
                 <td className="pb-4">
                   <TextField
-                    name="firstName"
-                    value={clientData?.firstName}
-                    onChange={handleClientDataChange}
+                    name="clientFirstName"
+                    value={leadData?.clientFirstName}
+                    onChange={handleChange}
                     size="small"
                     fullWidth
                   />
@@ -152,37 +121,22 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg">Last Name </td>
                 <td className="pb-4">
                   <TextField
-                    name="lastName"
-                    value={clientData?.lastName}
-                    onChange={handleClientDataChange}
+                    name="clientLastName"
+                    value={leadData?.clientLastName}
+                    onChange={handleChange}
                     size="small"
                     fullWidth
                   />
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Gender </td>
-                <td className="pb-4">
-                  <Select
-                    type="text"
-                    size="small"
-                    onChange={handleClientDataChange}
-                    value={clientData?.gender}
-                    name="gender"
-                    fullWidth>
-                    <MenuItem value="Male">Male</MenuItem>
-                    <MenuItem value="Female">Female</MenuItem>
-                  </Select>
-                </td>
-              </tr>
-              <tr>
                 <td className="pb-4 text-lg">Phone </td>
                 <td className="pb-4">
                   <TextField
+                    name="clientPhone"
+                    onChange={handleChange}
+                    value={leadData?.clientPhone}
                     type="number"
-                    onChange={handleClientDataChange}
-                    value={clientData?.phone}
-                    name="phone"
                     size="small"
                     fullWidth
                   />
@@ -192,13 +146,29 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg">CNIC </td>
                 <td className="pb-4">
                   <TextField
+                    name="clientCNIC"
+                    onChange={handleChange}
+                    value={leadData?.clientCNIC}
                     type="number"
-                    onChange={handleClientDataChange}
-                    value={clientData?.cnic}
-                    name="cnic"
                     size="small"
                     fullWidth
                   />
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">City </td>
+                <td className="pb-4">
+                  <Select
+                    onChange={handleChange}
+                    value={leadData?.clientCity}
+                    name="clientCity"
+                    type="text"
+                    size="small"
+                    fullWidth>
+                    {pakistanCities.map((item, index) => (
+                      <MenuItem value={item} key={index} >{item}</MenuItem>
+                    ))}
+                  </Select>
                 </td>
               </tr>
               <tr>
@@ -206,10 +176,11 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     type="email"
-                    onChange={handleClientDataChange}
-                    value={clientData?.email}
-                    name="email"
+                    onChange={handleChange}
+                    value={leadData?.clientEmail}
+                    name="clientEmail"
                     size="small"
+                    placeholder="Optional"
                     fullWidth
                   />
                 </td>
@@ -220,7 +191,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
           <div className="flex flex-col gap-2 p-3 text-gray-500 font-primary">
             <div className="text-xl flex justify-start items-center gap-2 font-normal">
               <PiNotepad />
-              <span>Customer Requirements</span>
+              <span>Client Requirements</span>
             </div>
             <Divider />
             <table className="mt-4">
@@ -228,320 +199,110 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
                   <Select
-                    onChange={handleLeadDataChange}
+                    onChange={handleChange}
                     value={leadData?.city}
                     name="city"
                     type="text"
                     size="small"
                     fullWidth>
-                    {pakistanCities.map((item, index) => (
-                      <MenuItem value={item.toLowerCase} key={index}>
-                        {item}
-                      </MenuItem>
+                    {pakistanCities.map((item) => (
+                      <MenuItem value={item}>{item}</MenuItem>
                     ))}
                   </Select>
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Area Location </td>
-                <td className="pb-4">
-                  <TextField
-                    onChange={handleLeadDataChange}
-                    value={leadData?.address}
-                    name="address"
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Property Type </td>
+                <td className="pb-4 text-lg">Property </td>
                 <td className="pb-4">
                   <Select
-                    onChange={handleLeadDataChange}
-                    value={leadData?.propertyType}
-                    name="propertyType"
+                    onChange={handleChange}
+                    value={leadData?.property}
+                    name="property"
                     type="text"
                     size="small"
                     fullWidth>
-                    <MenuItem value="Residential">Residential</MenuItem>
-                    <MenuItem value="Commercial">Commercial</MenuItem>
-                    <MenuItem value="Industrial">Industrial</MenuItem>
-                    <MenuItem value="Agricultural">Agricultural</MenuItem>
-                    <MenuItem value="Other">Other</MenuItem>
+                    {
+                      inventoriesNumbers.map((number, index) => (
+                        <MenuItem value={number._id} key={index} >{number.propertyNumber} </MenuItem>
+                      ))
+                    }
                   </Select>
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Home Type </td>
-                <td className="pb-4">
-                  <Select
-                    onChange={handleLeadDataChange}
-                    value={leadData?.homeType}
-                    name="homeType"
-                    type="text"
-                    size="small"
-                    fullWidth>
-                    <MenuItem value="House">House</MenuItem>
-                    <MenuItem value="Upper Portion">Upper Portion</MenuItem>
-                    <MenuItem value="Lower Portion">Lower Portion</MenuItem>
-                    <MenuItem value="Farm House">Farm House</MenuItem>
-                    <MenuItem value="Pent House">Pent House</MenuItem>
-                    <MenuItem value="Room">Room</MenuItem>
-                    <MenuItem value="Basement">Basement</MenuItem>
-                    <MenuItem value="Flat">Flat</MenuItem>
-                    <MenuItem value="Other">Other</MenuItem>
-                  </Select>
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Minimum Area </td>
-                <td className="pb-4">
-                  <TextField
-                    onChange={handleLeadDataChange}
-                    value={leadData?.minArea}
-                    name="minArea"
-                    type="number"
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Maximum Area </td>
-                <td className="pb-4">
-                  <TextField
-                    onChange={handleLeadDataChange}
-                    value={leadData?.maxArea}
-                    name="maxArea"
-                    type="number"
-                    size="small"
-                    fullWidth
-                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Priority </td>
                 <td className="pb-4">
                   <Select
-                    onChange={handleLeadDataChange}
+                    onChange={handleChange}
                     value={leadData?.priority}
                     name="priority"
                     type="text"
                     size="small"
                     fullWidth>
-                    <MenuItem value="Low">Low</MenuItem>
-                    <MenuItem value="Moderate">Moderate</MenuItem>
-                    <MenuItem value="High">High</MenuItem>
+                    <MenuItem value="veryCold">Very Cold</MenuItem>
+                    <MenuItem value="cold">Cold</MenuItem>
+                    <MenuItem value="moderate">Moderate</MenuItem>
+                    <MenuItem value="hot">Hot</MenuItem>
+                    <MenuItem value="veryHot">Very Hot</MenuItem>
                   </Select>
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Maximum Budget </td>
-                <td className="pb-4">
-                  <TextField
-                    onChange={handleLeadDataChange}
-                    value={leadData?.minBudget}
-                    name="minBudget"
-                    type="number"
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Maximum Budget </td>
-                <td className="pb-4">
-                  <TextField
-                    onChange={handleLeadDataChange}
-                    value={leadData?.maxBudget}
-                    name="maxBudget"
-                    type="number"
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Client Type </td>
+                <td className="pb-4 text-lg">Status </td>
                 <td className="pb-4">
                   <Select
-                    onChange={handleLeadDataChange}
-                    value={leadData?.clientType}
-                    name="clientType"
+                    onChange={handleChange}
+                    value={leadData?.status}
+                    name="status"
                     type="text"
                     size="small"
                     fullWidth>
-                    <MenuItem value="Direct Client">Direct Client</MenuItem>
-                    <MenuItem value="Agent">Agent</MenuItem>
-                    <MenuItem value="Investor">Investor</MenuItem>
-                    <MenuItem value="Investment Fund">Investment Fund</MenuItem>
-                    <MenuItem value="Other">Other</MenuItem>
+                    <MenuItem value="closedLost">Closed (Lost)</MenuItem>
+                    <MenuItem value="followedUpCall">Followed Up (Call)</MenuItem>
+                    <MenuItem value="contactedCallAttempt">Contacted Client (Call Attempt)</MenuItem>
+                    <MenuItem value="contactedCall">Contacted Client (Call)</MenuItem>
+                    <MenuItem value="followedUpEmail">Followed Up (Email)</MenuItem>
+                    <MenuItem value="contactedEmail">Contacted Client (Email)</MenuItem>
+                    <MenuItem value="new">New</MenuItem>
+                    <MenuItem value="meetingDone">Meeting (Done)</MenuItem>
+                    <MenuItem value="closedWon">Closed (Won)</MenuItem>
+                    <MenuItem value="meetingAttempt">Meeting (Attempt)</MenuItem>
                   </Select>
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Beds Required </td>
-                <td className="pb-4">
-                  <TextField
-                    onChange={handleLeadDataChange}
-                    value={leadData?.beds}
-                    name="beds"
-                    type="number"
-                    size="small"
-                    fullWidth
-                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg flex mt-1 items-start">Source </td>
-                <td className="pb-4 columns-2">
-                  <FormGroup onChange={handleLeadDataChange} value={leadData?.source} name="source">
-                    <FormControlLabel
-                      name="source"
-                      value="smsLead"
-                      onChange={handleLeadDataChange}
-                      id="smsLead"
-                      control={<Checkbox />}
-                      label="SMS Lead"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="olx"
-                      onChange={handleLeadDataChange}
-                      id="olx"
-                      control={<Checkbox />}
-                      label="OLX"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="emailBlast"
-                      onChange={handleLeadDataChange}
-                      id="emailBlast"
-                      control={<Checkbox />}
-                      label="Email Blast"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="clientReference"
-                      onChange={handleLeadDataChange}
-                      id="clientReference"
-                      control={<Checkbox />}
-                      label="Client Reference"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="googleAdword"
-                      onChange={handleLeadDataChange}
-                      id="googleAdword"
-                      control={<Checkbox />}
-                      label="Google Adword"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="radio"
-                      onChange={handleLeadDataChange}
-                      id="radio"
-                      control={<Checkbox />}
-                      label="Radio"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="tv"
-                      onChange={handleLeadDataChange}
-                      id="tv"
-                      control={<Checkbox />}
-                      label="TV"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="facebook"
-                      onChange={handleLeadDataChange}
-                      id="facebook"
-                      control={<Checkbox />}
-                      label="Facebook"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="personal"
-                      onChange={handleLeadDataChange}
-                      id="personal"
-                      control={<Checkbox />}
-                      label="Personal"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="newspaper"
-                      onChange={handleLeadDataChange}
-                      id="newspaper"
-                      control={<Checkbox />}
-                      label="Newspaper"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="emailLead"
-                      onChange={handleLeadDataChange}
-                      id="emailLead"
-                      control={<Checkbox />}
-                      label="Email Lead"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="youtube"
-                      onChange={handleLeadDataChange}
-                      id="youtube"
-                      control={<Checkbox />}
-                      label="Youtube"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="walk"
-                      onChange={handleLeadDataChange}
-                      id="walk-in"
-                      control={<Checkbox />}
-                      label="Walk-in"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="billBoard"
-                      onChange={handleLeadDataChange}
-                      id="billBoard"
-                      control={<Checkbox />}
-                      label="Bill Board"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="streamers"
-                      onChange={handleLeadDataChange}
-                      id="streamers"
-                      control={<Checkbox />}
-                      label="Streamers"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="smsMarketing"
-                      onChange={handleLeadDataChange}
-                      id="smsMarketing"
-                      control={<Checkbox />}
-                      label="SMS Marketing"
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="clientFacebook"
-                      onChange={handleLeadDataChange}
-                      id="clientFacebook"
-                      control={<Checkbox />}
-                      label="Client Facebook "
-                    />
-                    <FormControlLabel
-                      name="source"
-                      value="other"
-                      onChange={handleLeadDataChange}
-                      id="other"
-                      control={<Checkbox />}
-                      label="Other"
-                    />
-                  </FormGroup>
+                <td className="pb-4">
+                  <Select
+                    onChange={handleChange}
+                    value={leadData?.source}
+                    name="source"
+                    type="text"
+                    size="small"
+                    fullWidth>
+                    <MenuItem value="instagram">Instagram</MenuItem>
+                    <MenuItem value="facebookComment">Facebook Comment</MenuItem>
+                    <MenuItem value="FriendAndFamily">Friend and Family</MenuItem>
+                    <MenuItem value="facebook">Facebook</MenuItem>
+                    <MenuItem value="directCall">Direct Call</MenuItem>
+                    <MenuItem value="google">Google</MenuItem>
+                    <MenuItem value="referral">Referral</MenuItem>
+                  </Select>
+                </td>
+              </tr>
+              <tr>
+                <td className="flex flex-col justify-start mt-1 text-lg">Description </td>
+                <td className="pb-4">
+                  <TextField
+                    onChange={handleChange}
+                    value={leadData?.description}
+                    name="description"
+                    type="text"
+                    size="small"
+                    fullWidth
+                    multiline
+                    rows={5}
+                  />
                 </td>
               </tr>
             </table>

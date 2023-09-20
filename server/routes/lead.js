@@ -1,7 +1,8 @@
 import express from 'express'
-import {createLead, createOnsiteLead, createOnlineLead, getLead, getEmployeeLeads, getLeadsStat, getLeads, filterLead, updateLead, archiveLead, deleteLead, deleteWholeCollection,  searchLead, } from '../controllers/lead.js'
+import { createLead, createOnsiteLead, createOnlineLead, getLead, getEmployeeLeads, getLeadsStat, getLeads, filterLead, updateLead, shiftLead, shareLead, archiveLead, deleteLead, deleteWholeCollection, searchLead, } from '../controllers/lead.js'
 import { verifyEmployee, verifyManager, verifyToken } from '../middleware/auth.js'
 import Lead from '../models//lead.js'
+import { createError } from '../utils/error.js'
 
 const router = express.Router()
 
@@ -34,7 +35,9 @@ router.post('/create', verifyToken, createLead)
 
 // PUT
 router.put('/archive', verifyToken, verifyEmployee, archiveLead)
-router.put('/update/:leadId', verifyToken, verifyEmployee, verifyIsAllocatedTo, updateLead)
+router.put('/update/:leadId', verifyToken, verifyEmployee, updateLead)
+router.put('/update/shift/:leadId', verifyToken, verifyEmployee, shiftLead)
+router.put('/update/share/:leadId', verifyToken, verifyEmployee, shareLead)
 
 // DELETE
 router.delete('/delete/:leadId', verifyToken, verifyEmployee, verifyIsAllocatedTo, deleteLead)

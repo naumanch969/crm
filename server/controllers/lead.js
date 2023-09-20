@@ -7,7 +7,7 @@ export const getLead = async (req, res, next) => {
     try {
 
         const { leadId } = req.params
-        const findedLead = await Lead.findById(leadId).populate('clientId').populate('createdBy').populate('allocatedTo').exec()
+        const findedLead = await Lead.findById(leadId).populate('property').populate('allocatedTo').exec()
         if (!findedLead) return next(createError(400, 'Lead not exist'))
 
         res.status(200).json({ result: findedLead, message: 'lead created successfully', success: true })
@@ -19,7 +19,7 @@ export const getLead = async (req, res, next) => {
 export const getLeads = async (req, res, next) => {
     try {
 
-        const findedLeads = await Lead.find().populate('property').exec();
+        const findedLeads = await Lead.find().populate('property').populate('allocatedTo').exec();
 
         res.status(200).json({ result: findedLeads, message: 'Leads fetched successfully', success: true });
     } catch (err) {
@@ -30,7 +30,7 @@ export const getLeads = async (req, res, next) => {
 export const getEmployeeLeads = async (req, res, next) => {
     try {
         const findedLeads = await Lead.find({ allocatedTo: req.user?._id, isArchived: false })
-            .populate('clientId').populate('createdBy')
+            .populate('property').populate('allocatedTo')
             .exec();
 
         res.status(200).json({ result: findedLeads, message: 'Leads fetched successfully', success: true });
@@ -104,8 +104,7 @@ export const searchLead = async (req, res, next) => {
                 { type: searchPattern },
             ],
         })
-            .populate('clientId').populate('createdBy')
-            .populate('allocatedTo')
+            .populate('property').populate('allocatedTo')
             .exec();
 
         res.status(200).json({ result: searchResults });
@@ -139,7 +138,7 @@ export const filterLead = async (req, res, next) => {
             }
         }
 
-        query = await query.populate('clientId').populate('createdBy').populate('allocatedTo').exec();
+        query = await query.populate('property').populate('allocatedTo').exec();
         res.status(200).json({ result: query });
 
     } catch (error) {
@@ -203,7 +202,7 @@ export const createLead = async (req, res, next) => {
         if (!clientFirstName || !clientLastName || !clientPhone || !clientCNIC || !clientCity || !city || !priority || !property || !status || !source || !description)
             return next(createError(401, 'Make sure to provide all the fields.'))
 
-        const newLead = await Lead.create(req.body)
+        const newLead = await Lead.create({ ...req.body, allocatedTo: [req.user?._id] })
         res.status(200).json({ result: newLead, message: 'Lead created successfully', success: true })
 
     } catch (err) {
@@ -215,24 +214,65 @@ export const updateLead = async (req, res, next) => {
     try {
 
         const { leadId } = req.params
-        let { _id: inputLeadId, allocatedTo, ...leadData } = req.body    // lead data
-        let { gender, firstName, lastName, phone, email, cnic, } = req.body // client data
 
-        // for online lead, (clientId is populated version (actually it is user/client document) )
-        if (leadData?.clientId) {
-            await User.findByIdAndUpdate(leadData.clientId._id, { gender, firstName, lastName, phone, email, cnic }, { new: true })
-        }
-
-        allocatedTo = allocatedTo ?? req.user._id
-
-        // create new lead
-        const updatedLead = await Lead.findByIdAndUpdate(leadId, { $set: { ...leadData, allocatedTo } }, { new: true }).populate('clientId').populate('createdBy').populate('allocatedTo').exec()
+        const updatedLead = await Lead.findByIdAndUpdate(leadId, { $set: req.body }, { new: true }).populate('property').populate('allocatedTo').exec()
         res.status(200).json({ result: updatedLead, message: 'lead updated successfully', success: true })
 
     } catch (err) {
         next(createError(500, err.message))
     }
 }
+
+export const shiftLead = async (req, res, next) => {
+    try {
+        const { leadId } = req.params;
+        const { shiftTo } = req.body; // lead data
+
+        // Use $pull to remove 'from' from allocatedTo array
+        await Lead.findByIdAndUpdate(
+            leadId,
+            { $pull: { allocatedTo: req.user._id } },
+            { new: true }
+        );
+
+        // Use $push to add 'to' to allocatedTo array
+        const updatedLead = await Lead.findByIdAndUpdate(
+            leadId,
+            { $push: { allocatedTo: shiftTo } },
+            { new: true }
+        ).populate('property').populate('allocatedTo').exec();
+
+        res.status(200).json({
+            result: updatedLead,
+            message: 'Lead updated successfully',
+            success: true,
+        });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
+};
+
+
+export const shareLead = async (req, res, next) => {
+    try {
+        const { leadId } = req.params;
+        const { shareWith } = req.body; // The userId to be added
+
+        const updatedLead = await Lead.findByIdAndUpdate(
+            leadId,
+            { $push: { allocatedTo: shareWith } }, // Use $push to add userId to allocatedTo array
+            { new: true }
+        ).populate('property').populate('allocatedTo').exec();
+
+        res.status(200).json({
+            result: updatedLead,
+            message: 'Lead updated successfully',
+            success: true,
+        });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
+};
 
 export const archiveLead = async (req, res, next) => {
     try {

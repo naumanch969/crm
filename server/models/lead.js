@@ -16,6 +16,9 @@ const leadSchema = Schema({
     description: { type: String, required: true },
     images: { type: [String], required: true },
     isArchived: { type: Boolean, required: false },
+    followUps: { type: [Schema.Types.ObjectId], ref: 'FollowUp', default: [] },
+    isAppliedForRefund: { type: Boolean, default: false },
+    allocatedTo: { type: [Schema.Types.ObjectId], ref: 'User' },
 
 }, { timestamps: true })
 

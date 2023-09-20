@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import {
   Divider,
   Dialog,
@@ -12,6 +17,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
+import { createFollowUp } from "../../../redux/action/followUp";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -20,17 +26,21 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const CreateFollowUps = ({ setOpen, open, scroll }) => {
   //////////////////////////////////////// VARIABLES ////////////////////////////////////
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let today = new Date();
   let time = today.toLocaleTimeString();
   let date = today.toLocaleDateString();
   let dateTime = date + "  " + time;
+  const { leadId } = useParams()
+  const initialFollowUpState = {
+    status: "",
+    remarks: "",
+    followUpDate: "",
+    leadId
+  }
 
   //////////////////////////////////////// STATES ////////////////////////////////////
-  const [FollowUpData, setFollowUpData] = useState({
-    currentStatus: "",
-    remarks: "",
-    nextFollowUp: "",
-  });
+  const [followUpData, setFollowUpData] = useState(initialFollowUpState);
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
 
@@ -38,28 +48,23 @@ const CreateFollowUps = ({ setOpen, open, scroll }) => {
 
   const handleInputChange = (e) => {
     setFollowUpData({
-      ...FollowUpData,
+      ...followUpData,
       [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setFollowUpData({
-      currentStatus: "",
-      remarks: "",
-      nextFollowUp: "",
-    });
-
+    dispatch(createFollowUp(followUpData))
+    setFollowUpData(initialFollowUpState);
     setOpen(false);
   };
 
   const handleClose = () => {
     setFollowUpData({
-      currentStatus: "",
+      status: "",
       remarks: "",
-      nextFollowUp: "",
+      followUpDate: "",
     });
 
     setOpen(false);
@@ -95,16 +100,14 @@ const CreateFollowUps = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <Select
                     onChange={handleInputChange}
-                    value={FollowUpData.currentStatus}
-                    name="currentStatus"
+                    value={followUpData.status}
+                    name="status"
                     type="text"
                     size="small"
                     fullWidth>
                     <MenuItem value="closedLost">Closed (Lost)</MenuItem>
                     <MenuItem value="FollowedUpCall">Followed Up (Call)</MenuItem>
-                    <MenuItem value="ContactedCallAttempt">
-                      Contacted Client (Call Attempt)
-                    </MenuItem>
+                    <MenuItem value="ContactedCallAttempt">Contacted Client (Call Attempt)</MenuItem>
                     <MenuItem value="ContactedCall">Contacted Client (Call)</MenuItem>
                     <MenuItem value="FollowedUpEmail">Followed Up (Email)</MenuItem>
                     <MenuItem value="ContactedEmail">Contacted Client (Email)</MenuItem>
@@ -118,14 +121,11 @@ const CreateFollowUps = ({ setOpen, open, scroll }) => {
               <tr>
                 <td className="flex flex-col justify-start mt-1 text-lg">Next Follow Up Date </td>
                 <td className="pb-4">
-                  <TextField
-                    onChange={handleInputChange}
-                    value={FollowUpData.nextFollowUp}
-                    name="nextFollowUp"
-                    type="date"
-                    size="small"
-                    fullWidth
-                  />
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={["DatePicker"]}>
+                      <DatePicker label="Select Date" onChange={(date) => setFollowUpData({ ...followUpData, followUpDate: date.$d })} />
+                    </DemoContainer>
+                  </LocalizationProvider>
                 </td>
               </tr>
               <tr>
@@ -133,7 +133,7 @@ const CreateFollowUps = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     onChange={handleInputChange}
-                    value={FollowUpData.remarks}
+                    value={followUpData.remarks}
                     name="remarks"
                     type="text"
                     size="small"

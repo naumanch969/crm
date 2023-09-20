@@ -11,6 +11,7 @@ import { format } from "timeago.js";
 import { getLeadReducer } from "../../redux/reducer/lead";
 import UpateStatusModal from "./UpdateStatus";
 import ShiftLeadModal from "./ShiftLead";
+import ShareLeadModal from "./ShareLead";
 import Filter from "./Filter";
 import Kanban from "./Kanban/Kanban";
 import { CCallout } from "@coreui/react";
@@ -154,6 +155,17 @@ function Leads({ type, showSidebar }) {
       ),
     },
     {
+      field: "allocatedTo",
+      headerName: "Allocatd To",
+      width: 320,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <div className="font-primary font-light">{params.row.allocatedTo.map((allocatedTo, index) => (
+          <>{allocatedTo.email} {" "}</>
+        ))}</div>
+      ),
+    },
+    {
       field: "priority",
       headerClassName: "super-app-theme--header",
       headerName: "Priority",
@@ -239,15 +251,15 @@ function Leads({ type, showSidebar }) {
                   Apply for Refund
                 </StyledMenuItem>
               )}
-              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => { }}>
+              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => handleOpenShareLeadModal(params.row)}>
                 Share Lead
               </StyledMenuItem>
               <StyledMenuItem
-                onClick={() => navigateToFollowUps()}
+                onClick={() => navigateToFollowUps(params.row._id)}
                 className="text-gray-600 flex font-primary">
                 Follow Ups
               </StyledMenuItem>
-              <StyledMenuItem onClick={() => handleOpenAttachmentModal()} className="text-gray-600 flex font-primary">
+              <StyledMenuItem onClick={() => handleOpenAttachmentModal(params.row._id)} className="text-gray-600 flex font-primary">
                 Attachments
               </StyledMenuItem>
             </Menu>
@@ -269,6 +281,7 @@ function Leads({ type, showSidebar }) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [openShiftLeadModal, setOpenShiftLeadModal] = useState(false);
+  const [openShareLeadModal, setOpenShareLeadModal] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState(null);
   const [openFilters, setOpenFilters] = useState(false);
   const [options, setOptions] = useState({
@@ -283,7 +296,8 @@ function Leads({ type, showSidebar }) {
   }, []);
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
-  const handleOpenAttachmentModal = () => {
+  const handleOpenAttachmentModal = (leadId) => {
+    setSelectedLeadId(leadId);
     setOpenAttachmentModal(true);
   };
   const handleOpenEditModal = (lead) => {
@@ -296,6 +310,10 @@ function Leads({ type, showSidebar }) {
   };
   const handleOpenShiftLeadModal = (lead) => {
     setOpenShiftLeadModal(true);
+    dispatch(getLeadReducer(lead));
+  };
+  const handleOpenShareLeadModal = (lead) => {
+    setOpenShareLeadModal(true);
     dispatch(getLeadReducer(lead));
   };
   const handleOpenDeleteModal = (leadId) => {
@@ -315,8 +333,8 @@ function Leads({ type, showSidebar }) {
     }
   };
 
-  const navigateToFollowUps = () => {
-    navigate("/leads/followups");
+  const navigateToFollowUps = (leadId) => {
+    navigate(`/leads/followups/${leadId}`);
   };
 
   return (
@@ -325,9 +343,10 @@ function Leads({ type, showSidebar }) {
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} leadId={selectedLeadId} />
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
       <ShiftLeadModal open={openShiftLeadModal} setOpen={setOpenShiftLeadModal} />
+      <ShareLeadModal open={openShareLeadModal} setOpen={setOpenShareLeadModal} />
       <Filter open={openFilters} setOpen={setOpenFilters} />
       <Lead open={openViewModal} setOpen={setOpenViewModal} leadId={selectedLeadId} />
-      <Attachments open={openAttachmentModal} setOpen={setOpenAttachmentModal} />
+      {/* <Attachments open={openAttachmentModal} setOpen={setOpenAttachmentModal} leadId={selectedLeadId} /> */}
 
       <Topbar
         options={options}

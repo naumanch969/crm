@@ -65,21 +65,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(leadData)
     const { clientFirstName, clientLastName, clientPhone, clientCNIC, clientCity, city, priority, property, status, source, description } = leadData
-    if (
-      !clientFirstName ||
-      !clientLastName ||
-      !clientPhone ||
-      !clientCNIC ||
-      !clientCity ||
-      !city ||
-      !priority ||
-      !property ||
-      !status ||
-      !source ||
-      !description
-    ) return alert("Make sure to provide all the fields")
+    if (!clientFirstName || !clientLastName || !clientPhone || !clientCNIC || !clientCity || !city || !priority || !property || !status || !source || !description)
+      return alert("Make sure to provide all the fields")
     dispatch(createLead(leadData, navigate));
     setLeadData(initialLeadState);
     setOpen(false);
@@ -89,8 +77,6 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     const { name, value } = e.target;
     setLeadData((pre) => ({ ...pre, [name]: value }));
   };
-
-
 
   const handleClose = () => {
     setLeadData(initialLeadState);
@@ -182,8 +168,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                     type="text"
                     size="small"
                     fullWidth>
-                    {pakistanCities.map((item) => (
-                      <MenuItem value={item}>{item}</MenuItem>
+                    {pakistanCities.map((item, index) => (
+                      <MenuItem value={item} key={index} >{item}</MenuItem>
                     ))}
                   </Select>
                 </td>

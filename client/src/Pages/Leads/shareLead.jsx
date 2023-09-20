@@ -2,7 +2,7 @@ import { Close } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { shiftLead } from "../../redux/action/lead";
+import { shareLead, } from "../../redux/action/lead";
 import { getEmployees } from "../../redux/action/user";
 import {
   Dialog,
@@ -20,18 +20,22 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const ShiftLead = ({ open, setOpen, from }) => {
+const ShiftLead = ({ open, setOpen }) => {
   ////////////////////////////////////// VARIABLES  /////////////////////////////////////
   const dispatch = useDispatch();
   const { currentLead, isFetching } = useSelector((state) => state.lead);
-  const { employees, loggedUser } = useSelector((state) => state.user);
+  const { employees } = useSelector((state) => state.user);
   const employeeNames = employees
-    .filter((employee) => employee.email !== null && employee.email !== undefined)
-    .filter((employee) => employee._id !== loggedUser._id) // Filter out employees with matching _id
-    .map(({ _id, email }) => ({ _id, email }));
+  .filter((employee) => employee.email !== null && employee.email !== undefined)
+  .filter((employee) => {
+    // Check if employee._id does not match any currentLead?.allocatedTo._id
+    return currentLead?.allocatedTo.every((allocatedTo) => allocatedTo._id !== employee._id);
+  })
+  .map(({ _id, email }) => ({ _id, email }));
+
 
   ////////////////////////////////////// STATES  /////////////////////////////////////
-  const [shiftTo, setShiftTo] = useState('');
+  const [shareWith, setShareWith] = useState('');
 
   ////////////////////////////////////// USE EFFECTS  /////////////////////////////////////
   useEffect(() => {
@@ -43,12 +47,12 @@ const ShiftLead = ({ open, setOpen, from }) => {
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(shiftLead(currentLead?._id, shiftTo));
+    dispatch(shareLead(currentLead?._id, shareWith));
     setOpen(false);
-    setShiftTo("")
+    setShareWith("")
   };
   const handleChange = (e) => {
-    setShiftTo(e.target.value);
+    setShareWith(e.target.value);
   };
 
   return (
@@ -62,7 +66,7 @@ const ShiftLead = ({ open, setOpen, from }) => {
         maxWidth="xs"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-xl text-sky-400 font-primary">Shift Lead</div>
+          <div className="text-xl text-sky-400 font-primary">Share Lead</div>
           <div className="cursor-pointer" onClick={() => setOpen(false)}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -76,9 +80,9 @@ const ShiftLead = ({ open, setOpen, from }) => {
             <div className="flex flex-col gap-2 p-3 text-gray-500 font-primary">
               <table className="w-full">
                 <tr>
-                  <td className="pb-4 text-lg">Shift to </td>
+                  <td className="pb-4 text-lg">Share with</td>
                   <td className="pb-4 w-64">
-                    <Select name='allocatedTo' value={shiftTo} onChange={handleChange} type="text" size="small" fullWidth>
+                    <Select name='allocatedTo' value={shareWith} onChange={handleChange} type="text" size="small" fullWidth>
                       {employeeNames.map((employee, index) => (
                         <MenuItem value={employee?._id} key={index}>
                           {employee?.email}

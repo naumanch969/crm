@@ -16,13 +16,14 @@ const uploadSlice = createSlice({
 
         uploadImageReducer: (state, action) => {
             const { result, isMultiple } = action.payload
+            console.log('[`${rootURL}${result}`, ...state.urls]', [`${rootURL}${result}`, ...state.urls])
             isMultiple
                 ?
                 state.urls = [`${rootURL}${result}`, ...state.urls]
                 :
                 state.url = `${rootURL}${result}`
         },
-        deleteImageReducer: (state,action) => {
+        deleteImageReducer: (state, action) => {
             const { filename, isMultiple } = action.payload
             isMultiple
                 ?
@@ -30,7 +31,7 @@ const uploadSlice = createSlice({
                 :
                 state.url = null
         },
-        deleteAllImagesReducer:(state)=>{
+        deleteAllImagesReducer: (state) => {
             state.urls = []
         }
     }
