@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createOnsiteLead, getLeads } from "../../redux/action/lead";
+import { createLead, getLeads } from "../../redux/action/lead";
 import Topbar from "./Topbar";
 import { getEmployees, register } from "../../redux/action/user";
 import { pakistanCities } from "../../constant";
@@ -22,6 +22,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
+import { getInventories } from "../../redux/action/inventory";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -29,113 +30,70 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const CreateLead = ({ setOpen, open, scroll }) => {
   //////////////////////////////////////// VARIABLES ////////////////////////////////////
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isFetching } = useSelector((state) => state.lead);
-  const { employees, loggedUser } = useSelector((state) => state.user);
-  const role = loggedUser?.role;
-  const employeeNames = employees
-    .filter((employee) => employee.username !== null && employee.username !== undefined)
-    .map(({ _id, username }) => ({ _id, username }));
-
-    let today = new Date();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { isFetching } = useSelector(state => state.lead)
+  const { inventories } = useSelector(state => state.inventory)
+  const inventoriesNumbers = inventories.map(({ _id, propertyNumber }) => ({ _id, propertyNumber }));
+  let initialLeadState = {
+    clientFirstName: "",
+    clientLastName: "",
+    clientPhone: "",
+    clientCNIC: "",
+    clientCity: "",
+    clientEmail: "",
+    city: "",
+    priority: "",
+    property: "",
+    status: "",
+    source: "",
+    description: "",
+  }
+  let today = new Date();
   let time = today.toLocaleTimeString();
   let date = today.toLocaleDateString();
   let dateTime = date + "  " + time;
 
   //////////////////////////////////////// STATES ////////////////////////////////////
-  const [clientData, setClientData] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    cnic: "",
-    city: "",
-  });
-  const [leadData, setLeadData] = useState({
-    city: "",
-    property: "",
-    priority: "",
-    description: "",
-    allocatedTo: loggedUser._id,
-    leadCreated: dateTime,
-    status: "",
-    statusCreated: dateTime,
-    source: "",
-  });
+  const [leadData, setLeadData] = useState(initialLeadState);
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
   useEffect(() => {
-    if (employees.length === 0) {
-      dispatch(getEmployees());
-    }
-  }, [employees]);
+    dispatch(getInventories())
+  }, [])
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    dispatch(createOnsiteLead({ ...leadData, ...clientData }, navigate));
-
-    setClientData({
-      firstName: "",
-      lastName: "",
-      phone: "",
-      email: "",
-      cnic: "",
-      city: "",
-    });
-
-    setLeadData({
-      city: "",
-      property: "",
-      priority: "",
-      description: "",
-      allocatedTo: loggedUser._id,
-      leadCreated: "",
-      status: "",
-      statusCreated: "",
-      source: "",
-    });
-
+    console.log(leadData)
+    const { clientFirstName, clientLastName, clientPhone, clientCNIC, clientCity, city, priority, property, status, source, description } = leadData
+    if (
+      !clientFirstName ||
+      !clientLastName ||
+      !clientPhone ||
+      !clientCNIC ||
+      !clientCity ||
+      !city ||
+      !priority ||
+      !property ||
+      !status ||
+      !source ||
+      !description
+    ) return alert("Make sure to provide all the fields")
+    dispatch(createLead(leadData, navigate));
+    setLeadData(initialLeadState);
     setOpen(false);
   };
 
-  const handleLeadDataChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    name == "source"
-      ? leadData.source.includes(value)
-        ? setLeadData((pre) => ({ ...pre, source: leadData.source.filter((s) => s != value) }))
-        : setLeadData((pre) => ({ ...pre, source: [...leadData.source, value] }))
-      : setLeadData((pre) => ({ ...pre, [name]: value }));
+    setLeadData((pre) => ({ ...pre, [name]: value }));
   };
 
-  const handleClientDataChange = (e) => {
-    setClientData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
-  };
+
 
   const handleClose = () => {
-    setClientData({
-      firstName: "",
-      lastName: "",
-      phone: "",
-      email: "",
-      cnic: "",
-      city: "",
-    });
-
-    setLeadData({
-      city: "",
-      property: "",
-      priority: "",
-      description: "",
-      allocatedTo: loggedUser._id,
-      leadCreated: "",
-      status: "",
-      statusCreated: "",
-      source: "",
-    });
-
+    setLeadData(initialLeadState);
     setOpen(false);
   };
 
@@ -168,9 +126,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">First Name </td>
                 <td className="pb-4">
                   <TextField
-                    name="firstName"
-                    value={clientData.firstName}
-                    onChange={handleClientDataChange}
+                    name="clientFirstName"
+                    value={leadData.clientFirstName}
+                    onChange={handleChange}
                     size="small"
                     fullWidth
                   />
@@ -180,9 +138,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">Last Name </td>
                 <td className="pb-4">
                   <TextField
-                    name="lastName"
-                    value={clientData.lastName}
-                    onChange={handleClientDataChange}
+                    name="clientLastName"
+                    value={leadData.clientLastName}
+                    onChange={handleChange}
                     size="small"
                     fullWidth
                   />
@@ -192,10 +150,10 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">Phone </td>
                 <td className="pb-4">
                   <TextField
+                    name="clientPhone"
+                    onChange={handleChange}
+                    value={leadData.clientPhone}
                     type="number"
-                    onChange={handleClientDataChange}
-                    value={clientData.phone}
-                    name="phone"
                     size="small"
                     fullWidth
                   />
@@ -205,10 +163,10 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">CNIC </td>
                 <td className="pb-4">
                   <TextField
+                    name="clientCNIC"
+                    onChange={handleChange}
+                    value={leadData.clientCNIC}
                     type="number"
-                    onChange={handleClientDataChange}
-                    value={clientData.cnic}
-                    name="cnic"
                     size="small"
                     fullWidth
                   />
@@ -218,9 +176,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
                   <Select
-                    onChange={handleClientDataChange}
-                    value={clientData.city}
-                    name="city"
+                    onChange={handleChange}
+                    value={leadData.clientCity}
+                    name="clientCity"
                     type="text"
                     size="small"
                     fullWidth>
@@ -235,9 +193,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     type="email"
-                    onChange={handleClientDataChange}
-                    value={clientData.email}
-                    name="email"
+                    onChange={handleChange}
+                    value={leadData.clientEmail}
+                    name="clientEmail"
                     size="small"
                     placeholder="Optional"
                     fullWidth
@@ -258,7 +216,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
                   <Select
-                    onChange={handleLeadDataChange}
+                    onChange={handleChange}
                     value={leadData.city}
                     name="city"
                     type="text"
@@ -274,13 +232,17 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">Property </td>
                 <td className="pb-4">
                   <Select
-                    onChange={handleLeadDataChange}
+                    onChange={handleChange}
                     value={leadData.property}
                     name="property"
                     type="text"
                     size="small"
                     fullWidth>
-                    <MenuItem>All Inventories</MenuItem>
+                    {
+                      inventoriesNumbers.map((number, index) => (
+                        <MenuItem value={number._id} key={index} >{number.propertyNumber} </MenuItem>
+                      ))
+                    }
                   </Select>
                 </td>
               </tr>
@@ -288,7 +250,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">Priority </td>
                 <td className="pb-4">
                   <Select
-                    onChange={handleLeadDataChange}
+                    onChange={handleChange}
                     value={leadData.priority}
                     name="priority"
                     type="text"
@@ -305,31 +267,31 @@ const CreateLead = ({ setOpen, open, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Status </td>
                 <td className="pb-4">
-                <Select
-                    onChange={handleLeadDataChange}
+                  <Select
+                    onChange={handleChange}
                     value={leadData.status}
                     name="status"
                     type="text"
                     size="small"
                     fullWidth>
                     <MenuItem value="closedLost">Closed (Lost)</MenuItem>
-                    <MenuItem value="FollowedUpCall">Followed Up (Call)</MenuItem>
-                    <MenuItem value="ContactedCallAttempt">Contacted Client (Call Attempt)</MenuItem>
-                    <MenuItem value="ContactedCall">Contacted Client (Call)</MenuItem>
-                    <MenuItem value="FollowedUpEmail">Followed Up (Email)</MenuItem>
-                    <MenuItem value="ContactedEmail">Contacted Client (Email)</MenuItem>
-                    <MenuItem value="New">New</MenuItem>
-                    <MenuItem value="MeetingDone">Meeting (Done)</MenuItem>
-                    <MenuItem value="ClosedWon">Closed (Won)</MenuItem>
-                    <MenuItem value="MeetingAttempt">Meeting (Attempt)</MenuItem>
+                    <MenuItem value="followedUpCall">Followed Up (Call)</MenuItem>
+                    <MenuItem value="contactedCallAttempt">Contacted Client (Call Attempt)</MenuItem>
+                    <MenuItem value="contactedCall">Contacted Client (Call)</MenuItem>
+                    <MenuItem value="followedUpEmail">Followed Up (Email)</MenuItem>
+                    <MenuItem value="contactedEmail">Contacted Client (Email)</MenuItem>
+                    <MenuItem value="new">New</MenuItem>
+                    <MenuItem value="meetingDone">Meeting (Done)</MenuItem>
+                    <MenuItem value="closedWon">Closed (Won)</MenuItem>
+                    <MenuItem value="meetingAttempt">Meeting (Attempt)</MenuItem>
                   </Select>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg flex mt-1 items-start">Source </td>
                 <td className="pb-4">
-                <Select
-                    onChange={handleLeadDataChange}
+                  <Select
+                    onChange={handleChange}
                     value={leadData.source}
                     name="source"
                     type="text"
@@ -349,7 +311,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="flex flex-col justify-start mt-1 text-lg">Description </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={handleLeadDataChange}
+                    onChange={handleChange}
                     value={leadData.description}
                     name="description"
                     type="text"

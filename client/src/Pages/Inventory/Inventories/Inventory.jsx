@@ -218,8 +218,8 @@ function Inventory() {
     },
   ];
 
-  const unarchivedInventories = inventories.filter(i => !i.isArchived)
-  const archivedInventories = inventories.filter(i => i.isArchived)
+  const unarchivedInventories = inventories.filter(inventory => !inventory.isArchived)
+  const archivedInventories = inventories.filter(inventory => inventory.isArchived)
 
   ////////////////////////////////////// STATES //////////////////////////////
   const [scroll, setScroll] = useState("paper");

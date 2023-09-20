@@ -9,7 +9,9 @@ import { ThreeDots } from "react-loader-spinner";
 const Kanban = ({ options, setOptions }) => {
   /////////////////////////////////////// VARIABLES ////////////////////////////////////////
   const dispatch = useDispatch();
-  const { archived, leads, isFetching } = useSelector((state) => state.lead);
+  const { leads, isFetching } = useSelector((state) => state.lead);
+  const archivedLeads = leads.filter(lead => lead.isArchived)
+  const unarchivedLeads = leads.filter(lead => !lead.isArchived)
   let initialFilteredLeadsState = {
     successful: [],
     unsuccessful: [],
@@ -27,12 +29,12 @@ const Kanban = ({ options, setOptions }) => {
   useEffect(() => {
     statusEnum.forEach(
       (status) =>
-      (filteredLeads[status] = (options.showArchivedLeads ? archived : leads).filter(
+      (filteredLeads[status] = (options.showArchivedLeads ? archivedLeads : unarchivedLeads).filter(
         (lead) => lead.status == status
       ))
     );
     setFilteredLeads({ ...filteredLeads });
-  }, [leads, archived]);
+  }, [unarchivedLeads, archivedLeads]);
 
   /////////////////////////////////////// FUNCTION ///////////////////////////////////////
   const handleDragEnd = (result) => {

@@ -21,7 +21,7 @@ const verifyIsSame = async (req, res, next) => {
 
 // GET
 router.get('/get/all', verifyToken, getUserTasks)
-router.get('/get/archived', verifyToken, getArchivedTasks)
+router.get('/get/', verifyToken, getArchivedTasks)
 router.get('/get/single/:taskId', verifyToken, verifyEmployee, verifyIsSame, getTask)
 router.get('/search', verifyToken, verifyEmployee, searchTask)
 router.get('/filter', verifyToken, verifyEmployee, filterTask)

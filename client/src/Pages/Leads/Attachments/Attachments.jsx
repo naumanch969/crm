@@ -1,22 +1,27 @@
 import { Button, Dialog, DialogContent, DialogTitle, Divider, Slide } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PiXLight } from "react-icons/pi";
 import { Upload } from "../../../utils";
 import ImageGallery from "./ImageGallery";
 import ImageGalleryModal from "./ImageGalleryModal";
+import { useSelector } from "react-redux";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const Attachments = ({ open, setOpen }) => {
+const Attachments = ({ open, setOpen, leadId }) => {
   ////////////////////////////////////// VARIABLES  /////////////////////////////////////
+  const { urls } = useSelector(state => state.upload)
 
   ////////////////////////////////////// STATES  /////////////////////////////////////
-    const [imageUpload, setImageUpload] = useState([]);
-    const [openImageGallery, setOpenImageGallery] = useState(false);
+  const [images, setImages] = useState([]);
+  const [openImageGallery, setOpenImageGallery] = useState(false);
 
   ////////////////////////////////////// USE EFFECTS  /////////////////////////////////////
+  useEffect(() => {
+    setImages(urls)
+  }, [urls])
 
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
   const handleClickOpen = () => {
@@ -46,7 +51,7 @@ const Attachments = ({ open, setOpen }) => {
 
         <DialogContent>
           <div className="newHotelItem w-full flex flex-wrap justify-start md:items-start items-center gap-[1rem] ">
-            <Upload image={imageUpload} isMultiple={true} />
+            <Upload image={images} isMultiple={true} />
           </div>
           <Divider className="py-4" />
           <div className="mt-4 flex justify-center pb-4">

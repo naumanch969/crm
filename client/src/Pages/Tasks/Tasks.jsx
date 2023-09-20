@@ -90,7 +90,9 @@ const StyledMenuItem = styled(MenuItem)(
 function Tasks() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
-  const { tasks, archived, isFetching, error } = useSelector((state) => state.task);
+  const { tasks, isFetching, error } = useSelector((state) => state.task);
+  const archivedTasks = tasks.filter(task => task.isArchived)
+  const unarchivedTasks = tasks.filter(task => !task.isArchived)
   const columns = [
     {
       field: "title",
@@ -278,7 +280,7 @@ function Tasks() {
         <Kanban options={options} setOptions={setOptions} />
       ) : (
         <Table
-          rows={options.showArchivedTasks ? archived : tasks}
+          rows={options.showArchivedTasks ? archivedTasks : unarchivedTasks}
           columns={columns}
           rowsPerPage={10}
           isFetching={isFetching}

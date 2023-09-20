@@ -6,7 +6,6 @@ const societySlice = createSlice({
         isFetching: false,
         error: null,
         societies: [],
-        archived: [],
         stats: [],
         currentSociety: null,
     },
@@ -20,16 +19,6 @@ const societySlice = createSlice({
         createSocietyReducer: (state, action) => { state.societies = [action.payload, ...state.societies] },
         updateSocietyReducer: (state, action) => { state.societies = state.societies.map(s => s = s._id == action.payload._id ? action.payload : s) },
         deleteSocietyReducer: (state, action) => { state.societies = state.societies.filter(s => s._id != action.payload._id) },
-        archiveSocietyReducer: (state, action) => {
-            const society = action.payload
-            state.societies = state.societies.filter(p => p._id != society._id)
-            state.archived = state.archived.concat(society);
-        },
-        unarchiveSocietyReducer: (state, action) => {
-            const society = action.payload
-            state.archived = state.archived.filter(p => p._id != society._id)
-            state.societies = state.societies.concat(society);
-        },
     }
 })
 

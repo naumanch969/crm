@@ -5,7 +5,6 @@ import { Draggable } from 'react-beautiful-dnd';
 import { person1 } from '../../../assets';
 import { Check2Square } from 'react-bootstrap-icons';
 import { updateLead } from '../../../redux/action/lead'
-import { archiveLeadReducer, unarchiveLeadReducer } from '../../../redux/reducer/lead'
 import { format } from 'timeago.js'
 import { rootURL } from '../../../constant';
 import { useDispatch } from 'react-redux';
@@ -19,11 +18,9 @@ const Lead = ({ lead, index, }) => {
     navigator.clipboard.writeText(`${rootURL}/leads/${lead?._id}`);
   }
   const handleArchive = () => {
-    dispatch(archiveLeadReducer(lead))
     dispatch(updateLead(lead._id, { isArchived: true }, { loading: false }))
   }
   const handleUnArchive = () => {
-    dispatch(unarchiveLeadReducer(lead))
     dispatch(updateLead(lead._id, { isArchived: false }, { loading: false }))
   }
 

@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { start, end, error, getLeadsReducer, getLeadReducer, getArchivedLeadsReducer, getLeadsStatReducer, createLeadReducer, updateLeadReducer, deleteLeadReducer, } from '../reducer/lead'
+import { start, end, error, getLeadsReducer, getLeadReducer,  getLeadsStatReducer, createLeadReducer, updateLeadReducer, deleteLeadReducer, } from '../reducer/lead'
 
 
 export const getLeads = () => async (dispatch) => {
@@ -23,16 +23,7 @@ export const getEmployeeLeads = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const getArchivedLeads = () => async (dispatch) => {
-    try {
-        dispatch(start())
-        const { data } = await api.getArchivedLeads()
-        dispatch(getArchivedLeadsReducer(data.result))
-        dispatch(end())
-    } catch (err) {
-        dispatch(error(err.message))
-    }
-}
+ 
 export const getLead = (leadId) => async (dispatch) => {
     try {
         dispatch(start())
@@ -68,6 +59,21 @@ export const filterLead = (filters) => async (dispatch) => {
         dispatch(start())
         const { data } = await api.filterLead(filters)
         dispatch(getLeadsReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const createLead = (leadData, navigate) => async (dispatch) => {
+    try {
+        dispatch(start())
+
+        const { data } = await api.createLead(leadData)
+
+        dispatch(createLeadReducer(data.result))
+        navigate('/leads')
+
+        dispatch(getLeads())
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

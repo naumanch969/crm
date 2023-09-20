@@ -18,21 +18,8 @@ export const getLead = async (req, res, next) => {
 }
 export const getLeads = async (req, res, next) => {
     try {
-        const { new: new_query, type } = req.query;
 
-        let query = {};
-        if (new_query) {
-            query = type ? { type, isArchived: false } : { isArchived: false };
-        } else {
-            query = type ? { type, isArchived: false } : { isArchived: false };
-        }
-
-        const findedLeads = await Lead.find(query)
-            .sort({ createdAt: -1 })
-            .limit(10)
-            .populate('clientId').populate('createdBy')
-            .populate('allocatedTo')
-            .exec();
+        const findedLeads = await Lead.find().populate('property').exec();
 
         res.status(200).json({ result: findedLeads, message: 'Leads fetched successfully', success: true });
     } catch (err) {
@@ -52,16 +39,6 @@ export const getEmployeeLeads = async (req, res, next) => {
     }
 }
 
-export const getArchivedLeads = async (req, res, next) => {
-    try {
-
-        const findedLeads = await Lead.find({ isArchived: true }).populate('clientId').populate('createdBy').exec()
-        res.status(200).json({ result: findedLeads, message: 'Archived leads fetched successfully', success: true })
-
-    } catch (err) {
-        next(createError(500, err.message))
-    }
-}
 export const getLeadsStat = async (req, res, next) => {
     try {
 
@@ -213,6 +190,21 @@ export const createOnlineLead = async (req, res, next) => {
 
         const newLead = await Lead.create({ type: 'online', projectId, clientId: newClient._id })
         res.status(200).json({ result: newLead, message: 'lead created successfully', success: true })
+
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
+
+export const createLead = async (req, res, next) => {
+    try {
+
+        const { clientFirstName, clientLastName, clientPhone, clientCNIC, clientCity, city, priority, property, status, source, description } = req.body
+        if (!clientFirstName || !clientLastName || !clientPhone || !clientCNIC || !clientCity || !city || !priority || !property || !status || !source || !description)
+            return next(createError(401, 'Make sure to provide all the fields.'))
+
+        const newLead = await Lead.create(req.body)
+        res.status(200).json({ result: newLead, message: 'Lead created successfully', success: true })
 
     } catch (err) {
         next(createError(500, err.message))

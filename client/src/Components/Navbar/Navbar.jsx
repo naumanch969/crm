@@ -160,7 +160,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                       aria-label="menu">
                       <PiBell className={`text-[25px] animate-none ${notifications.length > 0 ? "text-sky-400" : ""}`} />
                       {notifications.length > 0 && (
-                        <span class="animate-ping absolute top-1.5 right-2 block h-1 w-1 rounded-full ring-2 ring-sky-400 bg-sky-600"></span>
+                        <span className="animate-ping absolute top-1.5 right-2 block h-1 w-1 rounded-full ring-2 ring-sky-400 bg-sky-600"></span>
                       )}
                     </IconButton>
                   </Tooltip>

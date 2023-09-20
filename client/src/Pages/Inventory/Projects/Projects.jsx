@@ -138,8 +138,8 @@ function Projects() {
     },
   ];
 
-  const unarchivedProjects = projects.filter((p) => !p.isArchived);
-  const archivedProjects = projects.filter((p) => p.isArchived);
+  const unarchivedProjects = projects.filter((project) => !project.isArchived);
+  const archivedProjects = projects.filter((project) => project.isArchived);
 
   ////////////////////////////////////// STATES //////////////////////////////
   const [scroll, setScroll] = useState("paper");

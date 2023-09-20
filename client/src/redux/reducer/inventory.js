@@ -6,7 +6,6 @@ const inventorySlice = createSlice({
         isFetching: false,
         error: null,
         inventories: [],
-        archived: [],
         stats: [],
         currentInventory: null,
     },
@@ -20,16 +19,6 @@ const inventorySlice = createSlice({
         createInventoryReducer: (state, action) => { state.inventories = [action.payload, ...state.inventories] },
         updateInventoryReducer: (state, action) => { state.inventories = state.inventories.map(s => s = s._id == action.payload._id ? action.payload : s) },
         deleteInventoryReducer: (state, action) => { state.inventories = state.inventories.filter(s => s._id != action.payload._id) },
-        archiveInventoryReducer: (state, action) => {
-            const inventory = action.payload
-            state.inventories = state.inventories.filter(p => p._id != inventory._id)
-            state.archived = state.archived.concat(inventory);
-        },
-        unarchiveInventoryReducer: (state, action) => {
-            const inventory = action.payload
-            state.archived = state.archived.filter(p => p._id != inventory._id)
-            state.inventories = state.inventories.concat(inventory);
-        },
     }
 })
 

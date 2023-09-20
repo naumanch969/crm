@@ -5,7 +5,7 @@ import { Table } from "../../../Components";
 const FollowUps = () => {
   const columns = [
     {
-        field: "id",
+        field: "_id",
         headerName: "ID",
         headerClassName: "super-app-theme--header",
         width: 100,
@@ -43,14 +43,14 @@ const FollowUps = () => {
 
   const rows = [
     {
-      id: 1,
+      _id: 1,
       currentStatus: "Status",
       remarks: "Remarks",
       createdat: "Created At",
       NextFollowUpDate: "Next Follow Up Date",
     },
     {
-      id: 2,
+      _id: 2,
       currentStatus: "Status",
       remarks: "Remarks",
       createdat: "Created At",

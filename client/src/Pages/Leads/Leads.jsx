@@ -96,27 +96,51 @@ function Leads({ type, showSidebar }) {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { archived, leads, isFetching, error } = useSelector((state) => state.lead);
+  const { leads, isFetching, error } = useSelector((state) => state.lead);
+  const archivedLeads = leads.filter(lead => lead.isArchived)
+  const unarchivedLeads = leads.filter(lead => !lead.isArchived)
   const { loggedUser } = useSelector((state) => state.user);
   const role = loggedUser.role;
   const columns = [
     {
-      field: "leadId",
+      field: "_id",
       headerName: "ID",
       headerClassName: "super-app-theme--header",
       width: 70,
       renderCell: (params) => <div className="font-primary font-light">ID</div>,
     },
     {
-      field: "clientId.firstName",
-      headerName: "Client Name",
+      field: "clientFirstName",
+      headerName: "Client Firstname",
       headerClassName: "super-app-theme--header",
       width: 180,
       renderCell: (params) => (
         <div
           className={`text-[#20aee3] hover:text-[#007bff] capitalize cursor-pointer font-primary font-light`}
-          onClick={() => handleOpenViewModal(params.row._id)}>
-          {params.row.clientId?.firstName} {params.row.clientId?.lastName}
+          onClick={() => handleOpenViewModal(params.row?._id)}>
+          {params.row?.clientFirstName} {params.row?.clientFirstName}
+        </div>
+      ),
+    },
+    {
+      field: "clientLastName",
+      headerName: "Client Lastname",
+      headerClassName: "super-app-theme--header",
+      width: 180,
+      renderCell: (params) => (
+        <div className={`capitalize font-primary font-light`}>
+          {params.row?.clientLastName}
+        </div>
+      ),
+    },
+    {
+      field: "clientPhone",
+      headerName: "Client Phone",
+      headerClassName: "super-app-theme--header",
+      width: 180,
+      renderCell: (params) => (
+        <div className={`font-primary font-light`}>
+          {params.row?.clientPhone}
         </div>
       ),
     },
@@ -126,7 +150,7 @@ function Leads({ type, showSidebar }) {
       width: 120,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <div className="font-primary font-light">{format(params.row.createdAt)}</div>
+        <div className="font-primary font-light">{format(params.row?.createdAt)}</div>
       ),
     },
     {
@@ -135,7 +159,7 @@ function Leads({ type, showSidebar }) {
       headerName: "Priority",
       width: 120,
       renderCell: (params) => (
-        <div className="capitalize font-primary font-light">{params.row.priority}</div>
+        <div className="capitalize font-primary font-light">{params.row?.priority}</div>
       ),
     },
     {
@@ -145,15 +169,12 @@ function Leads({ type, showSidebar }) {
       width: 200,
       renderCell: (params) => (
         <span
-          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize font-primary font-medium ${
-            params.row.status == "successful" ? "border-green-500 text-green-500" : ""
-          } ${params.row.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${
-            params.row.status == "declined" ? "border-red-400 text-red-400" : ""
-          } ${params.row.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${
-            params.row.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
-          }`}>
-          {params.row.status == "underProcess" && <span>Under Process</span>}
-          {params.row.status != "underProcess" && <span>{params.row.status}</span>}
+          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize font-primary font-medium ${params.row?.status == "successful" ? "border-green-500 text-green-500" : ""
+            } ${params.row?.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${params.row?.status == "declined" ? "border-red-400 text-red-400" : ""
+            } ${params.row?.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${params.row?.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
+            }`}>
+          {params.row?.status == "underProcess" && <span>Under Process</span>}
+          {params.row?.status != "underProcess" && <span>{params.row?.status}</span>}
         </span>
       ),
     },
@@ -162,14 +183,7 @@ function Leads({ type, showSidebar }) {
       headerName: "Property",
       width: 170,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary font-light">Projects</div>,
-    },
-    {
-      field: "projects",
-      headerName: "Projects",
-      width: 200,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary font-light">Inventories</div>,
+      renderCell: (params) => <div className="font-primary font-light">{params.row?.property?.propertyNumber}</div>,
     },
     {
       field: "actions",
@@ -181,12 +195,12 @@ function Leads({ type, showSidebar }) {
           <Tooltip placement="top" title="Delete">
             {" "}
             <PiTrashLight
-              onClick={() => handleOpenDeleteModal(params.row._id)}
+              onClick={() => handleOpenDeleteModal(params.row?._id)}
               className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
             />
           </Tooltip>
           <Tooltip placement="top" title="View">
-            <div className="cursor-pointer" onClick={() => handleOpenViewModal(params.row._id)}>
+            <div className="cursor-pointer" onClick={() => handleOpenViewModal(params.row?._id)}>
               <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
             </div>
           </Tooltip>
@@ -216,7 +230,7 @@ function Leads({ type, showSidebar }) {
                 onClick={() => handleOpenShiftLeadModal(params.row)}>
                 Shift Lead
               </StyledMenuItem>
-              {params.row.isAppliedForRefund ? (
+              {params.row?.isAppliedForRefund ? (
                 <></>
               ) : (
                 <StyledMenuItem
@@ -225,7 +239,7 @@ function Leads({ type, showSidebar }) {
                   Apply for Refund
                 </StyledMenuItem>
               )}
-              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => {}}>
+              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => { }}>
                 Share Lead
               </StyledMenuItem>
               <StyledMenuItem
@@ -265,8 +279,8 @@ function Leads({ type, showSidebar }) {
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
-    type == "all" ? dispatch(getLeads()) : dispatch(getEmployeeLeads());
-  }, [type]);
+    dispatch(getLeads());
+  }, []);
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
   const handleOpenAttachmentModal = () => {
@@ -326,7 +340,7 @@ function Leads({ type, showSidebar }) {
       ) : (
         <CCallout color="primary">
           <Table
-            rows={options.showArchivedLeads ? archived : leads}
+            rows={options.showArchivedLeads ? archivedLeads : unarchivedLeads}
             columns={modifiedColumns}
             rowsPerPage={10}
             isFetching={isFetching}

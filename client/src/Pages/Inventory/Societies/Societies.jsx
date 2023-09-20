@@ -110,8 +110,8 @@ function Societies() {
     },
   ];
 
-  const unarchivedSocieties = societies.filter(s => !s.isArchived)
-  const archivedSocieties = societies.filter(s => s.isArchived)
+  const unarchivedSocieties = societies.filter(society => !society.isArchived)
+  const archivedSocieties = societies.filter(society => society.isArchived)
 
   ////////////////////////////////////// STATES //////////////////////////////
   const [scroll, setScroll] = useState("paper");

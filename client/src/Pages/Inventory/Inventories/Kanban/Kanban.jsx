@@ -9,8 +9,8 @@ const Kanban = ({ options, setOptions }) => {
   /////////////////////////////////////// VARIABLES ////////////////////////////////////////
   const dispatch = useDispatch();
   const { inventories, isFetching } = useSelector((state) => state.inventory);
-  const archivedInventories = inventories.filter(p => p.isArchived)
-  const unarchivedInventories = inventories.filter(p => !p.isArchived)
+  const archivedInventories = inventories.filter(inventory => inventory.isArchived)
+  const unarchivedInventories = inventories.filter(inventory => !inventory.isArchived)
   console.log(archivedInventories, unarchivedInventories)
   let initialFilteredInventoriesState = {
     sold: [],

@@ -5,7 +5,6 @@ import { Draggable } from 'react-beautiful-dnd';
 import { person1 } from '../../../assets';
 import { Check2Square } from 'react-bootstrap-icons';
 import { updateTask } from '../../../redux/action/task'
-import { archiveTaskReducer, unarchiveTaskReducer } from '../../../redux/reducer/task'
 import { format } from 'timeago.js'
 import { rootURL } from '../../../constant';
 import { useDispatch } from 'react-redux';
@@ -19,11 +18,9 @@ const Task = ({ task, index, }) => {
     navigator.clipboard.writeText(`${rootURL}/tasks/${task?._id}`);
   }
   const handleArchive = () => {
-    dispatch(archiveTaskReducer(task))
     dispatch(updateTask(task._id, { isArchived: true }, { loading: false }))
   }
   const handleUnArchive = () => {
-    dispatch(unarchiveTaskReducer(task))
     dispatch(updateTask(task._id, { isArchived: false }, { loading: false }))
   }
 
