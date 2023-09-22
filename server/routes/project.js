@@ -6,7 +6,7 @@ const router = express.Router()
 
 // GET
 router.get('/get/single/:projectId', verifyToken, getProject)
-router.get('/get/all', verifyToken, verifyEmployee, getProjects)
+router.get('/get/all', getProjects)
 router.get('/search', verifyToken, verifyEmployee, searchProject)
 router.get('/filter', verifyToken, verifyEmployee, filterProject)
 

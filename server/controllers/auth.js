@@ -10,36 +10,24 @@ import nodemailer from 'nodemailer'
 export const register = async (req, res, next) => {
     try {
 
-        let { firstName, lastName, username, phone, email, password, role } = req.body
+        let { firstName, lastName, username, phone, email, password, city, role, project } = req.body
 
-        if (!firstName || !lastName || !username || !email || !phone || !password) return next(createError(400, 'Make sure to provide all the fields'))
-        if (!validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
+        if (!firstName || !lastName || !username || !phone || !password || !city || !project) return next(createError(400, 'Make sure to provide all the fields'))
+        if (email && !validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
 
-        const findedUser = await User.findOne({ email })
-        if (Boolean(findedUser)) return next(createError(400, 'Email already exist'))
+        const findedUser = await User.findOne({ username })
+        if (Boolean(findedUser)) return next(createError(400, 'Username already exist'))
 
         const hashedPassword = await bcrypt.hash(password, 12)
 
-        // const transporter = nodemailer.createTransport({
-        //     service: 'Gmail',
-        //     auth: { user: process.env.SENDER_EMAIL, pass: process.env.SENDER_EMAIL_PASSWORD }
-        // });
-        // const info = await transporter.sendMail({
-        //     from: process.env.SENDER_EMAIL,
-        //     to: email,
-        //     subject: "Registeration Successful",
-        //     html: "<b>Hello world?</b>",
-        // });
-        // transporter.sendMail(info)
-
-        if (email == process.env.SUPER_ADMIN_EMAIL)
+        if (username == process.env.SUPER_ADMIN_USERNAME)
             role = 'super_admin'
-        else if (email == process.env.MANAGER_EMAIL)
+        else if (username == process.env.MANAGER_USERNAME)
             role = 'manager'
         else
             role = role || 'client'
 
-        const newUser = await User.create({ firstName, lastName, username, email, phone, password: hashedPassword, role })
+        const newUser = await User.create({ firstName, lastName, username, email, phone, password: hashedPassword, city, role, project })
         res.status(200).json({ result: newUser, message: 'User created successfully', success: true })
 
     } catch (err) {
@@ -51,13 +39,12 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
     try {
 
-        const { email, password: input_password } = req.body
+        const { username, password: input_password } = req.body
 
-        if (!email || !input_password) return next(createError(400, 'Make sure to provide all the fields'))
-        if (!validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
+        if (!username || !input_password) return next(createError(400, 'Make sure to provide all the fields'))
 
-        const findedUser = await User.findOne({ email })
-        if (!findedUser) return next(createError(400, 'Wrong Credentials - email'))
+        const findedUser = await User.findOne({ username })
+        if (!findedUser) return next(createError(400, 'Wrong Credentials - username'))
 
         const isPasswordCorrect = await bcrypt.compare(input_password, findedUser.password)
         if (!isPasswordCorrect) return next(createError(401, 'Wrong Credentials - password'))

@@ -2,23 +2,18 @@ import { Schema, model } from 'mongoose'
 
 const leadSchema = Schema({
 
-    clientFirstName: { type: String, required: true },
-    clientLastName: { type: String, required: true },
-    clientPhone: { type: String, required: true },
-    clientCNIC: { type: String, required: true },
-    clientCity: { type: String, required: true },
-    clientEmail: { type: String, required: false },
+    client: { type: Schema.Types.ObjectId, ref: 'User', required: true, },
     city: { type: String, required: true },
     priority: { type: String, required: true, default: 'moderate', enum: ['veryCold', 'cold', 'moderate', 'hot', 'veryHot'] },
-    property: { type: Schema.Types.ObjectId, ref: 'Inventory', required: true, },
+    property: { type: Schema.Types.ObjectId, ref: 'Project', required: true, },
     status: { type: String, required: true },   // closed, followed up, contacted etc.
     source: { type: String, required: true },   // facebook,instagram etc.
     description: { type: String, required: true },
-    images: { type: [String], required: true },
-    isArchived: { type: Boolean, required: false },
+    allocatedTo: { type: [Schema.Types.ObjectId], ref: 'User' },
+    images: { type: [String], required: true, default: [] },
+    isArchived: { type: Boolean, required: false, default: false },
     followUps: { type: [Schema.Types.ObjectId], ref: 'FollowUp', default: [] },
     isAppliedForRefund: { type: Boolean, default: false },
-    allocatedTo: { type: [Schema.Types.ObjectId], ref: 'User' },
 
 }, { timestamps: true })
 

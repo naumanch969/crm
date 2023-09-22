@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateLead } from "../../redux/action/lead";
 import { PiXLight } from "react-icons/pi";
 import { Loader } from "../../utils";
+import { getLeadReducer } from "../../redux/reducer/lead";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -38,6 +39,7 @@ const UpateStatusModal = ({ open, setOpen }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateLead(currentLead?._id, { status }));
+    dispatch(getLeadReducer(null))
     setOpen(false);
   };
   const handleChange = (e) => {
@@ -72,11 +74,16 @@ const UpateStatusModal = ({ open, setOpen }) => {
                   <td className="pb-4 text-lg">Status </td>
                   <td className="pb-4 w-64">
                     <Select name='status' value={status} onChange={handleChange} type="text" size="small" fullWidth>
-                        <MenuItem value="successful">Successful</MenuItem>
-                        <MenuItem value="unsuccessful">Unsuccessful</MenuItem>
-                        <MenuItem value="underProcess">Under Process</MenuItem>
-                        <MenuItem value="declined">Declined</MenuItem>
-                        <MenuItem value="remaining">Remaining</MenuItem>
+                      <MenuItem value="closedLost">Closed (Lost)</MenuItem>
+                      <MenuItem value="followedUpCall">Followed Up (Call)</MenuItem>
+                      <MenuItem value="contactedCallAttempt">Contacted Client (Call Attempt)</MenuItem>
+                      <MenuItem value="contactedCall">Contacted Client (Call)</MenuItem>
+                      <MenuItem value="followedUpEmail">Followed Up (Email)</MenuItem>
+                      <MenuItem value="contactedEmail">Contacted Client (Email)</MenuItem>
+                      <MenuItem value="new">New</MenuItem>
+                      <MenuItem value="meetingDone">Meeting (Done)</MenuItem>
+                      <MenuItem value="closedWon">Closed (Won)</MenuItem>
+                      <MenuItem value="meetingAttempt">Meeting (Attempt)</MenuItem>
                     </Select>
                   </td>
                 </tr>

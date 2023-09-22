@@ -20,7 +20,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
-import { getInventories } from "../../redux/action/inventory";
+import { getProjects } from "../../redux/action/project";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -31,8 +31,8 @@ const EditModal = ({ open, setOpen, scroll }) => {
   const dispatch = useDispatch();
   const { currentLead, isFetching } = useSelector(state => state.lead);
   const { employees, loggedUser } = useSelector((state) => state.user);
-  const { inventories } = useSelector(state => state.inventory)
-  const inventoriesNumbers = inventories.map(({ _id, propertyNumber }) => ({ _id, propertyNumber }));
+  const { projects } = useSelector(state => state.project)
+  const projectsTitles = projects.map(({ _id, title }) => ({ _id, title }));
   let initialLeadState = {
     clientFirstName: "",
     clientLastName: "",
@@ -55,7 +55,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
     setLeadData(currentLead);
   }, [currentLead]);
   useEffect(() => {
-    dispatch(getInventories())
+    dispatch(getProjects())
   }, [])
 
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
@@ -222,8 +222,8 @@ const EditModal = ({ open, setOpen, scroll }) => {
                     size="small"
                     fullWidth>
                     {
-                      inventoriesNumbers.map((number, index) => (
-                        <MenuItem value={number._id} key={index} >{number.propertyNumber} </MenuItem>
+                      projectsTitles.map((project, index) => (
+                        <MenuItem value={project._id} key={index} >{project.title} </MenuItem>
                       ))
                     }
                   </Select>

@@ -1,6 +1,7 @@
 import * as api from '../api'
 import { start, end, error, getApprovalReducer, getApprovalsReducer, createRequestApprovalReducer, rejectRequestApprovalReducer, createVoucherApprovalReducer, createReceiptApprovalReducer, createRefundApprovalReducer, rejectRefundApprovalReducer, deleteApprovalReducer, } from '../reducer/approval'
 import { createNotificationReducer } from '../reducer/notification'
+import { updateLead } from './lead'
 
 
 export const getApproval = () => async (dispatch) => {
@@ -68,7 +69,7 @@ export const createRefundApproval = (approvalData, navigate) => async (dispatch)
         dispatch(start())
         const { data } = await api.createRefundApproval(approvalData)
         dispatch(createRefundApprovalReducer(data.result))
-        if(data.notification){
+        if (data.notification) {
             dispatch(createNotificationReducer(data.notification))
         }
         navigate(`/leads`)
@@ -77,10 +78,15 @@ export const createRefundApproval = (approvalData, navigate) => async (dispatch)
         dispatch(error(err.message))
     }
 }
-export const rejectRefundApproval = (approvalData) => async (dispatch) => {
+export const rejectRefundApproval = (approvalId, password, leadId) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.deleteApproval(approvalData)
+        const { data } = await api.deleteApproval(approvalId, password)
+
+        if (password && data.result) {    // in case of refund, after successful rejectRefundApproval, we have to delete that approval + we need to update the status of lead
+            dispatch(updateLead(leadId, { isAppliedForRefund: false }))
+        }
+
         dispatch(rejectRefundApprovalReducer(data.result))
         dispatch(end())
     } catch (err) {

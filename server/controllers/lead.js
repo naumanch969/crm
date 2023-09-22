@@ -29,7 +29,7 @@ export const getLeads = async (req, res, next) => {
 
 export const getEmployeeLeads = async (req, res, next) => {
     try {
-        const findedLeads = await Lead.find({ allocatedTo: req.user?._id, isArchived: false })
+        const findedLeads = await Lead.find({ $in: { allocatedTo: req.user?._id }, isArchived: false })
             .populate('property').populate('allocatedTo')
             .exec();
 
@@ -79,29 +79,21 @@ export const searchLead = async (req, res, next) => {
     const searchPattern = new RegExp(searchTerm, 'i');
 
     try {
-        const matchingUserIds = await User.find({
-            $or: [
-                { username: searchPattern },
-                { email: searchPattern },
-                { firstName: searchPattern },
-                { lastName: searchPattern },
-                { cnic: searchPattern },
-            ],
-        }).select('_id');
 
         const searchResults = await Lead.find({
             $or: [
-                { clientId: { $in: matchingUserIds } },
-                { allocatedTo: { $in: matchingUserIds } },
+                { clientFirstName: { $in: matchingUserIds } },
+                { clientLastName: { $in: matchingUserIds } },
+                { clientPhone: searchPattern },
+                { clientCNIC: searchPattern },
+                { clientCity: searchPattern },
+                { clientEmail: searchPattern },
                 { city: searchPattern },
-                { project: searchPattern },
-                { region: searchPattern },
-                { propertyType: searchPattern },
-                { homeType: searchPattern },
-                { clientType: searchPattern },
-                { beds: searchPattern },
-                { source: { $in: [searchPattern] } },
-                { type: searchPattern },
+                { priority: searchPattern },
+                { property: searchPattern },
+                { status: searchPattern },
+                { source: searchPattern },
+                { description: searchPattern },
             ],
         })
             .populate('property').populate('allocatedTo')
@@ -154,7 +146,7 @@ export const createOnsiteLead = async (req, res, next) => {
 
         let { gender, firstName, lastName, phone, email, cnic, allocatedTo, ...leadData } = req.body
 
-        if (!firstName || !lastName || !gender || !email || !phone || !cnic) return next(createError(400, 'Make sure to provide all the client fields'))
+        if (!firstName || !lastName || !gender || !phone || !cnic) return next(createError(400, 'Make sure to provide all the client fields'))
         if (!validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
 
         allocatedTo = allocatedTo ?? mongoose.Types.ObjectId(req.user._id)
@@ -198,11 +190,19 @@ export const createOnlineLead = async (req, res, next) => {
 export const createLead = async (req, res, next) => {
     try {
 
-        const { clientFirstName, clientLastName, clientPhone, clientCNIC, clientCity, city, priority, property, status, source, description } = req.body
-        if (!clientFirstName || !clientLastName || !clientPhone || !clientCNIC || !clientCity || !city || !priority || !property || !status || !source || !description)
+        const {
+            clientFirstName: firstName, clientLastName: lastName, clientUsername: username, clientPhone: phone, clientCNIC: CNIC, clientCity,
+            city, priority, property, status, source, description
+        } = req.body
+        if (
+            !firstName || !lastName || !username || !phone || !clientCity ||
+            !city || !priority || !property || !status || !source || !description
+        )
             return next(createError(401, 'Make sure to provide all the fields.'))
 
-        const newLead = await Lead.create({ ...req.body, allocatedTo: [req.user?._id] })
+        const client = await User.create({ firstName, lastName, username, phone, CNIC, city: clientCity, project: property })
+
+        const newLead = await Lead.create({ client: client._id, city, priority, property, status, source, description, allocatedTo: [req.user?._id] })
         res.status(200).json({ result: newLead, message: 'Lead created successfully', success: true })
 
     } catch (err) {
@@ -228,23 +228,29 @@ export const shiftLead = async (req, res, next) => {
         const { leadId } = req.params;
         const { shiftTo } = req.body; // lead data
 
-        // Use $pull to remove 'from' from allocatedTo array
-        await Lead.findByIdAndUpdate(
-            leadId,
-            { $pull: { allocatedTo: req.user._id } },
-            { new: true }
-        );
+        // // Use $pull to remove 'from' from allocatedTo array
+        // await Lead.findByIdAndUpdate(
+        //     leadId,
+        //     { $pull: { allocatedTo: req.user._id } },
+        //     { new: true }
+        // );
 
-        // Use $push to add 'to' to allocatedTo array
+        // // Use $push to add 'to' to allocatedTo array
+        // const updatedLead = await Lead.findByIdAndUpdate(
+        //     leadId,
+        //     { $push: { allocatedTo: shiftTo } },
+        //     { new: true }
+        // ).populate('property').populate('allocatedTo').exec();
+
         const updatedLead = await Lead.findByIdAndUpdate(
             leadId,
-            { $push: { allocatedTo: shiftTo } },
+            { $set: { allocatedTo: [shiftTo] } },
             { new: true }
         ).populate('property').populate('allocatedTo').exec();
 
         res.status(200).json({
             result: updatedLead,
-            message: 'Lead updated successfully',
+            message: 'Lead shifted successfully',
             success: true,
         });
     } catch (err) {
@@ -266,7 +272,7 @@ export const shareLead = async (req, res, next) => {
 
         res.status(200).json({
             result: updatedLead,
-            message: 'Lead updated successfully',
+            message: 'Lead shared successfully',
             success: true,
         });
     } catch (err) {

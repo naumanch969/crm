@@ -14,8 +14,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/action/user";
-import validator from "email-validator";
-import { PiEyeSlashThin, PiEyeThin, PiX } from "react-icons/pi";
+ import { PiEyeSlashThin, PiEyeThin, PiX } from "react-icons/pi";
 
 const Login = () => {
   const PasswordButtonInitialStyle = {
@@ -28,8 +27,8 @@ const Login = () => {
   const { isFetching, error } = useSelector((state) => state.user);
 
   /////////////////////////////////// STATES /////////////////////////////////////
-  const [userData, setUserData] = useState({ email: "", password: "" });
-  const [inputError, setInputError] = useState({ email: "", password: "" });
+  const [userData, setUserData] = useState({ username: "", password: "" });
+  const [inputError, setInputError] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordButton, setShowPasswordButton] = useState(PasswordButtonInitialStyle);
   const [showSnackbar, setShowSnackbar] = useState({
@@ -43,25 +42,15 @@ const Login = () => {
 
   /////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleChange = (e) => {
-    const { email, password } = userData;
-
-    if (validator.validate(email)) setInputError((pre) => ({ ...pre, email: "" }));
-    if (password.length > 6) setInputError((pre) => ({ ...pre, password: "" }));
-
     setUserData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = userData;
+    const { username, password } = userData;
 
-    if (!email) return setInputError((pre) => ({ ...pre, email: "Email is required" }));
+    if (!username) return setInputError((pre) => ({ ...pre, username: "Username is required" }));
     if (!password) return setInputError((pre) => ({ ...pre, password: "Password is required" }));
-    if (password.length < 6)
-      return setInputError((pre) => ({
-        ...pre,
-        password: "Password must be of atleast 6 characters",
-      }));
 
     dispatch(login(userData, navigate));
   };
@@ -104,15 +93,15 @@ const Login = () => {
               className="flex flex-col gap-[10px] w-auto pl-[2rem] pt-[2rem] ">
               <div className="flex flex-col gap-8">
                 <Input
-                  type="email"
-                  name="email"
-                  value={userData.email}
+                  type="text"
+                  name="username"
+                  value={userData.username}
                   onChange={handleChange}
-                  placeholder="Email"
+                  placeholder="Username"
                   className="w-[20rem] h-[40px] px-[8px] font-primary"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
-                {inputError.email && (
+                {inputError.username && (
                   <Snackbar
                     onClose={handleCloseSnackbar}
                     anchorOrigin={{ vertical, horizontal }}
@@ -123,7 +112,7 @@ const Login = () => {
                       className="flex items-center justify-between"
                       severity="error"
                       sx={{ width: "100%" }}>
-                      {inputError.email}
+                      {inputError.username}
                       <IconButton
                         onClick={handleCloseSnackbar}
                         aria-label="close"

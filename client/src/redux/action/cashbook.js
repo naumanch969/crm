@@ -1,5 +1,7 @@
 import * as api from '../api'
 import { start, end, error, getCashbookReducer, getCashbooksReducer, getSpecificDateCashbookReducer, getIncomeAndExpensesReducer, getPaymentsReducer, createCashbookReducer, deleteCashbookReducer, } from '../reducer/cashbook'
+import { deleteApproval } from './approval'
+import { updateLead } from './lead'
 
 
 export const getCashbook = (cashbookId) => async (dispatch) => {
@@ -52,10 +54,16 @@ export const getPayments = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const createCashbook = (cashbookData) => async (dispatch) => {
+export const createCashbook = (cashbookData, approvalId, leadId) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.createCashbook(cashbookData)
+
+        if (cashbookData.password) {    // in case of refund, after successful createCashbook, we have to delete that approval + we need to update the status of lead
+            dispatch(deleteApproval(approvalId, 'refund'))
+            dispatch(updateLead(leadId, { isAppliedForRefund: false }))
+        }
+
         dispatch(createCashbookReducer(data.result))
         dispatch(end())
     } catch (err) {

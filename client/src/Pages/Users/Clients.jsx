@@ -123,11 +123,11 @@ const Clients = () => {
       renderCell: (params) => <div className="font-primary">{params.row.phone}</div>,
     },
     {
-      field: "cnic",
-      headerName: "CNIC",
+      field: "project",
+      headerName: "Project",
       headerClassName: "super-app-theme--header",
       width: "220",
-      renderCell: (params) => <div className="font-primary">{params.row.cnic}</div>,
+      renderCell: (params) => <div className="font-primary">{params.row.project?.title}</div>,
     },
     {
       field: "action",
