@@ -26,12 +26,13 @@ function CreateCashBook({ open, setOpen, scroll }) {
   const navigate = useNavigate();
 
   const [cashbookData, setCashbookData] = useState({
-    type: "",
+    staff: "",
     customerName: "",
-    paymentType: "",
-    paymentDetail: "",
-    amountPaid: "",
-    branch: "",
+    remarks: "",
+    LeadId: "",
+    top: "",
+    amountIn: 0,
+    amountOut: 0,
   });
 
   const handleChange = (e) => {
@@ -43,12 +44,13 @@ function CreateCashBook({ open, setOpen, scroll }) {
     dispatch(createCashbook(cashbookData, navigate));
     setOpen(false);
     setCashbookData({
-      type: "",
+      staff: "",
       customerName: "",
-      paymentType: "",
-      paymentDetail: "",
-      amountPaid: "",
-      branch: "",
+      remarks: "",
+      LeadId: "",
+      top: "",
+      amountIn: 0,
+      amountOut: 0,
     });
   };
 
@@ -82,16 +84,15 @@ function CreateCashBook({ open, setOpen, scroll }) {
             <Divider />
             <table className="mt-4">
               <tr>
-                <td className="pb-4 text-lg">Type </td>
+                <td className="pb-4 text-lg">Staff </td>
                 <td className="pb-4">
                   <Select
-                    name="type"
-                    value={cashbookData.type}
+                    name="staff"
+                    value={cashbookData.staff}
                     onChange={handleChange}
                     size="small"
                     fullWidth>
-                    <MenuItem value="in">Amount In</MenuItem>
-                    <MenuItem value="out">Amount Out</MenuItem>
+                    <MenuItem value="in">All Employees</MenuItem>
                   </Select>
                 </td>
               </tr>
@@ -111,8 +112,8 @@ function CreateCashBook({ open, setOpen, scroll }) {
                 <td className="pb-4 text-lg">Payment Type </td>
                 <td className="pb-4">
                   <Select
-                    name="paymentType"
-                    value={cashbookData.paymentType}
+                    name="top"
+                    value={cashbookData.top}
                     onChange={handleChange}
                     size="small"
                     fullWidth>
@@ -124,11 +125,11 @@ function CreateCashBook({ open, setOpen, scroll }) {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Payment Details </td>
+                <td className="pb-4 text-lg">Amount In </td>
                 <td className="pb-4">
                   <TextField
-                    name="paymentDetail"
-                    value={cashbookData.paymentDetail}
+                    name="amountIn"
+                    value={cashbookData.amountIn}
                     onChange={handleChange}
                     size="small"
                     fullWidth
@@ -136,23 +137,25 @@ function CreateCashBook({ open, setOpen, scroll }) {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Amount </td>
-                <td className="pb-4">
-                  <TextField
-                    name="amountPaid"
-                    value={cashbookData.amountPaid}
-                    onChange={handleChange}
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Branch No. </td>
+                <td className="pb-4 text-lg">Amount Out </td>
                 <td className="pb-4">
                   <TextField
                     name="branch"
-                    value={cashbookData.branch}
+                    value={cashbookData.amountOut}
+                    onChange={handleChange}
+                    size="small"
+                    fullWidth
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="text-lg flex flex-col justify-start pt-1">Remarks </td>
+                <td className="pb-4">
+                  <TextField
+                    name="remarks"
+                    multiline
+                    rows={4}
+                    value={cashbookData.remarks}
                     onChange={handleChange}
                     size="small"
                     fullWidth
@@ -179,83 +182,6 @@ function CreateCashBook({ open, setOpen, scroll }) {
         </DialogActions>
       </Dialog>
     </div>
-    // <div className="w-full h-screen">
-
-    //   <div className="flex justify-between items-center">
-    //     <div className="flex flex-col justify-start gap-[4px] ">
-    //       <h1 className="text-primary-blue text-[24px] ">Create Vouchers</h1>
-    //       <div className="flex justify-start items-center gap-[8px] ">
-    //         <span className="capitalize text-[15px] text-primary-gray ">App</span>
-    //         <KeyboardArrowRight className="text-primary-gray " />
-    //         <span className="capitalize text-black ">Create Voucher</span>
-    //       </div>
-    //     </div>
-    //   </div>
-
-    //   <div>
-    //     <div className="text-2xl font-normal flex justify-center mt-10 text-gray-600">
-    //       Create New Voucher
-    //     </div>
-
-    //     <div className="mt-5">
-    //       <form onSubmit={handleSubmit} className="flex flex-col gap-[24px] w-full">
-    //         <div className="flex flex-col gap-[1rem] bg-white rounded-[4px] shadow-sm ">
-    //           <div className="flex flex-col gap-[2rem] p-[1rem] w-full ">
-    //             {/* all inputs */}
-    //             <div className="flex justify-start flex-wrap gap-[24px] w-full ">
-    //               {/* Branch */}
-    //               <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
-    //                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="type">Type:</label>
-    //                 <select name="type" value={cashbookData.type} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ">
-    //                   <option value="">-</option>
-    //                   <option value="in">Amount In</option>
-    //                   <option value="out">Amount Out</option>
-    //                 </select>
-    //               </div>
-    //               {/* Date of Issue */}
-    //               <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full">
-    //                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="customerName">Customer Name:</label>
-    //                 <input type="text" name="customerName" value={cashbookData.customerName} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " />
-    //               </div>
-    //               {/* Customer Name */}
-    //               <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full">
-    //                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="paymentType">Payment Type:</label>
-    //                 <select name="paymentType" value={cashbookData.paymentType} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ">
-    //                   <option value="">-</option>
-    //                   <option value="Cash">Cash</option>
-    //                   <option value="Cheque">Cheque</option>
-    //                   <option value="Credit Card">Credit Card</option>
-    //                   <option value="Online">Online</option>
-    //                 </select>
-    //               </div>
-    //               {/* Customer CNIC */}
-    //               <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
-    //                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="paymentDetail">Payment Details:</label>
-    //                 <input type="text" name="paymentDetail" value={cashbookData.paymentDetail} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " />
-    //               </div>
-    //               {/* Type of Payment */}
-    //               <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
-    //                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="amountPaid">Amount Paid:</label>
-    //                 <input type="number" name="amountPaid" value={cashbookData.amountPaid} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " />
-    //               </div>
-    //               {/* Total Amount */}
-    //               <div className="flex flex-col justify-start gap-[4px] sm:w-[23%] w-full ">
-    //                 <label className="text-gray-900 font-medium text-[1rem] " htmlFor="branch">Branch No.:</label>
-    //                 <input type="number" name="branch" value={cashbookData.branch} onChange={handleChange} className="text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] " />
-    //               </div>
-    //             </div>
-    //             {/* button */}
-    //             <div className="w-full flex justify-end items-center pr-5">
-    //               <button type="submit" className="w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer">
-    //                 Enter Record
-    //               </button>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </form>
-    //     </div>
-    //   </div>
-    // </div>
   );
 }
 

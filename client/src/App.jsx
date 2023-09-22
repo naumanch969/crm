@@ -23,6 +23,7 @@ import {
   Notifications,
   Inventory,
   Societies,
+  Ledger,
 } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
@@ -118,6 +119,7 @@ const App = () => {
                   <Route path="/leads/refund" element={<RefundForm />} />
                   <Route path="/myLeads" element={<Leads type="mine" />} />
                   <Route path="/leads" element={<Leads type="all" />} />
+                  <Route path="/leads/ledger" element={<Ledger />} />
                   <Route path="/leads/:leadId" element={<Lead />} />
                   <Route path="/leads/followUps" element={<Navigate to='/leads' />} />
                   <Route path="/leads/followUps/:leadId" element={<FollowUps />} />

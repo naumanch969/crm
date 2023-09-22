@@ -111,26 +111,15 @@ function Leads({ type, showSidebar }) {
       renderCell: (params) => <div className="font-primary font-light">ID</div>,
     },
     {
-      field: "clientFirstName",
-      headerName: "Client Firstname",
+      field: "clientName",
+      headerName: "Client Name",
       headerClassName: "super-app-theme--header",
       width: 180,
       renderCell: (params) => (
         <div
           className={`text-[#20aee3] hover:text-[#007bff] capitalize cursor-pointer font-primary font-light`}
           onClick={() => handleOpenViewModal(params.row?._id)}>
-          {params.row?.clientFirstName} {params.row?.clientFirstName}
-        </div>
-      ),
-    },
-    {
-      field: "clientLastName",
-      headerName: "Client Lastname",
-      headerClassName: "super-app-theme--header",
-      width: 180,
-      renderCell: (params) => (
-        <div className={`capitalize font-primary font-light`}>
-          {params.row?.clientLastName}
+          {params.row?.clientFirstName} {params.row?.clientLastName}
         </div>
       ),
     },
@@ -152,17 +141,6 @@ function Leads({ type, showSidebar }) {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <div className="font-primary font-light">{format(params.row?.createdAt)}</div>
-      ),
-    },
-    {
-      field: "allocatedTo",
-      headerName: "Allocatd To",
-      width: 320,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <div className="font-primary font-light">{params.row.allocatedTo.map((allocatedTo, index) => (
-          <>{allocatedTo.email} {" "}</>
-        ))}</div>
       ),
     },
     {
@@ -191,11 +169,11 @@ function Leads({ type, showSidebar }) {
       ),
     },
     {
-      field: "property",
-      headerName: "Property",
+      field: "project",
+      headerName: "Project",
       width: 170,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary font-light">{params.row?.property?.propertyNumber}</div>,
+      renderCell: (params) => <div className="font-primary font-light">{params.row?.property?.project}</div>,
     },
     {
       field: "actions",
@@ -261,6 +239,9 @@ function Leads({ type, showSidebar }) {
               </StyledMenuItem>
               <StyledMenuItem onClick={() => handleOpenAttachmentModal(params.row._id)} className="text-gray-600 flex font-primary">
                 Attachments
+              </StyledMenuItem>
+              <StyledMenuItem onClick={() => navigateToLedger()} className="text-gray-600 flex font-primary">
+                Ledger
               </StyledMenuItem>
             </Menu>
           </Dropdown>
@@ -336,6 +317,10 @@ function Leads({ type, showSidebar }) {
   const navigateToFollowUps = (leadId) => {
     navigate(`/leads/followups/${leadId}`);
   };
+
+  const navigateToLedger = () => {
+    navigate("/leads/ledger");
+  }
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">

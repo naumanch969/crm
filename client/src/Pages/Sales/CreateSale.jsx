@@ -10,7 +10,8 @@ import {
   Slide,
   DialogActions,
   TextField,
-  Autocomplete,
+  MenuItem,
+  Select,
 } from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -28,15 +29,12 @@ const CreateSale = ({ open, setOpen, scroll }) => {
   const navigate = useNavigate();
   // todo:remove the leadID and make it dynamic
   const initialState = {
-    invoiceNumber: "",
-    supplierName: "",
-    leadId: "laedId",
+    staff: "",
+    customerName: "",
     net: "",
     received: "",
-    psf: "",
-    fop: "",
-    branch: "",
-    staff: "",
+    profit: "",
+    top: "",
   };
   ////////////////////////////////////////// STATES /////////////////////////////////////
   const [saleData, setSaleData] = useState(initialState);
@@ -55,6 +53,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
   };
 
   const handleClose = () => {
+    setSaleData(initialState)
     setOpen(false);
   };
 
@@ -84,25 +83,25 @@ const CreateSale = ({ open, setOpen, scroll }) => {
             <Divider />
             <table className="mt-4">
               <tr>
-                <td className="pb-4 text-lg">Voucher Number </td>
+                <td className="pb-4 text-lg">Staff </td>
                 <td className="pb-4">
-                  <TextField
+                  <Select
                     onChange={handleChange}
-                    value={saleData.invoiceNumber}
+                    value={saleData.staff}
                     name="invoiceNumber"
                     size="small"
-                    type="number"
-                    fullWidth
-                  />
+                    fullWidth>
+                    <MenuItem value="all employees">All Employees</MenuItem>
+                  </Select>
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Supplier Name </td>
+                <td className="pb-4 text-lg">Customer Name </td>
                 <td className="pb-4">
                   <TextField
                     onChange={handleChange}
-                    value={saleData.supplierName}
-                    name="supplierName"
+                    value={saleData.customerName}
+                    name="customerName"
                     size="small"
                     fullWidth
                   />
@@ -135,53 +134,28 @@ const CreateSale = ({ open, setOpen, scroll }) => {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">PSF </td>
+                <td className="pb-4 text-lg">Profit </td>
                 <td className="pb-4">
                   <TextField
                     onChange={handleChange}
-                    value={saleData.psf}
-                    name="psf"
+                    value={saleData.net - saleData.received}
+                    name="profit"
                     size="small"
                     type="number"
-                    placeholder="Price Per Square Foot"
+                    disabled
                     fullWidth
                   />
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">FOP </td>
+                <td className="pb-4 text-lg">Type of Payment </td>
                 <td className="pb-4">
                   <TextField
                     onChange={handleChange}
-                    value={saleData.fop}
-                    name="fop"
+                    value={saleData.top}
+                    name="top"
                     size="small"
                     type="text"
-                    placeholder="Fraction of Payment"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Branch </td>
-                <td className="pb-4">
-                  <TextField
-                    onChange={handleChange}
-                    value={saleData.branch}
-                    name="branch"
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Staff </td>
-                <td className="pb-4">
-                  <TextField
-                    onChange={handleChange}
-                    value={saleData.staff}
-                    name="staff"
-                    size="small"
                     fullWidth
                   />
                 </td>
@@ -206,78 +180,6 @@ const CreateSale = ({ open, setOpen, scroll }) => {
         </DialogActions>
       </Dialog>
     </div>
-    // <div className='w-full flex flex-col gap-[2rem] bg-white px-[20px] py-[1rem] shadow-box rounded-[4px] ' >
-
-    //     <div className="flex lg:flex-nowrap flex-wrap justify-between gap-[24px] w-full">
-    //         {
-    //             stats.map((stat, index) => (
-    //                 <div key={index} className="flex flex-col items-center lg:flex-[1] sm:w-[47%] w-full px-[2rem] py-[1rem] shadow-box rounded-[4px]  ">
-    //                     <span className='text-gray-500 font-semibold text-[20px] text-center ' >{stat.title}</span>
-    //                     <span className='text-[22px] font-semibold ' >{stat.numbers}</span>
-    //                 </div>
-    //             ))
-    //         }
-    //     </div>
-
-    //     <form onSubmit={handleSubmit} className='flex flex-col gap-[1rem] w-full md:px-[2rem] py-[1rem] ' >
-
-    //         <div className="w-full flex sm:flex-nowrap flex-wrap md:gap-[3rem] gap-[1rem]  ">
-    //             <div className="sm:w-[47%] md:w-[47.5%] w-full flex flex-col gap-[1rem]  ">
-    //                 {/* invoice number */}
-    //                 <div className="flex flex-col gap-[4px] ">
-    //                     <label className='text-black font-medium text-[16px] ' htmlFor="invoiceNumber">Invoice Number</label>
-    //                     <input type="number" onChange={handleChange} value={saleData.invoiceNumber} name="invoiceNumber" id="invoiceNumber" placeholder='Invoice Number' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //                 </div>
-    //                 {/* supplier name */}
-    //                 <div className="flex flex-col gap-[4px] ">
-    //                     <label className='text-black font-medium text-[16px] ' htmlFor="supplierName">Supplier Name</label>
-    //                     <input type="text" onChange={handleChange} value={saleData.supplierName} name="supplierName" id="supplierName" placeholder='Supplier Name' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //                 </div>
-    //                 {/* net */}
-    //                 <div className="flex flex-col gap-[4px] ">
-    //                     <label className='text-black font-medium text-[16px] ' htmlFor="net">Net</label>
-    //                     <input type="number" onChange={handleChange} value={saleData.net} name="net" id="net" placeholder='Net' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //                 </div>
-    //                 {/* received */}
-    //                 <div className="flex flex-col gap-[4px] ">
-    //                     <label className='text-black font-medium text-[16px] ' htmlFor="received">Received</label>
-    //                     <input type="number" onChange={handleChange} value={saleData.received} name="received" id="received" placeholder='Received' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //                 </div>
-    //             </div>
-
-    //             <div className="sm:w-[47%] md:w-[47.5%] w-full flex flex-col gap-[1rem]  ">
-    //                 {/* psf */}
-    //                 <div className="flex flex-col gap-[4px] ">
-    //                     <label className='text-black font-medium text-[16px] ' htmlFor="psf">PSF</label>
-    //                     <input type="number" onChange={handleChange} value={saleData.psf} name="psf" id="psf" placeholder='PSF' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //                 </div>
-    //                 {/* fop */}
-    //                 <div className="flex flex-col gap-[4px] ">
-    //                     <label className='text-black font-medium text-[16px] ' htmlFor="fop">FOP</label>
-    //                     <input type="number" onChange={handleChange} value={saleData.fop} name="fop" id="fop" placeholder='FOP' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //                 </div>
-    //                 {/* branch */}
-    //                 <div className="flex flex-col gap-[4px] ">
-    //                     <label className='text-black font-medium text-[16px] ' htmlFor="branch">Branch</label>
-    //                     <input type="text" onChange={handleChange} value={saleData.branch} name="branch" id="branch" placeholder='Branch' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //                 </div>
-    //                 {/* staff */}
-    //                 <div className="flex flex-col gap-[4px] ">
-    //                     <label className='text-black font-medium text-[16px] ' htmlFor="staff">Staff</label>
-    //                     <input type="text" onChange={handleChange} value={saleData.staff} name="staff" id="staff" placeholder='Staff' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //                 </div>
-    //             </div>
-    //         </div>
-
-    //         <div className="w-full flex justify-end items-center">
-    //             <button type='submit' className='w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer ' >
-    //                 {isFetching ? 'Saving' : 'Save'}
-    //             </button>
-    //         </div>
-
-    //     </form>
-
-    // </div>
   );
 };
 

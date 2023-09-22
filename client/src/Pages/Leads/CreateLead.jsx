@@ -215,7 +215,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Property </td>
+                <td className="pb-4 text-lg">Projects </td>
                 <td className="pb-4">
                   <Select
                     onChange={handleChange}

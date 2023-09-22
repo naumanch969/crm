@@ -23,3 +23,4 @@ export { default as Notifications } from "./Notifications/Notifications";
 export { default as Inventory } from "./Inventory/Inventories/Inventory";
 export { default as Societies } from "./Inventory/Societies/Societies";
 export { default as FollowUps } from "./Leads/FollowUps/FollowUps";
+export { default as Ledger } from "./Leads/Ledger/Ledger";
