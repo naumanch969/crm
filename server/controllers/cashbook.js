@@ -1,5 +1,7 @@
 import Cashbook from '../models/cashbook.js'
+import User from '../models/user.js'
 import { createError } from '../utils/error.js'
+import bcrypt from 'bcryptjs'
 
 export const getCashbook = async (req, res, next) => {
     try {
@@ -208,9 +210,17 @@ export const getCashbooks = async (req, res, next) => {
 export const createCashbook = async (req, res, next) => {
     try {
 
-        const { customerName, paymentType, paymentDetail, amountPaid, branch, type, } = req.body
+        const { customerName, paymentType, paymentDetail, amountPaid, branch, type, password } = req.body
         if (!customerName || !paymentType || !paymentDetail || !amountPaid || !branch || !type)
             return next(createError(400, 'Make sure to provide all the fields'))
+
+        if (password) {     // in case of refund, we need to have password security
+            const admin = await User.findById(req.user._id)
+            const enteredPassword = password;
+            const savedPassword = admin?.password
+            const isPasswordCorrect = await bcrypt.compare(enteredPassword, savedPassword)
+            if (!isPasswordCorrect) return next(createError(401, 'Incorrect Password'))
+        }
 
         const newCashbook = await Cashbook.create({ customerName, paymentType, paymentDetail, amountPaid, branch, type })
         res.status(200).json({ result: newCashbook, message: 'cashbook created successfully', success: true })

@@ -22,7 +22,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
-import { getInventories } from "../../redux/action/inventory";
+import { getProjects } from "../../redux/action/project";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -33,11 +33,12 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { isFetching } = useSelector(state => state.lead)
-  const { inventories } = useSelector(state => state.inventory)
-  const inventoriesNumbers = inventories.map(({ _id, propertyNumber }) => ({ _id, propertyNumber }));
+  const { projects } = useSelector(state => state.project)
+  const projectsTitles = projects.map(({ _id, title }) => ({ _id, title }));
   let initialLeadState = {
     clientFirstName: "",
     clientLastName: "",
+    clientUsername: "",
     clientPhone: "",
     clientCNIC: "",
     clientCity: "",
@@ -59,14 +60,14 @@ const CreateLead = ({ setOpen, open, scroll }) => {
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
   useEffect(() => {
-    dispatch(getInventories())
+    dispatch(getProjects())
   }, [])
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { clientFirstName, clientLastName, clientPhone, clientCNIC, clientCity, city, priority, property, status, source, description } = leadData
-    if (!clientFirstName || !clientLastName || !clientPhone || !clientCNIC || !clientCity || !city || !priority || !property || !status || !source || !description)
+    const { clientFirstName, clientLastName, clientUsername, clientPhone, clientCity, city, priority, property, status, source, description } = leadData
+    if (!clientFirstName || !clientLastName || !clientUsername || !clientPhone || !clientCity || !city || !priority || !property || !status || !source || !description)
       return alert("Make sure to provide all the fields")
     dispatch(createLead(leadData, navigate));
     setLeadData(initialLeadState);
@@ -126,6 +127,18 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <TextField
                     name="clientLastName"
                     value={leadData.clientLastName}
+                    onChange={handleChange}
+                    size="small"
+                    fullWidth
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Username </td>
+                <td className="pb-4">
+                  <TextField
+                    name="clientUsername"
+                    value={leadData.clientUsername}
                     onChange={handleChange}
                     size="small"
                     fullWidth
@@ -225,8 +238,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                     size="small"
                     fullWidth>
                     {
-                      inventoriesNumbers.map((number, index) => (
-                        <MenuItem value={number._id} key={index} >{number.propertyNumber} </MenuItem>
+                      projectsTitles.map((project, index) => (
+                        <MenuItem value={project._id} key={index} >{project.title} </MenuItem>
                       ))
                     }
                   </Select>

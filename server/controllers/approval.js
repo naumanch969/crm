@@ -1,10 +1,11 @@
 import Approval from '../models/approval.js'
+import User from '../models/user.js'
 import Lead from '../models/lead.js'
 import Notification from '../models/notification.js'
 import { createError } from '../utils/error.js'
 import { sendMail } from '../utils/mail.js'
 import validator from 'validator'
-
+import bcrypt from 'bcryptjs'
 
 export const getApproval = async (req, res, next) => {
     try {
@@ -153,6 +154,16 @@ export const createRefundApproval = async (req, res, next) => {
 export const deleteApproval = async (req, res, next) => {
     try {
 
+        const { password } = req.query
+        if (password) {     // in case of refund, we need to have password security
+            const admin = await User.findById(req.user._id)
+            const enteredPassword = password;
+            const savedPassword = admin?.password
+            const isPasswordCorrect = await bcrypt.compare(enteredPassword, savedPassword)
+            console.log(isPasswordCorrect)
+            if (!isPasswordCorrect) return next(createError(401, 'Incorrect Password'))
+        }
+
         const { approvalId } = req.params
         const findedApproval = await Approval.findById(approvalId)
         if (!findedApproval) return next(createError(400, 'Approval not exist'))
@@ -161,8 +172,8 @@ export const deleteApproval = async (req, res, next) => {
         res.status(200).json({ result: deletedApproval, message: 'Approval deleted successfully', success: true })
 
     } catch (err) {
+        console.log(err)
         next(createError(500, err.message))
-
     }
 }
 

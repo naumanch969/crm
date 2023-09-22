@@ -6,14 +6,17 @@ import {
   Input,
   InputAdornment,
   Snackbar,
+  MenuItem, Select
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/action/user";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import validator from "email-validator";
 import { PiEyeSlashThin, PiEyeThin, PiX } from "react-icons/pi";
+import { pakistanCities } from "../../constant";
+import { getProjects } from "../../redux/action/project";
 
 const Signup = () => {
   const PasswordButtonInitialStyle = {
@@ -23,33 +26,25 @@ const Signup = () => {
   /////////////////////////////////// VARIABLES /////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { projects } = useSelector(state => state.project)
+  const projectsTitles = projects.map(({ _id, title }) => ({ _id, title }));
   const { isFetching, error } = useSelector((state) => state.user);
 
   /////////////////////////////////// STATES /////////////////////////////////////
-  const [userData, setUserData] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    phone: "",
-    email: "",
-    password: "",
-  });
-  const [inputError, setInputError] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    phone: "",
-    email: "",
-    password: "",
-  });
+  const [userData, setUserData] = useState({ firstName: "", lastName: "", username: "", phone: "", email: "", city: '', project: '', password: "", });
+  const [inputError, setInputError] = useState({ firstName: "", lastName: "", username: "", phone: "", email: "", project: '', password: "", });
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordButton, setShowPasswordButton] = useState(PasswordButtonInitialStyle);
   const [showSnackbar, setShowSnackbar] = useState(false);
 
-  /////////////////////////////////// USE EFFECTS ////////////////////////////////
+  //////////////////////////////////////// USE EFFECTS ////////////////////////////////
+  useEffect(() => {
+    dispatch(getProjects())
+  }, [])
 
   /////////////////////////////////// FUNCTIONS //////////////////////////////////
-  const handleChange = (e) => {
+  const handleChange = (field, value) => {
+    console.log('e', field, value)
     const { firstName, lastName, username, email, phone, password } = userData;
 
     if (firstName.length > 3) setInputError((pre) => ({ ...pre, firstName: "" }));
@@ -59,45 +54,26 @@ const Signup = () => {
     if (phone.length >= 10) setInputError((pre) => ({ ...pre, phone: "" }));
     if (password.length > 6) setInputError((pre) => ({ ...pre, password: "" }));
 
-    setUserData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
+    setUserData((pre) => ({ ...pre, [field]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const { firstName, lastName, username, email, phone, password } = userData;
 
-    if (!firstName)
-      return setInputError((pre) => ({ ...pre, firstName: "First Name is required" }));
-    if (firstName.length < 3)
-      return setInputError((pre) => ({
-        ...pre,
-        firstName: "First Name should be atleast of 3 characters",
-      }));
+    if (!firstName) return setInputError((pre) => ({ ...pre, firstName: "First Name is required" }));
+    if (firstName.length < 3) return setInputError((pre) => ({ ...pre, firstName: "First Name should be atleast of 3 characters", }));
     if (!lastName) return setInputError((pre) => ({ ...pre, lastName: "Last Name is required" }));
-    if (lastName.length < 3)
-      return setInputError((pre) => ({
-        ...pre,
-        lastName: "Last Name should be atleast of 3 characters",
-      }));
+    if (lastName.length < 3) return setInputError((pre) => ({ ...pre, lastName: "Last Name should be atleast of 3 characters", }));
     if (!username) return setInputError((pre) => ({ ...pre, username: "Username is required" }));
-    if (username.length < 3)
-      return setInputError((pre) => ({
-        ...pre,
-        username: "Username should be atleast of 3 characters",
-      }));
-    if (!email) return setInputError((pre) => ({ ...pre, email: "Email is required" }));
-    if (!validator.validate(email))
-      return setInputError((pre) => ({ ...pre, email: "Make sure to provide a valid email" }));
+    if (username.length < 3) return setInputError((pre) => ({ ...pre, username: "Username should be atleast of 3 characters", }));
+    if (email && !validator.validate(email)) return setInputError((pre) => ({ ...pre, email: "Make sure to provide a valid email" }));
     if (!phone) return setInputError((pre) => ({ ...pre, phone: "Phone Number is required" }));
-    if (phone.length < 10)
-      return setInputError((pre) => ({ ...pre, phone: "Please provide a valid phone number" }));
+    if (phone.length < 10) return setInputError((pre) => ({ ...pre, phone: "Please provide a valid phone number" }));
     if (!password) return setInputError((pre) => ({ ...pre, password: "Password is required" }));
-    if (password.length < 6)
-      return setInputError((pre) => ({
-        ...pre,
-        password: "Password must be of atleast 6 characters",
-      }));
+    if (password.length < 6) return setInputError((pre) => ({ ...pre, password: "Password must be of atleast 6 characters", }));
 
+    console.log(userData)
     dispatch(register(userData, navigate));
   };
 
@@ -142,11 +118,11 @@ const Signup = () => {
               onSubmit={handleSubmit}
               className="flex flex-col gap-[12px] w-auto pl-[2rem] pt-[1rem] ">
               <div className="flex flex-col gap-6">
+                {/* firstname */}
                 <Input
                   type="text"
-                  name="firstName"
                   value={userData.firstName}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange('firstName', e.target.value)}
                   placeholder="First Name"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px]"
@@ -169,11 +145,11 @@ const Signup = () => {
                     </Alert>
                   </Snackbar>
                 )}
+                {/* lastname */}
                 <Input
                   type="text"
-                  name="lastName"
                   value={userData.lastName}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange('lastName', e.target.value)}
                   placeholder="Last Name"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px]"
@@ -196,11 +172,11 @@ const Signup = () => {
                     </Alert>
                   </Snackbar>
                 )}
+                {/* username */}
                 <Input
                   type="text"
-                  name="username"
                   value={userData.username}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange('username', e.target.value)}
                   placeholder="Username"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px]"
@@ -223,11 +199,26 @@ const Signup = () => {
                     </Alert>
                   </Snackbar>
                 )}
+                {/* city */}
+                <Select
+                  type="text"
+                  value={userData.city}
+                  onChange={(e) => handleChange('city', e.target.value)}
+                  size="small"
+                  fullWidth
+                  placeholder='City'
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
+                  className="w-[20rem] h-[40px] px-[8px]"
+                >
+                  {pakistanCities.map((item, index) => (
+                    <MenuItem value={item} key={index} >{item}</MenuItem>
+                  ))}
+                </Select>
+                {/* phone */}
                 <Input
                   type="number"
-                  name="phone"
                   value={userData.phone}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange('phone', e.target.value)}
                   placeholder="Phone"
                   variant="standard"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
@@ -250,11 +241,11 @@ const Signup = () => {
                     </Alert>
                   </Snackbar>
                 )}
+                {/* email */}
                 <Input
                   type="email"
-                  name="email"
                   value={userData.email}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange('email', e.target.value)}
                   placeholder="Email"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px]"
@@ -277,12 +268,26 @@ const Signup = () => {
                     </Alert>
                   </Snackbar>
                 )}
+                {/* project */}
+                <Select
+                  value={userData.project}
+                  onChange={(e) => { handleChange('project', e.target.value); }}
+                  type="text"
+                  size="small"
+                  fullWidth
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
+                  className="w-[20rem] h-[40px] px-[8px]">
+                  {
+                    projectsTitles.map((project, index) => (
+                      <MenuItem value={project._id} key={index} >{project.title} </MenuItem>
+                    ))
+                  }
+                </Select>
                 <FormControl>
                   <Input
                     type={showPassword ? "text" : "password"}
-                    name="password"
                     value={userData.password}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange('password', e.target.value)}
                     onKeyDown={changeBackgroundColor}
                     placeholder="Password"
                     variant="standard"
@@ -327,9 +332,8 @@ const Signup = () => {
               <button
                 onClick={handleOpenSnackbar}
                 type="submit"
-                className={`w-[20rem]  hover:bg-[#45b8e2] mt-4 p-[6px] rounded-lg transition-all text-white font-medium tracking-wider ${
-                  isFetching ? "bg-[#17a2b8]  cursor-not-allowed" : "bg-[#20aee3]"
-                }`}
+                className={`w-[20rem]  hover:bg-[#45b8e2] mt-4 p-[6px] rounded-lg transition-all text-white font-medium tracking-wider ${isFetching ? "bg-[#17a2b8]  cursor-not-allowed" : "bg-[#20aee3]"
+                  }`}
                 variant="contained">
                 {isFetching ? "Submitting..." : "Sign Up"}
               </button>

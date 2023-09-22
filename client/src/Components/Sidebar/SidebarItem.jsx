@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { TransitionGroup } from 'react-transition-group';
 
 const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar }) => {
-  const isMenuOpen = openedMenu === item.title.toLowerCase();
+  const isMenuOpen = openedMenu === item?.title?.toLowerCase();
 
   const handleMenuClick = (e) => {
     e.stopPropagation(); // Prevent event propagation to parent elements
@@ -16,7 +16,7 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar })
     if (isMenuOpen) {
       setOpenedMenu("");
     } else {
-      setOpenedMenu(item.title.toLowerCase());
+      setOpenedMenu(item?.title.toLowerCase());
     }
   };
 
@@ -28,14 +28,14 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar })
           : " text-gray-700 font-light font-primary"
       } hover:text-[#20aee3] hover:border-l-[3px] hover:border-l-[#20aee3] pr-2 transition-all text-sm`}>
       <Link
-        to={item.link}
+        to={item?.link}
         className="flex items-center justify-between cursor-pointer py-[12px]"
         onClick={handleMenuClick}>
         <span className="flex items-center gap-2">
-          {item.icon && <div>{item.icon}</div>}
-          {item.title}
+          {item?.icon && <div>{item?.icon}</div>}
+          {item?.title}
         </span>
-        {item.childrens?.length > 0 &&
+        {item?.childrens?.length > 0 &&
           (isMenuOpen ? (
             <PiCaretUpLight className="text-[20px]" />
           ) : (
@@ -43,9 +43,9 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar })
           ))}
       </Link>
 
-      {item.childrens?.length > 0 && isMenuOpen && (
+      {item?.childrens?.length > 0 && isMenuOpen && (
         <div className="py-2">
-          {item.childrens.map((child, index) => (
+          {item?.childrens.map((child, index) => (
             <SidebarItem
               className="transition-all"
               key={index}

@@ -221,7 +221,11 @@ function Leads({ type, showSidebar }) {
                 Shift Lead
               </StyledMenuItem>
               {params.row?.isAppliedForRefund ? (
-                <></>
+                <StyledMenuItem
+                  className="text-gray-600 flex font-primary"
+                  >
+                  Applied for Refund
+                </StyledMenuItem>
               ) : (
                 <StyledMenuItem
                   className="text-gray-600 flex font-primary"

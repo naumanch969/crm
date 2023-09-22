@@ -96,7 +96,7 @@ export const rejectRequestApproval = (email) => API.post(`/approval/reject/reque
 export const createVoucherApproval = (data) => API.post(`/approval/create/voucher`, data)
 export const createReceiptApproval = (data) => API.post(`/approval/create/receipt`, data)
 export const createRefundApproval = (data) => API.post(`/approval/create/refund`, data)
-export const deleteApproval = (approvalId) => API.delete(`/approval/delete/${approvalId}`)
+export const deleteApproval = (approvalId, password) => API.delete(`/approval/delete/${approvalId}?password=${password}`,)
 
 
 // LEAD 
