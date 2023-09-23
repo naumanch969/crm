@@ -67,6 +67,7 @@ export const deleteTask = (taskId) => API.delete(`/task/delete/${taskId}`)
 
 // SALE
 export const getSales = () => API.get(`/sale/get/all`)
+export const getLeadSales = (leadId) => API.get(`/sale/get/lead?leadId=${leadId}`)
 export const getSale = (saleId) => API.get(`/sale/get/single/${saleId}`)
 export const createSale = (saleData) => API.post(`/sale/create`, saleData)
 export const updateSale = (saleId, saleData) => API.put(`/sale/update/${saleId}`, saleData)
@@ -154,6 +155,7 @@ export const getIncomeAndExpenses = (year) => API.get(`/cashbook/get/income_and_
 export const getSpecificDateCashbook = (date) => API.get(`/cashbook/get/date/${date}`)
 export const getPayments = () => API.get(`/cashbook/get/payments`)
 export const getCashbooks = (type) => API.get(`/cashbook/get/all?type=${type}`)
+export const getLeadCashbooks = (leadId) => API.get(`/cashbook/get/lead?leadId=${leadId}`)
 export const createCashbook = (cashbookData) => API.post(`/cashbook/create`, cashbookData)
 export const deleteCashbook = (cashbookId) => API.delete(`/cashbook/delete/${cashbookId}`)
 

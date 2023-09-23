@@ -28,13 +28,24 @@ function Vouchers() {
 
   const columns = [
     {
-      field: "customerName",
+      field: "uid",
+      headerName: "ID",
+      width: 70,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize">{params.row.uid}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "clientName",
       headerName: "Customer Name",
       width: 150,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <div className="capitalize font-primary">
-          <p>{params.row.customerName}</p>
+          <p>{params.row.clientName}</p>
         </div>
       ),
     },

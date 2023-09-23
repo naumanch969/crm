@@ -17,9 +17,15 @@ function RequestApprovals() {
   const { requestApprovals: approvals, isFetching, error } = useSelector(state => state.approval)
   const columns = [
     {
-      field: 'sr', headerName: 'Sr.', width: 80,headerClassName: "super-app-theme--header", renderCell: (params) => (
-        <div className='font-primary'>{params.id}</div>
-      )
+      field: "uid",
+      headerName: "ID",
+      width: 70,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize">{params.row.uid}</span>
+        </Tooltip>
+      ),
     },
     {
       field: 'data.firstName', headerName: 'First Name', width: 130,headerClassName: "super-app-theme--header", renderCell: (params) => (

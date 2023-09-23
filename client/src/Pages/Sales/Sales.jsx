@@ -17,11 +17,31 @@ function Sales() {
   const { sales, isFetching, error } = useSelector((state) => state.sale);
   const columns = [
     {
-      field: "invoiceNumber",
+      field: "uid",
+      headerName: "ID",
+      width: 70,
       headerClassName: "super-app-theme--header",
-      headerName: "Inv No.",
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize">{params.row.uid}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "clientName",
+      headerClassName: "super-app-theme--header",
+      headerName: "Client Name",
       width: 150,
-      renderCell: (params) => <div className="font-primary">{params.row.invoiceNumber}</div>,
+      renderCell: (params) => (
+        <div className="font-primary capitalize">{params.row.clientName}</div>
+      ),
+    },
+    {
+      field: "profit",
+      headerClassName: "super-app-theme--header",
+      headerName: "Profit",
+      width: 150,
+      renderCell: (params) => <div className="font-primary">{params.row.net - params.row.received}</div>,
     },
     {
       field: "createdAt",
@@ -30,15 +50,6 @@ function Sales() {
       width: 130,
       renderCell: (params) => (
         <div className="font-primary">{new Date(params.row.createdAt).toLocaleDateString()}</div>
-      ),
-    },
-    {
-      field: "supplierName",
-      headerClassName: "super-app-theme--header",
-      headerName: "Supplier",
-      width: 150,
-      renderCell: (params) => (
-        <div className="font-primary capitalize">{params.row.supplierName}</div>
       ),
     },
     {
@@ -55,19 +66,13 @@ function Sales() {
       width: 180,
       renderCell: (params) => <div className="font-primary">{params.row.received}</div>,
     },
+
     {
-      field: "psf",
+      field: "top",
       headerClassName: "super-app-theme--header",
-      headerName: "PSF",
+      headerName: "Type of Payment",
       width: 130,
-      renderCell: (params) => <div className="font-primary">{params.row.psf}</div>,
-    },
-    {
-      field: "fop",
-      headerClassName: "super-app-theme--header",
-      headerName: "FOP",
-      width: 130,
-      renderCell: (params) => <div className="font-primary">{params.row.fop}</div>,
+      renderCell: (params) => <div className="font-primary">{params.row.top}</div>,
     },
     {
       field: "action",

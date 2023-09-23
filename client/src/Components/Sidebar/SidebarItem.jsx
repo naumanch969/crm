@@ -4,11 +4,13 @@ import { useState, useTransition } from "react";
 import { PiCaretDownLight, PiCaretUpLight } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { TransitionGroup } from 'react-transition-group';
+import { getLeadReducer } from "../../redux/reducer/lead";
 
 const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar }) => {
   const isMenuOpen = openedMenu === item?.title?.toLowerCase();
 
   const handleMenuClick = (e) => {
+    // dispatch(getLeadReducer(null))    // to set the currentLead to null whenever page is change to keep the currentLead have a latest value (on runtime).
     e.stopPropagation(); // Prevent event propagation to parent elements
     if (child) {
       return; // Don't close when clicking on sub-link
@@ -22,11 +24,10 @@ const SidebarItem = ({ item, child, openedMenu, setOpenedMenu, setShowSidebar })
 
   return (
     <div
-      className={`${child ? "pl-4 hover:text-[#20aee3] font-primary font-light" : "pl-4"} ${
-        isMenuOpen
+      className={`${child ? "pl-4 hover:text-[#20aee3] font-primary font-light" : "pl-4"} ${isMenuOpen
           ? "text-[#20aee3] font-primary font-medium border-l-[3px] border-l-[#20aee3]"
           : " text-gray-700 font-light font-primary"
-      } hover:text-[#20aee3] hover:border-l-[3px] hover:border-l-[#20aee3] pr-2 transition-all text-sm`}>
+        } hover:text-[#20aee3] hover:border-l-[3px] hover:border-l-[#20aee3] pr-2 transition-all text-sm`}>
       <Link
         to={item?.link}
         className="flex items-center justify-between cursor-pointer py-[12px]"

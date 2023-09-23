@@ -8,7 +8,7 @@ import { Tooltip } from "@mui/material";
 import { styled } from "@mui/system";
 import { Table } from "../../Components";
 import { format } from "timeago.js";
-import { getLeadReducer } from "../../redux/reducer/lead";
+import { getLeadReducer, getLeadsReducer } from "../../redux/reducer/lead";
 import UpateStatusModal from "./UpdateStatus";
 import ShiftLeadModal from "./ShiftLead";
 import ShareLeadModal from "./ShareLead";
@@ -104,22 +104,22 @@ function Leads({ type, showSidebar }) {
   const role = loggedUser.role;
   const columns = [
     {
-      field: "_id",
+      field: "uid",
       headerName: "ID",
       headerClassName: "super-app-theme--header",
       width: 70,
-      renderCell: (params) => <div className="font-primary font-light">ID</div>,
+      renderCell: (params) => <div className="font-primary font-light">{params.row?.uid}</div>,
     },
     {
-      field: "clientName",
-      headerName: "Client Name",
+      field: "client.username",
+      headerName: "Client Username",
       headerClassName: "super-app-theme--header",
       width: 180,
       renderCell: (params) => (
         <div
           className={`text-[#20aee3] hover:text-[#007bff] capitalize cursor-pointer font-primary font-light`}
           onClick={() => handleOpenViewModal(params.row?._id)}>
-          {params.row?.clientFirstName} {params.row?.clientLastName}
+          {params.row?.client?.username}
         </div>
       ),
     },
@@ -223,7 +223,7 @@ function Leads({ type, showSidebar }) {
               {params.row?.isAppliedForRefund ? (
                 <StyledMenuItem
                   className="text-gray-600 flex font-primary"
-                  >
+                >
                   Applied for Refund
                 </StyledMenuItem>
               ) : (
@@ -244,7 +244,7 @@ function Leads({ type, showSidebar }) {
               <StyledMenuItem onClick={() => handleOpenAttachmentModal(params.row._id)} className="text-gray-600 flex font-primary">
                 Attachments
               </StyledMenuItem>
-              <StyledMenuItem onClick={() => navigateToLedger()} className="text-gray-600 flex font-primary">
+              <StyledMenuItem onClick={() => navigateToLedger(params.row._id)} className="text-gray-600 flex font-primary">
                 Ledger
               </StyledMenuItem>
             </Menu>
@@ -322,8 +322,8 @@ function Leads({ type, showSidebar }) {
     navigate(`/leads/followups/${leadId}`);
   };
 
-  const navigateToLedger = () => {
-    navigate("/leads/ledger");
+  const navigateToLedger = (leadId) => {
+    navigate(`/leads/ledger/${leadId}`);
   }
 
   return (

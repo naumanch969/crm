@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Add } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../../utils";
@@ -18,7 +18,7 @@ const LedgerTopbar = () => {
   const descriptionElementRef = React.useRef(null);
 
   ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
       if (descriptionElement !== null) {
@@ -26,7 +26,7 @@ const LedgerTopbar = () => {
       }
     }
   }, [open]);
-
+  
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleSearch = (searchTerm) => {
     dispatch(searchLead(searchTerm));

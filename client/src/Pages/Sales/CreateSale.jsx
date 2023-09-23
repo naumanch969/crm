@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createSale } from "../../redux/action/sale";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,8 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
+import { getClients, getEmployees } from "../../redux/action/user";
+import { getLeadReducer } from "../../redux/reducer/lead";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -27,10 +29,11 @@ const CreateSale = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // todo:remove the leadID and make it dynamic
+  const { currentLead: lead } = useSelector(state => state.lead)
+  const { employees, clients } = useSelector(state => state.user)
   const initialState = {
     staff: "",
-    customerName: "",
+    clientName: lead?.client ? lead?.client?.username : '',
     net: "",
     received: "",
     profit: "",
@@ -38,14 +41,24 @@ const CreateSale = ({ open, setOpen, scroll }) => {
   };
   ////////////////////////////////////////// STATES /////////////////////////////////////
   const [saleData, setSaleData] = useState(initialState);
- 
+
   ////////////////////////////////////////// USE EFFECTS /////////////////////////////////
+  useEffect(() => {
+    dispatch(getEmployees())
+    dispatch(getClients())
+  }, [open])
+  useEffect(() => {
+    setSaleData({ ...saleData, staff: lead?.client?.username })
+  }, [lead])
+  useEffect(() => {
+    console.log(saleData)
+  }, [saleData])
 
   ////////////////////////////////////////// FUNCTIONS ///////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createSale(saleData, navigate));
-    setOpen(false);
+    dispatch(createSale({ ...saleData, leadId: lead?._id || '' }, setOpen));
+    dispatch(getLeadReducer())
     setSaleData(initialState);
   };
   const handleChange = (e) => {
@@ -88,23 +101,32 @@ const CreateSale = ({ open, setOpen, scroll }) => {
                   <Select
                     onChange={handleChange}
                     value={saleData.staff}
-                    name="invoiceNumber"
+                    name="staff"
                     size="small"
                     fullWidth>
-                    <MenuItem value="all employees">All Employees</MenuItem>
+                    {
+                      employees.map((employee, index) => (
+                        <MenuItem key={index} value={employee?._id}>{employee?.username}</MenuItem>
+                      ))
+                    }
                   </Select>
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Customer Name </td>
+                <td className="pb-4 text-lg">Client Name </td>
                 <td className="pb-4">
-                  <TextField
+                  <Select
                     onChange={handleChange}
-                    value={saleData.customerName}
-                    name="customerName"
+                    value={saleData.clientName}
+                    name="clientName"
                     size="small"
-                    fullWidth
-                  />
+                    fullWidth>
+                    {
+                      clients.map((client, index) => (
+                        <MenuItem key={index} value={client?._id}>{client?.username}</MenuItem>
+                      ))
+                    }
+                  </Select>
                 </td>
               </tr>
               <tr>
@@ -150,14 +172,16 @@ const CreateSale = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Type of Payment </td>
                 <td className="pb-4">
-                  <TextField
+                  <Select
                     onChange={handleChange}
                     value={saleData.top}
                     name="top"
                     size="small"
-                    type="text"
-                    fullWidth
-                  />
+                    fullWidth>
+                    <MenuItem value={'cash'}>Cash</MenuItem>
+                    <MenuItem value={'card'}>Card</MenuItem>
+                    <MenuItem value={'cheque'}>Cheque</MenuItem>
+                  </Select>
                 </td>
               </tr>
             </table>

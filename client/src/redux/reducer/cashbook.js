@@ -5,6 +5,7 @@ const cashbookSlice = createSlice({
     initialState: {
         isFetching: false,
         error: null,
+        cashbooks: [],
         cashbooksIn: [],
         cashbooksOut: [],
         incomeAndExpenses: [],
@@ -21,19 +22,7 @@ const cashbookSlice = createSlice({
             state.cashbooksIn = cashIn
             state.cashbooksOut = cashOut
         },
-        getCashbooksReducer: (state, action) => {
-            const { type, result } = action.payload
-            switch (type) {
-                case 'in':
-                    state.cashbooksIn = result
-                    break;
-                case 'out':
-                    state.cashbooksOut = result
-                    break;
-                default:
-                    break;
-            }
-        },
+        getCashbooksReducer: (state, action) => { state.cashbooks = action.payload },
         getIncomeAndExpensesReducer: (state, action) => {
             state.incomeAndExpenses = action.payload
         },
@@ -41,29 +30,10 @@ const cashbookSlice = createSlice({
             state.payments = action.payload
         },
         createCashbookReducer: (state, action) => {
-            switch (action.payload.type) {
-                case 'in':
-                    state.cashbooksIn = [action.payload, ...state.cashbooksIn]
-                    break;
-                case 'out':
-                    state.cashbooksOut = [action.payload, ...state.cashbooksOut]
-                    break;
-                default:
-                    break;
-            }
+            state.cashbooks = [action.payload, ...state.cashbooks]
         },
         deleteCashbookReducer: (state, action) => {
-            switch (action.payload.type) {
-                case 'in':
-                    state.cashbooksIn = state.cashbooksIn.filter(c => c._id != action.payload._id)
-                    break;
-                case 'out':
-                    state.cashbooksOut = state.cashbooksOut.filter(c => c._id != action.payload._id)
-                    break;
-                default:
-                    return state
-                    break;
-            }
+            state.cashbooks = state.cashbooks.filter(c => c._id != action.payload._id)
         },
     }
 })

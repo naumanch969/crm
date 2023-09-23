@@ -6,7 +6,7 @@ import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import CreateSale from "../../Sales/CreateSale";
 
-const LedgerSalesTopbar = () => {
+const LedgerSalesTopbar = ({ }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -70,7 +70,7 @@ const LedgerSalesTopbar = () => {
         </div>
       </div>
 
-    <CreateSale open={open} setOpen={setOpen} />
+      <CreateSale open={open} setOpen={setOpen} />
 
     </div>
   );

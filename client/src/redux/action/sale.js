@@ -22,12 +22,22 @@ export const getSales = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const createSale = (saleData, navigate) => async (dispatch) => {
+export const getLeadSales = (leadId) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getLeadSales(leadId)
+        dispatch(getSalesReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const createSale = (saleData, setOpen) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.createSale(saleData)
         dispatch(createSaleReducer(data.result))
-        navigate('/sales')
+        setOpen(false)
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

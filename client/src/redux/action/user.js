@@ -93,7 +93,7 @@ export const createEmployee = (employeeData, setOpen) => async (dispatch) => {
         dispatch(start())
         const { data } = await api.createEmployee(employeeData)
         dispatch(createEmployeeReducer(data.result))
-        setOpen(false)
+        // setOpen(false)
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

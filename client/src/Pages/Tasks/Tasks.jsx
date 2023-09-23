@@ -95,6 +95,17 @@ function Tasks() {
   const unarchivedTasks = tasks.filter(task => !task.isArchived)
   const columns = [
     {
+      field: "uid",
+      headerName: "ID",
+      width: 70,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize">{params.row.uid}</span>
+        </Tooltip>
+      ),
+    },
+    {
       field: "title",
       headerName: "Title",
       width: 270,

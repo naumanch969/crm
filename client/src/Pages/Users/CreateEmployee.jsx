@@ -12,6 +12,8 @@ import {
   DialogActions,
   TextField,
   Autocomplete,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -19,6 +21,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
+import { pakistanCities } from "../../constant";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -41,6 +44,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
     firstName: "",
     lastName: "",
     username: "",
+    city: "",
     email: "",
     password: "",
     cnic: "",
@@ -60,12 +64,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
     dispatch(createEmployee(employeeData, setOpen));
   };
 
-  const handleChange = (e) => {
-    e.target.type == "checkbox"
-      ? setEmployeeData({ ...employeeData, [e.target.name]: e.target.checked })
-      : setEmployeeData({ ...employeeData, [e.target.name]: e.target.value });
-  };
-
+ 
   const handleInputChange = (field, value) => {
     const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
     setEmployeeData((prevFilters) => ({
@@ -131,6 +130,22 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                     fullWidth
                     onChange={(e) => handleInputChange('username', e.target.value)}
                   />
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Seller City </td>
+                <td className="pb-4">
+                  <Select
+                    size="small"
+                    // value={employeeData.city}
+                    onChange={(e) => handleInputChange("city", e.target.value)}
+                    displayEmpty
+                    placeholder="Seller City"
+                    fullWidth>
+                    {pakistanCities.map((city) => (
+                      <MenuItem value={city.toLowerCase()}>{city}</MenuItem>
+                    ))}
+                  </Select>
                 </td>
               </tr>
               <tr>

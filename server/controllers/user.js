@@ -94,21 +94,20 @@ export const createClient = async (req, res, next) => {
         if (Boolean(findedUser)) return next(createError(400, 'Email already exist'))
 
         const result = await User.create({ ...req.body, role: 'client' }).populate('project').exec()
-        res.status(200).json({ result, message: 'employees fetched seccessfully', success: true })
+        res.status(200).json({ result, message: 'client created seccessfully', success: true })
 
     } catch (err) {
         next(createError(500, err.message))
-
     }
 }
 export const createEmployee = async (req, res, next) => {
     try {
 
-        const findedUser = await User.findOne({ email: req.body.email })
-        if (Boolean(findedUser)) return next(createError(400, 'Email already exist'))
+        const findedUser = await User.findOne({ username: req.body.username })
+        if (Boolean(findedUser)) return next(createError(400, 'Username already exist'))
 
         const result = await User.create({ ...req.body, role: 'employee' })
-        res.status(200).json({ result, message: 'employees fetched seccessfully', success: true })
+        res.status(200).json({ result, message: 'employee created seccessfully', success: true })
 
     } catch (err) {
         next(createError(500, err.message))

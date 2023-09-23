@@ -33,7 +33,7 @@ const CreateRefund = ({ open, setOpen }) => {
   const [refundData, setRefundData] = useState({
     branch: "",
     issuingDate: "",
-    customerName: "",
+    clientName: "",
     cnic: "",
     phone: "",
     amount: "",
@@ -58,7 +58,7 @@ const CreateRefund = ({ open, setOpen }) => {
     setRefundData({
       branch: "",
       issuingDate: "",
-      customerName: "",
+      clientName: "",
       cnic: "",
       phone: "",
       amount: "",
@@ -70,7 +70,7 @@ const CreateRefund = ({ open, setOpen }) => {
     setRefundData({
       branch: "",
       issuingDate: "",
-      customerName: "",
+      clientName: "",
       cnic: "",
       phone: "",
       amount: "",
@@ -149,10 +149,10 @@ const CreateRefund = ({ open, setOpen }) => {
                 <td className="flex flex-col justify-start mt-1 text-lg">Customer Name </td>
                 <td className="pb-4">
                   <TextField
-                    value={refundData.customerName}
+                    value={refundData.clientName}
                     onChange={handleChange}
                     type="text"
-                    name="customerName"
+                    name="clientName"
                     size="small"
                     fullWidth
                   />
