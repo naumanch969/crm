@@ -6,7 +6,9 @@ import {
   Input,
   InputAdornment,
   Snackbar,
-  MenuItem, Select
+  MenuItem,
+  Select,
+  InputLabel,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -26,25 +28,43 @@ const Signup = () => {
   /////////////////////////////////// VARIABLES /////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { projects } = useSelector(state => state.project)
+  const { projects } = useSelector((state) => state.project);
   const projectsTitles = projects.map(({ _id, title }) => ({ _id, title }));
   const { isFetching, error } = useSelector((state) => state.user);
 
   /////////////////////////////////// STATES /////////////////////////////////////
-  const [userData, setUserData] = useState({ firstName: "", lastName: "", username: "", phone: "", email: "", city: '', project: '', password: "", });
-  const [inputError, setInputError] = useState({ firstName: "", lastName: "", username: "", phone: "", email: "", project: '', password: "", });
+  const [userData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    phone: "",
+    email: "",
+    city: "",
+    project: "",
+    password: "",
+  });
+  const [inputError, setInputError] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    phone: "",
+    email: "",
+    project: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordButton, setShowPasswordButton] = useState(PasswordButtonInitialStyle);
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [selectedValue, setSelectedValue] = React.useState("");
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
   useEffect(() => {
-    dispatch(getProjects())
-  }, [])
+    dispatch(getProjects());
+  }, []);
 
   /////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleChange = (field, value) => {
-    console.log('e', field, value)
+    console.log("e", field, value);
     const { firstName, lastName, username, email, phone, password } = userData;
 
     if (firstName.length > 3) setInputError((pre) => ({ ...pre, firstName: "" }));
@@ -61,19 +81,38 @@ const Signup = () => {
     e.preventDefault();
     const { firstName, lastName, username, email, phone, password } = userData;
 
-    if (!firstName) return setInputError((pre) => ({ ...pre, firstName: "First Name is required" }));
-    if (firstName.length < 3) return setInputError((pre) => ({ ...pre, firstName: "First Name should be atleast of 3 characters", }));
+    if (!firstName)
+      return setInputError((pre) => ({ ...pre, firstName: "First Name is required" }));
+    if (firstName.length < 3)
+      return setInputError((pre) => ({
+        ...pre,
+        firstName: "First Name should be atleast of 3 characters",
+      }));
     if (!lastName) return setInputError((pre) => ({ ...pre, lastName: "Last Name is required" }));
-    if (lastName.length < 3) return setInputError((pre) => ({ ...pre, lastName: "Last Name should be atleast of 3 characters", }));
+    if (lastName.length < 3)
+      return setInputError((pre) => ({
+        ...pre,
+        lastName: "Last Name should be atleast of 3 characters",
+      }));
     if (!username) return setInputError((pre) => ({ ...pre, username: "Username is required" }));
-    if (username.length < 3) return setInputError((pre) => ({ ...pre, username: "Username should be atleast of 3 characters", }));
-    if (email && !validator.validate(email)) return setInputError((pre) => ({ ...pre, email: "Make sure to provide a valid email" }));
+    if (username.length < 3)
+      return setInputError((pre) => ({
+        ...pre,
+        username: "Username should be atleast of 3 characters",
+      }));
+    if (email && !validator.validate(email))
+      return setInputError((pre) => ({ ...pre, email: "Make sure to provide a valid email" }));
     if (!phone) return setInputError((pre) => ({ ...pre, phone: "Phone Number is required" }));
-    if (phone.length < 10) return setInputError((pre) => ({ ...pre, phone: "Please provide a valid phone number" }));
+    if (phone.length < 10)
+      return setInputError((pre) => ({ ...pre, phone: "Please provide a valid phone number" }));
     if (!password) return setInputError((pre) => ({ ...pre, password: "Password is required" }));
-    if (password.length < 6) return setInputError((pre) => ({ ...pre, password: "Password must be of atleast 6 characters", }));
+    if (password.length < 6)
+      return setInputError((pre) => ({
+        ...pre,
+        password: "Password must be of atleast 6 characters",
+      }));
 
-    console.log(userData)
+    console.log(userData);
     dispatch(register(userData, navigate));
   };
 
@@ -98,11 +137,11 @@ const Signup = () => {
   };
 
   return (
-    <div className="font-primary">
-      <div className="md:opacity-100 opacity-0 left-0 bottom-0 absolute h-[52%] w-[25%]">
+    <div className="font-primary w-full h-full ">
+      <div className="md:opacity-100 opacity-0 left-0 bottom-[-20%] absolute h-[52%] w-[25%]">
         <img src="/images/login-1.png" />
       </div>
-      <div className="w-full h-screen ">
+      <div className="pb-10">
         <div className="flex justify-center pt-8">
           <img className="w-41 h-11" src="/favicon/GrowLOGO.png" />
         </div>
@@ -122,7 +161,7 @@ const Signup = () => {
                 <Input
                   type="text"
                   value={userData.firstName}
-                  onChange={(e) => handleChange('firstName', e.target.value)}
+                  onChange={(e) => handleChange("firstName", e.target.value)}
                   placeholder="First Name"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px]"
@@ -149,7 +188,7 @@ const Signup = () => {
                 <Input
                   type="text"
                   value={userData.lastName}
-                  onChange={(e) => handleChange('lastName', e.target.value)}
+                  onChange={(e) => handleChange("lastName", e.target.value)}
                   placeholder="Last Name"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px]"
@@ -176,7 +215,7 @@ const Signup = () => {
                 <Input
                   type="text"
                   value={userData.username}
-                  onChange={(e) => handleChange('username', e.target.value)}
+                  onChange={(e) => handleChange("username", e.target.value)}
                   placeholder="Username"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px]"
@@ -200,25 +239,70 @@ const Signup = () => {
                   </Snackbar>
                 )}
                 {/* city */}
-                <Select
-                  type="text"
-                  value={userData.city}
-                  onChange={(e) => handleChange('city', e.target.value)}
-                  size="small"
-                  fullWidth
-                  placeholder='City'
-                  style={{ fontFamily: "'Montserrat', sans-serif" }}
-                  className="w-[20rem] h-[40px] px-[8px]"
-                >
-                  {pakistanCities.map((item, index) => (
-                    <MenuItem value={item} key={index} >{item}</MenuItem>
-                  ))}
-                </Select>
+                <FormControl>
+                  {selectedValue === "" ? (
+                    <InputLabel
+                      sx={{
+                        color: "#B3B3B3",
+                        fontFamily: "'Montserrat', sans-serif",
+                        paddingTop: "8px",
+                      }}>
+                      City
+                    </InputLabel>
+                  ) : null}
+                  <Select
+                    placeholder="City"
+                    type="text"
+                    value={userData.city}
+                    onChange={(e) => handleChange("city", e.target.value)}
+                    size="small"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}
+                    variant="standard"
+                    className="w-[20rem] h-[40px] px-[8px]">
+                    <MenuItem disabled value="city">
+                      <em>City</em>
+                    </MenuItem>
+                    {pakistanCities.map((item, index) => (
+                      <MenuItem value={item} key={index}>
+                        {item}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {/* project */}
+                <FormControl>
+                  {selectedValue === "" ? (
+                    <InputLabel
+                      sx={{
+                        color: "#B3B3B3",
+                        fontFamily: "'Montserrat', sans-serif",
+                        paddingTop: "8px",
+                      }}>
+                      Project
+                    </InputLabel>
+                  ) : null}
+                  <Select
+                    value={userData.project}
+                    onChange={(e) => {
+                      handleChange("project", e.target.value);
+                    }}
+                    type="text"
+                    size="small"
+                    variant="standard"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}
+                    className="w-[20rem] h-[40px] px-[8px]">
+                    {projectsTitles.map((project, index) => (
+                      <MenuItem value={project._id} key={index}>
+                        {project.title}{" "}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 {/* phone */}
                 <Input
                   type="number"
                   value={userData.phone}
-                  onChange={(e) => handleChange('phone', e.target.value)}
+                  onChange={(e) => handleChange("phone", e.target.value)}
                   placeholder="Phone"
                   variant="standard"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
@@ -245,7 +329,7 @@ const Signup = () => {
                 <Input
                   type="email"
                   value={userData.email}
-                  onChange={(e) => handleChange('email', e.target.value)}
+                  onChange={(e) => handleChange("email", e.target.value)}
                   placeholder="Email"
                   variant="standard"
                   className="w-[20rem] h-[40px] px-[8px]"
@@ -268,26 +352,11 @@ const Signup = () => {
                     </Alert>
                   </Snackbar>
                 )}
-                {/* project */}
-                <Select
-                  value={userData.project}
-                  onChange={(e) => { handleChange('project', e.target.value); }}
-                  type="text"
-                  size="small"
-                  fullWidth
-                  style={{ fontFamily: "'Montserrat', sans-serif" }}
-                  className="w-[20rem] h-[40px] px-[8px]">
-                  {
-                    projectsTitles.map((project, index) => (
-                      <MenuItem value={project._id} key={index} >{project.title} </MenuItem>
-                    ))
-                  }
-                </Select>
                 <FormControl>
                   <Input
                     type={showPassword ? "text" : "password"}
                     value={userData.password}
-                    onChange={(e) => handleChange('password', e.target.value)}
+                    onChange={(e) => handleChange("password", e.target.value)}
                     onKeyDown={changeBackgroundColor}
                     placeholder="Password"
                     variant="standard"
@@ -332,8 +401,9 @@ const Signup = () => {
               <button
                 onClick={handleOpenSnackbar}
                 type="submit"
-                className={`w-[20rem]  hover:bg-[#45b8e2] mt-4 p-[6px] rounded-lg transition-all text-white font-medium tracking-wider ${isFetching ? "bg-[#17a2b8]  cursor-not-allowed" : "bg-[#20aee3]"
-                  }`}
+                className={`w-[20rem]  hover:bg-[#45b8e2] mt-4 p-[6px] rounded-lg transition-all text-white font-medium tracking-wider ${
+                  isFetching ? "bg-[#17a2b8]  cursor-not-allowed" : "bg-[#20aee3]"
+                }`}
                 variant="contained">
                 {isFetching ? "Submitting..." : "Sign Up"}
               </button>
