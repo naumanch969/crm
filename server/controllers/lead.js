@@ -7,7 +7,7 @@ export const getLead = async (req, res, next) => {
     try {
 
         const { leadId } = req.params
-        const findedLead = await Lead.findById(leadId).populate('property').populate('allocatedTo').exec()
+        const findedLead = await Lead.findById(leadId).populate('property').populate('client').populate('allocatedTo').exec()
         if (!findedLead) return next(createError(400, 'Lead not exist'))
 
         res.status(200).json({ result: findedLead, message: 'lead created successfully', success: true })
@@ -19,7 +19,7 @@ export const getLead = async (req, res, next) => {
 export const getLeads = async (req, res, next) => {
     try {
 
-        const findedLeads = await Lead.find().populate('property').populate('allocatedTo').exec();
+        const findedLeads = await Lead.find().populate('property').populate('client').populate('allocatedTo').exec();
 
         res.status(200).json({ result: findedLeads, message: 'Leads fetched successfully', success: true });
     } catch (err) {
@@ -30,7 +30,7 @@ export const getLeads = async (req, res, next) => {
 export const getEmployeeLeads = async (req, res, next) => {
     try {
         const findedLeads = await Lead.find({ $in: { allocatedTo: req.user?._id }, isArchived: false })
-            .populate('property').populate('allocatedTo')
+            .populate('property').client('property').populate('allocatedTo')
             .exec();
 
         res.status(200).json({ result: findedLeads, message: 'Leads fetched successfully', success: true });
@@ -82,10 +82,10 @@ export const searchLead = async (req, res, next) => {
 
         const searchResults = await Lead.find({
             $or: [
-                { clientFirstName: { $in: matchingUserIds } },
-                { clientLastName: { $in: matchingUserIds } },
-                { clientPhone: searchPattern },
-                { clientCNIC: searchPattern },
+                { firstName: { $in: matchingUserIds } },
+                { lastName: { $in: matchingUserIds } },
+                { phone: searchPattern },
+                { CNIC: searchPattern },
                 { clientCity: searchPattern },
                 { clientEmail: searchPattern },
                 { city: searchPattern },
@@ -96,7 +96,7 @@ export const searchLead = async (req, res, next) => {
                 { description: searchPattern },
             ],
         })
-            .populate('property').populate('allocatedTo')
+            .populate('property').client('property').populate('allocatedTo')
             .exec();
 
         res.status(200).json({ result: searchResults });
@@ -130,7 +130,7 @@ export const filterLead = async (req, res, next) => {
             }
         }
 
-        query = await query.populate('property').populate('allocatedTo').exec();
+        query = await query.populate('property').populate('client').populate('allocatedTo').exec();
         res.status(200).json({ result: query });
 
     } catch (error) {
@@ -191,7 +191,7 @@ export const createLead = async (req, res, next) => {
     try {
 
         const {
-            clientFirstName: firstName, clientLastName: lastName, clientUsername: username, clientPhone: phone, clientCNIC: CNIC, clientCity,
+            firstName, lastName, username, phone, CNIC, clientCity,
             city, priority, property, status, source, description
         } = req.body
         if (
@@ -202,7 +202,7 @@ export const createLead = async (req, res, next) => {
 
         const client = await User.create({ firstName, lastName, username, phone, CNIC, city: clientCity, project: property })
 
-        const newLead = await Lead.create({ client: client._id, city, priority, property, status, source, description, allocatedTo: [req.user?._id] })
+        const newLead = await Lead.create({ client: client._id, city, priority, property, status, source, description, allocatedTo: [req.user?._id] }).populate('property').populate('client').populate('allocatedTo').exec()
         res.status(200).json({ result: newLead, message: 'Lead created successfully', success: true })
 
     } catch (err) {
@@ -214,8 +214,16 @@ export const updateLead = async (req, res, next) => {
     try {
 
         const { leadId } = req.params
+        const {
+            firstName, lastName, username, phone, CNIC, clientCity,
+            city, priority, property, status, source, description
+        } = req.body
 
-        const updatedLead = await Lead.findByIdAndUpdate(leadId, { $set: req.body }, { new: true }).populate('property').populate('allocatedTo').exec()
+        const findedLead = await Lead.findById(leadId)
+
+        const updatedUser = await User.findByIdAndUpdate(findedLead.client, { firstName, lastName, username, phone, CNIC, city: clientCity, project: property })
+        const updatedLead = await Lead.findByIdAndUpdate(leadId, { city, priority, property, status, source, description }, { new: true }).populate('property').populate('client').populate('allocatedTo').exec()
+
         res.status(200).json({ result: updatedLead, message: 'lead updated successfully', success: true })
 
     } catch (err) {
@@ -240,13 +248,13 @@ export const shiftLead = async (req, res, next) => {
         //     leadId,
         //     { $push: { allocatedTo: shiftTo } },
         //     { new: true }
-        // ).populate('property').populate('allocatedTo').exec();
+        // ).populate('property').populate('client').populate('allocatedTo').exec();
 
         const updatedLead = await Lead.findByIdAndUpdate(
             leadId,
             { $set: { allocatedTo: [shiftTo] } },
             { new: true }
-        ).populate('property').populate('allocatedTo').exec();
+        ).populate('property').populate('client').populate('allocatedTo').exec();
 
         res.status(200).json({
             result: updatedLead,
@@ -268,7 +276,7 @@ export const shareLead = async (req, res, next) => {
             leadId,
             { $push: { allocatedTo: shareWith } }, // Use $push to add userId to allocatedTo array
             { new: true }
-        ).populate('property').populate('allocatedTo').exec();
+        ).populate('property').populate('client').populate('allocatedTo').exec();
 
         res.status(200).json({
             result: updatedLead,

@@ -42,7 +42,7 @@ export const searchProject = async (req, res, next) => {
         };
 
         // Check if isArchived is provided in the request body
-        if (isArchived !== undefined) {
+        if (isArchived) {
             projectFilter.isArchived = isArchived; // Filter by isArchived field
         }
 
@@ -59,7 +59,7 @@ export const searchProject = async (req, res, next) => {
 
 export const filterProject = async (req, res, next) => {
     const { startingDate, endingDate, society, ...filters } = req.query;
-    
+
     try {
         let query = Project.find(filters);
 
@@ -67,7 +67,7 @@ export const filterProject = async (req, res, next) => {
         if (startingDate && isValidDate(startingDate)) {
             const startDate = new Date(startingDate);
             startDate.setHours(0, 0, 0, 0);
-            
+
             // Add createdAt filtering for startingDate
             query = query.where('createdAt').gte(startDate);
         }

@@ -34,12 +34,12 @@ const EditModal = ({ open, setOpen, scroll }) => {
   const { projects } = useSelector(state => state.project)
   const projectsTitles = projects.map(({ _id, title }) => ({ _id, title }));
   let initialLeadState = {
-    clientFirstName: "",
-    clientLastName: "",
-    clientPhone: "",
-    clientCNIC: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    CNIC: "",
     clientCity: "",
-    clientEmail: "",
+    email: "",
     city: "",
     priority: "",
     property: "",
@@ -61,8 +61,9 @@ const EditModal = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { clientFirstName, clientLastName, clientPhone, clientCNIC, clientCity, city, priority, property, status, source, description } = leadData
-    if (!clientFirstName || !clientLastName || !clientPhone || !clientCNIC || !clientCity || !city || !priority || !property || !status || !source || !description)
+    const { firstName, lastName, username, phone, clientCity, city, priority, property, status, source, description } = leadData
+    console.log(firstName, lastName, username, phone, clientCity, city, priority, property, status, source, description)
+    if (!firstName || !lastName || !username || !phone || !clientCity || !city || !priority || !property || !status || !source || !description)
       return alert("Make sure to provide all the fields")
     dispatch(updateLead(currentLead?._id, leadData));
     setLeadData(initialLeadState);
@@ -109,8 +110,8 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg">First Name </td>
                 <td className="pb-4">
                   <TextField
-                    name="clientFirstName"
-                    value={leadData?.clientFirstName}
+                    name="firstName"
+                    value={leadData?.firstName}
                     onChange={handleChange}
                     size="small"
                     fullWidth
@@ -121,8 +122,20 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg">Last Name </td>
                 <td className="pb-4">
                   <TextField
-                    name="clientLastName"
-                    value={leadData?.clientLastName}
+                    name="lastName"
+                    value={leadData?.lastName}
+                    onChange={handleChange}
+                    size="small"
+                    fullWidth
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Username </td>
+                <td className="pb-4">
+                  <TextField
+                    name="username"
+                    value={leadData?.username}
                     onChange={handleChange}
                     size="small"
                     fullWidth
@@ -133,9 +146,9 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg">Phone </td>
                 <td className="pb-4">
                   <TextField
-                    name="clientPhone"
+                    name="phone"
                     onChange={handleChange}
-                    value={leadData?.clientPhone}
+                    value={leadData?.phone}
                     type="number"
                     size="small"
                     fullWidth
@@ -146,9 +159,9 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg">CNIC </td>
                 <td className="pb-4">
                   <TextField
-                    name="clientCNIC"
+                    name="CNIC"
                     onChange={handleChange}
-                    value={leadData?.clientCNIC}
+                    value={leadData?.CNIC}
                     type="number"
                     size="small"
                     fullWidth
@@ -177,8 +190,8 @@ const EditModal = ({ open, setOpen, scroll }) => {
                   <TextField
                     type="email"
                     onChange={handleChange}
-                    value={leadData?.clientEmail}
-                    name="clientEmail"
+                    value={leadData?.email}
+                    name="email"
                     size="small"
                     placeholder="Optional"
                     fullWidth

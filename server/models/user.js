@@ -8,7 +8,7 @@ const userSchema = Schema({
     phone: { type: String, required: true },
     city: { type: String, required: true },
     CNIC: { type: String, required: false },
-    email: { type: String, required: false },
+    email: { type: String, required: false, default: '' },
     project: { type: Schema.Types.ObjectId, ref: 'Project', required: false },
     role: { type: String, required: true, default: 'client', enum: ['client', 'employee', 'manager', 'super_admin'] },
     // below fields are not related to client (rather to employee,manager)

@@ -111,37 +111,37 @@ function Leads({ type, showSidebar }) {
       renderCell: (params) => <div className="font-primary font-light">ID</div>,
     },
     {
-      field: "clientFirstName",
-      headerName: "Client Firstname",
+      field: "client?.firstName",
+      headerName: "Client FirstName",
       headerClassName: "super-app-theme--header",
       width: 180,
       renderCell: (params) => (
         <div
           className={`text-[#20aee3] hover:text-[#007bff] capitalize cursor-pointer font-primary font-light`}
           onClick={() => handleOpenViewModal(params.row?._id)}>
-          {params.row?.clientFirstName} {params.row?.clientFirstName}
+          {params.row?.client?.firstName} {params.row?.client?.firstName}
         </div>
       ),
     },
     {
-      field: "clientLastName",
+      field: "client?.lastName",
       headerName: "Client Lastname",
       headerClassName: "super-app-theme--header",
       width: 180,
       renderCell: (params) => (
         <div className={`capitalize font-primary font-light`}>
-          {params.row?.clientLastName}
+          {params.row?.client?.lastName}
         </div>
       ),
     },
     {
-      field: "clientPhone",
+      field: "client?.phone",
       headerName: "Client Phone",
       headerClassName: "super-app-theme--header",
       width: 180,
       renderCell: (params) => (
         <div className={`font-primary font-light`}>
-          {params.row?.clientPhone}
+          {params.row?.client?.phone}
         </div>
       ),
     },
@@ -195,7 +195,7 @@ function Leads({ type, showSidebar }) {
       headerName: "Property",
       width: 170,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary font-light">{params.row?.property?.propertyNumber}</div>,
+      renderCell: (params) => <div className="font-primary font-light">{params.row?.property?.title}</div>,
     },
     {
       field: "actions",

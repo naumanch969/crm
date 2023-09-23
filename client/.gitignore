@@ -9,10 +9,7 @@
 /coverage
 
 # production
-<<<<<<< HEAD
-=======
 /build
->>>>>>> 003efbfe89146bec3da39a8ef73696d0c2ccb99f
 /dist
 
 # misc
