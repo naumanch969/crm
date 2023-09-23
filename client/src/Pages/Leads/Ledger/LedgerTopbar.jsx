@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Add } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../../utils";
 import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import CreateCashBook from "../../CashBook/CreateCashBook";
+import { searchCashbookReducer } from "../../../redux/reducer/cashbook";
 
 const LedgerTopbar = () => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
@@ -18,7 +19,7 @@ const LedgerTopbar = () => {
   const descriptionElementRef = React.useRef(null);
 
   ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
       if (descriptionElement !== null) {
@@ -29,8 +30,8 @@ const LedgerTopbar = () => {
 
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleSearch = (searchTerm) => {
-    dispatch(searchLead(searchTerm));
-  };
+    dispatch(searchCashbookReducer(searchTerm));
+  }
 
   const handleCreateopen = (scrollType) => () => {
     setOpen(true);

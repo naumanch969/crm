@@ -20,7 +20,7 @@ const ViewCashBook = () => {
 
   const columns = [
     { field: "_id", headerName: "ID", width: 70 },
-    { field: "customerName", headerName: "Customer Name", width: 140 },
+    { field: "clientName", headerName: "Customer Name", width: 140 },
     {
       field: "createdAt", headerName: "Time", width: 120, renderCell: (params) => (
         <>{format(params.row.createdAt)}</>

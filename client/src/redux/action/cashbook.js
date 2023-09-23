@@ -14,11 +14,21 @@ export const getCashbook = (cashbookId) => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const getCashbooks = (type) => async (dispatch) => {
+export const getCashbooks = () => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.getCashbooks(type)
-        dispatch(getCashbooksReducer({ type, result: data.result }))
+        const { data } = await api.getCashbooks()
+        dispatch(getCashbooksReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const getLeadCashbooks = (leadId) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getLeadCashbooks(leadId)
+        dispatch(getCashbooksReducer(data.result))
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

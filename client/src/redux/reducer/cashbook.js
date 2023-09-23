@@ -5,6 +5,8 @@ const cashbookSlice = createSlice({
     initialState: {
         isFetching: false,
         error: null,
+        allCashbooks: [],
+        cashbooks: [],
         cashbooksIn: [],
         cashbooksOut: [],
         incomeAndExpenses: [],
@@ -16,57 +18,61 @@ const cashbookSlice = createSlice({
         end: (state) => { state.isFetching = false },
         error: (state, action) => { state.isFetching = false; state.error = action.payload; },
         getCashbookReducer: (state, action) => { state.currentcashbook = action.payload },
+        getCashbooksReducer: (state, action) => { state.cashbooks = action.payload; state.allCashbooks = action.payload },
         getSpecificDateCashbookReducer: (state, action) => {
             const { cashIn, cashOut } = action.payload
             state.cashbooksIn = cashIn
             state.cashbooksOut = cashOut
         },
-        getCashbooksReducer: (state, action) => {
-            const { type, result } = action.payload
-            switch (type) {
-                case 'in':
-                    state.cashbooksIn = result
-                    break;
-                case 'out':
-                    state.cashbooksOut = result
-                    break;
-                default:
-                    break;
-            }
+        getIncomeAndExpensesReducer: (state, action) => { state.incomeAndExpenses = action.payload },
+        getPaymentsReducer: (state, action) => { state.payments = action.payload },
+        searchCashbookReducer: (state, action) => {
+            const { allCashbooks } = state;
+            const { payload: searchTerm } = action;
+
+            const searchedCashbooks = allCashbooks.filter((cashbook) => {
+                const itemValues = Object.values(cashbook);
+                return itemValues.some((value) => {
+                    if (typeof value === 'object') {
+                        const subItemValues = Object.values(value);
+                        return subItemValues.some((subValue) =>
+                            String(subValue).toLowerCase().includes(searchTerm.toLowerCase())
+                        );
+                    } else {
+                        return String(value).toLowerCase().includes(searchTerm.toLowerCase());
+                    }
+                });
+            });
+            state.cashbooks = searchedCashbooks;
         },
-        getIncomeAndExpensesReducer: (state, action) => {
-            state.incomeAndExpenses = action.payload
+        filterCashbookReducer: (state, action) => {
+            const { allCashbooks } = state;
+            const { payload: filters } = action;
+
+            const filteredCashbooks = allCashbooks.filter((cashbook) => {
+                return Object.entries(filters).every(([key, filterValue]) => {
+                    const cashbookValue = cashbook[key];
+
+                    if (Array.isArray(filterValue)) {
+                        // Handle array filters (e.g., checking if cashbookValue is in filterValue)
+                        return filterValue.includes(cashbookValue);
+                    } else if (typeof filterValue === 'string') {
+                        // Handle string filters (e.g., checking if cashbookValue includes filterValue)
+                        return String(cashbookValue).toLowerCase().includes(filterValue.toLowerCase());
+                    } else {
+                        // Handle other types of filters (e.g., equality checks)
+                        return cashbookValue === filterValue;
+                    }
+                });
+            });
+
+            state.cashbooks = filteredCashbooks;
         },
-        getPaymentsReducer: (state, action) => {
-            state.payments = action.payload
-        },
-        createCashbookReducer: (state, action) => {
-            switch (action.payload.type) {
-                case 'in':
-                    state.cashbooksIn = [action.payload, ...state.cashbooksIn]
-                    break;
-                case 'out':
-                    state.cashbooksOut = [action.payload, ...state.cashbooksOut]
-                    break;
-                default:
-                    break;
-            }
-        },
-        deleteCashbookReducer: (state, action) => {
-            switch (action.payload.type) {
-                case 'in':
-                    state.cashbooksIn = state.cashbooksIn.filter(c => c._id != action.payload._id)
-                    break;
-                case 'out':
-                    state.cashbooksOut = state.cashbooksOut.filter(c => c._id != action.payload._id)
-                    break;
-                default:
-                    return state
-                    break;
-            }
-        },
+
+        createCashbookReducer: (state, action) => { state.cashbooks = [action.payload, ...state.cashbooks] },
+        deleteCashbookReducer: (state, action) => { state.cashbooks = state.cashbooks.filter(c => c._id != action.payload._id) },
     }
 })
 
-export const { start, end, error, getCashbookReducer, getSpecificDateCashbookReducer, getCashbooksReducer, getIncomeAndExpensesReducer, getPaymentsReducer, createCashbookReducer, deleteCashbookReducer, } = cashbookSlice.actions
+export const { start, end, error, getCashbookReducer, searchCashbookReducer, filterCashbookReducer, getSpecificDateCashbookReducer, getCashbooksReducer, getIncomeAndExpensesReducer, getPaymentsReducer, createCashbookReducer, deleteCashbookReducer, } = cashbookSlice.actions
 export default cashbookSlice.reducer

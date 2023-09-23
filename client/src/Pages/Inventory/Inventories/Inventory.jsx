@@ -98,13 +98,13 @@ function Inventory() {
   const { inventories, isFetching, error } = useSelector((state) => state.inventory);
   const columns = [
     {
-      field: "id",
+      field: "uid",
       headerName: "ID",
       width: 70,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize">{params.row._id}</span>
+          <span className="font-primary capitalize">{params.row.uid}</span>
         </Tooltip>
       ),
     },

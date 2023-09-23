@@ -7,8 +7,10 @@ import { PiMagnifyingGlass } from "react-icons/pi";
 import { FiFilter } from "react-icons/fi";
 import CreateUser from "./CreateEmployee";
 import Filter from "./Filter";
+import { searchUserReducer } from "../../redux/reducer/user";
 
 const Topbar = ({ view, setView }) => {
+
   const [open, setOpen] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
   const [scroll, setScroll] = useState("paper");
@@ -33,6 +35,9 @@ const Topbar = ({ view, setView }) => {
     ? `Create ${pathname.split("/")[1].slice(0, -1)}`
     : pathname.split("/")[1];
 
+  const handleSearch = (searchTerm) => {
+    dispatch(searchUserReducer(searchTerm));
+  }
   const handleToggleFilters = () => {
     setOpenFilters((pre) => !pre);
   };
@@ -69,11 +74,10 @@ const Topbar = ({ view, setView }) => {
             <Tooltip title="Filter" arrow placement="top">
               <div
                 onClick={handleToggleFilters}
-                className={` p-2 rounded-md cursor-pointer ${
-                  openFilters
+                className={` p-2 rounded-md cursor-pointer ${openFilters
                     ? "text-[#20aee3] bg-[#e4f1ff]"
                     : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                  }`}>
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>

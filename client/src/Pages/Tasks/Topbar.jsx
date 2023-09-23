@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { getArchivedTasks, getTasks, searchTask } from "../../redux/action/task";
 import CreateTask from "./CreateTask";
 import Navbar from "../../Components/Navbar/Navbar";
+import { searchTaskReducer } from "../../redux/reducer/task";
 
 const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
@@ -45,8 +46,8 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
 
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleSearch = (searchTerm) => {
-    dispatch(searchTask(searchTerm));
-  };
+    dispatch(searchTaskReducer(searchTerm));
+  }
   const handleToggleShowArchivedTasks = () => {
     setOptions((pre) => ({
       ...pre,

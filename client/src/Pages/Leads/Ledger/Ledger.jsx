@@ -1,13 +1,24 @@
-import React from "react";
+import { useEffect } from "react";
 import LedgerTopbar from "./LedgerTopbar";
 import { Table } from "../../../Components";
 import { format } from "timeago.js";
 import LedgerSalesTopbar from "./LedgerSalesTopbar";
 import { Tooltip } from "@mui/material";
 import { PiDownloadSimpleLight, PiTrashLight } from "react-icons/pi";
+import { useLocation, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getLeadSales } from "../../../redux/action/sale";
+import { getLeadCashbooks } from "../../../redux/action/cashbook";
+import { getLead } from "../../../redux/action/lead";
 
 const Ledger = () => {
   /////////////////////////////////////////// VARIABLES ////////////////////////////////////////////
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const { leadId } = useParams()
+  const { currentLead: lead } = useSelector(state => state.lead)
+  const { sales, isFetching: salesFetching, error: salesError } = useSelector(state => state.sale)
+  const { cashbooks, isFetching: cashbookFetching, error: cashbookError } = useSelector(state => state.cashbook)
 
   const SalesColumns = [
     {
@@ -16,7 +27,7 @@ const Ledger = () => {
       headerClassName: "super-app-theme--header",
       width: 65,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
+        <div className="font-primary">{params.row._id}</div>;
       },
     },
     {
@@ -25,44 +36,44 @@ const Ledger = () => {
       headerClassName: "super-app-theme--header",
       width: 120,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
+        <div className="font-primary">{params.row.staff}</div>;
       },
     },
     {
-      field: "CustomerName",
-      headerName: "Customer Name",
+      field: "clientName",
+      headerName: "Client Name",
       headerClassName: "super-app-theme--header",
       width: 170,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
+        <div className="font-primary">{params.row.clientName}</div>;
       },
     },
 
     {
-      field: "netWorth",
+      field: "net",
       headerName: "Net Worth",
       headerClassName: "super-app-theme--header",
       width: 140,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
+        <div className="font-primary">{params.row.net}</div>;
       },
     },
     {
-      field: "amountRecieved",
+      field: "received",
       headerName: "Amount Recieved",
       headerClassName: "super-app-theme--header",
       width: 200,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
+        <div className="font-primary">{params.row.received}</div>;
       },
     },
     {
-      field: "profit",
+      field: "net",
       headerName: "Profit",
       headerClassName: "super-app-theme--header",
       width: 140,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
+        <div className="font-primary">{params.row.net - params.row.received}</div>;
       },
     },
     {
@@ -72,24 +83,6 @@ const Ledger = () => {
       width: 200,
       renderCell: (params) => {
         <div className="font-primary"></div>;
-      },
-    },
-    {
-      field: "actions",
-      headerName: "Actions",
-      headerClassName: "super-app-theme--header",
-      width: 140,
-      renderCell: (params) => {
-        <>
-          <Tooltip placement="top" title="Delete">
-            {" "}
-            <PiTrashLight className="cursor-pointer text-red-500 text-[23px] hover:text-red-400" />
-          </Tooltip>
-          <Tooltip placement="top" title="Download">
-            {" "}
-            <PiDownloadSimpleLight className="cursor-pointer text-red-500 text-[23px] hover:text-red-400" />
-          </Tooltip>
-        </>;
       },
     },
   ];
@@ -101,7 +94,7 @@ const Ledger = () => {
       headerClassName: "super-app-theme--header",
       width: 65,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
+        <div className="font-primary">{params.row._id}</div>;
       },
     },
     {
@@ -110,16 +103,16 @@ const Ledger = () => {
       headerClassName: "super-app-theme--header",
       width: 120,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
+        <div className="font-primary">{params.row.staff}</div>;
       },
     },
     {
-      field: "CustomerName",
+      field: "clientName",
       headerName: "Customer Name",
       headerClassName: "super-app-theme--header",
       width: 170,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
+        <div className="font-primary">{params.row.clientName}</div>;
       },
     },
 
@@ -130,7 +123,7 @@ const Ledger = () => {
       width: 300,
       renderCell: (params) => {
         <Tooltip title="">
-          <div className="font-primary"></div>;
+          <div className="font-primary">{params.row.remarks}</div>;
         </Tooltip>;
       },
     },
@@ -140,86 +133,60 @@ const Ledger = () => {
       headerClassName: "super-app-theme--header",
       width: 170,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
+        <div className="font-primary">{params.row.top}</div>;
       },
     },
     {
-      field: "AmountIn",
-      headerName: "Amount In",
+      field: "amount",
+      headerName: "Amount",
       headerClassName: "super-app-theme--header",
       width: 140,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
+        <div className="font-primary">{params.row.amount}</div>;
       },
     },
     {
-      field: "AmountOut",
-      headerName: "Amount Out",
+      field: "type",
+      headerName: "Type",
       headerClassName: "super-app-theme--header",
       width: 150,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
-      },
-    },
-    {
-      field: "actions",
-      headerName: "Actions",
-      headerClassName: "super-app-theme--header",
-      width: 110,
-      renderCell: (params) => {
-        <>
-          <Tooltip placement="top" title="Delete">
-            {" "}
-            <PiTrashLight className="cursor-pointer text-red-500 text-[23px] hover:text-red-400" />
-          </Tooltip>
-          <Tooltip placement="top" title="Download">
-            {" "}
-            <PiDownloadSimpleLight className="cursor-pointer text-red-500 text-[23px] hover:text-red-400" />
-          </Tooltip>
-        </>;
+        <div className="font-primary">{params.row.type}</div>;
       },
     },
   ];
-
-  const SalesRows = [
-    {
-      _id: "1",
-      staff: "User",
-      CustomerName: "User1",
-      netWorth: "1000",
-      amountRecieved: "1000",
-      profit: "0",
-      top: "Cash",
-      actions: "",
-    }
-  ];
-
-  const LedgerRows = [
-    {
-      _id: "1",
-      staff: "User",
-      CustomerName: "User1",
-      remarks: "No Remarks",
-      top: "Cash",
-      AmountIn: "1000",
-      AmountOut: "0",
-      actions: "",
-    },
-  ];
-
   /////////////////////////////////////////// STATES ////////////////////////////////////////////
 
   /////////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////
+  useEffect(() => {
+    lead?._id && dispatch(getLeadSales(lead?._id))
+    lead?._id && dispatch(getLeadCashbooks(lead?._id))
+  }, [lead])
+  useEffect(() => {
+    dispatch(getLead(leadId))
+  }, [leadId])
 
   /////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////
 
   return (
     <div className="w-full">
       <LedgerTopbar />
-      <Table rows={LedgerRows} columns={LedgerColumns} rowsPerPage={5} />
+      <Table
+        rows={cashbooks}
+        columns={LedgerColumns}
+        rowsPerPage={5}
+        isFetching={cashbookFetching}
+        error={cashbookError}
+      />
 
       <LedgerSalesTopbar />
-      <Table rows={SalesRows} columns={SalesColumns} rowsPerPage={5} />
+      <Table
+        rows={sales}
+        columns={SalesColumns}
+        rowsPerPage={5}
+        isFetching={salesFetching}
+        error={salesError}
+      />
     </div>
   );
 };

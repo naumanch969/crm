@@ -13,22 +13,26 @@ import { PiTrashLight, PiTrashThin } from "react-icons/pi";
 function CashBook() {
   ///////////////////////////////////// VARIABLES ////////////////////////////////////////
   const dispatch = useDispatch();
-  const { cashbooksIn, cashbooksOut, isFetching, error } = useSelector((state) => state.cashbook);
+  const { cashbooks, isFetching, error } = useSelector((state) => state.cashbook);
   const columns = [
     {
-      field: "_id",
+      field: "uid",
       headerName: "ID",
+      width: 70,
       headerClassName: "super-app-theme--header",
-      width: 100,
-      renderCell: (params) => <div className="font-primary">{params.row._id}</div>,
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize">{params.row.uid}</span>
+        </Tooltip>
+      ),
     },
     {
-      field: "customerName",
+      field: "clientName",
       headerName: "Customer Name",
       headerClassName: "super-app-theme--header",
       width: 170,
       renderCell: (params) => (
-        <div className="font-primary capitalize px-8">{params.row.customerName}</div>
+        <div className="font-primary capitalize px-8">{params.row.clientName}</div>
       ),
     },
     {
@@ -76,12 +80,14 @@ function CashBook() {
       renderCell: (params) => (
         <div className="flex gap-[4px] ">
           <Tooltip arrow placement="top" title="Delete">
-              <PiTrashThin onClick={()=>handleOpenDeleteModal(params.row._id)} className="text-red-500 text-[23px] cursor-pointer" />
+            <PiTrashThin onClick={() => handleOpenDeleteModal(params.row._id)} className="text-red-500 text-[23px] cursor-pointer" />
           </Tooltip>
         </div>
       ),
     },
   ];
+  const cashbooksIn = cashbooks.filter(cashbook => cashbook.type == 'in')
+  const cashbooksOut = cashbooks.filter(cashbook => cashbook.type == 'out')
 
   ///////////////////////////////////// STATES //////////////////////////////////////
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -89,8 +95,7 @@ function CashBook() {
 
   ///////////////////////////////////// USE EFFECTS //////////////////////////////////////
   useEffect(() => {
-    dispatch(getCashbooks("out"));
-    dispatch(getCashbooks("in"));
+    dispatch(getCashbooks());
   }, []);
 
   ///////////////////////////////////// FUNCTIONS //////////////////////////////////////

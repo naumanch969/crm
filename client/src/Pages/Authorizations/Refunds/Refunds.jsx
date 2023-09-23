@@ -19,11 +19,15 @@ function RequestApprovals() {
   const { error: cashbookError, isFetching: cashbookIsFetching } = useSelector((state) => state.cashbook);
   const columns = [
     {
-      field: "sr",
-      headerName: "Sr.",
-      width: 80,
+      field: "uid",
+      headerName: "ID",
+      width: 70,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary">{params.id}</div>,
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize">{params.row.uid}</span>
+        </Tooltip>
+      ),
     },
     {
       field: "data.amount",
@@ -53,13 +57,13 @@ function RequestApprovals() {
       ),
     },
     {
-      field: "data.customerName",
+      field: "data.clientName",
       headerName: "Customer Name",
       headerClassName: "super-app-theme--header",
       width: 180,
       renderCell: (params) => (
         <span className="cursor-pointer text-gray-600 font-primary">
-          {params.row.data.customerName}
+          {params.row.data.clientName}
         </span>
       ),
     },

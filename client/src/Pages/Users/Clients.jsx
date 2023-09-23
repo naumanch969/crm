@@ -91,6 +91,17 @@ const Clients = () => {
   const { clients, isFetching, error } = useSelector((state) => state.user);
   const columns = [
     {
+      field: "uid",
+      headerName: "ID",
+      width: 70,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize">{params.row.uid}</span>
+        </Tooltip>
+      ),
+    },
+    {
       headerClassName: "super-app-theme--header",
       field: "Client Name",
       headerName: "Client Name",

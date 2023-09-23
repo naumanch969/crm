@@ -5,8 +5,9 @@ import { Path } from "../../../utils";
 import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import CreateSale from "../../Sales/CreateSale";
+import { searchSaleReducer } from "../../../redux/reducer/sale";
 
-const LedgerSalesTopbar = () => {
+const LedgerSalesTopbar = ({ }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -29,8 +30,8 @@ const LedgerSalesTopbar = () => {
 
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleSearch = (searchTerm) => {
-    dispatch(searchLead(searchTerm));
-  };
+    dispatch(searchSaleReducer(searchTerm));
+  }
 
   const handleCreateopen = (scrollType) => () => {
     setOpen(true);
@@ -70,7 +71,7 @@ const LedgerSalesTopbar = () => {
         </div>
       </div>
 
-    <CreateSale open={open} setOpen={setOpen} />
+      <CreateSale open={open} setOpen={setOpen} />
 
     </div>
   );

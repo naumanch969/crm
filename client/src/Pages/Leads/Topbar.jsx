@@ -3,17 +3,19 @@ import { Add } from "@mui/icons-material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../utils";
 import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
-import { useDispatch } from "react-redux";
-import {   getEmployeeLeads, getLeads, searchLead } from "../../redux/action/lead";
+import { useDispatch, useSelector } from "react-redux";
+import { getEmployeeLeads, getLeads, searchLead } from "../../redux/action/lead";
 import { PiArchive, PiMagnifyingGlass } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
 import CreateLead from "./CreateLead";
 import EditModal from "./EditModal";
+import { searchLeadReducer } from "../../redux/reducer/lead";
 
 const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { leads } = useSelector(state => state.lead);
   const title = pathname.split("/")[1];
   const pathArr = pathname.split("/").filter((item) => item !== "");
   const showOptionButtons = !pathArr.includes("create");
@@ -25,7 +27,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   const descriptionElementRef = React.useRef(null);
 
   ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
       if (descriptionElement !== null) {
@@ -37,8 +39,10 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
 
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleSearch = (searchTerm) => {
-    dispatch(searchLead(searchTerm));
-  };
+    dispatch(searchLeadReducer(searchTerm));
+  }
+
+
   const handleToggleShowArchivedLeads = () => {
     setOptions((pre) => ({
       ...pre,
@@ -93,44 +97,40 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
             <Tooltip title="Archived" arrow placement="top">
               <div
                 onClick={handleToggleShowArchivedLeads}
-                className={` p-2 rounded-md cursor-pointer ${
-                  options?.showArchivedLeads
-                    ? "text-[#20aee3] bg-[#e4f1ff]"
-                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                className={` p-2 rounded-md cursor-pointer ${options?.showArchivedLeads
+                  ? "text-[#20aee3] bg-[#e4f1ff]"
+                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                  }`}>
                 <PiArchive className="text-[25px]" />
               </div>
             </Tooltip>
             <Tooltip title="My Leads" arrow placement="top">
               <div
                 onClick={handleToggleShowEmployeeLeads}
-                className={` p-2 rounded-md cursor-pointer ${
-                  options?.showEmployeeLeads
-                    ? "text-[#20aee3] bg-[#e4f1ff]"
-                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                className={` p-2 rounded-md cursor-pointer ${options?.showEmployeeLeads
+                  ? "text-[#20aee3] bg-[#e4f1ff]"
+                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                  }`}>
                 <FiUser className="text-[25px] " />
               </div>
             </Tooltip>
             <Tooltip title="View" arrow placement="top">
               <div
                 onClick={handleToggleIsKanbanView}
-                className={` p-2 rounded-md cursor-pointer ${
-                  options?.isKanbanView
-                    ? "text-[#20aee3] bg-[#e4f1ff]"
-                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                className={` p-2 rounded-md cursor-pointer ${options?.isKanbanView
+                  ? "text-[#20aee3] bg-[#e4f1ff]"
+                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                  }`}>
                 <FiList className="text-[25px] " />
               </div>
             </Tooltip>
             <Tooltip title="Filter" arrow placement="top">
               <div
                 onClick={handleToggleFilters}
-                className={` p-2 rounded-md cursor-pointer ${
-                  openFilters
-                    ? "text-[#20aee3] bg-[#e4f1ff]"
-                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                className={` p-2 rounded-md cursor-pointer ${openFilters
+                  ? "text-[#20aee3] bg-[#e4f1ff]"
+                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                  }`}>
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>

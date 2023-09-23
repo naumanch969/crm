@@ -1,6 +1,6 @@
 import { KeyboardArrowRight } from "@mui/icons-material";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { createCashbook } from "../../redux/action/cashbook";
 import { useNavigate } from "react-router-dom";
 import {
@@ -16,24 +16,41 @@ import {
   Select,
 } from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
+import { getClients, getEmployees } from "../../redux/action/user";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
 function CreateCashBook({ open, setOpen, scroll }) {
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [cashbookData, setCashbookData] = useState({
+  const { currentLead: lead } = useSelector(state => state.lead)
+  const { employees, clients } = useSelector(state => state.user)
+  const initialCashbookState = {
     staff: "",
-    customerName: "",
+    clientName: lead?.client?.username,
     remarks: "",
-    LeadId: "",
     top: "",
-    amountIn: 0,
-    amountOut: 0,
-  });
+    amount: 0,
+    type: '',
+  }
+
+   const [cashbookData, setCashbookData] = useState(initialCashbookState);
+
+  ///////////////////////////////////////////////// USE EFFECTS ///////////////////////////////////////////////////////
+  useEffect(() => {
+    dispatch(getEmployees())
+    dispatch(getClients())
+  }, [open])
+  useEffect(() => {
+    setCashbookData({ ...cashbookData, staff: lead?.client?.username })
+  }, [lead])
+
+
+  ///////////////////////////////////////////////// FUNCTIONS ///////////////////////////////////////////////////////
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -41,17 +58,9 @@ function CreateCashBook({ open, setOpen, scroll }) {
   };
 
   const handleSubmit = (e) => {
-    dispatch(createCashbook(cashbookData, navigate));
+     dispatch(createCashbook({ ...cashbookData, leadId: lead?._id, clientName: lead?.client?.username }));
     setOpen(false);
-    setCashbookData({
-      staff: "",
-      customerName: "",
-      remarks: "",
-      LeadId: "",
-      top: "",
-      amountIn: 0,
-      amountOut: 0,
-    });
+    setCashbookData(initialCashbookState);
   };
 
   const handleClose = () => {
@@ -87,25 +96,36 @@ function CreateCashBook({ open, setOpen, scroll }) {
                 <td className="pb-4 text-lg">Staff </td>
                 <td className="pb-4">
                   <Select
-                    name="staff"
-                    value={cashbookData.staff}
                     onChange={handleChange}
+                    value={cashbookData.staff}
+                    name="staff"
                     size="small"
                     fullWidth>
-                    <MenuItem value="in">All Employees</MenuItem>
+                    {
+                      employees.map((employee, index) => (
+                        <MenuItem key={index} value={employee?._id}>{employee?.username}</MenuItem>
+                      ))
+                    }
                   </Select>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Customer Name </td>
                 <td className="pb-4">
-                  <TextField
-                    name="customerName"
-                    value={cashbookData.customerName}
+                  <Select
+                    disabled={lead?.client}
                     onChange={handleChange}
+                    value={cashbookData.clientName}
+                    name="staff"
                     size="small"
-                    fullWidth
-                  />
+                    fullWidth>
+                    {
+                      clients.map((client, index) => (
+                        <MenuItem key={index} value={client?._id}>{client?.username}</MenuItem>
+                      ))
+                    }
+                  </Select>
+
                 </td>
               </tr>
               <tr>
@@ -125,11 +145,11 @@ function CreateCashBook({ open, setOpen, scroll }) {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Amount In </td>
+                <td className="pb-4 text-lg">Amount </td>
                 <td className="pb-4">
                   <TextField
-                    name="amountIn"
-                    value={cashbookData.amountIn}
+                    name="amount"
+                    value={cashbookData.amount}
                     onChange={handleChange}
                     size="small"
                     fullWidth
@@ -137,15 +157,17 @@ function CreateCashBook({ open, setOpen, scroll }) {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Amount Out </td>
+                <td className="pb-4 text-lg">Type </td>
                 <td className="pb-4">
-                  <TextField
-                    name="branch"
-                    value={cashbookData.amountOut}
+                  <Select
+                    name="type"
+                    value={cashbookData.type}
                     onChange={handleChange}
                     size="small"
-                    fullWidth
-                  />
+                    fullWidth>
+                    <MenuItem value="in">In</MenuItem>
+                    <MenuItem value="out">Out</MenuItem>
+                  </Select>
                 </td>
               </tr>
               <tr>

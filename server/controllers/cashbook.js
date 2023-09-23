@@ -3,6 +3,22 @@ import User from '../models/user.js'
 import { createError } from '../utils/error.js'
 import bcrypt from 'bcryptjs'
 
+export const getCashbooks = async (req, res, next) => {
+    try {
+
+        const { type } = req.query
+
+        const findedCashbooks =
+            type != 'undefined'
+                ? await Cashbook.find({ type })
+                : await Cashbook.find()
+
+        res.status(200).json({ result: findedCashbooks, message: 'cashbooks fetched successfully', success: true })
+
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
 export const getCashbook = async (req, res, next) => {
     try {
 
@@ -64,7 +80,7 @@ export const getIncomeAndExpenses = async (req, res, next) => {
                         $sum: {
                             $cond: [
                                 { $eq: ["$type", "in"] },
-                                { $toDouble: "$amountPaid" },
+                                { $toDouble: "$amount" },
                                 0,
                             ],
                         },
@@ -73,7 +89,7 @@ export const getIncomeAndExpenses = async (req, res, next) => {
                         $sum: {
                             $cond: [
                                 { $eq: ["$type", "out"] },
-                                { $toDouble: "$amountPaid" },
+                                { $toDouble: "$amount" },
                                 0,
                             ],
                         },
@@ -137,7 +153,7 @@ export const getPaymentsStat = async (req, res, next) => {
             {
                 $group: {
                     _id: null,
-                    totalReceived: { $sum: { $toDouble: "$amountPaid" } },
+                    totalReceived: { $sum: { $toDouble: "$amount" } },
                 },
             },
         ]);
@@ -152,7 +168,7 @@ export const getPaymentsStat = async (req, res, next) => {
             {
                 $group: {
                     _id: null,
-                    totalReceived: { $sum: { $toDouble: "$amountPaid" } },
+                    totalReceived: { $sum: { $toDouble: "$amount" } },
                 },
             },
         ]);
@@ -167,7 +183,7 @@ export const getPaymentsStat = async (req, res, next) => {
             {
                 $group: {
                     _id: null,
-                    totalReceived: { $sum: { $toDouble: "$amountPaid" } },
+                    totalReceived: { $sum: { $toDouble: "$amount" } },
                 },
             },
         ]);
@@ -184,22 +200,15 @@ export const getPaymentsStat = async (req, res, next) => {
         next(createError(500, err.message))
     }
 }
-export const getCashbooks = async (req, res, next) => {
+
+export const getLeadCashbooks = async (req, res, next) => {
     try {
 
-        const { new: new_query, type } = req.query
+        const { leadId } = req.query
 
-        const findedCashbooks = new_query
-            ?
-            type
-                ? await Cashbook.find({ type }).sort({ createdAt: -1 }).limit(10)
-                : await Cashbook.find().sort({ createdAt: -1 }).limit(10)
-            :
-            type
-                ? await Cashbook.find({ type })
-                : await Cashbook.find()
+        const findedCashbooks = await Cashbook.find({ leadId })
 
-        res.status(200).json({ result: findedCashbooks, message: 'cashbooks fetched successfully', success: true })
+        res.status(200).json({ result: findedCashbooks, message: 'lead cashbooks fetched successfully', success: true })
 
     } catch (err) {
         next(createError(500, err.message))
@@ -210,8 +219,8 @@ export const getCashbooks = async (req, res, next) => {
 export const createCashbook = async (req, res, next) => {
     try {
 
-        const { customerName, paymentType, paymentDetail, amountPaid, branch, type, password } = req.body
-        if (!customerName || !paymentType || !paymentDetail || !amountPaid || !branch || !type)
+        const { clientName, top, remarks, amount, type, staff, password, leadId } = req.body
+        if (!clientName || !top || !remarks || !amount || !type || !staff)
             return next(createError(400, 'Make sure to provide all the fields'))
 
         if (password) {     // in case of refund, we need to have password security
@@ -222,7 +231,14 @@ export const createCashbook = async (req, res, next) => {
             if (!isPasswordCorrect) return next(createError(401, 'Incorrect Password'))
         }
 
-        const newCashbook = await Cashbook.create({ customerName, paymentType, paymentDetail, amountPaid, branch, type })
+        let newCashbook;
+        if (leadId) {
+            newCashbook = await Cashbook.create({ clientName, top, remarks, amount, type, staff, leadId })
+        }
+        else {
+            newCashbook = await Cashbook.create({ clientName, top, remarks, amount, type, staff })
+        }
+
         res.status(200).json({ result: newCashbook, message: 'cashbook created successfully', success: true })
 
     } catch (err) {

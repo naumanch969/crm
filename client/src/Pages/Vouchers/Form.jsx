@@ -32,7 +32,7 @@ const FORM = ({ open, setOpen, scroll }) => {
     branch: "",
     issuingDate: "",
     dueDate: "",
-    customerName: "",
+    clientName: "",
     cnic: "",
     phone: "",
     type: "",
@@ -94,7 +94,7 @@ const FORM = ({ open, setOpen, scroll }) => {
                 { text: "Phone", alignment: "center", bold: true, fillColor: "#dddddd" },
               ],
               [
-                { text: `${voucherData.customerName}`, alignment: "center" },
+                { text: `${voucherData.clientName}`, alignment: "center" },
                 { text: `${voucherData.cnic}`, alignment: "center" },
                 { text: `${voucherData.phone}`, alignment: "center" },
               ],
@@ -279,8 +279,8 @@ const FORM = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg">Customer Name </td>
                 <td className="pb-4">
                   <TextField
-                    name="customerName"
-                    value={voucherData.customerName}
+                    name="clientName"
+                    value={voucherData.clientName}
                     onChange={handleInputChange}
                     size="small"
                     type="text"

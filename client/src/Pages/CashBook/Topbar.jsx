@@ -3,11 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Path } from '../../utils';
 import { Add, } from '@mui/icons-material';
 import CreateCashBook from './CreateCashBook';
+import { searchCashbookReducer } from '../../redux/reducer/cashbook';
 
 const Topbar = (view, setView) => {
-  
+
   const [open, setOpen] = useState(false);
-  const [scroll, setScroll] =useState("paper");
+  const [scroll, setScroll] = useState("paper");
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -25,6 +26,9 @@ const Topbar = (view, setView) => {
     }
   }, [open]);
 
+  const handleSearch = (searchTerm) => {
+    dispatch(searchCashbookReducer(searchTerm));
+  }
   const handleCreateopen = (scrollType) => () => {
     setOpen(true);
     setScroll(scrollType);
