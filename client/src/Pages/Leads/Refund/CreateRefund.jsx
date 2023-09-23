@@ -16,7 +16,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const CreateRefund = ({ open, setOpen }) => {
+const CreateRefund = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////// VARIABLES /////////////////////////////////////
   const dispatch = useDispatch();
   const {
@@ -29,54 +29,15 @@ const CreateRefund = ({ open, setOpen }) => {
   const navigate = useNavigate();
 
   ////////////////////////////////////// STATES /////////////////////////////////////
-  const [leadData, setLeadData] = useState();
-  const [refundData, setRefundData] = useState({
-    branch: "",
-    issuingDate: "",
-    clientName: "",
-    cnic: "",
-    phone: "",
-    amount: "",
-    reason: "",
-  });
+
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////////
-  useEffect(() => {
-    dispatch(getLead(leadId));
-  }, [leadId]);
-  useEffect(() => {
-    setLeadData(currentLead);
-  }, [currentLead]);
+
 
   ////////////////////////////////////// FUNCTIONS //////////////////////////////////
-  const handleChange = (e) => {
-    setRefundData((pre) => ({ ...refundData, [e.target.name]: e.target.value }));
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createRefundApproval({ ...refundData, leadId }, navigate));
-    setRefundData({
-      branch: "",
-      issuingDate: "",
-      clientName: "",
-      cnic: "",
-      phone: "",
-      amount: "",
-      reason: "",
-    });
-  };
+
 
   const handleClose = () => {
-    setRefundData({
-      branch: "",
-      issuingDate: "",
-      clientName: "",
-      cnic: "",
-      phone: "",
-      amount: "",
-      reason: "",
-    });
-
     setOpen(false);
   };
 
@@ -109,8 +70,8 @@ const CreateRefund = ({ open, setOpen }) => {
                 <td className="pb-4 text-lg flex mt-1 items-start">Branch </td>
                 <td className="pb-4">
                   <TextField
-                    value={refundData.branch}
-                    onChange={handleChange}
+                    // value={refundData.branch}
+                    // onChange={handleChange}
                     type="text"
                     name="branch"
                     size="small"
@@ -122,8 +83,8 @@ const CreateRefund = ({ open, setOpen }) => {
                 <td className="flex flex-col justify-start mt-1 text-lg">Issuing Date </td>
                 <td className="pb-4">
                   <TextField
-                    value={date}
-                    onChange={handleChange}
+                    // value={date}
+                    // onChange={handleChange}
                     disabled
                     type="text"
                     name="issuingDate"
@@ -136,8 +97,8 @@ const CreateRefund = ({ open, setOpen }) => {
                 <td className="flex flex-col justify-start mt-1 text-lg">Amount </td>
                 <td className="pb-4">
                   <TextField
-                    value={refundData.amount}
-                    onChange={handleChange}
+                    // value={refundData.amount}
+                    // onChange={handleChange}
                     type="number"
                     name="amount"
                     size="small"
@@ -149,8 +110,8 @@ const CreateRefund = ({ open, setOpen }) => {
                 <td className="flex flex-col justify-start mt-1 text-lg">Customer Name </td>
                 <td className="pb-4">
                   <TextField
-                    value={refundData.clientName}
-                    onChange={handleChange}
+                    // value={refundData.clientName}
+                    // onChange={handleChange}
                     type="text"
                     name="clientName"
                     size="small"
@@ -163,8 +124,8 @@ const CreateRefund = ({ open, setOpen }) => {
                 <td className="flex flex-col justify-start mt-1 text-lg">Customer CNIC </td>
                 <td className="pb-4">
                   <TextField
-                    value={refundData.cnic}
-                    onChange={handleChange}
+                    // value={refundData.cnic}
+                    // onChange={handleChange}
                     type="text"
                     name="cnic"
                     size="small"
@@ -176,8 +137,8 @@ const CreateRefund = ({ open, setOpen }) => {
                 <td className="flex flex-col justify-start mt-1 text-lg">Phone Number </td>
                 <td className="pb-4">
                   <TextField
-                    value={refundData.phone}
-                    onChange={handleChange}
+                    // value={refundData.phone}
+                    // onChange={handleChange}
                     type="number"
                     name="phone"
                     size="small"
@@ -186,13 +147,13 @@ const CreateRefund = ({ open, setOpen }) => {
                 </td>
               </tr>
               <tr>
-                <td className="flex flex-col justify-start mt-1 text-lg">Phone Number </td>
+                <td className="flex flex-col justify-start mt-1 text-lg">Reason </td>
                 <td className="pb-4">
                   <TextField
                     type="text"
                     name="reason"
-                    onChange={handleChange}
-                    value={refundData.reason}
+                    // onChange={handleChange}
+                    // value={refundData.reason}
                     multiline
                     rows={5}
                     size="small"
@@ -203,7 +164,7 @@ const CreateRefund = ({ open, setOpen }) => {
             </table>
           </div>
         </DialogContent>
-        <DialogActions>
+        <DialogActions className="mr-6 mb-4">
           <button
             onClick={handleClose}
             variant="contained"
@@ -211,7 +172,6 @@ const CreateRefund = ({ open, setOpen }) => {
             Cancel
           </button>
           <button
-            onClick={handleSubmit}
             variant="contained"
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
             Save

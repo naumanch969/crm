@@ -11,46 +11,28 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const FilterDrawer = ({ open, setOpen }) => {
-  const dispatch = useDispatch();
-  const initialFilters = {
-    city: "",
-    status: "",
-    startingDate: "",
-    endingDate: "",
-    minBudget: "",
-    maxBudget: "",
-    propertyType: "",
-    homeType: "",
-    beds: "",
-    minArea: "",
-    maxArea: "",
-  }
-  const [filters, setFilters] = useState(initialFilters);
-
-
-
-  const handleInputChange = (field, value) => {
-    let inputValue
-    if (field == 'startingDate' || field == 'endingDate')
-
-      inputValue = value
-    else
-      inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [field]: inputValue,
-    }));
-  };
-
-  const handleApplyFilters = () => {
-    dispatch(filterLead(filters));
-    setFilters(initialFilters)
-    setOpen(false);
-  };
-
-  const demoStatus = ["Successful", "Unsuccessful", "Under Process", "Remaining", "Declined"];
-  const demoPropertyType = ["Residential", "Commercial", "Agricultural", "Industrial"];
-  const demoHomeType = ["Apartment", "House", "Farm House", "Plot", "Shop", "Office"];
+  const priorities = ["Very Cold", "Cold", "Moderate", "Hot", "Very Hot"];
+  const statuses = [
+    "New",
+    "Closed(Won)",
+    "Closed(Lost)",
+    "Followed Up(Call)",
+    "Followed Up(Email)",
+    "Contacted Client(Call)",
+    "Contacted Client(Call Attempt)",
+    "Contacted Client(Email)",
+    "Meeting(Done)",
+    "Meeting(Attempt)",
+  ];
+  const sources = [
+    "Facebook",
+    "Instagram",
+    "Google",
+    "Facebook Comments",
+    "Friend and Family",
+    "Direct Call",
+    "Referral",
+  ];
 
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -70,36 +52,21 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={pakistanCities}
-            onSelect={(e) => handleInputChange("city", e.target.value)}
             className="w-full"
             renderInput={(params) => (
-              <TextField
-                {...params}
-                autoComplete="false"
-                fullWidth
-                label="City"
-                value={filters.city}
-              />
+              <TextField {...params} autoComplete="false" fullWidth label="City" />
             )}
           />
           <Autocomplete
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={demoStatus}
+            options={priorities}
             className="w-full"
-            onSelect={(e) => handleInputChange("status", e.target.value)}
             renderInput={(params) => (
-              <TextField
-                {...params}
-                autoComplete="false"
-                fullWidth
-                label="Status"
-                value={filters.status}
-              />
+              <TextField {...params} autoComplete="false" fullWidth label="Priority" />
             )}
           />
-
           <div className="flex flex-col">
             <div>Date : </div>
             <div className="flex gap-3">
@@ -108,22 +75,17 @@ const FilterDrawer = ({ open, setOpen }) => {
                   <DemoContainer components={["DesktopDatePicker"]}>
                     <DesktopDatePicker
                       slotProps={{ textField: { size: "small", maxWidth: 200 } }}
-                      label="Starting Date"
-                      value={filters.startingDate}
-                      onChange={(date) => handleInputChange("startingDate", date.$d)}
+                      label="From"
                     />
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
-
               <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DesktopDatePicker"]}>
                     <DesktopDatePicker
                       className="w-3/6"
-                      label="Ending Date"
-                      value={filters.endingDate}
-                      onChange={(date) => handleInputChange("endingDate", date.$d)}
+                      label="To"
                       slotProps={{ textField: { size: "small" } }}
                     />
                   </DemoContainer>
@@ -131,48 +93,14 @@ const FilterDrawer = ({ open, setOpen }) => {
               </div>
             </div>
           </div>
-
-          <div className="flex flex-col gap-2">
-            <div>Budget : </div>
-            <div className="flex gap-3">
-              <div>
-                <TextField
-                  value={filters.minBudget}
-                  autoComplete="false"
-                  onChange={(e) => handleInputChange("minBudget", e.target.value)}
-                  label="Minimum"
-                  type="number"
-                  size="small"
-                />
-              </div>
-              <div>
-                <TextField
-                  value={filters.maxBudget}
-                  autoComplete="false"
-                  onChange={(e) => handleInputChange("maxBudget", e.target.value)}
-                  label="Maximum"
-                  type="number"
-                  size="small"
-                />
-              </div>
-            </div>
-          </div>
-
           <Autocomplete
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={demoPropertyType}
-            onSelect={(e) => handleInputChange("propertyType", e.target.value)}
+            options={"All Projects"}
             className="w-full"
             renderInput={(params) => (
-              <TextField
-                {...params}
-                autoComplete="false"
-                fullWidth
-                label="Propery Type"
-                value={filters.propertyType}
-              />
+              <TextField {...params} autoComplete="false" fullWidth label="Projects" />
             )}
           />
 
@@ -180,66 +108,31 @@ const FilterDrawer = ({ open, setOpen }) => {
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={demoHomeType}
-            onSelect={(e) => handleInputChange("homeType", e.target.value)}
+            options={statuses}
             className="w-full"
             renderInput={(params) => (
-              <TextField
-                {...params}
-                autoComplete="false"
-                fullWidth
-                label="Home Type"
-                value={filters.homeType}
-              />
+              <TextField {...params} autoComplete="false" fullWidth label="Status" />
             )}
           />
 
-          <TextField
+          <Autocomplete
             size="small"
-            autoComplete="false"
-            type="number"
-            fullWidth
-            label="Number of Beds"
-            value={filters.beds}
-            onChange={(e) => handleInputChange("beds", e.target.value)}
+            disablePortal
+            id="combo-box-demo"
+            options={sources}
+            className="w-full"
+            renderInput={(params) => (
+              <TextField {...params} autoComplete="false" fullWidth label="Source" />
+            )}
           />
-
-          <div className="flex flex-col gap-2">
-            <div>Area : </div>
-            <div className="flex gap-3">
-              <div>
-                <TextField
-                  value={filters.minArea}
-                  autoComplete="false"
-                  onChange={(e) => handleInputChange("minArea", e.target.value)}
-                  label="Minimum"
-                  type="number"
-                  size="small"
-                />
-              </div>
-              <div>
-                <TextField
-                  value={filters.maxArea}
-                  autoComplete="false"
-                  onChange={(e) => handleInputChange("maxArea", e.target.value)}
-                  label="Maximum"
-                  type="number"
-                  size="small"
-                />
-              </div>
-            </div>
-          </div>
 
           <div className="flex gap-4 justify-end">
-            <button
-              variant="contained"
-              className="bg-[#d7d7d7] px-4 py-2 rounded-lg text-gray-500 mt-4 hover:text-white hover:bg-[#6c757d] border-[2px] border-[#efeeee] hover:border-[#d7d7d7] font-thin transition-all">
-              Reset
+            <button className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg font-primary">
+              Cancel
             </button>
             <button
-              variant="contained"
-              className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin"
-              onClick={handleApplyFilters}>
+              className="bg-red-400 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-primary"
+              autoFocus>
               Apply Filters
             </button>
           </div>

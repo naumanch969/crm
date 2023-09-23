@@ -13,22 +13,20 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 const FilterDrawer = ({ open, setOpen }) => {
   const dispatch = useDispatch();
 
-    const [filters, setFilters] = useState({
-        city: '',
-        project: '',
-        region: '',
-        // Add more fields from lead model here
-    });
+  const [filters, setFilters] = useState({
+    city: "",
+    project: "",
+    region: "",
+    // Add more fields from lead model here
+  });
 
-
-
-    const handleInputChange = (field, value) => {
-      const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [field]: inputValue,
-      }));
-    };
+  const handleInputChange = (field, value) => {
+    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, "");
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [field]: inputValue,
+    }));
+  };
 
   const handleApplyFilters = () => {
     dispatch(filterLead(filters));
@@ -52,33 +50,34 @@ const FilterDrawer = ({ open, setOpen }) => {
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={["Married", "Unmarried"]}
-            onSelect={(e) => handleInputChange("status", e.target.value)}
+            options={pakistanCities}
             className="w-full"
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                fullWidth
-                label="Martial Status"
-               />
-            )}
+            renderInput={(params) => <TextField {...params} fullWidth label="City" />}
           />
           <Autocomplete
             size="small"
             disablePortal
             id="combo-box-demo"
             options={["Online", "Cash", "Cheque", "Bank Transfer"]}
-            onSelect={(e) => handleInputChange("salaryType", e.target.value)}
             className="w-full"
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                fullWidth
-                label="Salary Type"
-               />
-            )}
+            renderInput={(params) => <TextField {...params} fullWidth label="Salary Type" />}
           />
-
+          <Autocomplete
+            size="small"
+            disablePortal
+            id="combo-box-demo"
+            options={["Male", "Female"]}
+            className="w-full"
+            renderInput={(params) => <TextField {...params} fullWidth label="Gender" />}
+          />
+          <Autocomplete
+            size="small"
+            disablePortal
+            id="combo-box-demo"
+            options={["Married", "Unmarried"]}
+            className="w-full"
+            renderInput={(params) => <TextField {...params} fullWidth label="Martial Status" />}
+          />
           <div className="flex gap-4 justify-end">
             <button
               variant="contained"

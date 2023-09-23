@@ -133,7 +133,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Seller City </td>
+                <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
                   <Select
                     size="small"

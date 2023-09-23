@@ -35,11 +35,18 @@ const DeleteModal = ({ open, setOpen, leadId }) => {
           <div className="font-primary">Are you sure you want to delete this lead?</div>
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Close</Button>
-        <Button onClick={handleDelete} autoFocus>
-          {isFetching ? "Deleting" : "Delete"}
-        </Button>
+      <DialogActions className="mr-4 mb-2">
+        <button
+          className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg font-primary"
+          onClick={handleClose}>
+          Cancel
+        </button>
+        <button
+          className="bg-red-400 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-primary"
+          onClick={handleDelete}
+          autoFocus>
+          Delete
+        </button>
       </DialogActions>
     </Dialog>
   );

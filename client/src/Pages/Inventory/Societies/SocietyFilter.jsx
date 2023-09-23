@@ -50,14 +50,14 @@ const SocietyFilter = ({ open, setOpen }) => {
         </div>
         <div className="p-4 flex flex-col gap-4">
           <div className="flex flex-col">
-            <div>Creation Date : </div>
+            <div>Date : </div>
             <div className="flex gap-3">
               <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DesktopDatePicker"]}>
                     <DesktopDatePicker
                       slotProps={{ textField: { size: "small", maxWidth: 200 } }}
-                      label="Starting"
+                      label="From"
                       value={filters.startingDate}
                       onChange={(date) => handleInputChange("startingDate", date.$d)}
                     />
@@ -70,7 +70,7 @@ const SocietyFilter = ({ open, setOpen }) => {
                   <DemoContainer components={["DesktopDatePicker"]}>
                     <DesktopDatePicker
                       className="w-3/6"
-                      label="Ending"
+                      label="to"
                       slotProps={{ textField: { size: "small" } }}
                       value={filters.endingDate}
                       onChange={(date) => handleInputChange("endingDate", date.$d)}

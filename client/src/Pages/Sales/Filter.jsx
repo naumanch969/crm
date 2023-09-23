@@ -24,8 +24,16 @@ const FilterDrawer = ({ open, setOpen }) => {
         </div>
         <div className="p-4 flex flex-col gap-4">
           <table>
+          <tr>
+              <div className="flex flex-col gap-2">
+                <div>Staff : </div>
+                <Select name="branch" type="text" size="small" fullWidth>
+                  <MenuItem value="1">All Employees</MenuItem>
+                </Select>
+              </div>
+            </tr>
             <tr>
-              <div className="flex flex-col">
+              <div className="pt-5 flex flex-col">
                 <div>Date : </div>
                 <div className="flex gap-3">
                   <div>
@@ -33,7 +41,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                       <DemoContainer components={["DesktopDatePicker"]}>
                         <DesktopDatePicker
                           slotProps={{ textField: { size: "small", maxWidth: 200 } }}
-                          label="Starting Date"
+                          label="From"
                         />
                       </DemoContainer>
                     </LocalizationProvider>
@@ -44,7 +52,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                       <DemoContainer components={["DesktopDatePicker"]}>
                         <DesktopDatePicker
                           className="w-3/6"
-                          label="Ending Date"
+                          label="To"
                           slotProps={{ textField: { size: "small" } }}
                         />
                       </DemoContainer>
@@ -84,7 +92,7 @@ const FilterDrawer = ({ open, setOpen }) => {
 
             <tr>
               <div className="flex flex-col gap-2 pt-5">
-                <div>PSF Rate : </div>
+                <div>Profit : </div>
                 <div className="flex gap-3">
                   <div>
                     <TextField label="Minimum" type="number" size="small" />
@@ -98,10 +106,11 @@ const FilterDrawer = ({ open, setOpen }) => {
 
             <tr>
               <div className="flex flex-col gap-2 pt-5">
-                <div>Branch : </div>
+                <div>Type of Payment : </div>
                 <Select name="branch" type="text" size="small" fullWidth>
-                  <MenuItem value="lahore">Lahore</MenuItem>
-                  <MenuItem value="islamabad">Islamabad</MenuItem>
+                  <MenuItem value="cash">Cash</MenuItem>
+                  <MenuItem value="cheque">Cheque</MenuItem>
+                  <MenuItem value="card">Card</MenuItem>
                 </Select>
               </div>
             </tr>

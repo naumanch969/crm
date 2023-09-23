@@ -13,23 +13,18 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 const FilterDrawer = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const initialState = {
-    status: '',
-    priority: '',
-    startingDate: '',
-    endingDate: ''
-  }
+    status: "",
+    priority: "",
+    startingDate: "",
+    endingDate: "",
+  };
 
   const [filters, setFilters] = useState(initialState);
 
-
-
   const handleInputChange = (field, value) => {
-
-    let inputValue
-    if (field == 'startingDate' || field == 'endingDate')
-      inputValue = value
-    else
-      inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
+    let inputValue;
+    if (field == "startingDate" || field == "endingDate") inputValue = value;
+    else inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, "");
     setFilters((prevFilters) => ({
       ...prevFilters,
       [field]: inputValue,
@@ -40,8 +35,33 @@ const FilterDrawer = ({ open, setOpen }) => {
     setOpen(false);
   };
 
-  const demoStatus = ["Completed", "Overdue", "Pending", "In Progress"];
-  const demoPriority = ["High", "Moderate", "Low"];
+  const demoTasks = [
+    "New",
+    "Sent Availablity List",
+    "Site Visit",
+    "Token Received",
+    "Closed(Won)",
+    "Closed(Lost)",
+    "Followed Up(Call)",
+    "Followed Up(Email)",
+    "Contacted Client(Call)",
+    "Contacted Client(Call Attempt)",
+    "Contacted Client(Email)",
+    "Meeting(Done)",
+    "Meeting(Attempt)",
+  ];
+  const demoNextTasks = [
+    "Do Nothing",
+    "Send Availablity List",
+    "Contact Client",
+    "Follow Up",
+    "Arrange Meeting",
+    "Push Meeting",
+    "Meet Client",
+    "Sign Agreement",
+    "Receive Token",
+  ];
+  const demoStatus = ["Successfull", "Unsuccessfull"];
 
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -60,44 +80,29 @@ const FilterDrawer = ({ open, setOpen }) => {
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={demoStatus}
-            onSelect={(e) => handleInputChange("status", e.target.value)}
+            options={demoTasks}
             className="w-full"
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                fullWidth
-                label="Status"
-              />
-            )}
+            renderInput={(params) => <TextField {...params} fullWidth label="Task" />}
           />
 
           <Autocomplete
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={demoPriority}
-            onSelect={(e) => handleInputChange("priority", e.target.value)}
+            options={demoStatus}
             className="w-full"
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                fullWidth
-                label="Priority"
-              />
-            )}
+            renderInput={(params) => <TextField {...params} fullWidth label="Status" />}
           />
 
           <div className="flex flex-col">
-            <div>Date : </div>
+            <div>Completed Task Date : </div>
             <div className="flex gap-3">
               <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DesktopDatePicker"]}>
                     <DesktopDatePicker
                       slotProps={{ textField: { size: "small", maxWidth: 200 } }}
-                      label="Starting Date"
-                      onChange={(date) => handleInputChange("startingDate", date.$d)}
+                      label="From"
                     />
                   </DemoContainer>
                 </LocalizationProvider>
@@ -108,8 +113,44 @@ const FilterDrawer = ({ open, setOpen }) => {
                   <DemoContainer components={["DesktopDatePicker"]}>
                     <DesktopDatePicker
                       className="w-3/6"
-                      label="Ending Date"
-                      onChange={(date) => handleInputChange("endingDate", date.$d)}
+                      label="To"
+                      slotProps={{ textField: { size: "small" } }}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </div>
+            </div>
+          </div>
+
+          <Autocomplete
+            size="small"
+            disablePortal
+            id="combo-box-demo"
+            options={demoNextTasks}
+            className="w-full"
+            renderInput={(params) => <TextField {...params} fullWidth label="Next Task" />}
+          />
+
+          <div className="flex flex-col">
+            <div>Deadline Date for New Task : </div>
+            <div className="flex gap-3">
+              <div>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DesktopDatePicker"]}>
+                    <DesktopDatePicker
+                      slotProps={{ textField: { size: "small", maxWidth: 200 } }}
+                      label="From"
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </div>
+
+              <div>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DesktopDatePicker"]}>
+                    <DesktopDatePicker
+                      className="w-3/6"
+                      label="To"
                       slotProps={{ textField: { size: "small" } }}
                     />
                   </DemoContainer>

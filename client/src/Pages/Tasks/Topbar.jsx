@@ -3,11 +3,11 @@ import { Box, CardContent, FormControl, Input, InputAdornment, Tooltip } from "@
 import { PiArchive, PiMagnifyingGlass, PiTrendUp } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
 import { useSelector } from "react-redux";
-import { Add, Archive, Person2 } from "@mui/icons-material";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Add } from "@mui/icons-material";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../utils";
 import { useDispatch } from "react-redux";
-import { getArchivedTasks, getTasks, searchTask } from "../../redux/action/task";
+import { getArchivedTasks, getTasks } from "../../redux/action/task";
 import CreateTask from "./CreateTask";
 import Navbar from "../../Components/Navbar/Navbar";
 import { searchTaskReducer } from "../../redux/reducer/task";
@@ -138,13 +138,6 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
                 <FiList className="text-[25px] " />
               </div>
             </Tooltip>
-            <Tooltip title="Quick Stats" arrow placement="top">
-              <div
-                onClick={handleToggleIsStatOpen}
-                className=" p-2 rounded-md cursor-pointer bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]">
-                <PiTrendUp className="text-[25px] " />
-              </div>
-            </Tooltip>
             <Tooltip title="Filter" arrow placement="top">
               <div
                 onClick={handleToggleFilters}
@@ -168,35 +161,6 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
           </div>
         )}
       </div>
-
-      {showStatBar && (
-        <div className="mt-5 mb-10">
-          <Box className="w-auto md:columns-4 sm:columns-2 font-primary">
-            {statusArray.map((status, index) => (
-              <div
-                key={index}
-                className={`bg-white border-b-[3px]  sm:mt-0 mt-4 shadow-none rounded-md
-                    ${status.name == "completed" ? "border-b-green-400" : ""}
-                    ${status.name == "new" ? "border-b-sky-400" : ""} 
-                    ${status.name == "overDue" ? "border-b-red-400" : ""} 
-                    ${status.name == "inProgress" ? "border-b-yellow-400" : ""}
-                  `}>
-                <CardContent className="flex-grow-[1] flex justify-between items-center">
-                  <div>
-                    <p className="text-2xl text-[#455a64]">{status.counts}</p>
-                    <p className="text-md font-Mulish text-slate-500 text-opacity-70 capitalize ">
-                      {status.name == "completed" ? "Completed" : ""}
-                      {status.name == "new" ? "New" : ""}
-                      {status.name == "overDue" ? "Over Due" : ""}
-                      {status.name == "inProgress" ? "In Progress" : ""}
-                    </p>
-                  </div>
-                </CardContent>
-              </div>
-            ))}
-          </Box>
-        </div>
-      )}
 
       <CreateTask open={open} setOpen={setOpen} />
     </div>

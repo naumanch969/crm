@@ -30,10 +30,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const CreateLead = ({ setOpen, open, scroll }) => {
   //////////////////////////////////////// VARIABLES ////////////////////////////////////
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { isFetching } = useSelector(state => state.lead)
-  const { projects } = useSelector(state => state.project)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isFetching } = useSelector((state) => state.lead);
+  const { projects } = useSelector((state) => state.project);
   const projectsTitles = projects.map(({ _id, title }) => ({ _id, title }));
   let initialLeadState = {
     firstName: "",
@@ -49,7 +49,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     status: "",
     source: "",
     description: "",
-  }
+  };
   let today = new Date();
   let time = today.toLocaleTimeString();
   let date = today.toLocaleDateString();
@@ -60,15 +60,39 @@ const CreateLead = ({ setOpen, open, scroll }) => {
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
   useEffect(() => {
-    dispatch(getProjects())
-  }, [])
+    dispatch(getProjects());
+  }, []);
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { firstName, lastName, username, phone, clientCity, city, priority, property, status, source, description } = leadData
-    if (!firstName || !lastName || !username || !phone || !clientCity || !city || !priority || !property || !status || !source || !description)
-      return alert("Make sure to provide all the fields")
+    const {
+      firstName,
+      lastName,
+      username,
+      phone,
+      clientCity,
+      city,
+      priority,
+      property,
+      status,
+      source,
+      description,
+    } = leadData;
+    if (
+      !firstName ||
+      !lastName ||
+      !username ||
+      !phone ||
+      !clientCity ||
+      !city ||
+      !priority ||
+      !property ||
+      !status ||
+      !source ||
+      !description
+    )
+      return alert("Make sure to provide all the fields");
     dispatch(createLead(leadData, navigate));
     setLeadData(initialLeadState);
     setOpen(false);
@@ -182,7 +206,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                     size="small"
                     fullWidth>
                     {pakistanCities.map((item, index) => (
-                      <MenuItem value={item} key={index} >{item}</MenuItem>
+                      <MenuItem value={item} key={index}>
+                        {item}
+                      </MenuItem>
                     ))}
                   </Select>
                 </td>
@@ -237,11 +263,11 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                     type="text"
                     size="small"
                     fullWidth>
-                    {
-                      projectsTitles.map((project, index) => (
-                        <MenuItem value={project._id} key={index} >{project.title} </MenuItem>
-                      ))
-                    }
+                    {projectsTitles.map((project, index) => (
+                      <MenuItem value={project._id} key={index}>
+                        {project.title}{" "}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </td>
               </tr>
@@ -275,7 +301,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                     fullWidth>
                     <MenuItem value="closedLost">Closed (Lost)</MenuItem>
                     <MenuItem value="followedUpCall">Followed Up (Call)</MenuItem>
-                    <MenuItem value="contactedCallAttempt">Contacted Client (Call Attempt)</MenuItem>
+                    <MenuItem value="contactedCallAttempt">
+                      Contacted Client (Call Attempt)
+                    </MenuItem>
                     <MenuItem value="contactedCall">Contacted Client (Call)</MenuItem>
                     <MenuItem value="followedUpEmail">Followed Up (Email)</MenuItem>
                     <MenuItem value="contactedEmail">Contacted Client (Email)</MenuItem>
@@ -324,18 +352,17 @@ const CreateLead = ({ setOpen, open, scroll }) => {
             </table>
           </div>
         </DialogContent>
-        <DialogActions>
+        <DialogActions className="mr-4 mb-2">
           <button
-            onClick={handleClose}
-            variant="contained"
-            className="bg-[#d7d7d7] px-4 py-2 rounded-lg text-gray-500 mt-4 hover:text-white hover:bg-[#6c757d] border-[2px] border-[#efeeee] hover:border-[#d7d7d7] font-thin transition-all">
+            className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg font-primary"
+            onClick={handleClose}>
             Cancel
           </button>
           <button
+            className="bg-red-400 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-primary"
             onClick={handleSubmit}
-            variant="contained"
-            className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
-            {isFetching ? "Saving" : "Save"}
+            autoFocus>
+            Save
           </button>
         </DialogActions>
       </Dialog>

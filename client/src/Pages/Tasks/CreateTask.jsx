@@ -11,6 +11,8 @@ import {
   DialogActions,
   TextField,
   Autocomplete,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -27,12 +29,6 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
   const { isFetching, error } = useSelector((state) => state.task);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const stats = [
-    { title: "Completed", numbers: 100 },
-    { title: "Pending", numbers: 0 },
-    { title: "Delayed", numbers: 0 },
-    { title: "Started", numbers: 0 },
-  ];
 
   ////////////////////////////////////// STATES ///////////////////////////////////
   const [taskData, setTaskData] = useState({
@@ -53,11 +49,9 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
   };
 
   const handleInputChange = (field, value) => {
-    let inputValue
-    if (field == 'dueDate')
-      inputValue = value
-    else
-      inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, '');
+    let inputValue;
+    if (field == "dueDate") inputValue = value;
+    else inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, "");
     setTaskData((prevFilters) => ({
       ...prevFilters,
       [field]: inputValue,
@@ -93,54 +87,88 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
             <Divider />
             <table className="mt-4">
               <tr>
-                <td className="pb-4 text-lg">Title </td>
+                <td className="pb-4 text-lg">Task </td>
                 <td className="pb-4">
-                  <TextField
-                    size="small"
-                    onChange={(e) => handleInputChange("title", e.target.value)}
-                    fullWidth
-                  />
+                  <Select name="task" fullWidth size="small">
+                    <MenuItem value="New">New</MenuItem>
+                    <MenuItem value="sentAvailablityList">Sent Availablity List</MenuItem>
+                    <MenuItem value="siteVisit">Site Visit</MenuItem>
+                    <MenuItem value="tokenRecieved">Token Recieved</MenuItem>
+                    <MenuItem value="ClosedWon">Closed (Won)</MenuItem>
+                    <MenuItem value="closedLost">Closed (Lost)</MenuItem>
+                    <MenuItem value="FollowedUpCall">Followed Up (Call)</MenuItem>
+                    <MenuItem value="FollowedUpEmail">Followed Up (Email)</MenuItem>
+                    <MenuItem value="ContactedCall">Contacted Client (Call)</MenuItem>
+                    <MenuItem value="ContactedCallAttempt">
+                      Contacted Client (Call Attempt)
+                    </MenuItem>
+                    <MenuItem value="ContactedEmail">Contacted Client (Email)</MenuItem>
+                    <MenuItem value="MeetingDone">Meeting (Done)</MenuItem>
+                    <MenuItem value="MeetingAttempt">Meeting (Attempt)</MenuItem>
+                  </Select>
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Due Date </td>
+                <td className="pb-4 text-lg">Completed Date </td>
                 <td className="pb-4">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DesktopDatePicker"]}>
                       <DesktopDatePicker
-                        onChange={(date) => handleInputChange("dueDate", date.$d)}
+                        // onChange={(date) => handleInputChange("dueDate", date.$d)}
                         slotProps={{ textField: { size: "small", fullWidth: "true" } }}
                       />
                     </DemoContainer>
                   </LocalizationProvider>
                 </td>
               </tr>
-
               <tr>
-                <td className="pb-4 text-lg">Task Priority </td>
+                <td className="pb-4 text-lg">Status </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal
-                    id="combo-box-demo"
-                    options={["High", "Moderate", "Low"]}
-                    onSelect={(e) => handleInputChange("priority", e.target.value)}
-                    className="w-full"
-                    renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                  />
+                  <Select name="status" fullWidth size="small">
+                    <MenuItem value="successful">Successful</MenuItem>
+                    <MenuItem value="unsuccessful">Unsuccessful</MenuItem>
+                  </Select>
                 </td>
               </tr>
               <tr>
-                <td className="flex items-start pt-2 text-lg">Description </td>
+                <td className="flex items-start pt-2 text-lg">Comment </td>
                 <td className="pb-4">
-                  <TextField
-                    multiline
-                    rows={5}
-                    type="text"
-                    onChange={(e) => handleInputChange("description", e.target.value)}
-                    size="small"
-                    fullWidth
-                  />
+                  <TextField multiline rows={5} type="text" size="small" fullWidth />
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Next Task </td>
+                <td className="pb-4">
+                  <Select name="nextTask" fullWidth size="small">
+                    <MenuItem value="doNothing">Do Nothing</MenuItem>
+                    <MenuItem value="contactClient">Contact Client</MenuItem>
+                    <MenuItem value="sentAvailablityList">Sent Availablity List</MenuItem>
+                    <MenuItem value="followUp">Follow Up</MenuItem>
+                    <MenuItem value="arrangeMeeting">Arrange Meeting</MenuItem>
+                    <MenuItem value="pushMeeting">Push Meeting</MenuItem>
+                    <MenuItem value="meetClient">Meet Client</MenuItem>
+                    <MenuItem value="signAgreement">Sign Agreement</MenuItem>
+                    <MenuItem value="recieveToken">Recieve Token</MenuItem>
+                  </Select>
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Deadline </td>
+                <td className="pb-4">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={["DesktopDatePicker"]}>
+                      <DesktopDatePicker
+                        // onChange={(date) => handleInputChange("dueDate", date.$d)}
+                        slotProps={{ textField: { size: "small", fullWidth: "true" } }}
+                      />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </td>
+              </tr>
+              <tr>
+                <td className="flex items-start pt-2 text-lg">Comment </td>
+                <td className="pb-4">
+                  <TextField multiline rows={5} type="text" size="small" fullWidth />
                 </td>
               </tr>
             </table>
@@ -158,73 +186,11 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
             variant="contained"
             onClick={handleSubmit}
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
-            {isFetching ? 'Submitting...' : 'Submit'}
+            {isFetching ? "Submitting..." : "Submit"}
           </button>
         </DialogActions>
       </Dialog>
     </div>
-
-    // <div className="flex flex-col gap-[1rem] w-full">
-
-    //     <div className='flex flex-col gap-[2rem] bg-white px-[20px] py-[1rem] shadow-box rounded-[4px] ' >
-
-    //         <div className="flex lg:flex-nowrap flex-wrap justify-between gap-[24px] w-full">
-    //             {
-    //                 stats.map((stat, index) => (
-    //                     <div key={index} className="flex flex-col items-center lg:flex-[1] sm:w-[47%] w-full px-[2rem] py-[1rem] shadow-box rounded-[4px]  ">
-    //                         <span className='text-gray-500 font-semibold text-[20px] text-center ' >{stat.title}</span>
-    //                         <span className='text-[22px] font-semibold ' >{stat.numbers}</span>
-    //                     </div>
-    //                 ))
-    //             }
-    //         </div>
-
-    //         <form onSubmit={handleSubmit} className='flex flex-col gap-[8px] w-full ' >
-
-    //             <div className="w-full flex sm:flex-nowrap flex-wrap gap-[3rem]  ">
-    //                 <div className="sm:flex-[1] w-full flex flex-col gap-[1rem]  ">
-    //                     {/* title */}
-    //                     <div className="flex flex-col gap-[4px] w-full ">
-    //                         <label className='text-black font-medium text-[16px] ' htmlFor="title">Title</label>
-    //                         <input type="text" onChange={handleChange} value={taskData.title} name="title" id="title" placeholder='First Name' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //                     </div>
-    //                     {/* due date */}
-    //                     <div className="flex flex-col gap-[4px] w-full ">
-    //                         <label className='text-black font-medium text-[16px] ' htmlFor="dueDate">Due Date</label>
-    //                         <input type="date" onChange={handleChange} value={taskData.dueDate} name="dueDate" id="dueDate" placeholder='Email' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //                     </div>
-    //                     {/* branch */}
-    //                     <div className="flex flex-col gap-[4px] w-full ">
-    //                         <label className='text-black font-medium text-[16px] ' htmlFor="priority">Priority</label>
-    //                         <select onChange={handleChange} value={taskData.priority} name="priority" className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] min-h-[40px] ' >
-    //                             <option value="">Select Priority</option>
-    //                             <option value="high">High</option>
-    //                             <option value="moderate">Moderate</option>
-    //                             <option value="low">Low</option>
-    //                         </select>
-    //                     </div>
-    //                 </div>
-
-    //                 <div className="sm:flex-[1] w-full flex flex-col gap-[1rem]  ">
-    //                     {/* description */}
-    //                     <div className="flex flex-col gap-[4px] w-full ">
-    //                         <label className='text-black font-medium text-[16px] ' htmlFor="description">Description</label>
-    //                         <textarea rows='9' type="text" onChange={handleChange} value={taskData.description} name="description" id="description" placeholder='Description' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //                     </div>
-    //                 </div>
-
-    //             </div>
-
-    //             <div className="w-full flex justify-end items-center">
-    //                 <button type='submit' className='w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer ' >
-    //                     {isFetching ? 'Saving...' : 'Save'}
-    //                 </button>
-    //             </div>
-
-    //         </form>
-
-    //     </div>
-    // </div>
   );
 };
 

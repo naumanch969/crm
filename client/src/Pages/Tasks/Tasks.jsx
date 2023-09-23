@@ -91,13 +91,13 @@ function Tasks() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
   const { tasks, isFetching, error } = useSelector((state) => state.task);
-  const archivedTasks = tasks.filter(task => task.isArchived)
-  const unarchivedTasks = tasks.filter(task => !task.isArchived)
+  const archivedTasks = tasks.filter((task) => task.isArchived);
+  const unarchivedTasks = tasks.filter((task) => !task.isArchived);
   const columns = [
     {
       field: "uid",
       headerName: "ID",
-      width: 70,
+      width: 100,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
@@ -106,57 +106,26 @@ function Tasks() {
       ),
     },
     {
-      field: "title",
-      headerName: "Title",
-      width: 270,
+      field: "task",
+      headerName: "Task",
+      width: 180,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <span
           className="cursor-pointer text-[#20aee3] hover:text-[#007bff] capitalize font-primary font-light"
-          onClick={() => handleClickOpen(params.row)}>
-          {params.row.title}
-        </span>
+          onClick={() => handleClickOpen(params.row)}></span>
       ),
     },
     {
-      field: "description",
-      headerName: "Description",
-      width: 200,
+      field: "doc",
+      headerName: "Date of Completion",
+      width: 220,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <Tooltip arrow title={params.row.description}>
-          <div className="capitalize font-primary">{params.row.description}</div>
+        <Tooltip arrow title="">
+          <div className="capitalize font-primary"></div>
         </Tooltip>
       ),
-    },
-    {
-      field: "dueDate",
-      headerName: "Due Date",
-      width: 150,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary">{format(params.row.dueDate)}</div>,
-    },
-    {
-      field: "priority",
-      headerName: "Priority",
-      width: 120,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <Tooltip
-          className="capitalize font-primary"
-          placeholder="bottom"
-          arrow
-          title={params.row.priority}>
-          {params.row.priority}
-        </Tooltip>
-      ),
-    },
-    {
-      field: "createdAt",
-      headerName: "Created",
-      width: 130,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary">{format(params.row.createdAt)}</div>,
     },
     {
       field: "status",
@@ -166,18 +135,33 @@ function Tasks() {
       renderCell: (params) => (
         <span
           className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize  font-primary font-medium
-          ${params.row.status == "completed" ? "border-green-500 text-green-500" : ""}
-          ${params.row.status == "new" ? "border-sky-400 text-sky-400" : ""} 
-          ${params.row.status == "overDue" ? "border-red-400 text-red-400" : ""} 
-          ${params.row.status == "inProgress" ? "border-yellow-500 text-yellow-500" : ""}
-          `}>
-          {params.row.status == "completed" ? "Completed" : ""}
-          {params.row.status == "new" ? "New" : ""}
-          {params.row.status == "overDue" ? "Over Due" : ""}
-          {params.row.status == "inProgress" ? "In Progress" : ""}
-        </span>
+          ${params.row.status == "successful" ? "border-green-500 text-green-500" : ""}
+          ${params.row.status == "unsuccessful" ? "border-red-400 text-red-400" : ""} 
+          `}></span>
       ),
     },
+    {
+      field: "nextTask",
+      headerName: "Next Task",
+      width: 200,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <Tooltip
+          className="capitalize font-primary"
+          placeholder="bottom"
+          arrow
+          title="">
+        </Tooltip>
+      ),
+    },
+    {
+      field: "deadline",
+      headerName: "Deadline",
+      width: 150,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => <div className="font-primary"></div>,
+    },
+
     {
       field: "action",
       headerName: "Action",
@@ -215,11 +199,6 @@ function Tasks() {
               </MenuButton>
             </Tooltip>
             <Menu slots={{ listbox: StyledListbox }}>
-              <StyledMenuItem
-                className="text-gray-500 flex font-primary"
-                onClick={() => handleOpenStatusModal(params.row)}>
-                Update Status
-              </StyledMenuItem>
               <StyledMenuItem
                 className="text-gray-500 flex font-primary"
                 onClick={() => handleOpenArchive(params.row)}>
