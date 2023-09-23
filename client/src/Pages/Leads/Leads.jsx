@@ -124,13 +124,13 @@ function Leads({ type, showSidebar }) {
       ),
     },
     {
-      field: "clientPhone",
+      field: "client?.phone",
       headerName: "Client Phone",
       headerClassName: "super-app-theme--header",
       width: 180,
       renderCell: (params) => (
         <div className={`font-primary font-light`}>
-          {params.row?.clientPhone}
+          {params.row?.client?.phone}
         </div>
       ),
     },
@@ -173,7 +173,7 @@ function Leads({ type, showSidebar }) {
       headerName: "Project",
       width: 170,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary font-light">{params.row?.property?.project}</div>,
+      renderCell: (params) => <div className="font-primary font-light">{params.row?.property?.title}</div>,
     },
     {
       field: "actions",

@@ -34,7 +34,7 @@ export const getUsers = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const searchProject = (searchTerm) => async (dispatch) => {
+export const searchProject = (searchTerm, isArchived) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.searchProject(searchTerm, isArchived)

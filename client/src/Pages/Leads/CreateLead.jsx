@@ -36,13 +36,13 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   const { projects } = useSelector(state => state.project)
   const projectsTitles = projects.map(({ _id, title }) => ({ _id, title }));
   let initialLeadState = {
-    clientFirstName: "",
-    clientLastName: "",
-    clientUsername: "",
-    clientPhone: "",
-    clientCNIC: "",
+    firstName: "",
+    lastName: "",
+    username: "",
+    phone: "",
+    CNIC: "",
     clientCity: "",
-    clientEmail: "",
+    email: "",
     city: "",
     priority: "",
     property: "",
@@ -66,8 +66,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { clientFirstName, clientLastName, clientUsername, clientPhone, clientCity, city, priority, property, status, source, description } = leadData
-    if (!clientFirstName || !clientLastName || !clientUsername || !clientPhone || !clientCity || !city || !priority || !property || !status || !source || !description)
+    const { firstName, lastName, username, phone, clientCity, city, priority, property, status, source, description } = leadData
+    if (!firstName || !lastName || !username || !phone || !clientCity || !city || !priority || !property || !status || !source || !description)
       return alert("Make sure to provide all the fields")
     dispatch(createLead(leadData, navigate));
     setLeadData(initialLeadState);
@@ -113,8 +113,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">First Name </td>
                 <td className="pb-4">
                   <TextField
-                    name="clientFirstName"
-                    value={leadData.clientFirstName}
+                    name="firstName"
+                    value={leadData.firstName}
                     onChange={handleChange}
                     size="small"
                     fullWidth
@@ -125,8 +125,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">Last Name </td>
                 <td className="pb-4">
                   <TextField
-                    name="clientLastName"
-                    value={leadData.clientLastName}
+                    name="lastName"
+                    value={leadData.lastName}
                     onChange={handleChange}
                     size="small"
                     fullWidth
@@ -137,8 +137,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">Username </td>
                 <td className="pb-4">
                   <TextField
-                    name="clientUsername"
-                    value={leadData.clientUsername}
+                    name="username"
+                    value={leadData.username}
                     onChange={handleChange}
                     size="small"
                     fullWidth
@@ -149,9 +149,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">Phone </td>
                 <td className="pb-4">
                   <TextField
-                    name="clientPhone"
+                    name="phone"
                     onChange={handleChange}
-                    value={leadData.clientPhone}
+                    value={leadData.phone}
                     type="number"
                     size="small"
                     fullWidth
@@ -162,9 +162,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">CNIC </td>
                 <td className="pb-4">
                   <TextField
-                    name="clientCNIC"
+                    name="CNIC"
                     onChange={handleChange}
-                    value={leadData.clientCNIC}
+                    value={leadData.CNIC}
                     type="number"
                     size="small"
                     fullWidth
@@ -193,8 +193,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <TextField
                     type="email"
                     onChange={handleChange}
-                    value={leadData.clientEmail}
-                    name="clientEmail"
+                    value={leadData.email}
+                    name="email"
                     size="small"
                     placeholder="Optional"
                     fullWidth
