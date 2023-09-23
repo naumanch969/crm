@@ -4,9 +4,9 @@ import { generateUniqueIdentifier } from '../utils/utils.js'
 const leadSchema = Schema({
 
     client: { type: Schema.Types.ObjectId, ref: 'User', required: true, },
+    property: { type: Schema.Types.ObjectId, ref: 'Project', required: true, },
     city: { type: String, required: true },
     priority: { type: String, required: true, default: 'moderate', enum: ['veryCold', 'cold', 'moderate', 'hot', 'veryHot'] },
-    property: { type: Schema.Types.ObjectId, ref: 'Project', required: true, },
     status: { type: String, required: true },   // closed, followed up, contacted etc.
     source: { type: String, required: true },   // facebook,instagram etc.
     description: { type: String, required: true },

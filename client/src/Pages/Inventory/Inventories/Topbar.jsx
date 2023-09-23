@@ -9,6 +9,7 @@ import { Path } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { searchInventory } from "../../../redux/action/inventory";
 import CreateInventory from "./CreateInventory";
+import { searchInventoryReducer } from "../../../redux/reducer/inventory";
 
 const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
@@ -37,8 +38,6 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
   const [scroll, setScroll] = useState("paper");
 
   ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
-
-
   useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
@@ -50,8 +49,8 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
 
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleSearch = (searchTerm) => {
-    dispatch(searchInventory(searchTerm, options.showArchivedSocieties));
-  };
+    dispatch(searchInventoryReducer(searchTerm));
+  }
   const handleToggleShowArchivedInventories = () => {
     setOptions((pre) => ({
       ...pre,

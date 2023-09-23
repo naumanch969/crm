@@ -59,8 +59,8 @@ const Upload = ({ image, isMultiple }) => {
         <>
             {
                 urls?.map((url, index) => (
-                    <div className="flex lg:w-[31%] sm:w-[47%] w-full h-[10rem] ">
-                        <Image url={url} key={index} />
+                    <div key={index} className="flex lg:w-[31%] sm:w-[47%] w-full h-[10rem] ">
+                        <Image url={url} />
                     </div>
                 ))
             }

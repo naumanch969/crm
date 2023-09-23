@@ -6,7 +6,7 @@ import ImageGallery from "./ImageGallery";
 import ImageGalleryModal from "./ImageGalleryModal";
 import { useSelector } from "react-redux";
 import { updateLead } from "../../../redux/action/lead";
-import { deleteAllImagesReducer } from "../../../redux/reducer/upload";
+import { deleteAllImagesReducer, setUrlsReducer } from "../../../redux/reducer/upload";
 import { getLead } from "../../../redux/action/lead";
 import { useDispatch } from "react-redux";
 
@@ -19,21 +19,21 @@ const Attachments = ({ open, setOpen, leadId }) => {
   const { urls } = useSelector(state => state.upload)
   const { isFetching, currentLead } = useSelector(state => state.lead)
   const dispatch = useDispatch()
-  console.log(currentLead)
   ////////////////////////////////////// STATES  /////////////////////////////////////
-  const [images, setImages] = useState([]);
   const [openImageGallery, setOpenImageGallery] = useState(false);
 
   ////////////////////////////////////// USE EFFECTS  /////////////////////////////////////
   useEffect(() => {
-    console.log('urls in attatchemnts', urls)
-    setImages(urls)
-  }, [urls])
+    if (open) {
+      leadId && dispatch(getLead(leadId))
+    }
+  }, [leadId, open])
   useEffect(() => {
-    leadId && dispatch(getLead(leadId))
-  }, [leadId])
-  useEffect(() => {
-    setImages([...currentLead?.images])
+    currentLead
+      ?
+      dispatch(setUrlsReducer([...currentLead?.images]))
+      :
+      setOpen(false)
   }, [currentLead])
 
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
@@ -42,7 +42,7 @@ const Attachments = ({ open, setOpen, leadId }) => {
   };
 
   const handleSave = () => {
-    dispatch(updateLead(leadId, { images }))
+    dispatch(updateLead(leadId, { images: urls }))
     dispatch(deleteAllImagesReducer());
     setOpen(false)
   }
@@ -74,13 +74,13 @@ const Attachments = ({ open, setOpen, leadId }) => {
                   <Loader />
                 </div>
                 :
-                <Upload image={images} isMultiple={true} />
+                <Upload image={urls} isMultiple={true} />
             }
           </div>
           <Divider className="py-4" />
           <div className="mt-4 flex justify-end pb-4">
             <Button onClick={() => handleSave()} variant="contained">
-              {isFetching ? 'Saving...' : 'Save'}
+              {isFetching ? 'Save' : 'Save'}
             </Button>
           </div>
         </DialogContent>

@@ -90,7 +90,7 @@ export const deleteMeeting = (meetingId) => API.delete(`/meeting/delete/${meetin
 
 
 // APROVAL
-export const getApprovals = (type) => API.get(`/approval/get/all?type=${type}`)
+export const getApprovals = (type, leadId) => API.get(`/approval/get/all?type=${type}&leadId=${leadId}`)
 export const getApproval = () => API.get(`/approval/get/single/${approvalId}`)
 export const createRequestApproval = (data) => API.post(`/approval/create/request`, data)
 export const rejectRequestApproval = (email) => API.post(`/approval/reject/request`, { email })

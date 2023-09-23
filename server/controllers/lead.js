@@ -27,11 +27,10 @@ export const getLeads = async (req, res, next) => {
     }
 };
 
-
 export const getEmployeeLeads = async (req, res, next) => {
     try {
-        const findedLeads = await Lead.find({ $in: { allocatedTo: req.user?._id }, isArchived: false })
-            .populate('property').client('property').populate('allocatedTo')
+        const findedLeads = await Lead.find({ allocatedTo: { $in: req.user?._id }, isArchived: false })
+            .populate('property').populate('client').populate('allocatedTo')
             .exec();
 
         res.status(200).json({ result: findedLeads, message: 'Leads fetched successfully', success: true });
@@ -75,34 +74,51 @@ export const getLeadsStat = async (req, res, next) => {
 }
 
 export const searchLead = async (req, res, next) => {
-    const { searchTerm } = req.query;
-
-    const searchPattern = new RegExp(searchTerm, 'i');
-
     try {
+        const { query } = req.query;
 
-        const searchResults = await Lead.find({
-            $or: [
-                { firstName: { $in: matchingUserIds } },
-                { lastName: { $in: matchingUserIds } },
-                { phone: searchPattern },
-                { CNIC: searchPattern },
-                { clientCity: searchPattern },
-                { clientEmail: searchPattern },
-                { city: searchPattern },
-                { priority: searchPattern },
-                { property: searchPattern },
-                { status: searchPattern },
-                { source: searchPattern },
-                { description: searchPattern },
-            ],
-        })
-            .populate('property').client('property').populate('allocatedTo')
-            .exec();
+        const foundLeads = await Lead.aggregate([
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'client',
+                    foreignField: '_id',
+                    as: 'clientData',
+                },
+            },
+            {
+                $match: {
+                    $or: [
+                        { 'clientData.firstName': { $regex: new RegExp(query, 'i') } },
+                        { 'clientData.lastName': { $regex: new RegExp(query, 'i') } },
+                        { 'clientData.username': { $regex: new RegExp(query, 'i') } },
+                        { 'clientData.phone': { $regex: new RegExp(query, 'i') } },
+                        { 'status': { $regex: new RegExp(query, 'i') } },
+                        { 'priority': { $regex: new RegExp(query, 'i') } },
+                        { 'city': { $regex: new RegExp(query, 'i') } },
+                    ],
+                },
+            },
+            {
+                $project: {
+                    client: { $arrayElemAt: ['$clientData', 0] },
+                    city: 1,
+                    priority: 1,
+                    status: 1,
+                    source: 1,
+                    description: 1,
+                    uid: 1,
+                },
+            },
+        ]);
 
-        res.status(200).json({ result: searchResults });
-    } catch (error) {
-        next(createError(500, error.message))
+        res.status(200).json({
+            result: foundLeads,
+            message: 'Leads searched successfully',
+            success: true,
+        });
+    } catch (err) {
+        next(createError(500, err.message));
     }
 };
 
@@ -234,7 +250,7 @@ export const updateLead = async (req, res, next) => {
         const findedLead = await Lead.findById(leadId)
 
         const updatedUser = await User.findByIdAndUpdate(findedLead.client, { firstName, lastName, username, phone, CNIC, city: clientCity, project: property })
-        const updatedLead = await Lead.findByIdAndUpdate(leadId, { city, priority, property, status, source, description }, { new: true }).populate('property').populate('client').populate('allocatedTo').exec()
+        const updatedLead = await Lead.findByIdAndUpdate(leadId, { city, priority, property, status, source, description, ...req.body }, { new: true }).populate('property').populate('client').populate('allocatedTo').exec()
 
         res.status(200).json({ result: updatedLead, message: 'lead updated successfully', success: true })
 

@@ -7,6 +7,7 @@ import { FormControl, Input, InputAdornment, Tooltip } from '@mui/material';
 import { FiFilter } from 'react-icons/fi';
 import { PiMagnifyingGlass } from 'react-icons/pi';
 import FilterDrawer from './Filter';
+import { searchSaleReducer } from '../../redux/reducer/sale';
  
 const Topbar = ({ view, setView }) => {
 
@@ -30,6 +31,9 @@ const Topbar = ({ view, setView }) => {
   const showAddButton = !pathArr.includes('create');
   const descriptionElementRef = React.useRef(null);
 
+  const handleSearch = (searchTerm) => {
+    dispatch(searchSaleReducer(searchTerm));
+  }
   const handleCreateopen = (scrollType) => () => {
     setOpen(true);
     setScroll(scrollType);

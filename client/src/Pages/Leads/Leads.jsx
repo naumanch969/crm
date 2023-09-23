@@ -277,7 +277,7 @@ function Leads({ type, showSidebar }) {
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
-    dispatch(getLeads());
+    dispatch(getEmployeeLeads()); // only find my leads (of one who is logged in)
   }, []);
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
@@ -335,7 +335,7 @@ function Leads({ type, showSidebar }) {
       <ShareLeadModal open={openShareLeadModal} setOpen={setOpenShareLeadModal} />
       <Filter open={openFilters} setOpen={setOpenFilters} />
       <Lead open={openViewModal} setOpen={setOpenViewModal} leadId={selectedLeadId} />
-      {/* <Attachments open={openAttachmentModal} setOpen={setOpenAttachmentModal} leadId={selectedLeadId} /> */}
+      <Attachments open={openAttachmentModal} setOpen={setOpenAttachmentModal} leadId={selectedLeadId} />
 
       <Topbar
         options={options}

@@ -159,8 +159,8 @@ const Ledger = () => {
 
   /////////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////
   useEffect(() => {
-    lead._id && dispatch(getLeadSales(lead?._id))
-    lead._id && dispatch(getLeadCashbooks(lead?._id))
+    lead?._id && dispatch(getLeadSales(lead?._id))
+    lead?._id && dispatch(getLeadCashbooks(lead?._id))
   }, [lead])
   useEffect(() => {
     dispatch(getLead(leadId))

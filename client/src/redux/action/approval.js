@@ -14,10 +14,10 @@ export const getApproval = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const getApprovals = (type) => async (dispatch) => {
+export const getApprovals = (type, leadId) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.getApprovals(type)
+        const { data } = await api.getApprovals(type, leadId)
         dispatch(getApprovalsReducer({ result: data.result, type }))
         dispatch(end())
     } catch (err) {

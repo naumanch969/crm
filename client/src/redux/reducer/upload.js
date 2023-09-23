@@ -14,9 +14,15 @@ const uploadSlice = createSlice({
         end: (state) => { state.isFetching = false },
         error: (state, action) => { state.isFetching = false; state.error = action.payload },
 
+        setUrlsReducer: (state, action) => {
+            state.urls = action.payload
+        },
+        setUrlReducer: (state, action) => {
+            state.urls = action.payload
+        },
+
         uploadImageReducer: (state, action) => {
             const { result, isMultiple } = action.payload
-            console.log('[`${rootURL}${result}`, ...state.urls]', [`${rootURL}${result}`, ...state.urls])
             isMultiple
                 ?
                 state.urls = [`${rootURL}${result}`, ...state.urls]
@@ -41,6 +47,8 @@ export const {
     start,
     end,
     error,
+    setUrlReducer,
+    setUrlsReducer,
     uploadImageReducer,
     deleteImageReducer,
 
