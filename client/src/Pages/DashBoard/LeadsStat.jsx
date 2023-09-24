@@ -1,63 +1,190 @@
-import { Box, Chip } from "@mui/material";
-import React, { useEffect } from "react";
-import { Cell, Pie, PieChart, Tooltip } from "recharts";
-import { useDispatch, useSelector } from "react-redux";
-import { getLeadsStat } from "../../redux/action/lead";
+import { MenuItem, Select } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 
-const Leads = () => {
-  const dispatch = useDispatch();
-  const { stats: leadsStat } = useSelector((state) => state.lead);
-  const COLORS = ["#24d2b5", "#ff9041", "#cddc39", "#ff5c6c", "#20aee3"];
+const projectsData = [
+  {
+    name: "Project 1",
+    leads: 10,
+  },
+  {
+    name: "Project 2",
+    leads: 7,
+  },
+  {
+    name: "Project 3",
+    leads: 6,
+  },
+  {
+    name: "Project 4",
+    leads: 5,
+  },
+  {
+    name: "Project 5",
+    leads: 2,
+  },
+  {
+    name: "Project 6",
+    leads: 0,
+  },
+  {
+    name: "Project 7",
+    leads: 9,
+  },
+];
 
-  useEffect(() => {
-    dispatch(getLeadsStat());
-  }, []);
+const priorityVise = [
+  {
+    name: "Very Hot",
+    leads: 10,
+  },
+  {
+    name: "Hot",
+    leads: 7,
+  },
+  {
+    name: "Moderate",
+    leads: 6,
+  },
+  {
+    name: "Cold",
+    leads: 5,
+  },
+  {
+    name: "Very Cold",
+    leads: 2,
+  },
+];
+
+const sourceVise = [
+  {
+    name: "Instagram",
+    leads: 10,
+  },
+  {
+    name: "Facebook",
+    leads: 7,
+  },
+  {
+    name: "Facebook Comment",
+    leads: 6,
+  },
+  {
+    name: "Friend and Family",
+    leads: 5,
+  },
+  {
+    name: "Direct Call",
+    leads: 2,
+  },
+  {
+    name: "Google",
+    leads: 0,
+  },
+  {
+    name: "Referral",
+    leads: 9,
+  },
+];
+
+const StatusVise = [
+  {
+    name: "New",
+    leads: 23,
+  },
+  {
+    name: "Closed (Lost)",
+    leads: 10,
+  },
+  {
+    name: "Closed (Won)",
+    leads: 7,
+  },
+  {
+    name: "Meeting (Done)",
+    leads: 6,
+  },
+  {
+    name: "Meeting (Attempt)",
+    leads: 5,
+  },
+  {
+    name: "Followed Up (Call)",
+    leads: 2,
+  },
+  {
+    name: "Followed Up (Email)",
+    leads: 2,
+  },
+  {
+    name: "Contacted Client (Call)",
+    leads: 1,
+  },
+  {
+    name: "Contacted Client (Call Attempt)",
+    leads: 1,
+  },
+  {
+    name: "Contacted Client (Email)",
+    leads: 1,
+  },
+];
+
+const LeadsStat = () => {
+  const [selectedValue, setSelectedValue] = useState("projectsVise");
+  const [displayValue, setDisplayValue] = useState("projectsVise");
+
+  const handleChange = (event) => {
+    const selectedOption = event.target.value;
+    setSelectedValue(selectedOption);
+    setDisplayValue(selectedOption); // Update the display value
+  };
 
   return (
-    <Box className="bg-white flex flex-col items-center h-96 rounded-lg p-6 mt-5 float-left ml-0 lg:w-auto w-full lg:ml-5 md:mt-0 font-primary">
-      <div className="w-full flex flex-col items-center  text-xl font-light text-gray-600">
-        Leads This Year
-        <PieChart className="flex justify-center font-primary capitalize" width={450} height={240}>
-          <Pie
-            data={leadsStat}
-            innerRadius={60}
-            outerRadius={80}
-            fill="#8884d8"
-            paddingAngle={0}
-            dataKey="value">
-            {leadsStat.map((entry, index) => (
-              <Cell key={index} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip />
-        </PieChart>
-        <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center gap-2 w-full justify-center">
-            <div className="bg-[#ff5c6c] font-normal px-[10px] py-[5px] rounded-full capitalize text-white text-xs">
-              Declined
-            </div>
-
-            <div className="bg-[#20aee3] font-normal px-[8px] py-[4px] rounded-full capitalize text-white text-xs">
-              Remaining
-            </div>
-
-            <div className="bg-[#ff9041] font-normal px-[8px] py-[4px] rounded-full capitalize text-white text-xs">
-              Unsuccessful
-            </div>
-          </div>
-          <div className="flex items-center gap-2 w-full justify-center">
-            <div className="bg-[#cddc39] font-normal px-[8px] py-[4px] rounded-full capitalize text-white text-xs">
-              Under Process
-            </div>
-
-            <div className="bg-[#24d2b5] font-normal px-[8px] py-[4px] rounded-full capitalize text-white text-xs">
-              Successful
-            </div>
-          </div>
+    <div>
+      <div className="flex items-center justify-center gap-4 pb-5">
+        <div className="text-xl font-primary">View Leads : </div>
+        <div className="flex items-center gap-2 w-3/12">
+          {selectedValue === "" ? (
+            <InputLabel
+              sx={{
+                color: "#B3B3B3",
+                fontFamily: "'Montserrat', sans-serif",
+                paddingTop: "8px",
+              }}></InputLabel>
+          ) : null}
+          <Select
+            style={{ fontFamily: "'Montserrat', sans-serif" }}
+            value={selectedValue}
+            onChange={handleChange}
+            fullWidth
+            size="small">
+            <MenuItem value="projectsVise">Projects Vise</MenuItem>
+            <MenuItem value="StatusVise">Status Vise</MenuItem>
+            <MenuItem value="priorityVise">Priority Vise</MenuItem>
+            <MenuItem value="sourceVise">Source Wise</MenuItem>
+          </Select>
         </div>
       </div>
-    </Box>
+      <BarChart
+        width={window.innerWidth - 250}
+        height={500}
+        data={displayValue == "projectsVise" ? projectsData : displayValue == "sourceVise" ? sourceVise : displayValue == "StatusVise" ? StatusVise : priorityVise}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="leads" fill="#8884d8" />
+      </BarChart>
+    </div>
   );
 };
 
-export default Leads;
+export default LeadsStat;

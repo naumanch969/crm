@@ -14,10 +14,13 @@ function DashBoard() {
       <div className="p-4 bg-white my-4 rounded-md">
         <MeetingCalendar />
       </div>
-      <Box className="flex-none mt-5 lg:flex">
+      <div className="mt-5">
         <IncomeAndExpense />
+      </div>
+
+      <div className="mt-5 py-10 bg-white rounded-md">
         <LeadsStat />
-      </Box>
+      </div>
     </div>
   );
 }
