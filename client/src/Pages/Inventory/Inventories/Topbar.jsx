@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Box, CardContent, FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
+import { Box, CardContent, Chip, FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiArchive, PiMagnifyingGlass, PiTrendUp } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
 import { useSelector } from "react-redux";
-import { Add, Archive, Person2 } from "@mui/icons-material";
+import { Add, Archive, Close, Person2 } from "@mui/icons-material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../../utils";
 import { useDispatch } from "react-redux";
@@ -11,7 +11,7 @@ import { searchInventory } from "../../../redux/action/inventory";
 import CreateInventory from "./CreateInventory";
 import { searchInventoryReducer } from "../../../redux/reducer/inventory";
 
-const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
+const Topbar = ({ options, setOptions, openFilters, setOpenFilters, isFiltered, setIsFiltered }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -91,6 +91,14 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
 
         {showOptionButtons && (
           <div className="flex items-center justify-end gap-2 md:mt-0 mt-4">
+            {
+              isFiltered &&
+              <Chip
+                label="Filtered"
+                onDelete={() => setIsFiltered(false)}
+                deleteIcon={<Close />}
+              />
+            }
             <div className="bg-[#ebf2f5] hover:bg-[#dfe6e8] p-1 pl-2 pr-2 rounded-md w-48">
               <FormControl>
                 <Input

@@ -13,6 +13,7 @@ const userSchema = Schema({
     project: { type: Schema.Types.ObjectId, ref: 'Project', required: false },
     role: { type: String, required: true, default: 'client', enum: ['client', 'employee', 'manager', 'super_admin'] },
     // below fields are not related to client (rather to employee,manager)
+    salaryType: { type: String, required: false },
     officialNumber: { type: Number, required: false, default: '' },
     gender: { type: String, required: false, enum: ['male', 'female'], default: 'male' },
     martialStatus: { type: String, required: false, enum: ['married', 'single'], default: 'single' },

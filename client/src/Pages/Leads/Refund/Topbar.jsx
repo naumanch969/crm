@@ -5,10 +5,13 @@ import { Path } from "../../../utils";
 import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import CreateRefund from "./CreateRefund";
+import { searchRefundReducer } from "../../../redux/reducer/refund";
+import { useDispatch } from "react-redux";
 
 const Topbar = () => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
   const title = pathname.split("/")[1];
 
@@ -29,7 +32,7 @@ const Topbar = () => {
 
   ////////////////////////////////////////// FUNCTIONS //////////////////////////////////////
   const handleSearch = (searchTerm) => {
-    dispatch(searchLead(searchTerm));
+    dispatch(searchRefundReducer(searchTerm));
   };
 
   const handleCreateopen = (scrollType) => () => {

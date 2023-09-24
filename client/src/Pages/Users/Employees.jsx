@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { getEmployees } from "../../redux/action/user";
 import DeleteEmployee from "./Delete";
 import EditEmployee from "./Edit";
-import { getUserReducer } from "../../redux/reducer/user";
+import { getEmployeesReducer, getUserReducer } from "../../redux/reducer/user";
 import { IconButton, Tooltip } from "@mui/material";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { PiTrashLight } from "react-icons/pi";
@@ -18,7 +18,7 @@ import User from "./User";
 const Employees = memo(() => {
   /////////////////////////////////////// VARIABLES ////////////////////////////////////////
   const dispatch = useDispatch();
-  const { employees, isFetching, error } = useSelector((state) => state.user);
+  const { employees, allEmployees, isFetching, error } = useSelector((state) => state.user);
   const columns = [
     {
       field: "uid",
@@ -56,13 +56,13 @@ const Employees = memo(() => {
       ),
     },
     {
-      field: "email",
-      headerName: "Email",
+      field: "city",
+      headerName: "City",
       headerClassName: "super-app-theme--header",
       width: "220",
       renderCell: (params) => (
         <div className="font-primary" onClick={() => handleClickOpen()}>
-          {params.row.email}
+          {params.row.city}
         </div>
       ),
     },
@@ -78,11 +78,11 @@ const Employees = memo(() => {
       ),
     },
     {
-      field: "cnic",
-      headerName: "CNIC",
+      field: "salaryType",
+      headerName: "Salary Type",
       headerClassName: "super-app-theme--header",
       width: 200,
-      renderCell: (params) => <div className="font-primary">{params.row.cnic}</div>,
+      renderCell: (params) => <div className="font-primary">{params.row.salaryType}</div>,
     },
     {
       field: "action",
@@ -123,11 +123,17 @@ const Employees = memo(() => {
   const [selectedUserId, setSelectedUserId] = useState("");
   const [openFilters, setOpenFilters] = useState("");
   const [openView, setOpenViewk] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false);
 
   /////////////////////////////////////// USE EFFECTS ////////////////////////////////////
   useEffect(() => {
     dispatch(getEmployees());
   }, []);
+  useEffect(() => {
+    if (!isFiltered) {
+      dispatch(getEmployeesReducer(allEmployees))
+    }
+  }, [isFiltered])
 
   /////////////////////////////////////// FUNCTIONS /////////////////////////////////////
   const hanldeOpenViewModal = (taskId) => {
@@ -142,15 +148,15 @@ const Employees = memo(() => {
     setSelectedUserId(taskId);
     setOpenDeleteModal(true);
   };
+  console.log(employees)
 
   return (
     <div className="w-full">
       <EditEmployee open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteEmployee open={openDeleteModal} setOpen={setOpenDeleteModal} userId={selectedUserId} />
-      <Filter open={openFilters} setOpen={setOpenFilters} />
       <User open={openView} setOpen={setOpenViewk} />
 
-      <Topbar openFilters={openFilters} setOpenFilters={setOpenFilters} />
+      <Topbar openFilters={openFilters} setOpenFilters={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
 
       <Table
         rows={employees}

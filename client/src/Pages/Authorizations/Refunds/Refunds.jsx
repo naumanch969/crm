@@ -11,88 +11,81 @@ import { format } from "timeago.js";
 import { IconButton, Tooltip } from "@mui/material";
 import { DeleteOutline } from "@mui/icons-material";
 import EnterPassword from "./EnterPassword";
+import { getRefunds } from "../../../redux/action/refund";
+import { getRefundsReducer } from "../../../redux/reducer/refund";
 
 function RequestApprovals() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
-  const { refundApprovals: approvals, isFetching, error } = useSelector((state) => state.approval);
-  const { error: cashbookError, isFetching: cashbookIsFetching } = useSelector((state) => state.cashbook);
+  const { refunds, allRefunds, isFetching, error } = useSelector(state => state.refund);
+  const { error: cashbookError, isFetching: cashbookIsFetching } = useSelector(state => state.cashbook);
   const columns = [
     {
       field: "uid",
       headerName: "ID",
-      width: 70,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <Tooltip title={""}>
-          <span className="font-primary capitalize">{params.row.uid}</span>
-        </Tooltip>
-      ),
-    },
-    {
-      field: "data.amount",
-      headerName: "Amount",
-      width: 130,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <span className="cursor-pointer text-gray-600 font-primary">{params.row.data.amount}</span>
-      ),
-    },
-    {
-      field: "data.branch",
-      headerName: "Branch",
-      width: 130,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <span className="cursor-pointer text-gray-600 font-primary">{params.row.data.branch}</span>
-      ),
-    },
-    {
-      field: "data.reason",
-      headerName: "Reason",
-      width: 130,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <span className="cursor-pointer text-gray-600 font-primary">{params.row.data.reason}</span>
-      ),
-    },
-    {
-      field: "data.clientName",
-      headerName: "Customer Name",
-      headerClassName: "super-app-theme--header",
-      width: 180,
-      renderCell: (params) => (
-        <span className="cursor-pointer text-gray-600 font-primary">
-          {params.row.data.clientName}
-        </span>
-      ),
-    },
-    {
-      field: "data.cnic",
-      headerName: "cnic",
-      width: 160,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <span className="cursor-pointer text-gray-600 font-primary">{params.row.data.cnic}</span>
-      ),
-    },
-    {
-      field: "data.phone",
-      headerName: "Phone",
-      width: 150,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <span className="cursor-pointer text-gray-600 font-primary">{params.row.data.phone}</span>
-      ),
+      width: 80,
+      renderCell: (params) => <div className="font-primary font-light">{params.row.uid}</div>,
     },
     {
       field: "createdAt",
-      headerName: "Created At",
-      width: 150,
+      headerName: "Issuing Date",
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <span className="cursor-pointer text-gray-600 font-primary">{format(params.row.createdAt)}</span>
-      ),
+      width: 140,
+      renderCell: (params) => <div className="font-primary font-light">{format(params.row.createdAt)}</div>,
+    },
+    {
+      field: "amount",
+      headerName: "Amount",
+      headerClassName: "super-app-theme--header",
+      width: 140,
+      renderCell: (params) => <div className="font-primary font-light">{params.row.amount}</div>,
+    },
+    {
+      field: "clientName",
+      headerName: "Client Name",
+      headerClassName: "super-app-theme--header",
+      width: 160,
+      renderCell: (params) => <div className="font-primary font-light">{params.row.clientName}</div>,
+    },
+    {
+      field: "branch",
+      headerName: "Branch",
+      headerClassName: "super-app-theme--header",
+      width: 160,
+      renderCell: (params) => <div className="font-primary font-light">{params.row.branch}</div>,
+    },
+    {
+      field: "CNIC",
+      headerName: "CNIC",
+      headerClassName: "super-app-theme--header",
+      width: 120,
+      renderCell: (params) => <div className="font-primary font-light">{params.row.CNIC}</div>,
+    },
+    {
+      field: "phone",
+      headerName: "Phone",
+      headerClassName: "super-app-theme--header",
+      width: 120,
+      renderCell: (params) => <div className="font-primary font-light">{params.row.phone}</div>,
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      headerClassName: "super-app-theme--header",
+      width: 150,
+      renderCell: (params) => <div className={`font-primary font-light border-[1px] p-2 rounded-[3rem]
+      ${params.row.status == 'accepted' && 'border-green-400 text-green-400'}
+      ${params.row.status == 'rejected' && 'border-red-400 text-red-400'}
+      ${params.row.status == 'underProcess' && 'border-amber-400 text-amber-400'}
+      `}>{params.row.status}</div>,
+    },
+    {
+      field: "reason",
+      headerName: "Reason",
+      headerClassName: "super-app-theme--header",
+      width: 250,
+      renderCell: (params) => <Tooltip title={params.row.reason}><div className="font-primary font-light">{params.row.reason}</div></Tooltip>,
     },
     {
       field: "approve/reject",
@@ -120,26 +113,29 @@ function RequestApprovals() {
   const [selectedRefund, setSelectedRefund] = useState('')
   const [openEnterPassword, setOpenEnterPassword] = useState(false)
   const [refundType, setRefundType] = useState('') // approve/reject
+  const [isFiltered, setIsFiltered] = useState(false)
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
-    dispatch(getApprovals("refund"));
+    dispatch(getRefunds());
   }, []);
+  useEffect(() => {
+    if (!isFiltered) {
+      dispatch(getRefundsReducer(allRefunds))
+    }
+  }, [isFiltered])
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
 
 
 
-
-
   return (
     <div className="w-full h-fit bg-inherit flex flex-col gap-[2rem] font-primary">
-      <EnterPassword open={openEnterPassword} setOpen={setOpenEnterPassword} approval={selectedRefund} type={refundType} />
+      <EnterPassword open={openEnterPassword} setOpen={setOpenEnterPassword} refund={selectedRefund} type={refundType} />
 
-      {error && <></>}
-      <Topbar />
+      <Topbar isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
       <Table
-        rows={approvals}
+        rows={refunds}
         columns={columns}
         rowsPerPage={5}
         isFetching={isFetching || cashbookIsFetching}

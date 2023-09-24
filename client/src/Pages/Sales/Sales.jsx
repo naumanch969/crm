@@ -10,11 +10,13 @@ import DeleteModal from "./DeleteModal";
 import { PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
+import FilterDrawer from "./Filter";
+import { getSaleReducer, getSalesReducer } from "../../redux/reducer/sale";
 
 function Sales() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
-  const { sales, isFetching, error } = useSelector((state) => state.sale);
+  const { sales, allSales, isFetching, error } = useSelector((state) => state.sale);
   const columns = [
     {
       field: "uid",
@@ -110,11 +112,18 @@ function Sales() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedSaleId, setSelectedSaleId] = useState(null);
+  const [openFilters, setOpenFilters] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false);
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
     dispatch(getSales());
   }, []);
+  useEffect(() => {
+    if (!isFiltered) {
+      dispatch(getSalesReducer(allSales))
+    }
+  }, [isFiltered])
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
   const handleOpenEditModal = (sale) => {
@@ -130,8 +139,9 @@ function Sales() {
     <div className="w-full h-fit bg-inherit flex flex-col">
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} saleId={selectedSaleId} />
+      <FilterDrawer open={openFilters} setOpen={setOpenFilters} setIsFiltered={setIsFiltered} />
+      <Topbar view={view} setView={setView} open={openFilters} setOpen={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
 
-      <Topbar view={view} setView={setView} />
       <Table rows={sales} columns={columns} rowsPerPage={5} isFetching={isFetching} error={error} />
     </div>
   );

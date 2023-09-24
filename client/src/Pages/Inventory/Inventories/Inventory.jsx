@@ -4,6 +4,7 @@ import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getInventories, updateInventory } from "../../../redux/action/inventory";
 import {
+  getInventoriesReducer,
   getInventoryReducer,
 } from "../../../redux/reducer/inventory";
 import { Avatar, AvatarGroup, Tooltip, styled } from "@mui/material";
@@ -95,7 +96,7 @@ function Inventory() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
-  const { inventories, isFetching, error } = useSelector((state) => state.inventory);
+  const { inventories, allInventories, isFetching, error } = useSelector((state) => state.inventory);
   const columns = [
     {
       field: "uid",
@@ -127,6 +128,17 @@ function Inventory() {
       renderCell: (params) => (
         <Tooltip title={""}>
           <span className="font-primary capitalize">{params.row.sellerPhone}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "sellerCity",
+      headerName: "Seller City",
+      width: 160,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <Tooltip title={""}>
+          <span className="font-primary capitalize">{params.row.sellerCity}</span>
         </Tooltip>
       ),
     },
@@ -229,6 +241,7 @@ function Inventory() {
   const [openFilters, setOpenFilters] = useState(false);
   const [selectedInventoryId, setSelectedInventoryId] = useState(null);
   const [openStatusModal, setOpenStatusModal] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false);
   const [options, setOptions] = useState({
     isKanbanView: false,
     showArchivedInventories: false,
@@ -247,7 +260,11 @@ function Inventory() {
       }
     }
   }, [open]);
-
+  useEffect(() => {
+    if (!isFiltered) {
+      dispatch(getInventoriesReducer(allInventories))
+    }
+  }, [isFiltered])
   ////////////////////////////////////// FUNCTION //////////////////////////////\
   const handleOpenStatusModal = (inventory) => {
     setOpenStatusModal(true);
@@ -275,36 +292,12 @@ function Inventory() {
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
 
-      <EditInventory
-        scroll={scroll}
-        open={openEditModal}
-        setOpen={setOpenEditModal}
-      />
-
-      <DeleteInventory
-        open={openDeleteModal}
-        setOpen={setOpenDeleteModal}
-        inventoryId={selectedInventoryId}
-      />
-      <UpdateStatusModal
-        open={openStatusModal}
-        setOpen={setOpenStatusModal}
-        inventoryId={selectedInventoryId}
-      />
-      <Filter open={openFilters} setOpen={setOpenFilters} />
-      <ViewInventory
-        scroll={scroll}
-        open={openViewModel}
-        setOpen={setOpenViewModal}
-        inventoryId={selectedInventoryId}
-      />
-
-      <Topbar
-        options={options}
-        setOptions={setOptions}
-        openFilters={openFilters}
-        setOpenFilters={setOpenFilters}
-      />
+      <EditInventory scroll={scroll} open={openEditModal} setOpen={setOpenEditModal} />
+      <DeleteInventory open={openDeleteModal} setOpen={setOpenDeleteModal} inventoryId={selectedInventoryId} />
+      <UpdateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} inventoryId={selectedInventoryId} />
+      <Filter open={openFilters} setOpen={setOpenFilters} setIsFiltered={setIsFiltered} />
+      <ViewInventory scroll={scroll} open={openViewModel} setOpen={setOpenViewModal} inventoryId={selectedInventoryId} />
+      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
       {
         options.isKanbanView
           ?

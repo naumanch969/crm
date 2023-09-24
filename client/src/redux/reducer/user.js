@@ -112,24 +112,16 @@ const usersSlice = createSlice({
             const { allEmployees } = state;
             const { payload: filters } = action;
 
-            const filteredUsers = allEmployees.filter((user) => {
-                return Object.entries(filters).every(([key, filterValue]) => {
-                    const userValue = user[key];
-
-                    if (Array.isArray(filterValue)) {
-                        // Handle array filters (e.g., checking if userValue is in filterValue)
-                        return filterValue.includes(userValue);
-                    } else if (typeof filterValue === 'string') {
-                        // Handle string filters (e.g., checking if userValue includes filterValue)
-                        return String(userValue).toLowerCase().includes(filterValue.toLowerCase());
-                    } else {
-                        // Handle other types of filters (e.g., equality checks)
-                        return userValue === filterValue;
-                    }
-                });
+            const filteredEmployees = allEmployees.filter((employee) => {
+                if (filters.city && employee.city.toLowerCase() !== filters.city.toLowerCase()) return false;
+                if (filters.martialStatus && employee.martialStatus.toLowerCase() !== filters.martialStatus.toLowerCase()) return false;
+                if (filters.gender && employee.gender.toLowerCase() !== filters.gender.toLowerCase()) return false;
+                console.log(employee)
+                if (filters.salaryType && employee?.salaryType.toLowerCase() !== filters?.salaryType.toLowerCase()) return false;
+                return true;
             });
 
-            state.employees = filteredUsers;
+            state.employees = filteredEmployees;
         },
         filterClientReducer: (state, action) => {
             const { allClients } = state;

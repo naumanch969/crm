@@ -1,22 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Add } from "@mui/icons-material";
+import { Add, Close } from "@mui/icons-material";
 import { Path } from "../../utils";
-import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
+import { Chip, FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import { FiFilter } from "react-icons/fi";
 import CreateUser from "./CreateEmployee";
 import Filter from "./Filter";
 import { searchUserReducer } from "../../redux/reducer/user";
 
-const Topbar = ({ view, setView }) => {
+const Topbar = ({ view, setView, setIsFiltered, isFiltered }) => {
 
+  ///////////////////////////////////////// VARIABLES ///////////////////////////////////////////////////
+  const { pathname } = useLocation();
+  const pathArr = pathname.split("/").filter((item) => item !== "");
+  const showClientTopBar = !pathArr.includes("employees");
+  const showEmployeeTopBar = !pathArr.includes("clients");
+  const showCreatePageTopBar = !pathArr.includes("create");
+  const title = pathArr.includes("create")
+    ? `Create ${pathname.split("/")[1].slice(0, -1)}`
+    : pathname.split("/")[1];
+  const descriptionElementRef = useRef(null);
+
+  ///////////////////////////////////////// STATES ///////////////////////////////////////////////////
   const [open, setOpen] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
   const [scroll, setScroll] = useState("paper");
-  const descriptionElementRef = useRef(null);
 
-
+  ///////////////////////////////////////// USE EFFECTS ///////////////////////////////////////////////////
   useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
@@ -26,15 +37,7 @@ const Topbar = ({ view, setView }) => {
     }
   }, [open]);
 
-  const { pathname } = useLocation();
-  const pathArr = pathname.split("/").filter((item) => item !== "");
-  const showClientTopBar = !pathArr.includes("employees");
-  const showEmployeeTopBar = !pathArr.includes("clients");
-  const showCreatePageTopBar = !pathArr.includes("create");
-  const title = pathArr.includes("create")
-    ? `Create ${pathname.split("/")[1].slice(0, -1)}`
-    : pathname.split("/")[1];
-
+  ///////////////////////////////////////// FUNCTIONS ///////////////////////////////////////////////////
   const handleSearch = (searchTerm) => {
     dispatch(searchUserReducer(searchTerm));
   }
@@ -58,6 +61,14 @@ const Topbar = ({ view, setView }) => {
 
         {showEmployeeTopBar && (
           <div className="flex items-center gap-2">
+            {
+              isFiltered &&
+              <Chip
+                label="Filtered"
+                onDelete={() => setIsFiltered(false)}
+                deleteIcon={<Close />}
+              />
+            }
             <div className="bg-[#ebf2f5] hover:bg-[#dfe6e8] p-1 pl-2 pr-2 rounded-md w-48">
               <FormControl>
                 <Input
@@ -75,8 +86,8 @@ const Topbar = ({ view, setView }) => {
               <div
                 onClick={handleToggleFilters}
                 className={` p-2 rounded-md cursor-pointer ${openFilters
-                    ? "text-[#20aee3] bg-[#e4f1ff]"
-                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                  ? "text-[#20aee3] bg-[#e4f1ff]"
+                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
                   }`}>
                 <FiFilter className="text-[25px] " />
               </div>
@@ -113,7 +124,7 @@ const Topbar = ({ view, setView }) => {
         )}
       </div>
       <CreateUser open={open} scroll={scroll} setOpen={setOpen} />
-      <Filter open={openFilters} setOpen={setOpenFilters} />
+      <Filter open={openFilters} setOpen={setOpenFilters} setIsFiltered={setIsFiltered} />
     </div>
   );
 };

@@ -97,7 +97,8 @@ function Leads({ type, showSidebar }) {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { leads, isFetching, error } = useSelector((state) => state.lead);
+  const { leads, allLeads, isFetching, error } = useSelector((state) => state.lead);
+  console.log('first', leads, allLeads)
   const archivedLeads = leads.filter(lead => lead.isArchived)
   const unarchivedLeads = leads.filter(lead => !lead.isArchived)
   const { loggedUser } = useSelector((state) => state.user);
@@ -220,19 +221,11 @@ function Leads({ type, showSidebar }) {
                 onClick={() => handleOpenShiftLeadModal(params.row)}>
                 Shift Lead
               </StyledMenuItem>
-              {params.row?.isAppliedForRefund ? (
-                <StyledMenuItem
-                  className="text-gray-600 flex font-primary"
-                >
-                  Applied for Refund
-                </StyledMenuItem>
-              ) : (
-                <StyledMenuItem
-                  className="text-gray-600 flex font-primary"
-                  onClick={() => navigateToRefund(params.row)}>
-                  Apply for Refund
-                </StyledMenuItem>
-              )}
+              <StyledMenuItem
+                className="text-gray-600 flex font-primary"
+                onClick={() => navigateToRefund(params.row)}>
+                Refunds
+              </StyledMenuItem>
               <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => handleOpenShareLeadModal(params.row)}>
                 Share Lead
               </StyledMenuItem>
@@ -267,8 +260,9 @@ function Leads({ type, showSidebar }) {
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [openShiftLeadModal, setOpenShiftLeadModal] = useState(false);
   const [openShareLeadModal, setOpenShareLeadModal] = useState(false);
-  const [selectedLeadId, setSelectedLeadId] = useState(null);
   const [openFilters, setOpenFilters] = useState(false);
+  const [selectedLeadId, setSelectedLeadId] = useState(null);
+  const [isFiltered, setIsFiltered] = useState(false)
   const [options, setOptions] = useState({
     isKanbanView: false,
     showEmployeeLeads: false,
@@ -277,8 +271,14 @@ function Leads({ type, showSidebar }) {
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
-    dispatch(getEmployeeLeads()); // only find my leads (of one who is logged in)
+    dispatch(getLeads()); // only find my leads (of one who is logged in)
+    // dispatch(getEmployeeLeads()); // only find my leads (of one who is logged in)
   }, []);
+  useEffect(() => {
+    if (!isFiltered) {
+      dispatch(getLeadsReducer(allLeads))
+    }
+  }, [isFiltered])
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
   const handleOpenAttachmentModal = (leadId) => {
@@ -314,7 +314,7 @@ function Leads({ type, showSidebar }) {
     if (lead.isAppliedForRefund) {
       return;
     } else {
-      navigate("/leads/refund", { state: { leadId: lead._id } });
+      navigate(`/leads/refund/${lead._id}`);
     }
   };
 
@@ -333,7 +333,7 @@ function Leads({ type, showSidebar }) {
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
       <ShiftLeadModal open={openShiftLeadModal} setOpen={setOpenShiftLeadModal} />
       <ShareLeadModal open={openShareLeadModal} setOpen={setOpenShareLeadModal} />
-      <Filter open={openFilters} setOpen={setOpenFilters} />
+      <Filter open={openFilters} setOpen={setOpenFilters} setIsFiltered={setIsFiltered} />
       <Lead open={openViewModal} setOpen={setOpenViewModal} leadId={selectedLeadId} />
       <Attachments open={openAttachmentModal} setOpen={setOpenAttachmentModal} leadId={selectedLeadId} />
 
@@ -342,6 +342,8 @@ function Leads({ type, showSidebar }) {
         setOptions={setOptions}
         openFilters={openFilters}
         setOpenFilters={setOpenFilters}
+        setIsFiltered={setIsFiltered}
+        isFiltered={isFiltered}
       />
       {options.isKanbanView ? (
         <Kanban options={options} setOptions={setOptions} />

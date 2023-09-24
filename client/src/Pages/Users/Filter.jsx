@@ -9,29 +9,29 @@ import { pakistanCities } from "../../constant";
 import { DatePicker, DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { filterEmployeeReducer } from "../../redux/reducer/user";
 
-const FilterDrawer = ({ open, setOpen }) => {
-  const dispatch = useDispatch();
+const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
 
-  const [filters, setFilters] = useState({
-    city: "",
-    project: "",
-    region: "",
-    // Add more fields from lead model here
-  });
+  //////////////////////////////// VARIABLES ///////////////////////////////////////////////////
+  const dispatch = useDispatch()
+  const initialFilterState = { city: '', salaryType: '', martialStatus: '', gender: '' }
+  //////////////////////////////// STATES ///////////////////////////////////////////////////
+  const [filters, setFilters] = useState(initialFilterState)
 
-  const handleInputChange = (field, value) => {
-    const inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, "");
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [field]: inputValue,
-    }));
-  };
+  //////////////////////////////// USE EFFECTS ///////////////////////////////////////////////////
 
-  const handleApplyFilters = () => {
-    dispatch(filterLead(filters));
-    setOpen(false);
-  };
+  //////////////////////////////// FUNCTIONS ///////////////////////////////////////////////////
+  const handleFilter = () => {
+    dispatch(filterEmployeeReducer(filters))
+    setIsFiltered(true)
+    setFilters(initialFilterState)
+    setOpen(false)
+  }
+  const handleChange = (field, value) => {
+    setFilters(pre => ({ ...pre, [field]: value }))
+  }
+
 
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -39,7 +39,7 @@ const FilterDrawer = ({ open, setOpen }) => {
         <div className="flex justify-between items-center h-[10vh] bg-[#20aee3] p-5 text-white font-thin">
           <div className="flex items-center text-[25px] gap-2">
             <PiFunnelLight className="text-[25px]" />
-            Filter Users
+            Filter Employees
           </div>
           <div className="cursor-pointer" onClick={() => setOpen(false)}>
             <PiXLight className="text-[25px]" />
@@ -51,6 +51,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={pakistanCities}
+            onSelect={(e) => handleChange('city', e.target.value)}
             className="w-full"
             renderInput={(params) => <TextField {...params} fullWidth label="City" />}
           />
@@ -59,6 +60,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={["Online", "Cash", "Cheque", "Bank Transfer"]}
+            onSelect={(e) => handleChange('salaryType', e.target.value)}
             className="w-full"
             renderInput={(params) => <TextField {...params} fullWidth label="Salary Type" />}
           />
@@ -66,17 +68,19 @@ const FilterDrawer = ({ open, setOpen }) => {
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={["Male", "Female"]}
+            options={["male", "female"]}
+            onSelect={(e) => handleChange('gender', e.target.value)}
             className="w-full"
-            renderInput={(params) => <TextField {...params} fullWidth label="Gender" />}
+            renderInput={(params) => <TextField {...params} fullWidth label="Gender" className="capitalize" />}
           />
           <Autocomplete
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={["Married", "Unmarried"]}
+            onSelect={(e) => handleChange('martialStatus', e.target.value)}
+            options={["married", "single"]}
             className="w-full"
-            renderInput={(params) => <TextField {...params} fullWidth label="Martial Status" />}
+            renderInput={(params) => <TextField {...params} fullWidth label="Martial Status"  className="capitalize"/>}
           />
           <div className="flex gap-4 justify-end">
             <button
@@ -87,7 +91,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             <button
               variant="contained"
               className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin"
-              onClick={handleApplyFilters}>
+              onClick={handleFilter}>
               Apply Filters
             </button>
           </div>

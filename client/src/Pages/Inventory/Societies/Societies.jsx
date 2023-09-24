@@ -4,6 +4,7 @@ import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getSocieties, updateSociety } from "../../../redux/action/society";
 import {
+  getSocietiesReducer,
   getSocietyReducer,
 } from "../../../redux/reducer/society";
 import { Tooltip } from "@mui/material";
@@ -20,7 +21,7 @@ function Societies() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
-  const { societies, isFetching, error } = useSelector((state) => state.society);
+  const { societies, allSocieties, isFetching, error } = useSelector((state) => state.society);
   const columns = [
     {
       field: "uid",
@@ -121,6 +122,7 @@ function Societies() {
   const [openFilters, setOpenFilters] = useState(false);
   const [selectedSocietyId, setSelectedSocietyId] = useState(null);
   const [openStatusModal, setOpenStatusModal] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false)
   const [options, setOptions] = useState({
     isKanbanView: false,
     showArchivedSocieties: false,
@@ -130,7 +132,6 @@ function Societies() {
   useEffect(() => {
     dispatch(getSocieties());
   }, [options.showArchivedSocieties]);
-
   useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
@@ -139,6 +140,11 @@ function Societies() {
       }
     }
   }, [open]);
+  useEffect(() => {
+    if (!isFiltered) {
+      dispatch(getSocietiesReducer(allSocieties))
+    }
+  }, [isFiltered])
 
   ////////////////////////////////////// FUNCTION //////////////////////////////\
   const handleOpenStatusModal = (society) => {
@@ -167,7 +173,7 @@ function Societies() {
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
       <EditSociety scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
-      <SocietyFilter open={openFilters} setOpen={setOpenFilters} />
+      <SocietyFilter open={openFilters} setOpen={setOpenFilters}  isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
 
       <DeleteSociety
         open={openDeleteModal}
@@ -179,6 +185,8 @@ function Societies() {
         setOptions={setOptions}
         openFilters={openFilters}
         setOpenFilters={setOpenFilters}
+        isFiltered={isFiltered}
+        setIsFiltered={setIsFiltered}
       />
 
       <div className="flex justify-center items-center " >

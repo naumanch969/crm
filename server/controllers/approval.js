@@ -191,16 +191,6 @@ export const updateRefundApproval = async (req, res, next) => {
 export const deleteApproval = async (req, res, next) => {
     try {
 
-        const { password } = req.query
-        if (password) {     // in case of refund, we need to have password security
-            const admin = await User.findById(req.user._id)
-            const enteredPassword = password;
-            const savedPassword = admin?.password
-            const isPasswordCorrect = await bcrypt.compare(enteredPassword, savedPassword)
-            console.log(isPasswordCorrect)
-            if (!isPasswordCorrect) return next(createError(401, 'Incorrect Password'))
-        }
-
         const { approvalId } = req.params
         const findedApproval = await Approval.findById(approvalId)
         if (!findedApproval) return next(createError(400, 'Approval not exist'))

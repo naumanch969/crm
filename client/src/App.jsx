@@ -31,7 +31,7 @@ import Home from "./Client Panel/pages/Dashboard/Home";
 import ClientHeader from "./Client Panel/components/ClientHeader";
 import ClientProjects from "./Client Panel/pages/Your Projects/ClientProjects";
 import Contact from "./Client Panel/pages/Contact Us/Contact";
-import RefundForm from "./Pages/Leads/Refund/Refund";
+import LeadRefunds from "./Pages/Leads/Refund/Refund";
 import SettingNavbar from "./Pages/Settings/Components/Navbar/SettingNavbar";
 import SettingDashboard from "./Pages/Settings/DashBoard/SettingDashboard";
 import { Path } from "./utils";
@@ -116,7 +116,6 @@ const App = () => {
                   <Route path="/projects" element={<Projects />} />
                   <Route path="/inventory" element={<Inventory />} />
                   <Route path="/societies" element={<Societies />} />
-                  <Route path="/leads/refund" element={<RefundForm />} />
                   <Route path="/myLeads" element={<Leads type="mine" />} />
                   <Route path="/leads" element={<Leads type="all" />} />
                   <Route path="/leads/ledger" element={<Navigate to='/leads' />} />
@@ -124,6 +123,8 @@ const App = () => {
                   <Route path="/leads/:leadId" element={<Lead />} />
                   <Route path="/leads/followUps" element={<Navigate to='/leads' />} />
                   <Route path="/leads/followUps/:leadId" element={<FollowUps />} />
+                  <Route path="/leads/refund" element={<Navigate to='/leads' />} />
+                  <Route path="/leads/refund/:leadId" element={<LeadRefunds />} />
                   <Route path="/tasks" element={<Tasks />} />
                   <Route path="/employees" element={<Employees />} />
                   <Route path="/clients" element={<Clients />} />

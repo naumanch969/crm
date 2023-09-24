@@ -8,29 +8,36 @@ import { DatePicker, DesktopDatePicker, LocalizationProvider } from "@mui/x-date
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { filterSociety } from "../../../redux/action/society";
+import { filterSocietyReducer } from "../../../redux/reducer/society";
 
-const SocietyFilter = ({ open, setOpen }) => {
+const SocietyFilter = ({ open, setOpen, setIsFiltered }) => {
+
+  ////////////////////////////////////////////////VARIABLES ////////////////////////////////////////////////////////
   const dispatch = useDispatch();
-
-  const initialState = {
+  const initialFilterState = {
     startingDate: '',
     endingDate: '',
     status: ''
   };
 
-  const [filters, setFilters] = useState(initialState);
+  ////////////////////////////////////////////////STATES ////////////////////////////////////////////////////////
+  const [filters, setFilters] = useState(initialFilterState);
+
+  ////////////////////////////////////////////////USE EFFECTS ////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////FUNCTION ////////////////////////////////////////////////////////
+  const handleFilter = () => {
+    dispatch(filterSocietyReducer(filters))
+    setIsFiltered(true)
+    setFilters(initialFilterState)
+    setOpen(false)
+  }
 
   const handleInputChange = (field, value) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [field]: value,
-    }));
+    setFilters((pre) => ({ ...pre, [field]: value, }));
   };
 
-  const handleApplyFilters = () => {
-    dispatch(filterSociety(filters));
-    setOpen(false);
-  };
+
 
   const handleClose = () => {
     setOpen(false);
@@ -99,7 +106,7 @@ const SocietyFilter = ({ open, setOpen }) => {
             </button>
             <button
               className="bg-red-400 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-primary"
-              onClick={handleApplyFilters}
+              onClick={handleFilter}
               autoFocus>
               Apply Filters
             </button>

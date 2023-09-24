@@ -18,18 +18,19 @@ import { updateLead } from "../../../redux/action/lead";
 import { PiXLight } from "react-icons/pi";
 import { Loader } from "../../../utils";
 import { rejectRefundApproval } from "../../../redux/action/approval";
-import { createCashbook } from "../../../redux/action/cashbook";
 import { deleteApproval } from "../../../redux/action/approval";
+import { acceptRefund, rejectRefund } from "../../../redux/action/refund";
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const EnterPassword = ({ open, setOpen, type, approval }) => {
+const EnterPassword = ({ open, setOpen, type, refund }) => {
   ////////////////////////////////////// VARIABLES  /////////////////////////////////////
   const dispatch = useDispatch();
   const { currentLead, isFetching } = useSelector((state) => state.lead);
+  const { loggedUser } = useSelector(state => state.user)
 
   ////////////////////////////////////// STATES  /////////////////////////////////////
   const [password, setPassword] = useState('');
@@ -39,22 +40,23 @@ const EnterPassword = ({ open, setOpen, type, approval }) => {
 
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
   const handleApprove = () => {
-    const data = {
-      customerName: approval.data.customerName,
-      paymentType: "bank",
-      paymentDetail: approval.data.reason,
-      amountPaid: approval.data.amount,
-      branch: approval.data.branch,
+    const cashbookData = {
+      leadId: refund.leadId,
+      clientName: refund.clientName,
+      top: "bank",
+      staff: loggedUser.username,
+      remarks: refund.reason,
+      amount: refund.amount,
       type: "out",
       password
     };
-    dispatch(createCashbook(data, approval?._id, approval.data.leadId));
+    dispatch(acceptRefund(refund?._id, cashbookData));
     setOpen(false)
     setPassword('')
   };
 
   const handleReject = () => {
-    dispatch(rejectRefundApproval(approval._id, password, approval.data.leadId));
+    dispatch(rejectRefund(refund._id, password));
     setOpen(false)
   };
 

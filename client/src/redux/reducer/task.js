@@ -39,24 +39,20 @@ const taskSlice = createSlice({
             const { payload: filters } = action;
 
             const filteredTasks = allTasks.filter((task) => {
-                return Object.entries(filters).every(([key, filterValue]) => {
-                    const taskValue = task[key];
+                if (filters.completedTask && task.completedTask.toLowerCase() !== filters.completedTask.toLowerCase()) return false;
+                if (filters.completedTaskStatus && task.completedTaskStatus.toLowerCase() !== filters.completedTaskStatus.toLowerCase()) return false;
+                if (filters.startingCompletedTaskDate && new Date(task.completedTaskDate) < new Date(filters.startingCompletedTaskDate)) return false;
+                if (filters.endingCompletedTaskDate && new Date(task.completedTaskDate) > new Date(filters.endingCompletedTaskDate)) return false;
 
-                    if (Array.isArray(filterValue)) {
-                        // Handle array filters (e.g., checking if taskValue is in filterValue)
-                        return filterValue.includes(taskValue);
-                    } else if (typeof filterValue === 'string') {
-                        // Handle string filters (e.g., checking if taskValue includes filterValue)
-                        return String(taskValue).toLowerCase().includes(filterValue.toLowerCase());
-                    } else {
-                        // Handle other types of filters (e.g., equality checks)
-                        return taskValue === filterValue;
-                    }
-                });
+                if (filters.newTask && task.newTask.toLowerCase() !== filters.newTask.toLowerCase()) return false;
+                if (filters.startingNewTaskDeadline && new Date(task.newTaskDeadline) < new Date(filters.startingNewTaskDeadline)) return false;
+                if (filters.endingNewTaskDeadline && new Date(task.newTaskDeadline) > new Date(filters.endingNewTaskDeadline)) return false;
+                return true;
             });
 
             state.tasks = filteredTasks;
         },
+
 
         createTaskReducer: (state, action) => { state.tasks = [action.payload, ...state.tasks] },
         updateTaskReducer: (state, action) => { state.tasks = state.tasks.map(t => t = t._id == action.payload._id ? action.payload : t) },

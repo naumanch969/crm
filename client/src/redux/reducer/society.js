@@ -39,22 +39,11 @@ const societySlice = createSlice({
         filterSocietyReducer: (state, action) => {
             const { allSocieties } = state;
             const { payload: filters } = action;
-
             const filteredSocieties = allSocieties.filter((society) => {
-                return Object.entries(filters).every(([key, filterValue]) => {
-                    const societyValue = society[key];
-
-                    if (Array.isArray(filterValue)) {
-                        // Handle array filters (e.g., checking if societyValue is in filterValue)
-                        return filterValue.includes(societyValue);
-                    } else if (typeof filterValue === 'string') {
-                        // Handle string filters (e.g., checking if societyValue includes filterValue)
-                        return String(societyValue).toLowerCase().includes(filterValue.toLowerCase());
-                    } else {
-                        // Handle other types of filters (e.g., equality checks)
-                        return societyValue === filterValue;
-                    }
-                });
+                if (filters.status && society.status.toLowerCase() !== filters.status.toLowerCase()) return false;
+                if (filters.startingDate && new Date(society.createdAt) < new Date(filters.startingDate)) return false;
+                if (filters.endingDate && new Date(society.createdAt) > new Date(filters.endingDate)) return false;
+                return true;
             });
 
             state.societies = filteredSocieties;

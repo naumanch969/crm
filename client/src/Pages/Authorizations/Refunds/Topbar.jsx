@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Add } from '@mui/icons-material';
+import { Add, Close } from '@mui/icons-material';
 import { Path } from '../../../utils';
-import { FormControl, Input, InputAdornment, Tooltip } from '@mui/material';
+import { Chip, FormControl, Input, InputAdornment, Tooltip } from '@mui/material';
 import { PiMagnifyingGlass } from 'react-icons/pi';
 import { FiFilter } from 'react-icons/fi';
 import FilterDrawer from './Filter';
 
-const Topbar = (view, setView) => {
+const Topbar = ({ isFiltered, setIsFiltered }) => {
 
   const [openFilters, setOpenFilters] = useState(false);
 
@@ -36,6 +36,14 @@ const Topbar = (view, setView) => {
 
         {showAddButton && (
           <div className="flex items-center justify-end gap-2 md:mt-0 mt-4">
+            {
+              isFiltered &&
+              <Chip
+                label="Filtered"
+                onDelete={() => setIsFiltered(false)}
+                deleteIcon={<Close />}
+              />
+            }
             <div className="bg-[#ebf2f5] hover:bg-[#dfe6e8] p-1 pl-2 pr-2 rounded-md w-48">
               <FormControl>
                 <Input
@@ -53,18 +61,17 @@ const Topbar = (view, setView) => {
             <Tooltip title="Filter" arrow placement="top">
               <div
                 onClick={handleToggleFilters}
-                className={` p-2 rounded-md cursor-pointer ${
-                  openFilters
-                    ? "text-[#20aee3] bg-[#e4f1ff]"
-                    : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                className={` p-2 rounded-md cursor-pointer ${openFilters
+                  ? "text-[#20aee3] bg-[#e4f1ff]"
+                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                  }`}>
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>
           </div>
         )}
       </div>
-      <FilterDrawer open={openFilters} setOpen={setOpenFilters} />
+      <FilterDrawer open={openFilters} setOpen={setOpenFilters} setIsFiltered={setIsFiltered} />
     </div>
   );
 };

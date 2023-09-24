@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTasks } from "../../redux/action/task";
 import EditModal from "./EditModal";
 import DeleteModal from "./DeleteModal";
-import { getTaskReducer } from "../../redux/reducer/task";
+import { getTaskReducer, getTasksReducer } from "../../redux/reducer/task";
 import { PiArchiveThin, PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
 import { CiEdit } from "react-icons/ci";
 import { format } from "timeago.js";
@@ -90,7 +90,7 @@ const StyledMenuItem = styled(MenuItem)(
 function Tasks() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
-  const { tasks, isFetching, error } = useSelector((state) => state.task);
+  const { tasks, allTasks, isFetching, error } = useSelector((state) => state.task);
   const archivedTasks = tasks.filter((task) => task.isArchived);
   const unarchivedTasks = tasks.filter((task) => !task.isArchived);
   const columns = [
@@ -113,22 +113,23 @@ function Tasks() {
       renderCell: (params) => (
         <span
           className="cursor-pointer text-[#20aee3] hover:text-[#007bff] capitalize font-primary font-light"
-          onClick={() => handleClickOpen(params.row)}></span>
+          onClick={() => handleClickOpen(params.row)}
+        >{params.row.completedTask}</span>
       ),
     },
     {
-      field: "doc",
+      field: "completedTaskDate",
       headerName: "Date of Completion",
       width: 220,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip arrow title="">
-          <div className="capitalize font-primary"></div>
+          <div className="capitalize font-primary">{format(params.row.completedTaskDate)}</div>
         </Tooltip>
       ),
     },
     {
-      field: "status",
+      field: "completedTaskStatus",
       headerName: "Status",
       width: 150,
       headerClassName: "super-app-theme--header",
@@ -137,12 +138,12 @@ function Tasks() {
           className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize  font-primary font-medium
           ${params.row.status == "successful" ? "border-green-500 text-green-500" : ""}
           ${params.row.status == "unsuccessful" ? "border-red-400 text-red-400" : ""} 
-          `}></span>
+          `}>{params.row.completedTaskStatus}</span>
       ),
     },
     {
-      field: "nextTask",
-      headerName: "Next Task",
+      field: "newTask",
+      headerName: "New Task",
       width: 200,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
@@ -151,15 +152,16 @@ function Tasks() {
           placeholder="bottom"
           arrow
           title="">
+            {params.row.newTask}
         </Tooltip>
       ),
     },
     {
-      field: "deadline",
+      field: "newTaskDeadline",
       headerName: "Deadline",
       width: 150,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary"></div>,
+      renderCell: (params) => <div className="font-primary">{format(params.row.newTaskDeadline)}</div>,
     },
 
     {
@@ -218,6 +220,7 @@ function Tasks() {
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [openTask, setOpenTask] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false)
   const [options, setOptions] = useState({
     isKanbanView: false,
     showEmployeeTasks: false,
@@ -228,6 +231,11 @@ function Tasks() {
   useEffect(() => {
     dispatch(getTasks());
   }, []);
+  useEffect(() => {
+    if (!isFiltered) {
+      dispatch(getTasksReducer(allTasks))
+    }
+  }, [isFiltered])
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
   const handleOpenStatusModal = (task) => {
@@ -257,14 +265,9 @@ function Tasks() {
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} taskId={selectedTaskId} />
       <Task open={openTask} setOpen={setOpenTask} />
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
-      <Filter open={openFilters} setOpen={setOpenFilters} />
+      <Filter open={openFilters} setOpen={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
 
-      <Topbar
-        options={options}
-        setOptions={setOptions}
-        openFilters={openFilters}
-        setOpenFilters={setOpenFilters}
-      />
+      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
 
       {options.isKanbanView ? (
         <Kanban options={options} setOptions={setOptions} />
@@ -282,3 +285,6 @@ function Tasks() {
 }
 
 export default Tasks;
+
+
+

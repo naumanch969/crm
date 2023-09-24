@@ -28,37 +28,37 @@ function RequestApprovals() {
       ),
     },
     {
-      field: 'data.firstName', headerName: 'First Name', width: 130,headerClassName: "super-app-theme--header", renderCell: (params) => (
+      field: 'data.firstName', headerName: 'First Name', width: 130, headerClassName: "super-app-theme--header", renderCell: (params) => (
         <span className='cursor-pointer text-blue-600 font-primary' onClick={() => handleOpenRequest(params.row)} >{params.row?.data?.firstName}</span>
       )
     },
     {
-      field: 'data.lastName', headerName: 'Last Name', width: 130,headerClassName: "super-app-theme--header", renderCell: (params) => (
+      field: 'data.lastName', headerName: 'Last Name', width: 130, headerClassName: "super-app-theme--header", renderCell: (params) => (
         <span className='cursor-pointer text-gray-600 font-primary'  >{params.row?.data?.lastName}</span>
       )
     },
     {
-      field: 'data.username', headerName: 'Username', width: 130,headerClassName: "super-app-theme--header", renderCell: (params) => (
+      field: 'data.username', headerName: 'Username', width: 130, headerClassName: "super-app-theme--header", renderCell: (params) => (
         <span className='cursor-pointer text-gray-600 font-primary'  >{params.row?.data?.username}</span>
       )
     },
     {
-      field: 'data.email', headerName: 'email', width: 160,headerClassName: "super-app-theme--header", renderCell: (params) => (
+      field: 'data.email', headerName: 'email', width: 160, headerClassName: "super-app-theme--header", renderCell: (params) => (
         <span className='cursor-pointer text-gray-600 font-primary'  >{params.row?.data?.email}</span>
       )
     },
     {
-      field: 'data.phone', headerName: 'Phone', width: 150,headerClassName: "super-app-theme--header", renderCell: (params) => (
+      field: 'data.phone', headerName: 'Phone', width: 150, headerClassName: "super-app-theme--header", renderCell: (params) => (
         <span className='cursor-pointer text-gray-600 font-primary'  >{format(params.row.phone)}</span>
       )
     },
     {
-      field: 'data.password', headerName: 'Password', width: 150, headerClassName: "super-app-theme--header",renderCell: (params) => (
+      field: 'data.password', headerName: 'Password', width: 150, headerClassName: "super-app-theme--header", renderCell: (params) => (
         <span className='cursor-pointer text-gray-600 font-primary'  >{format(params.row.password)}</span>
       )
     },
     {
-      field: "approve/reject", headerName: "Approve/Reject", width: 150,headerClassName: "super-app-theme--header", renderCell: (params) => (
+      field: "approve/reject", headerName: "Approve/Reject", width: 150, headerClassName: "super-app-theme--header", renderCell: (params) => (
         <div className='flex gap-[4px] ' >
           <button onClick={() => handleApprove(params.row)} className='cursor-pointer bg-green-700 text-white px-[8px] py-[2px] rounded-[12px] text-[14x] ' >Approve</button>
           <button onClick={() => handleReject(params.row)} className='cursor-pointer bg-red-700 text-white px-[8px] py-[2px] rounded-[12px] text-[14x] ' >Reject</button>
@@ -66,7 +66,7 @@ function RequestApprovals() {
       ),
     },
     {
-      field: "action", headerName: "Action", width: 100,headerClassName: "super-app-theme--header", renderCell: (params) => (
+      field: "action", headerName: "Action", width: 100, headerClassName: "super-app-theme--header", renderCell: (params) => (
         <div className='flex gap-[4px] ' >
           <Tooltip placement='top' title='Delete' >
             <button onClick={() => handleOpenDeleteModal(params.row._id)} className='cursor-pointer ' ><PiTrashLight /></button>
@@ -81,6 +81,7 @@ function RequestApprovals() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
   const [openRequest, setOpenRequest] = useState(false)
   const [selectedApprovalId, setSelectedApprovalId] = useState(null)
+  const [isFiltered, setIsFiltered] = useState(false)
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
@@ -112,7 +113,7 @@ function RequestApprovals() {
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} approvalId={selectedApprovalId} />
       <Request open={openRequest} setOpen={setOpenRequest} />
 
-      <Topbar view={view} setView={setView} />
+      <Topbar view={view} setView={setView} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
       <Table
         rows={approvals}
         columns={columns}
