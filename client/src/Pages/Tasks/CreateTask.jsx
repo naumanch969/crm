@@ -29,33 +29,33 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
   const { isFetching, error } = useSelector((state) => state.task);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const initialTaskState = {
+    completedTask: '',
+    completedTaskDate: '',
+    completedTaskStatus: '',
+    completedTaskComment: '',
+    newTask: '',
+    newTaskDeadline: '',
+    newTaskComment: ''
+  }
 
   ////////////////////////////////////// STATES ///////////////////////////////////
-  const [taskData, setTaskData] = useState({
-    title: "",
-    description: "",
-    priority: "",
-    dueDate: "",
-  });
+  const [taskData, setTaskData] = useState(initialTaskState);
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
 
   ////////////////////////////////////// FUNCTION /////////////////////////////////
   const handleSubmit = (e) => {
+    const { completedTask, completedTaskComment, completedTaskDate, completedTaskStatus, newTask, newTaskComment, newTaskDeadline } = taskData
     e.preventDefault();
-    if (!taskData.title || !taskData.description || !taskData.dueDate)
+    if (!completedTask || !completedTaskComment || !completedTaskDate || !completedTaskStatus || !newTask || !newTaskComment || !newTaskDeadline)
       return alert("Make sure to rovide all the fields");
     dispatch(createTask(taskData, setOpen));
+    setTaskData(initialTaskState)
   };
 
   const handleInputChange = (field, value) => {
-    let inputValue;
-    if (field == "dueDate") inputValue = value;
-    else inputValue = value.charAt(0).toLowerCase() + value.slice(1).replace(/\s+/g, "");
-    setTaskData((prevFilters) => ({
-      ...prevFilters,
-      [field]: inputValue,
-    }));
+    setTaskData((pre) => ({ ...pre, [field]: value, }));
   };
   const handleClose = () => {
     setOpen(false);
@@ -89,17 +89,22 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
               <tr>
                 <td className="pb-4 text-lg">Task </td>
                 <td className="pb-4">
-                  <Select name="task" fullWidth size="small">
-                    <MenuItem value="New">New</MenuItem>
+                  <Select
+                    fullWidth
+                    size="small"
+                    value={taskData.completedTask}
+                    onChange={(e) => handleInputChange('completedTask', e.target.value)}
+                  >
+                    <MenuItem value="new">New</MenuItem>
                     <MenuItem value="sentAvailablityList">Sent Availablity List</MenuItem>
                     <MenuItem value="siteVisit">Site Visit</MenuItem>
                     <MenuItem value="tokenRecieved">Token Recieved</MenuItem>
-                    <MenuItem value="ClosedWon">Closed (Won)</MenuItem>
+                    <MenuItem value="closedWon">Closed (Won)</MenuItem>
                     <MenuItem value="closedLost">Closed (Lost)</MenuItem>
-                    <MenuItem value="FollowedUpCall">Followed Up (Call)</MenuItem>
-                    <MenuItem value="FollowedUpEmail">Followed Up (Email)</MenuItem>
-                    <MenuItem value="ContactedCall">Contacted Client (Call)</MenuItem>
-                    <MenuItem value="ContactedCallAttempt">
+                    <MenuItem value="followedUpCall">Followed Up (Call)</MenuItem>
+                    <MenuItem value="followedUpEmail">Followed Up (Email)</MenuItem>
+                    <MenuItem value="contactedCall">Contacted Client (Call)</MenuItem>
+                    <MenuItem value="contactedCallAttempt">
                       Contacted Client (Call Attempt)
                     </MenuItem>
                     <MenuItem value="ContactedEmail">Contacted Client (Email)</MenuItem>
@@ -114,7 +119,7 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DesktopDatePicker"]}>
                       <DesktopDatePicker
-                        // onChange={(date) => handleInputChange("dueDate", date.$d)}
+                        onChange={(date) => handleInputChange("completedTaskDate", date.$d)}
                         slotProps={{ textField: { size: "small", fullWidth: "true" } }}
                       />
                     </DemoContainer>
@@ -124,7 +129,13 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
               <tr>
                 <td className="pb-4 text-lg">Status </td>
                 <td className="pb-4">
-                  <Select name="status" fullWidth size="small">
+                  <Select
+                    name="status"
+                    fullWidth
+                    size="small"
+                    value={taskData.completedTaskStatus}
+                    onChange={(e) => handleInputChange('completedTaskStatus', e.target.value)}
+                  >
                     <MenuItem value="successful">Successful</MenuItem>
                     <MenuItem value="unsuccessful">Unsuccessful</MenuItem>
                   </Select>
@@ -133,13 +144,26 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
               <tr>
                 <td className="flex items-start pt-2 text-lg">Comment </td>
                 <td className="pb-4">
-                  <TextField multiline rows={5} type="text" size="small" fullWidth />
+                  <TextField
+                    multiline
+                    rows={5}
+                    type="text"
+                    value={taskData.completedTaskComment}
+                    onChange={(e) => handleInputChange('completedTaskComment', e.target.value)}
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Next Task </td>
                 <td className="pb-4">
-                  <Select name="nextTask" fullWidth size="small">
+                  <Select
+                    fullWidth
+                    size="small"
+                    value={taskData.newTask}
+                    onChange={(e) => handleInputChange('newTask', e.target.value)}
+                  >
                     <MenuItem value="doNothing">Do Nothing</MenuItem>
                     <MenuItem value="contactClient">Contact Client</MenuItem>
                     <MenuItem value="sentAvailablityList">Sent Availablity List</MenuItem>
@@ -158,7 +182,7 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DesktopDatePicker"]}>
                       <DesktopDatePicker
-                        // onChange={(date) => handleInputChange("dueDate", date.$d)}
+                        onChange={(date) => handleInputChange("newTaskDeadline", date.$d)}
                         slotProps={{ textField: { size: "small", fullWidth: "true" } }}
                       />
                     </DemoContainer>
@@ -168,7 +192,15 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
               <tr>
                 <td className="flex items-start pt-2 text-lg">Comment </td>
                 <td className="pb-4">
-                  <TextField multiline rows={5} type="text" size="small" fullWidth />
+                  <TextField
+                    multiline
+                    rows={5}
+                    type="text"
+                    value={taskData.newTaskComment}
+                    onChange={(e) => handleInputChange('newTaskComment', e.target.value)}
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
             </table>

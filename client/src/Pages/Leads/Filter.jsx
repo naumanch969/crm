@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Drawer, Button, TextField, Autocomplete } from "@mui/material";
+import { Drawer, Button, TextField, Autocomplete, Select, MenuItem } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { filterLead } from "../../redux/action/lead";
 import { FiFilter } from "react-icons/fi";
 import { PiFunnelLight, PiXLight } from "react-icons/pi";
@@ -9,8 +9,15 @@ import { pakistanCities } from "../../constant";
 import { DatePicker, DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { filterLeadReducer } from "../../redux/reducer/lead";
+import { getProjects } from "../../redux/action/project";
 
-const FilterDrawer = ({ open, setOpen }) => {
+const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
+
+  //////////////////////////////// VARIABLES ///////////////////////////////////////////////////
+  const dispatch = useDispatch()
+  const { projects } = useSelector(state => state.project)
+  const { leads } = useSelector(state => state.lead)
   const priorities = ["Very Cold", "Cold", "Moderate", "Hot", "Very Hot"];
   const statuses = [
     "New",
@@ -33,6 +40,25 @@ const FilterDrawer = ({ open, setOpen }) => {
     "Direct Call",
     "Referral",
   ];
+  const initialFilterState = { city: '', startingDate: '', endingDate: '', status: '', priority: '', property: '', }
+  //////////////////////////////// STATES ///////////////////////////////////////////////////
+  const [filters, setFilters] = useState(initialFilterState)
+
+  //////////////////////////////// USE EFFECTS ///////////////////////////////////////////////////
+  useEffect(() => {
+    dispatch(getProjects())
+  }, [])
+  //////////////////////////////// FUNCTIONS ///////////////////////////////////////////////////
+  const handleFilter = () => {
+    dispatch(filterLeadReducer(filters))
+    setIsFiltered(true)
+    setFilters(initialFilterState)
+    setOpen(false)
+  }
+
+  const handleChange = (field, value) => {
+    setFilters((pre) => ({ ...pre, [field]: value }))
+  }
 
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -52,6 +78,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={pakistanCities}
+            onSelect={(e) => handleChange('city', e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField {...params} autoComplete="false" fullWidth label="City" />
@@ -62,6 +89,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={priorities}
+            onSelect={(e) => handleChange('priority', e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField {...params} autoComplete="false" fullWidth label="Priority" />
@@ -74,6 +102,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DesktopDatePicker"]}>
                     <DesktopDatePicker
+                      onChange={(date) => handleChange("startingDate", date.$d)}
                       slotProps={{ textField: { size: "small", maxWidth: 200 } }}
                       label="From"
                     />
@@ -86,6 +115,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                     <DesktopDatePicker
                       className="w-3/6"
                       label="To"
+                      onChange={(date) => handleChange("endingDate", date.$d)}
                       slotProps={{ textField: { size: "small" } }}
                     />
                   </DemoContainer>
@@ -93,22 +123,24 @@ const FilterDrawer = ({ open, setOpen }) => {
               </div>
             </div>
           </div>
-          <Autocomplete
+          <Select
+            name="property"
+            type="text"
+            onChange={(e) => handleChange('property', e.target.value)}
             size="small"
-            disablePortal
-            id="combo-box-demo"
-            options={"All Projects"}
-            className="w-full"
-            renderInput={(params) => (
-              <TextField {...params} autoComplete="false" fullWidth label="Projects" />
-            )}
-          />
+            fullWidth>
+            <MenuItem value={''} >None</MenuItem>
+            {projects.map((project, index) => (
+              <MenuItem value={project._id} key={index}>{project.title}{" "}</MenuItem>
+            ))}
+          </Select>
 
           <Autocomplete
             size="small"
             disablePortal
             id="combo-box-demo"
             options={statuses}
+            onSelect={(e) => handleChange('status', e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField {...params} autoComplete="false" fullWidth label="Status" />
@@ -120,6 +152,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={sources}
+            onSelect={(e) => handleChange('source', e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField {...params} autoComplete="false" fullWidth label="Source" />
@@ -132,6 +165,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             </button>
             <button
               className="bg-red-400 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-primary"
+              onClick={handleFilter}
               autoFocus>
               Apply Filters
             </button>

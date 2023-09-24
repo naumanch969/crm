@@ -37,26 +37,24 @@ const saleSlice = createSlice({
         filterSaleReducer: (state, action) => {
             const { allSales } = state;
             const { payload: filters } = action;
-
             const filteredSales = allSales.filter((sale) => {
-                return Object.entries(filters).every(([key, filterValue]) => {
-                    const saleValue = sale[key];
-
-                    if (Array.isArray(filterValue)) {
-                        // Handle array filters (e.g., checking if saleValue is in filterValue)
-                        return filterValue.includes(saleValue);
-                    } else if (typeof filterValue === 'string') {
-                        // Handle string filters (e.g., checking if saleValue includes filterValue)
-                        return String(saleValue).toLowerCase().includes(filterValue.toLowerCase());
-                    } else {
-                        // Handle other types of filters (e.g., equality checks)
-                        return saleValue === filterValue;
-                    }
-                });
+                if (filters.staff && sale.staff.toLowerCase() !== filters.staff.toLowerCase()) return false;
+                if (filters.top && sale.top.toLowerCase() !== filters.top.toLowerCase()) return false;
+                if (filters.minNet && Number(sale.net) < filters.minNet) return false;
+                if (filters.maxNet && Number(sale.net) > filters.maxNet) return false;
+                if (filters.minReceived && Number(sale.received) < filters.minReceived) return false;
+                if (filters.maxReceived && Number(sale.received) > filters.maxReceived) return false;
+                if (filters.minProfit && (Number(sale.net) - Number(sale.received)) < filters.minProfit) return false;
+                if (filters.maxProfit && (Number(sale.net) - Number(sale.received)) > filters.maxProfit) return false;
+                if (filters.startingDate && new Date(sale.createdAt) < new Date(filters.startingDate)) return false;
+                if (filters.endingDate && new Date(sale.createdAt) > new Date(filters.endingDate)) return false;
+                return true;
             });
 
             state.sales = filteredSales;
         },
+
+
 
         createSaleReducer: (state, action) => { state.sales = [action.payload, ...state.sales] },
         updateSaleReducer: (state, action) => { state.sales = state.sales.map(s => s = s._id == action.payload._id ? action.payload : s) },

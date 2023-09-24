@@ -1,52 +1,41 @@
 import React, { useEffect, useState } from "react";
-import { Drawer, TextField, Autocomplete } from "@mui/material";
+import { MenuItem, Select, Drawer, TextField, Autocomplete } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { filterProject } from "../../../redux/action/project";
 import { PiFunnelLight, PiXLight } from "react-icons/pi";
 import { pakistanCities } from "../../../constant";
 import { DatePicker, DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { getSocieties } from "../../../redux/action/society";
-import { MenuItem, Select } from "@mui/base";
 import { Loader } from "../../../utils";
+import { filterProjectReducer } from "../../../redux/reducer/project";
 
-const ProjectFilter = ({ open, setOpen }) => {
+const ProjectFilter = ({ open, setOpen, isFiltered, setIsFiltered }) => {
 
-  const dispatch = useDispatch();
-  const { societies, isFetching: societiesFetching } = useSelector(state => state.society)
-  const societiesTitleArr = societies.map(s => s.title)
+  //////////////////////////////// VARIABLES ///////////////////////////////////////////////////
+  const dispatch = useDispatch()
+  const { societies } = useSelector(state => state.society)
+  const initialFilterState = { city: '', startingDate: '', endingDate: '', status: '', }
 
-  const initialState = {
-    city: '',
-    startingDate: '',
-    endingDate: '',
-    status: '',
-    society: ''
-  };
+  //////////////////////////////// STATES ///////////////////////////////////////////////////
+  const [filters, setFilters] = useState(initialFilterState)
 
-  const [filters, setFilters] = useState(initialState);
-
+  //////////////////////////////// USE EFFECTS ///////////////////////////////////////////////////
   useEffect(() => {
     dispatch(getSocieties())
   }, [])
+  //////////////////////////////// FUNCTIONS ///////////////////////////////////////////////////
+  const handleFilter = () => {
+    console.log(filters)
+    dispatch(filterProjectReducer(filters))
+    setIsFiltered(true)
+    setFilters(initialFilterState)
+    setOpen(false)
+  }
+  const handleChange = (field, value) => {
+    setFilters((pre) => ({ ...pre, [field]: value }))
+  }
 
-  const handleInputChange = (field, value) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [field]: value,
-    }));
-  };
-
-  const handleApplyFilters = () => {
-    console.log("filters", filters);
-    dispatch(filterProject(filters));
-    setOpen(false);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -66,21 +55,24 @@ const ProjectFilter = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={pakistanCities}
-            onSelect={(e) => handleInputChange("city", e.target.value)}
+            onSelect={(e) => handleChange("city", e.target.value)}
             className="w-full"
             renderInput={(params) => (
               <TextField {...params} fullWidth label="City" value={filters.city} />
             )}
           />
-          <Autocomplete
+          <Select
+            name="society"
+            type="text"
+            onChange={(e) => handleChange('society', e.target.value)}
             size="small"
-            disablePortal
-            id="combo-box-demo"
-            options={societiesTitleArr}
-            onSelect={(e) => handleInputChange("society", e.target.value)}
-            className="w-full"
-            renderInput={(params) => <TextField {...params} fullWidth label="Society" />}
-          />
+            fullWidth
+          >
+            <MenuItem value={''} >None</MenuItem>
+            {societies.map((society, index) => (
+              <MenuItem value={society.title} key={index}>{society.title}{" "}</MenuItem>
+            ))}
+          </Select>
 
           <div className="flex flex-col">
             <div>Creation Date : </div>
@@ -92,7 +84,7 @@ const ProjectFilter = ({ open, setOpen }) => {
                       slotProps={{ textField: { size: "small", maxWidth: 200 } }}
                       label="Starting"
                       value={filters.startingDate}
-                      onChange={(date) => handleInputChange("startingDate", date.$d)}
+                      onChange={(date) => handleChange("startingDate", date.$d)}
                     />
                   </DemoContainer>
                 </LocalizationProvider>
@@ -106,7 +98,7 @@ const ProjectFilter = ({ open, setOpen }) => {
                       label="Ending"
                       slotProps={{ textField: { size: "small" } }}
                       value={filters.endingDate}
-                      onChange={(date) => handleInputChange("endingDate", date.$d)}
+                      onChange={(date) => handleChange("endingDate", date.$d)}
                     />
                   </DemoContainer>
                 </LocalizationProvider>
@@ -119,7 +111,7 @@ const ProjectFilter = ({ open, setOpen }) => {
             disablePortal
             id="combo-box-demo"
             options={["active", "nonActive"]}
-            onSelect={(e) => handleInputChange("status", e.target.value)}
+            onSelect={(e) => handleChange("status", e.target.value)}
             className="w-full"
             renderInput={(params) => <TextField {...params} fullWidth label="Status" />}
           />
@@ -127,12 +119,12 @@ const ProjectFilter = ({ open, setOpen }) => {
           <div className="flex gap-4 justify-end">
             <button
               className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg font-primary"
-              onClick={handleClose}>
+              onClick={() => setOpen(false)}>
               Cancel
             </button>
             <button
               className="bg-red-400 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-primary"
-              onClick={handleApplyFilters}
+              onClick={handleFilter}
               autoFocus>
               Apply Filters
             </button>

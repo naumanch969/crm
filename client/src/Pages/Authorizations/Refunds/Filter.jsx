@@ -4,11 +4,29 @@ import { Close } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { FiFilter } from "react-icons/fi";
 import { PiFunnelLight, PiXLight } from "react-icons/pi";
+import { filterRefundReducer } from "../../../redux/reducer/refund";
 
-const FilterDrawer = ({ open, setOpen }) => {
-  const handleApplyFilters = () => {
-    setOpen(false);
-  };
+const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
+  //////////////////////////////// VARIABLES ///////////////////////////////////////////////////
+  const dispatch = useDispatch()
+  const initialFilterState = { branch: '', status: '' }
+  //////////////////////////////// STATES ///////////////////////////////////////////////////
+  const [filters, setFilters] = useState(initialFilterState)
+
+  //////////////////////////////// USE EFFECTS ///////////////////////////////////////////////////
+
+  //////////////////////////////// FUNCTIONS ///////////////////////////////////////////////////
+  const handleFilter = () => {
+    dispatch(filterRefundReducer(filters))
+    setIsFiltered(true)
+    setFilters(initialFilterState)
+    setOpen(false)
+  }
+  const handleChange = (field, value) => {
+    setFilters(pre => ({ ...pre, [field]: value }))
+  }
+
+
 
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -24,23 +42,34 @@ const FilterDrawer = ({ open, setOpen }) => {
         </div>
         <div className="flex flex-col justify-between">
           <div className="p-4 flex flex-col gap-4 ">
-          <table>
-            <tr>
-              <td className="w-24 pt-4">Branch : </td>
-              <td className="pt-4">
-                <TextField size="small" fullWidth type="number" />
-              </td>
-            </tr>
-            <tr>
-              <td className="w-24 pt-4">Approvals : </td>
-              <td className="pt-4">
-                <Select type="text" size="small" fullWidth>
-                  <MenuItem value="accepted">Accepted</MenuItem>
-                  <MenuItem value="rejected">Rejected</MenuItem>
-                </Select>
-              </td>
-            </tr>
-          </table>
+            <table>
+              <tr>
+                <td className="w-24 pt-4">Branch : </td>
+                <td className="pt-4">
+                  <TextField
+                    onChange={(e) => handleChange('branch', e.target.value)}
+                    size="small"
+                    fullWidth
+                    type="text"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="w-24 pt-4">Approvals : </td>
+                <td className="pt-4">
+                  <Select
+                    onChange={(e) => handleChange('status', e.target.value)}
+                    type="text"
+                    size="small"
+                    fullWidth
+                  >
+                    <MenuItem value="accepted">Accepted</MenuItem>
+                    <MenuItem value="underProcess">Under Process</MenuItem>
+                    <MenuItem value="rejected">Rejected</MenuItem>
+                  </Select>
+                </td>
+              </tr>
+            </table>
           </div>
           <div className="flex gap-4 justify-end p-4">
             <button
@@ -51,7 +80,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             <button
               variant="contained"
               className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin"
-              onClick={handleApplyFilters}>
+              onClick={handleFilter}>
               Apply Filters
             </button>
           </div>

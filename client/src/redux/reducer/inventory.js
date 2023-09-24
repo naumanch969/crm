@@ -41,20 +41,14 @@ const inventorySlice = createSlice({
             const { payload: filters } = action;
 
             const filteredInventories = allInventories.filter((inventory) => {
-                return Object.entries(filters).every(([key, filterValue]) => {
-                    const inventoryValue = inventory[key];
-
-                    if (Array.isArray(filterValue)) {
-                        // Handle array filters (e.g., checking if inventoryValue is in filterValue)
-                        return filterValue.includes(inventoryValue);
-                    } else if (typeof filterValue === 'string') {
-                        // Handle string filters (e.g., checking if inventoryValue includes filterValue)
-                        return String(inventoryValue).toLowerCase().includes(filterValue.toLowerCase());
-                    } else {
-                        // Handle other types of filters (e.g., equality checks)
-                        return inventoryValue === filterValue;
-                    }
-                });
+                if (filters.sellerCity && inventory.sellerCity.toLowerCase() !== filters.sellerCity.toLowerCase()) return false;
+                if (filters.status && inventory.status.toLowerCase() !== filters.status.toLowerCase()) return false;
+                if (filters.project && inventory.project.title.toString() !== filters.project.toString()) return false;
+                if (filters.startingDate && new Date(inventory.createdAt) < new Date(filters.startingDate)) return false;
+                if (filters.minPrice && Number(inventory.price) < filters.minPrice) return false;
+                if (filters.maxPrice && Number(inventory.price) > filters.maxPrice) return false;
+                if (filters.endingDate && new Date(inventory.createdAt) > new Date(filters.endingDate)) return false;
+                return true;
             });
 
             state.inventories = filteredInventories;

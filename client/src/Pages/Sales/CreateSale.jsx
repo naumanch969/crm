@@ -50,9 +50,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
   useEffect(() => {
     setSaleData({ ...saleData, staff: lead?.client?.username })
   }, [lead])
-  useEffect(() => {
-    console.log(saleData)
-  }, [saleData])
+
 
   ////////////////////////////////////////// FUNCTIONS ///////////////////////////////////
   const handleSubmit = (e) => {
@@ -106,7 +104,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
                     fullWidth>
                     {
                       employees.map((employee, index) => (
-                        <MenuItem key={index} value={employee?._id}>{employee?.username}</MenuItem>
+                        <MenuItem key={index} value={employee?.username}>{employee?.username}</MenuItem>
                       ))
                     }
                   </Select>
@@ -123,7 +121,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
                     fullWidth>
                     {
                       clients.map((client, index) => (
-                        <MenuItem key={index} value={client?._id}>{client?.username}</MenuItem>
+                        <MenuItem key={index} value={client?.username}>{client?.username}</MenuItem>
                       ))
                     }
                   </Select>

@@ -29,7 +29,7 @@ const leadSlice = createSlice({
         searchLeadReducer: (state, action) => {
             const { allLeads } = state;
             const { payload: searchTerm } = action;
-
+            console.log(allLeads)
             const searchedLeads = allLeads.filter((lead) => {
                 const itemValues = Object.values(lead);
                 return itemValues.some((value) => {
@@ -50,24 +50,20 @@ const leadSlice = createSlice({
             const { payload: filters } = action;
 
             const filteredLeads = allLeads.filter((lead) => {
-                return Object.entries(filters).every(([key, filterValue]) => {
-                    const leadValue = lead[key];
-
-                    if (Array.isArray(filterValue)) {
-                        // Handle array filters (e.g., checking if leadValue is in filterValue)
-                        return filterValue.includes(leadValue);
-                    } else if (typeof filterValue === 'string') {
-                        // Handle string filters (e.g., checking if leadValue includes filterValue)
-                        return String(leadValue).toLowerCase().includes(filterValue.toLowerCase());
-                    } else {
-                        // Handle other types of filters (e.g., equality checks)
-                        return leadValue === filterValue;
-                    }
-                });
+                if (filters.city && lead.city.toLowerCase() !== filters.city.toLowerCase()) return false;
+                if (filters.priority && lead.priority.toLowerCase() !== filters.priority.toLowerCase()) return false;
+                if (filters.status && lead.status.toLowerCase() !== filters.status.toLowerCase()) return false;
+                if (filters.source && lead.source.toLowerCase() !== filters.source.toLowerCase()) return false;
+                if (filters.property && lead.property._id.toString() !== filters.property.toString()) return false;
+                if (filters.startingDate && new Date(lead.createdAt) < new Date(filters.startingDate)) return false;
+                if (filters.endingDate && new Date(lead.createdAt) > new Date(filters.endingDate)) return false;
+                return true;
             });
 
             state.leads = filteredLeads;
         },
+
+
 
         deleteLeadReducer: (state, action) => { state.leads = state.leads.filter(l => l._id != action.payload._id) },
     }

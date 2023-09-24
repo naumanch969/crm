@@ -223,14 +223,6 @@ export const createCashbook = async (req, res, next) => {
         if (!clientName || !top || !remarks || !amount || !type || !staff)
             return next(createError(400, 'Make sure to provide all the fields'))
 
-        if (password) {     // in case of refund, we need to have password security
-            const admin = await User.findById(req.user._id)
-            const enteredPassword = password;
-            const savedPassword = admin?.password
-            const isPasswordCorrect = await bcrypt.compare(enteredPassword, savedPassword)
-            if (!isPasswordCorrect) return next(createError(401, 'Incorrect Password'))
-        }
-
         let newCashbook;
         if (leadId) {
             newCashbook = await Cashbook.create({ clientName, top, remarks, amount, type, staff, leadId })

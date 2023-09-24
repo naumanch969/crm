@@ -9,8 +9,13 @@ import {
   Slide,
   DialogActions,
   TextField,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
+import { createRefund } from "../../../redux/action/refund";
+import { getClients } from "../../../redux/action/user";
+import { getLead } from "../../../redux/action/lead";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -19,24 +24,40 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const CreateRefund = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////// VARIABLES /////////////////////////////////////
   const dispatch = useDispatch();
-  const {
-    state: { leadId },
-  } = useLocation();
-  const { currentLead, isFetching } = useSelector((state) => state.lead);
-  const { isFetching: isSubmitting } = useSelector((state) => state.approval);
+  const { currentLead: lead } = useSelector(state => state.lead);
+  const { isFetching } = useSelector(state => state.refund);
   const current = new Date();
   const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
   const navigate = useNavigate();
+  const initialRefundData = {
+    branch: '',
+    amount: '',
+    CNIC: '',
+    phone: '',
+    clientName: '',
+    reason: '',
+
+  }
 
   ////////////////////////////////////// STATES /////////////////////////////////////
-
+  const [refundData, setRefundData] = useState(initialRefundData)
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////////
-
+  useEffect(() => {
+    setRefundData({ ...refundData, clientName: lead?.client?.username })
+  }, [lead])
 
   ////////////////////////////////////// FUNCTIONS //////////////////////////////////
+  const handleSave = () => {
+    const { amount, phone, reason } = refundData
+    if (!amount || !phone || !reason) return alert('Make sure to provide all the fields')
 
-
+    dispatch(createRefund({ ...refundData, leadId: lead?._id }, setOpen))
+    setRefundData(initialRefundData)
+  }
+  const handleChange = (e) => {
+    setRefundData({ ...refundData, [e.target.name]: e.target.value })
+  }
   const handleClose = () => {
     setOpen(false);
   };
@@ -70,24 +91,10 @@ const CreateRefund = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg flex mt-1 items-start">Branch </td>
                 <td className="pb-4">
                   <TextField
-                    // value={refundData.branch}
-                    // onChange={handleChange}
+                    value={refundData.branch}
+                    onChange={handleChange}
                     type="text"
                     name="branch"
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="flex flex-col justify-start mt-1 text-lg">Issuing Date </td>
-                <td className="pb-4">
-                  <TextField
-                    // value={date}
-                    // onChange={handleChange}
-                    disabled
-                    type="text"
-                    name="issuingDate"
                     size="small"
                     fullWidth
                   />
@@ -97,8 +104,8 @@ const CreateRefund = ({ open, setOpen, scroll }) => {
                 <td className="flex flex-col justify-start mt-1 text-lg">Amount </td>
                 <td className="pb-4">
                   <TextField
-                    // value={refundData.amount}
-                    // onChange={handleChange}
+                    value={refundData.amount}
+                    onChange={handleChange}
                     type="number"
                     name="amount"
                     size="small"
@@ -107,11 +114,11 @@ const CreateRefund = ({ open, setOpen, scroll }) => {
                 </td>
               </tr>
               <tr>
-                <td className="flex flex-col justify-start mt-1 text-lg">Customer Name </td>
+                <td className="pb-4 text-lg">Customer Name </td>
                 <td className="pb-4">
                   <TextField
-                    // value={refundData.clientName}
-                    // onChange={handleChange}
+                    disabled={lead?.client}
+                    value={refundData.clientName}
                     type="text"
                     name="clientName"
                     size="small"
@@ -119,15 +126,14 @@ const CreateRefund = ({ open, setOpen, scroll }) => {
                   />
                 </td>
               </tr>
-
               <tr>
                 <td className="flex flex-col justify-start mt-1 text-lg">Customer CNIC </td>
                 <td className="pb-4">
                   <TextField
-                    // value={refundData.cnic}
-                    // onChange={handleChange}
+                    value={refundData.CNIC}
+                    onChange={handleChange}
                     type="text"
-                    name="cnic"
+                    name="CNIC"
                     size="small"
                     fullWidth
                   />
@@ -137,8 +143,8 @@ const CreateRefund = ({ open, setOpen, scroll }) => {
                 <td className="flex flex-col justify-start mt-1 text-lg">Phone Number </td>
                 <td className="pb-4">
                   <TextField
-                    // value={refundData.phone}
-                    // onChange={handleChange}
+                    value={refundData.phone}
+                    onChange={handleChange}
                     type="number"
                     name="phone"
                     size="small"
@@ -152,8 +158,8 @@ const CreateRefund = ({ open, setOpen, scroll }) => {
                   <TextField
                     type="text"
                     name="reason"
-                    // onChange={handleChange}
-                    // value={refundData.reason}
+                    onChange={handleChange}
+                    value={refundData.reason}
                     multiline
                     rows={5}
                     size="small"
@@ -172,9 +178,10 @@ const CreateRefund = ({ open, setOpen, scroll }) => {
             Cancel
           </button>
           <button
+            onClick={handleSave}
             variant="contained"
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
-            Save
+            {isFetching ? 'Saving...' : 'Save'}
           </button>
         </DialogActions>
       </Dialog>

@@ -78,15 +78,10 @@ export const createRefundApproval = (approvalData, navigate) => async (dispatch)
         dispatch(error(err.message))
     }
 }
-export const rejectRefundApproval = (approvalId, password, leadId) => async (dispatch) => {
+export const rejectRefundApproval = (approvalId) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.deleteApproval(approvalId, password)
-
-        if (password && data.result) {    // in case of refund, after successful rejectRefundApproval, we have to delete that approval + we need to update the status of lead
-            dispatch(updateLead(leadId, { isAppliedForRefund: false }))
-        }
-
+        const { data } = await api.deleteApproval(approvalId)
         dispatch(rejectRefundApprovalReducer(data.result))
         dispatch(end())
     } catch (err) {

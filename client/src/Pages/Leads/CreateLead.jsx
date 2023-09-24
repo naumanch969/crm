@@ -247,8 +247,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                     type="text"
                     size="small"
                     fullWidth>
-                    {pakistanCities.map((item) => (
-                      <MenuItem value={item}>{item}</MenuItem>
+                    {pakistanCities.map((item, index) => (
+                      <MenuItem value={item} key={index} >{item}</MenuItem>
                     ))}
                   </Select>
                 </td>

@@ -122,6 +122,16 @@ export const getFollowUps = (leadId) => API.get(`/followUp/get/all/${leadId}`)
 export const createFollowUp = (followUpData) => API.post(`/followUp/create`, followUpData)
 export const deleteFollowUp = (followUpId) => API.delete(`/followUp/delete/${followUpId}',`)
 
+// REFUND
+export const getRefund = (refundId) => API.get(`/refund/get/single/${refundId}`)
+export const getRefunds = () => API.get(`/refund/get/all`)
+export const getLeadRefunds = (leadId) => API.get(`/refund/get/lead?leadId=${leadId}`)
+export const createRefund = (refundData) => API.post(`/refund/create`, refundData)
+export const updateRefund = (refundId, refundData) => API.put(`/refund/update/${refundId}`, refundData)
+export const acceptRefund = (refundId, cashbookData) => API.put(`/refund/accept/${refundId}`, cashbookData) // on successful approval, cashbook out should be generated
+export const rejectRefund = (refundId, password) => API.put(`/refund/reject/${refundId}`, { password })
+export const deleteRefund = (refundId) => API.delete(`/refund/delete/${refundId}`)
+
 // PROJECT
 export const getProject = (projectId) => API.get(`/project/get/single/${projectId}`)
 export const getProjects = () => API.get(`/project/get/all`)

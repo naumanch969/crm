@@ -19,6 +19,7 @@ import inventoryRoutes from './routes/inventory.js'
 import leadRoutes from './routes/lead.js'
 import followUpRoutes from './routes/followUp.js'
 import cashbookRoutes from './routes/cashbook.js'
+import refundRoutes from './routes/refund.js'
 import voucherRoutes from './routes/voucher.js'
 
 dotenv.config()
@@ -49,7 +50,7 @@ app.use('/api/v1/inventory', inventoryRoutes)
 app.use('/api/v1/lead', leadRoutes)
 app.use('/api/v1/followUp', followUpRoutes)
 app.use('/api/v1/cashbook', cashbookRoutes)
-app.use('/api/v1/refund', cashbookRoutes)
+app.use('/api/v1/refund', refundRoutes)
 app.use('/api/v1/voucher', voucherRoutes)
 
 app.use((err, req, res, next) => {

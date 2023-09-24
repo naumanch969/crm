@@ -17,6 +17,11 @@ import {
 } from "react-icons/pi";
 import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
 import { pakistanCities } from "../../constant";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers";
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -25,8 +30,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const EditModal = ({ open, setOpen }) => {
   ///////////////////////////////////// VARIABLES /////////////////////////////////////
   const dispatch = useDispatch();
-  const { currentTask: task, isFetchinig, error } = useSelector((state) => state.task);
-
+  const { currentTask: task, isFetching, error } = useSelector((state) => state.task);
+  const initialTaskState = {
+    completedTask: '',
+    completedTaskDate: '',
+    completedTaskStatus: '',
+    completedTaskComment: '',
+    newTask: '',
+    newTaskDeadline: '',
+    newTaskComment: ''
+  }
   ///////////////////////////////////// STATES ////////////////////////////////////////
   const [taskData, setTaskData] = useState(task);
 
@@ -37,22 +50,22 @@ const EditModal = ({ open, setOpen }) => {
 
   ///////////////////////////////////// FUNCTIONS /////////////////////////////////////
   const handleSubmit = (e) => {
+    const { completedTask, completedTaskComment, completedTaskDate, completedTaskStatus, newTask, newTaskComment, newTaskDeadline } = taskData
     e.preventDefault();
-    if (!taskData?.title || !taskData?.description || !taskData?.dueDate || !taskData?.priority)
+    if (!completedTask || !completedTaskComment || !completedTaskDate || !completedTaskStatus || !newTask || !newTaskComment || !newTaskDeadline)
       return alert("Make sure to rovide all the fields");
     dispatch(updateTask(taskData?._id, taskData));
-    dispatch(getTaskReducer(null));
-    setOpen(false);
+    setTaskData(initialTaskState)
+    setOpen(false)
   };
 
-  const handleChange = (e) => {
-    setTaskData({ ...taskData, [e.target.name]: e.target.value });
+  const handleInputChange = (field, value) => {
+    setTaskData((pre) => ({ ...pre, [field]: value, }));
   };
-
   const handleClose = () => {
     setOpen(false);
+    setOpenFromNavbar(false);
   };
-
   return (
     <div>
       <Dialog
@@ -64,67 +77,133 @@ const EditModal = ({ open, setOpen }) => {
         maxWidth="sm"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400 font-primary">Edit Task</div>
+          <div className="text-sky-400">Add New Task</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
         </DialogTitle>
         <DialogContent>
-          <div className="font-primary">
-            <table className="flex flex-col justify-center mt-4">
-              <tr className="flex items-center gap-32">
-                <td className="text-lg pb-4 ">Title </td>
-                <td className="pb-4 w-full">
-                  <TextField
-                    size="small"
-                    fullWidth
-                    onChange={handleChange}
-                    value={taskData?.title}
-                    name="title"
-                    type="text"
-                  />
-                </td>
-              </tr>
-              <tr className="flex items-center gap-16">
-                <td className="text-lg pb-4 w-[10vw]">Due Date </td>
-                <td className="pb-4 w-full">
-                  <TextField
-                    size="small"
-                    fullWidth
-                    type="date"
-                    onChange={handleChange}
-                    value={taskData?.dueDate}
-                    name="dueDate"
-                  />
-                </td>
-              </tr>
-              <tr className="flex items-center gap-16">
-                <td className="text-lg pb-4 w-[10vw]">Priority </td>
-                <td className="pb-4 w-full">
+          <div className="flex flex-col gap-2 p-3 text-gray-500">
+            <div className="text-xl flex justify-start items-center gap-2 font-normal">
+              <PiNotepad size={23} />
+              <span>Task Detials</span>
+            </div>
+            <Divider />
+            <table className="mt-4">
+              <tr>
+                <td className="pb-4 text-lg">Task </td>
+                <td className="pb-4">
                   <Select
-                    size="small"
                     fullWidth
-                    onChange={handleChange}
-                    value={taskData?.priority}
-                    name="priority">
-                    <MenuItem value="high">High</MenuItem>
-                    <MenuItem value="moderate">Moderate</MenuItem>
-                    <MenuItem value="low">Low</MenuItem>
+                    size="small"
+                    value={taskData?.completedTask}
+                    onChange={(e) => handleInputChange('completedTask', e.target.value)}
+                  >
+                    <MenuItem value="New">New</MenuItem>
+                    <MenuItem value="sentAvailablityList">Sent Availablity List</MenuItem>
+                    <MenuItem value="siteVisit">Site Visit</MenuItem>
+                    <MenuItem value="tokenRecieved">Token Recieved</MenuItem>
+                    <MenuItem value="ClosedWon">Closed (Won)</MenuItem>
+                    <MenuItem value="closedLost">Closed (Lost)</MenuItem>
+                    <MenuItem value="FollowedUpCall">Followed Up (Call)</MenuItem>
+                    <MenuItem value="FollowedUpEmail">Followed Up (Email)</MenuItem>
+                    <MenuItem value="ContactedCall">Contacted Client (Call)</MenuItem>
+                    <MenuItem value="ContactedCallAttempt">
+                      Contacted Client (Call Attempt)
+                    </MenuItem>
+                    <MenuItem value="ContactedEmail">Contacted Client (Email)</MenuItem>
+                    <MenuItem value="MeetingDone">Meeting (Done)</MenuItem>
+                    <MenuItem value="MeetingAttempt">Meeting (Attempt)</MenuItem>
                   </Select>
                 </td>
               </tr>
-              <tr className="flex gap-16">
-                <td className="text-lg flex items-start pt-2">Description </td>
-                <td className="pb-4 w-full">
-                  <TextField
+              <tr>
+                <td className="pb-4 text-lg">Completed Date </td>
+                <td className="pb-4">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={["DesktopDatePicker"]}>
+                      <DesktopDatePicker
+                        onChange={(date) => handleInputChange("completedTaskDate", date.$d)}
+                        slotProps={{ textField: { size: "small", fullWidth: "true" } }}
+                      />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Status </td>
+                <td className="pb-4">
+                  <Select
+                    name="status"
+                    fullWidth
                     size="small"
+                    value={taskData?.completedTaskStatus}
+                    onChange={(e) => handleInputChange('completedTaskStatus', e.target.value)}
+                  >
+                    <MenuItem value="successful">Successful</MenuItem>
+                    <MenuItem value="unsuccessful">Unsuccessful</MenuItem>
+                  </Select>
+                </td>
+              </tr>
+              <tr>
+                <td className="flex items-start pt-2 text-lg">Comment </td>
+                <td className="pb-4">
+                  <TextField
                     multiline
                     rows={5}
+                    type="text"
+                    value={taskData?.completedTaskComment}
+                    onChange={(e) => handleInputChange('completedTaskComment', e.target.value)}
+                    size="small"
                     fullWidth
-                    type="date"
-                    onChange={handleChange}
-                    value={taskData?.description}
-                    name="description"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Next Task </td>
+                <td className="pb-4">
+                  <Select
+                    fullWidth
+                    size="small"
+                    value={taskData?.newTask}
+                    onChange={(e) => handleInputChange('newTask', e.target.value)}
+                  >
+                    <MenuItem value="doNothing">Do Nothing</MenuItem>
+                    <MenuItem value="contactClient">Contact Client</MenuItem>
+                    <MenuItem value="sentAvailablityList">Sent Availablity List</MenuItem>
+                    <MenuItem value="followUp">Follow Up</MenuItem>
+                    <MenuItem value="arrangeMeeting">Arrange Meeting</MenuItem>
+                    <MenuItem value="pushMeeting">Push Meeting</MenuItem>
+                    <MenuItem value="meetClient">Meet Client</MenuItem>
+                    <MenuItem value="signAgreement">Sign Agreement</MenuItem>
+                    <MenuItem value="recieveToken">Recieve Token</MenuItem>
+                  </Select>
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Deadline </td>
+                <td className="pb-4">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={["DesktopDatePicker"]}>
+                      <DesktopDatePicker
+                        onChange={(date) => handleInputChange("newTaskDeadline", date.$d)}
+                        slotProps={{ textField: { size: "small", fullWidth: "true" } }}
+                      />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </td>
+              </tr>
+              <tr>
+                <td className="flex items-start pt-2 text-lg">Comment </td>
+                <td className="pb-4">
+                  <TextField
+                    multiline
+                    rows={5}
+                    type="text"
+                    value={taskData?.newTaskComment}
+                    onChange={(e) => handleInputChange('newTaskComment', e.target.value)}
+                    size="small"
+                    fullWidth
                   />
                 </td>
               </tr>
@@ -135,68 +214,20 @@ const EditModal = ({ open, setOpen }) => {
           <button
             onClick={handleClose}
             variant="contained"
+            type="reset"
             className="bg-[#d7d7d7] px-4 py-2 rounded-lg text-gray-500 mt-4 hover:text-white hover:bg-[#6c757d] border-[2px] border-[#efeeee] hover:border-[#d7d7d7] font-thin transition-all">
             Cancel
           </button>
           <button
-            onClick={handleSubmit}
             variant="contained"
+            onClick={handleSubmit}
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
-            Submit
+            {isFetching ? "Submitting..." : "Submit"}
           </button>
         </DialogActions>
       </Dialog>
     </div>
-    // <Modal open={open} onClose={handleClose} className='w-screen h-screen flex justify-center items-center ' >
 
-    //   <div className='lg:w-[30%] md:w-[40%] sm:w-[60%] w-[90%] h-[80vh] max-h-[80vh] overflow-y-scroll overflow-x-hidden bg-white rounded-[4px] ' >
-
-    //     <div className="bg-neutral-800 p-[8px] text-white flex justify-between items-center sticky top-0 ">
-    //       <h2 className='font-bold text-[24px] ' >Update Task</h2>
-    //       <IconButton onClick={handleClose} ><Close className='text-white' /></IconButton>
-    //     </div>
-
-    //     <form onSubmit={handleSubmit} className='flex flex-col gap-[8px] w-full p-[12px] ' >
-
-    //       <div className=" flex flex-col gap-[1rem]  ">
-    //         {/* title */}
-    //         <div className="flex flex-col gap-[4px] w-full ">
-    //           <label className='text-black font-medium text-[16px] ' htmlFor="title">Title</label>
-    //           <input type="text" onChange={handleChange} value={taskData?.title} name="title" id="title" placeholder='First Name' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //         </div>
-    //         {/* due date */}
-    //         <div className="flex flex-col gap-[4px] w-full ">
-    //           <label className='text-black font-medium text-[16px] ' htmlFor="dueDate">Due Date</label>
-    //           <input type="date" onChange={handleChange} value={taskData?.dueDate} name="dueDate" id="dueDate" placeholder='Email' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //         </div>
-    //         {/* branch */}
-    //         <div className="flex flex-col gap-[4px] w-full ">
-    //           <label className='text-black font-medium text-[16px] ' htmlFor="priority">Priority</label>
-    //           <select onChange={handleChange} value={taskData?.priority} name="priority" className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] min-h-[40px] ' >
-    //             <option value="">Select Priority</option>
-    //             <option value="high">High</option>
-    //             <option value="moderate">Moderate</option>
-    //             <option value="low">Low</option>
-    //           </select>
-    //         </div>
-    //         {/* description */}
-    //         <div className="flex flex-col gap-[4px] w-full ">
-    //           <label className='text-black font-medium text-[16px] ' htmlFor="description">Description</label>
-    //           <textarea rows='5' type="text" onChange={handleChange} value={taskData?.description} name="description" id="description" placeholder='Description' className='bg-inherit border-[1px] border-gray-500 text-black outline-none rounded-[4px] p-[8px] ' />
-    //         </div>
-    //       </div>
-
-    //       <div className="w-full flex justify-end items-center">
-    //         <button type='submit' className='w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer ' >
-    //           {isFetchinig ? 'Updating' : 'Update'}
-    //         </button>
-    //       </div>
-
-    //     </form>
-
-    //   </div>
-
-    // </Modal>
   );
 };
 

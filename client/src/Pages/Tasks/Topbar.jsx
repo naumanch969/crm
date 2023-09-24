@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Box, CardContent, FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
+import { Box, CardContent, Chip, FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiArchive, PiMagnifyingGlass, PiTrendUp } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
 import { useSelector } from "react-redux";
-import { Add } from "@mui/icons-material";
+import { Add, Close } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../utils";
 import { useDispatch } from "react-redux";
@@ -12,7 +12,7 @@ import CreateTask from "./CreateTask";
 import Navbar from "../../Components/Navbar/Navbar";
 import { searchTaskReducer } from "../../redux/reducer/task";
 
-const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
+const Topbar = ({ options, setOptions, openFilters, setOpenFilters, isFiltered, setIsFiltered }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -91,6 +91,14 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
 
         {showOptionButtons && (
           <div className="flex items-center justify-end gap-2 md:mt-0 mt-4">
+            {
+              isFiltered &&
+              <Chip
+                label="Filtered"
+                onDelete={() => setIsFiltered(false)}
+                deleteIcon={<Close />}
+              />
+            }
             <div className="bg-[#ebf2f5] hover:bg-[#dfe6e8] p-1 pl-2 pr-2 rounded-md w-48">
               <FormControl>
                 <Input
@@ -108,44 +116,40 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
             <Tooltip title="Archived" arrow placement="top">
               <div
                 onClick={handleToggleShowArchivedTasks}
-                className={` p-2 rounded-md cursor-pointer ${
-                  options?.showArchivedTasks
+                className={` p-2 rounded-md cursor-pointer ${options?.showArchivedTasks
                     ? "text-[#20aee3] bg-[#e4f1ff]"
                     : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                  }`}>
                 <PiArchive className="text-[25px]" />
               </div>
             </Tooltip>
             <Tooltip title="My Tasks" arrow placement="top">
               <div
                 onClick={handleToggleShowEmployeeTasks}
-                className={` p-2 rounded-md cursor-pointer ${
-                  options?.showEmployeeTasks
+                className={` p-2 rounded-md cursor-pointer ${options?.showEmployeeTasks
                     ? "text-[#20aee3] bg-[#e4f1ff]"
                     : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                  }`}>
                 <FiUser className="text-[25px] " />
               </div>
             </Tooltip>
             <Tooltip title="View" arrow placement="top">
               <div
                 onClick={handleToggleIsKanbanView}
-                className={` p-2 rounded-md cursor-pointer ${
-                  options?.isKanbanView
+                className={` p-2 rounded-md cursor-pointer ${options?.isKanbanView
                     ? "text-[#20aee3] bg-[#e4f1ff]"
                     : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                  }`}>
                 <FiList className="text-[25px] " />
               </div>
             </Tooltip>
             <Tooltip title="Filter" arrow placement="top">
               <div
                 onClick={handleToggleFilters}
-                className={` p-2 rounded-md cursor-pointer ${
-                  openFilters
+                className={` p-2 rounded-md cursor-pointer ${openFilters
                     ? "text-[#20aee3] bg-[#e4f1ff]"
                     : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
-                }`}>
+                  }`}>
                 <FiFilter className="text-[25px] " />
               </div>
             </Tooltip>

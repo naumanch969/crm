@@ -4,9 +4,24 @@ import { Close } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { FiFilter } from "react-icons/fi";
 import { PiFunnelLight, PiXLight } from "react-icons/pi";
+import { filterRefundReducer } from '../../../redux/reducer/refund'
 
-const FilterDrawer = ({ open, setOpen }) => {
-  const handleApplyFilters = () => {
+const FilterDrawer = ({ open, setOpen, isFiltered, setIsFiltered }) => {
+
+  //////////////////////////////////////////////// VARIABLES /////////////////////////////////////////////////////
+  const dispatch = useDispatch()
+  const initialFilterState = {}
+
+  //////////////////////////////////////////////// STATES /////////////////////////////////////////////////////
+  const [filters, setFilters] = useState(initialFilterState)
+
+  //////////////////////////////////////////////// USE EFFECT /////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////// FUNCTIONS /////////////////////////////////////////////////////
+  const handleFilter = () => {
+    dispatch(filterRefundReducer())
+    setIsFiltered(false)
+    setFilters(initialFilterState)
     setOpen(false);
   };
 
@@ -27,10 +42,10 @@ const FilterDrawer = ({ open, setOpen }) => {
             <tr>
               <td className="w-24 pt-4">Approvals : </td>
               <td className="pt-4">
-              <Select type="text" size="small" fullWidth>
-                <MenuItem value="accepted">Accepted</MenuItem>
-                <MenuItem value="rejected">Rejected</MenuItem>
-              </Select>
+                <Select type="text" size="small" fullWidth>
+                  <MenuItem value="accepted">Accepted</MenuItem>
+                  <MenuItem value="rejected">Rejected</MenuItem>
+                </Select>
               </td>
             </tr>
           </table>
@@ -43,7 +58,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             <button
               variant="contained"
               className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin"
-              onClick={handleApplyFilters}>
+              onClick={handleFilter}>
               Apply Filters
             </button>
           </div>

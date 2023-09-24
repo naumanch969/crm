@@ -4,11 +4,43 @@ import { PiFunnelLight, PiXLight } from "react-icons/pi";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { useDispatch, useSelector } from "react-redux";
+import { filterSaleReducer } from "../../redux/reducer/sale";
 
-const FilterDrawer = ({ open, setOpen }) => {
-  const handleApplyFilters = () => {
-    setOpen(false);
-  };
+const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
+
+  //////////////////////////////////////// VARIABLES ////////////////////////////////////////////
+  const dispatch = useDispatch()
+  const { employees } = useSelector(state => state.user)
+  const initialFilterState = {
+    staff: '',
+    startingDate: '',
+    endingDate: '',
+    minNet: '',
+    maxNet: '',
+    minReceived: '',
+    maxReceived: '',
+    minProfit: '',
+    maxProfit: '',
+    top: '',
+  }
+
+  //////////////////////////////////////// STATES ////////////////////////////////////////////
+  const [filters, setFilters] = useState(initialFilterState)
+
+  //////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////
+
+  //////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////
+  const handleChange = (field, value) => {
+    setFilters(pre => ({ ...pre, [field]: value }))
+  }
+  const handleFilter = () => {
+    dispatch(filterSaleReducer(filters))
+    setIsFiltered(true)
+    setFilters(initialFilterState)
+    setOpen(false)
+  }
+
 
   return (
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -24,11 +56,19 @@ const FilterDrawer = ({ open, setOpen }) => {
         </div>
         <div className="p-4 flex flex-col gap-4">
           <table>
-          <tr>
+            <tr>
               <div className="flex flex-col gap-2">
                 <div>Staff : </div>
-                <Select name="branch" type="text" size="small" fullWidth>
-                  <MenuItem value="1">All Employees</MenuItem>
+                <Select
+                  name="staff"
+                  type="text"
+                  onChange={(e) => handleChange('staff', e.target.value)}
+                  size="small"
+                  fullWidth>
+                  <MenuItem value={''} >None</MenuItem>
+                  {employees.map((employee, index) => (
+                    <MenuItem value={employee.username} key={index}>{employee.username}{" "}</MenuItem>
+                  ))}
                 </Select>
               </div>
             </tr>
@@ -41,6 +81,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                       <DemoContainer components={["DesktopDatePicker"]}>
                         <DesktopDatePicker
                           slotProps={{ textField: { size: "small", maxWidth: 200 } }}
+                          onChange={(date) => handleChange("startindDate", date.$d)}
                           label="From"
                         />
                       </DemoContainer>
@@ -53,6 +94,7 @@ const FilterDrawer = ({ open, setOpen }) => {
                         <DesktopDatePicker
                           className="w-3/6"
                           label="To"
+                          onChange={(date) => handleChange("endingDate", date.$d)}
                           slotProps={{ textField: { size: "small" } }}
                         />
                       </DemoContainer>
@@ -67,10 +109,22 @@ const FilterDrawer = ({ open, setOpen }) => {
                 <div>Net Woth : </div>
                 <div className="flex gap-3">
                   <div>
-                    <TextField label="Minimum" type="number" size="small" />
+                    <TextField
+                      label="Minimum"
+                      type="number"
+                      size="small"
+                      value={filters.minNet}
+                      onChange={(e) => handleChange('minNet', e.target.value)}
+                    />
                   </div>
                   <div>
-                    <TextField label="Maximum" type="number" size="small" />
+                    <TextField
+                      label="Maximum"
+                      type="number"
+                      size="small"
+                      value={filters.maxNet}
+                      onChange={(e) => handleChange('maxNet', e.target.value)}
+                    />
                   </div>
                 </div>
               </div>
@@ -81,10 +135,22 @@ const FilterDrawer = ({ open, setOpen }) => {
                 <div>Recieving Amount : </div>
                 <div className="flex gap-3">
                   <div>
-                    <TextField label="Minimum" type="number" size="small" />
+                    <TextField
+                      label="Minimum"
+                      type="number"
+                      size="small"
+                      value={filters.minReceived}
+                      onChange={(e) => handleChange('minReceived', e.target.value)}
+                    />
                   </div>
                   <div>
-                    <TextField label="Maximum" type="number" size="small" />
+                    <TextField
+                      label="Maximum"
+                      type="number"
+                      size="small"
+                      value={filters.maxReceived}
+                      onChange={(e) => handleChange('maxReceived', e.target.value)}
+                    />
                   </div>
                 </div>
               </div>
@@ -95,10 +161,22 @@ const FilterDrawer = ({ open, setOpen }) => {
                 <div>Profit : </div>
                 <div className="flex gap-3">
                   <div>
-                    <TextField label="Minimum" type="number" size="small" />
+                    <TextField
+                      label="Minimum"
+                      type="number"
+                      size="small"
+                      value={filters.minProfit}
+                      onChange={(e) => handleChange('minProfit', e.target.value)}
+                    />
                   </div>
                   <div>
-                    <TextField label="Maximum" type="number" size="small" />
+                    <TextField
+                      label="Maximum"
+                      type="number"
+                      size="small"
+                      value={filters.maxProfit}
+                      onChange={(e) => handleChange('maxProfit', e.target.value)}
+                    />
                   </div>
                 </div>
               </div>
@@ -107,7 +185,13 @@ const FilterDrawer = ({ open, setOpen }) => {
             <tr>
               <div className="flex flex-col gap-2 pt-5">
                 <div>Type of Payment : </div>
-                <Select name="branch" type="text" size="small" fullWidth>
+                <Select
+                  onChange={(e) => handleChange('top', e.target.value)}
+                  name="top"
+                  type="text"
+                  size="small"
+                  fullWidth
+                >
                   <MenuItem value="cash">Cash</MenuItem>
                   <MenuItem value="cheque">Cheque</MenuItem>
                   <MenuItem value="card">Card</MenuItem>
@@ -124,7 +208,7 @@ const FilterDrawer = ({ open, setOpen }) => {
             <button
               variant="contained"
               className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin"
-              onClick={handleApplyFilters}>
+              onClick={handleFilter}>
               Apply Filters
             </button>
           </div>

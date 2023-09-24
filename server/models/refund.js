@@ -1,21 +1,20 @@
 import { generateUniqueIdentifier } from '../utils/utils.js'
 import { Schema, model } from 'mongoose'
 
-const taskSchema = Schema({
-    userId: { type: Schema.Types.ObjectId, ref: 'User' },
-    isArchived: { type: Boolean, required: false, default: false },
-    uid: { type: String },
-    completedTask: { type: String },
-    completedTaskDate: { type: String },
-    completedTaskStatus: { type: String },
-    completedTaskComment: { type: String },
-    newTask: { type: String },
-    newTaskDeadline: { type: String },
-    newTaskComment: { type: String },
+const refundSchema = Schema({
+    branch: { type: String, required: false, default: '' },
+    amount: { type: String, required: true },
+    clientName: { type: String, required: true },
+    CNIC: { type: String, required: false, default: '' },
+    phone: { type: String, required: true },
+    reason: { type: String, required: true },
+    leadId: { type: Schema.Types.ObjectId, ref: 'Lead' },  // for refund
+    status: { type: String, default: 'underProcess', enum: ['accepted', 'rejected', 'underProcess'] },  // for refund
+    uid: { type: String }
 }, { timestamps: true })
 
 // Before saving a new document, generate a unique readable identifier
-taskSchema.pre('save', async function (next) {
+refundSchema.pre('save', async function (next) {
     if (!this.uid) {
         let isUnique = false;
         let generatedIdentifier;
@@ -38,5 +37,5 @@ taskSchema.pre('save', async function (next) {
     next();
 });
 
-const taskModel = model('Task', taskSchema)
-export default taskModel
+const refundModel = model('Refund', refundSchema)
+export default refundModel

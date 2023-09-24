@@ -8,6 +8,7 @@ import taskReducer from './reducer/task';
 import saleReducer from './reducer/sale';
 import leadReducer from './reducer/lead';
 import followUpReducer from './reducer/followUp';
+import refundReducer from './reducer/refund';
 import societyReducer from './reducer/society';
 import projectReducer from './reducer/project';
 import inventoryReducer from './reducer/inventory';
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
     sale: saleReducer,
     lead: leadReducer,
     followUp: followUpReducer,
+    refund: refundReducer,
     society: societyReducer,
     project: projectReducer,
     inventory: inventoryReducer,

@@ -10,7 +10,7 @@ export const getLead = async (req, res, next) => {
         const findedLead = await Lead.findById(leadId).populate('property').populate('client').populate('allocatedTo').exec()
         if (!findedLead) return next(createError(400, 'Lead not exist'))
 
-        res.status(200).json({ result: findedLead, message: 'lead created successfully', success: true })
+        res.status(200).json({ result: findedLead, message: 'lead fetched successfully', success: true })
 
     } catch (err) {
         next(createError(500, err.message))

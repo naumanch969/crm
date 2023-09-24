@@ -40,26 +40,18 @@ const projectSlice = createSlice({
             const { allProjects } = state;
             const { payload: filters } = action;
 
-            const filteredProjects = allProjects.filter((project) => {
-                return Object.entries(filters).every(([key, filterValue]) => {
-                    const projectValue = project[key];
 
-                    if (Array.isArray(filterValue)) {
-                        // Handle array filters (e.g., checking if projectValue is in filterValue)
-                        return filterValue.includes(projectValue);
-                    } else if (typeof filterValue === 'string') {
-                        // Handle string filters (e.g., checking if projectValue includes filterValue)
-                        return String(projectValue).toLowerCase().includes(filterValue.toLowerCase());
-                    } else {
-                        // Handle other types of filters (e.g., equality checks)
-                        return projectValue === filterValue;
-                    }
-                });
+            const filteredProjects = allProjects.filter((project) => {
+                if (filters.city && project.city.toLowerCase() !== filters.city.toLowerCase()) return false;
+                if (filters.society && project.society.title.toLowerCase() !== filters.society.toLowerCase()) return false;
+                if (filters.status && project.status.toLowerCase() !== filters.status.toLowerCase()) return false;
+                if (filters.startingDate && new Date(project.createdAt) < new Date(filters.startingDate)) return false;
+                if (filters.endingDate && new Date(project.createdAt) > new Date(filters.endingDate)) return false;
+                return true;
             });
 
             state.projects = filteredProjects;
         },
-
         createProjectReducer: (state, action) => { state.projects = [action.payload, ...state.projects] },
         updateProjectReducer: (state, action) => { state.projects = state.projects.map(s => s = s._id == action.payload._id ? action.payload : s) },
         deleteProjectReducer: (state, action) => { state.projects = state.projects.filter(s => s._id != action.payload._id) },

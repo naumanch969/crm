@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Add } from "@mui/icons-material";
+import { Add, Close, Delete } from "@mui/icons-material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../utils";
-import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
+import { Chip, FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getEmployeeLeads, getLeads, searchLead } from "../../redux/action/lead";
 import { PiArchive, PiMagnifyingGlass } from "react-icons/pi";
@@ -11,7 +11,7 @@ import CreateLead from "./CreateLead";
 import EditModal from "./EditModal";
 import { searchLeadReducer } from "../../redux/reducer/lead";
 
-const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
+const Topbar = ({ options, setOptions, isFiltered, setIsFiltered, openFilters, setOpenFilters }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -80,6 +80,14 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters }) => {
 
         {showOptionButtons && (
           <div className="flex items-center justify-end gap-2 md:mt-0 mt-4">
+            {
+              isFiltered &&
+              <Chip
+                label="Filtered"
+                onDelete={() => setIsFiltered(false)}
+                deleteIcon={<Close />}
+              />
+            }
             <div className="bg-[#ebf2f5] hover:bg-[#dfe6e8] p-1 pl-2 pr-2 rounded-md w-48">
               <FormControl>
                 <Input

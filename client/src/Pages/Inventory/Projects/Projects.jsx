@@ -4,7 +4,7 @@ import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjects, updateProject } from "../../../redux/action/project";
 import { Loader } from "../../../utils";
-import { getProjectReducer } from "../../../redux/reducer/project";
+import { getProjectReducer, getProjectsReducer } from "../../../redux/reducer/project";
 import { Tooltip } from "@mui/material";
 import { PiArchiveBoxLight, PiArchiveLight, PiTrashLight } from "react-icons/pi";
 import { IoOpenOutline } from "react-icons/io5";
@@ -19,7 +19,7 @@ function Projects() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
-  const { projects, isFetching, error } = useSelector((state) => state.project);
+  const { projects, allProjects, isFetching, error } = useSelector((state) => state.project);
   const columns = [
     {
       field: "uid",
@@ -148,6 +148,7 @@ function Projects() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [isFiltered, setIsFiltered] = useState(false);
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [options, setOptions] = useState({
     isKanbanView: false,
@@ -167,7 +168,11 @@ function Projects() {
       }
     }
   }, [open]);
-
+  useEffect(() => {
+    if (!isFiltered) {
+      dispatch(getProjectsReducer(allProjects))
+    }
+  }, [isFiltered])
   ////////////////////////////////////// FUNCTION //////////////////////////////\
   const handleOpenStatusModal = (project) => {
     setOpenStatusModal(true);
@@ -195,21 +200,11 @@ function Projects() {
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
       <EditProject scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
-      <ProjectFilter open={openFilters} setOpen={setOpenFilters} />
-
       <EditProject scroll={scroll} open={openEditModal} setOpen={setOpenEditModal} />
+      <DeleteProject open={openDeleteModal} setOpen={setOpenDeleteModal} projectId={selectedProjectId} />
+      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters}  isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
+      <ProjectFilter open={openFilters} setOpen={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
 
-      <DeleteProject
-        open={openDeleteModal}
-        setOpen={setOpenDeleteModal}
-        projectId={selectedProjectId}
-      />
-      <Topbar
-        options={options}
-        setOptions={setOptions}
-        openFilters={openFilters}
-        setOpenFilters={setOpenFilters}
-      />
       <div className="flex justify-center items-center ">
         {isFetching ? (
           <Loader />
