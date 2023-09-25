@@ -10,8 +10,6 @@ import {
   Slide,
   DialogActions,
   TextField,
-  MenuItem,
-  Select,
 } from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -59,8 +57,8 @@ const CreateSale = ({ open, setOpen, scroll }) => {
     dispatch(getLeadReducer())
     setSaleData(initialState);
   };
-  const handleChange = (e) => {
-    setSaleData({ ...saleData, [e.target.name]: e.target.value });
+  const handleChange = (field, value) => {
+    setSaleData({ ...saleData, [field]: value });
   };
 
   const handleClose = () => {
@@ -96,35 +94,31 @@ const CreateSale = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Staff </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={saleData.staff}
-                    name="staff"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    {
-                      employees.map((employee, index) => (
-                        <MenuItem key={index} value={employee?.username}>{employee?.username}</MenuItem>
-                      ))
-                    }
-                  </Select>
+                    disablePortal={false}
+                    options={employees}
+                    value={saleData?.staff}
+                    getOptionLabel={(employee) => employee.username ? employee.username : employee}
+                    onChange={(e, employee) => handleChange('staff', employee.username)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Client Name </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={saleData.clientName}
-                    name="clientName"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    {
-                      clients.map((client, index) => (
-                        <MenuItem key={index} value={client?.username}>{client?.username}</MenuItem>
-                      ))
-                    }
-                  </Select>
+                    disablePortal={false}
+                    options={clients}
+                    value={saleData?.clientName}
+                    getOptionLabel={(client) => client.username ? client.username : client}
+                    onChange={(e, client) => handleChange('clientName', client.username)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
@@ -170,16 +164,16 @@ const CreateSale = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Type of Payment </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={saleData.top}
-                    name="top"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    <MenuItem value={'cash'}>Cash</MenuItem>
-                    <MenuItem value={'card'}>Card</MenuItem>
-                    <MenuItem value={'cheque'}>Cheque</MenuItem>
-                  </Select>
+                    disablePortal={false}
+                    options={[{ name: 'Cash', value: 'cash' }, { name: 'Card', value: 'card' }, { name: 'Cheque', value: 'cheque' }]}
+                    value={saleData?.top}
+                    getOptionLabel={(top) => top.name ? top.name : top}
+                    onChange={(e, top) => handleChange('top', top.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
             </table>

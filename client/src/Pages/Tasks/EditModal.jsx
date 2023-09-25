@@ -1,5 +1,5 @@
 import { Close } from "@mui/icons-material";
-import { DialogActions, IconButton, Menu, MenuItem, Modal, Select, TextField } from "@mui/material";
+import { DialogActions, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import React from "react";
 import { updateTask } from "../../redux/action/task";
@@ -40,6 +40,32 @@ const EditModal = ({ open, setOpen }) => {
     newTaskDeadline: '',
     newTaskComment: ''
   }
+  const newTasks = [
+    { name: 'Do Nothing', value: "doNothing" },
+    { name: 'Contact Client', value: "contactClient" },
+    { name: 'Sent Availablity List', value: "sentAvailablityList" },
+    { name: 'Follow Up', value: "followUp" },
+    { name: 'Arrange Meeting', value: "arrangeMeeting" },
+    { name: 'Push Meeting', value: "pushMeeting" },
+    { name: 'Meet Client', value: "meetClient" },
+    { name: 'Sign Agreement', value: "signAgreement" },
+    { name: 'Recieve Token', value: "recieveToken" },
+  ]
+  const completedTasks = [
+    { name: 'New', value: "new" },
+    { name: 'Sent Availablity List', value: "sentAvailablityList" },
+    { name: 'Site Visit', value: "siteVisit" },
+    { name: 'Token Recieved', value: "tokenRecieved" },
+    { name: 'Closed (Won', value: "closedWon" },
+    { name: 'Closed (Lost', value: "closedLost" },
+    { name: 'Followed Up (Call', value: "followedUpCall" },
+    { name: 'Followed Up (Email', value: "followedUpEmail" },
+    { name: 'Contacted Client (Call', value: "contactedCall" },
+    { name: 'Contacted Client (Call Attempt', value: "contactedCallAttempt" },
+    { name: 'Contacted Client (Email', value: "contactedEmail" },
+    { name: 'Meeting (Done', value: "meetingDone" },
+    { name: 'Meeting (Attempt', value: "meetingAttempt" },
+  ]
   ///////////////////////////////////// STATES ////////////////////////////////////////
   const [taskData, setTaskData] = useState(task);
 
@@ -93,28 +119,16 @@ const EditModal = ({ open, setOpen }) => {
               <tr>
                 <td className="pb-4 text-lg">Task </td>
                 <td className="pb-4">
-                  <Select
-                    fullWidth
+                      <Autocomplete
                     size="small"
+                    disablePortal={false}
+                    options={completedTasks}
                     value={taskData?.completedTask}
-                    onChange={(e) => handleInputChange('completedTask', e.target.value)}
-                  >
-                    <MenuItem value="New">New</MenuItem>
-                    <MenuItem value="sentAvailablityList">Sent Availablity List</MenuItem>
-                    <MenuItem value="siteVisit">Site Visit</MenuItem>
-                    <MenuItem value="tokenRecieved">Token Recieved</MenuItem>
-                    <MenuItem value="ClosedWon">Closed (Won)</MenuItem>
-                    <MenuItem value="closedLost">Closed (Lost)</MenuItem>
-                    <MenuItem value="FollowedUpCall">Followed Up (Call)</MenuItem>
-                    <MenuItem value="FollowedUpEmail">Followed Up (Email)</MenuItem>
-                    <MenuItem value="ContactedCall">Contacted Client (Call)</MenuItem>
-                    <MenuItem value="ContactedCallAttempt">
-                      Contacted Client (Call Attempt)
-                    </MenuItem>
-                    <MenuItem value="ContactedEmail">Contacted Client (Email)</MenuItem>
-                    <MenuItem value="MeetingDone">Meeting (Done)</MenuItem>
-                    <MenuItem value="MeetingAttempt">Meeting (Attempt)</MenuItem>
-                  </Select>
+                    getOptionLabel={(task) => task.name ? task.name : task}
+                    onChange={(e, task) => handleChange('completedTask', task.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
@@ -133,16 +147,16 @@ const EditModal = ({ open, setOpen }) => {
               <tr>
                 <td className="pb-4 text-lg">Status </td>
                 <td className="pb-4">
-                  <Select
-                    name="status"
-                    fullWidth
+                  <Autocomplete
                     size="small"
+                    disablePortal={false}
+                    options={[{ name: 'Successful', value: 'successful' }, { name: 'Unsuccessful', value: 'unsuccessful' }]}
                     value={taskData?.completedTaskStatus}
-                    onChange={(e) => handleInputChange('completedTaskStatus', e.target.value)}
-                  >
-                    <MenuItem value="successful">Successful</MenuItem>
-                    <MenuItem value="unsuccessful">Unsuccessful</MenuItem>
-                  </Select>
+                    getOptionLabel={(status) => status.name ? status.name : status}
+                    onChange={(e, status) => handleChange('completedTaskStatus', status.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
@@ -162,22 +176,16 @@ const EditModal = ({ open, setOpen }) => {
               <tr>
                 <td className="pb-4 text-lg">Next Task </td>
                 <td className="pb-4">
-                  <Select
-                    fullWidth
+                  <Autocomplete
                     size="small"
+                    disablePortal={false}
+                    options={newTasks}
                     value={taskData?.newTask}
-                    onChange={(e) => handleInputChange('newTask', e.target.value)}
-                  >
-                    <MenuItem value="doNothing">Do Nothing</MenuItem>
-                    <MenuItem value="contactClient">Contact Client</MenuItem>
-                    <MenuItem value="sentAvailablityList">Sent Availablity List</MenuItem>
-                    <MenuItem value="followUp">Follow Up</MenuItem>
-                    <MenuItem value="arrangeMeeting">Arrange Meeting</MenuItem>
-                    <MenuItem value="pushMeeting">Push Meeting</MenuItem>
-                    <MenuItem value="meetClient">Meet Client</MenuItem>
-                    <MenuItem value="signAgreement">Sign Agreement</MenuItem>
-                    <MenuItem value="recieveToken">Recieve Token</MenuItem>
-                  </Select>
+                    getOptionLabel={(task) => task.name ? task.name : task}
+                    onChange={(e, task) => handleChange('newTask', task.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>

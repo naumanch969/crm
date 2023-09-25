@@ -44,6 +44,7 @@ const FilterDrawer = ({ open, setOpen, isFiltered, setIsFiltered }) => {
               <td className="pt-4">
                 <Select type="text" size="small" fullWidth>
                   <MenuItem value="accepted">Accepted</MenuItem>
+                  <MenuItem value="underProcess">Under Process</MenuItem>
                   <MenuItem value="rejected">Rejected</MenuItem>
                 </Select>
               </td>

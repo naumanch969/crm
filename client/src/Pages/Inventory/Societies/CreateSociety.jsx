@@ -15,8 +15,6 @@ import {
   DialogActions,
   TextField,
   Autocomplete,
-  Select,
-  MenuItem,
   FormGroup,
   FormControlLabel,
   Checkbox,

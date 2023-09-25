@@ -1,3 +1,4 @@
+
 import { Close } from "@mui/icons-material";
 import {
   Dialog,
@@ -5,10 +6,6 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  IconButton,
-  MenuItem,
-  Modal,
-  Select,
   Slide,
   TextField,
 } from "@mui/material";
@@ -60,8 +57,8 @@ const EditModal = ({ open, setOpen }) => {
     setOpen(false);
     setSaleData(initialState);
   };
-  const handleChange = (e) => {
-    setSaleData({ ...saleData, [e.target.name]: e.target.value });
+  const handleChange = (field, value) => {
+    setSaleData({ ...saleData, [field]: value });
   };
   const handleClose = () => {
     setOpen(false);
@@ -95,42 +92,38 @@ const EditModal = ({ open, setOpen }) => {
             <tr>
               <td className="pb-4 text-lg">Staff </td>
               <td className="pb-4">
-                <Select
-                  onChange={handleChange}
-                  value={saleData?.staff}
-                  name="staff"
-                  size="small"
-                  fullWidth>
-                  {
-                    employees.map((employee, index) => (
-                      <MenuItem key={index} value={employee?.username}>{employee?.username}</MenuItem>
-                    ))
-                  }
-                </Select>
+                <Autocomplete
+                    size="small"
+                    disablePortal={false}
+                    options={employees}
+                    value={saleData?.staff}
+                    getOptionLabel={(employee) => employee.username? employee.username : employee}
+                    onChange={(e, employee) => handleChange('staff', employee.username)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
               </td>
             </tr>
             <tr>
               <td className="pb-4 text-lg">Client Name </td>
               <td className="pb-4">
-                <Select
-                  onChange={handleChange}
-                  value={saleData?.clientName}
-                  name="clientName"
-                  size="small"
-                  fullWidth>
-                  {
-                    clients.map((client, index) => (
-                      <MenuItem key={index} value={client?.username}>{client?.username}</MenuItem>
-                    ))
-                  }
-                </Select>
+                <Autocomplete
+                    size="small"
+                    disablePortal={false}
+                    options={clients}
+                    value={saleData?.clientName}
+                    getOptionLabel={(client) =>client.username? client.username : client}
+                    onChange={(e, client) => handleChange('clientName', client.username)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
               </td>
             </tr>
             <tr>
               <td className="pb-4 text-lg">Net Worth </td>
               <td className="pb-4">
                 <TextField
-                  onChange={handleChange}
+                  onChange={(e)=>handleChange('net',e.target.value)}
                   value={saleData?.net}
                   name="net"
                   size="small"
@@ -143,7 +136,7 @@ const EditModal = ({ open, setOpen }) => {
               <td className="pb-4 text-lg">Recieved </td>
               <td className="pb-4">
                 <TextField
-                  onChange={handleChange}
+                  onChange={(e)=>handleChange('received',e.target.value)}
                   value={saleData?.received}
                   name="received"
                   size="small"
@@ -169,16 +162,16 @@ const EditModal = ({ open, setOpen }) => {
             <tr>
               <td className="pb-4 text-lg">Type of Payment </td>
               <td className="pb-4">
-                <Select
-                  onChange={handleChange}
-                  value={saleData?.top}
-                  name="top"
-                  size="small"
-                  fullWidth>
-                  <MenuItem value={'cash'}>Cash</MenuItem>
-                  <MenuItem value={'card'}>Card</MenuItem>
-                  <MenuItem value={'cheque'}>Cheque</MenuItem>
-                </Select>
+                <Autocomplete
+                    size="small"
+                    disablePortal={false}
+                    options={[{name:'Cash',value:'cash'},{name:'Card',value:'card'},{name:'Cheque',value:'cheque'}]}
+                    value={saleData?.top}
+                    getOptionLabel={(top) =>top.name? top.name : top}
+                    onChange={(e, top) => handleChange('top',top.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
               </td>
             </tr>
           </table>

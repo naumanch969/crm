@@ -3,8 +3,6 @@ import {
   DialogActions,
   FormControlLabel,
   FormGroup,
-  MenuItem,
-  Select,
   TextField,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";

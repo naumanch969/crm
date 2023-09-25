@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Drawer, Button, TextField, Autocomplete, MenuItem, Select } from "@mui/material";
+import { Drawer, Button, TextField, Autocomplete,  } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { filterInventory } from "../../../redux/action/inventory";
@@ -135,17 +135,16 @@ const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
           </div>
 
 
-          <Select
-            name="project"
-            type="text"
-            onChange={(e) => handleChange('project', e.target.value)}
+          <Autocomplete
             size="small"
-            fullWidth>
-            <MenuItem value={''} >None</MenuItem>
-            {projects.map((project, index) => (
-              <MenuItem value={project.title} key={index}>{project.title}{" "}</MenuItem>
-            ))}
-          </Select>
+            disablePortal={false}
+            options={projects}
+            value={filters.project}
+            getOptionLabel={(project) => project.title ? project.title : project}
+            onChange={(e, project) => handleChange('project', project.title)}
+            className="w-full"
+            renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+          />
 
           <Autocomplete
             size="small"

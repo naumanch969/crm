@@ -3,8 +3,6 @@ import {
   DialogActions,
   FormControlLabel,
   FormGroup,
-  MenuItem,
-  Select,
   TextField,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
@@ -117,39 +115,31 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                 <tr>
                   <td className="pb-4 text-lg">City </td>
                   <td className="pb-4">
-                    <Select
+                    <Autocomplete
                       size="small"
+                      disablePortal={false}
+                      options={pakistanCities}
                       value={projectData?.city}
-                      onChange={(e) => handleInputChange('city', e.target.value)}
-                      displayEmpty
-                      placeholder="Seller City"
-                      fullWidth>
-                      {pakistanCities.map((city) => (
-                        <MenuItem value={city}>{city}</MenuItem>
-                      ))}
-                    </Select>
+                      getOptionLabel={(city) => city}
+                      onChange={(e, city) => handleChange('city', city.toLowerCase())}
+                      className="w-full"
+                      renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td className="pb-4 text-lg">Society </td>
                   <td className="pb-4">
-                    <Select
+                    <Autocomplete
                       size="small"
+                      disablePortal={false}
+                      options={societies}
                       value={projectData?.society}
-                      onChange={(e) => handleInputChange('society', e.target.value)}
-                      displayEmpty
-                      placeholder="Society"
-                      fullWidth>
-                      {
-                        societiesFetching
-                          ?
-                          <Loader />
-                          :
-                          societies.map((society, index) => (
-                            <MenuItem key={index} value={society?._id}>{society?.title}</MenuItem>
-                          ))
-                      }
-                    </Select>
+                      getOptionLabel={(society) => society.title ? society.title : society}
+                      onChange={(e, society) => handleChange('society', society._id)}
+                      className="w-full"
+                      renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                    />
                   </td>
                 </tr>
                 <tr>

@@ -15,8 +15,6 @@ import {
   DialogActions,
   TextField,
   Autocomplete,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import { PiImages, PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { pakistanCities } from "../../../constant";
@@ -54,6 +52,9 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
   const [inventoryData, setInventoryData] = useState(InventoryinitialState);
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
+  useEffect(() => {
+    console.log('inventoryData', inventoryData)
+  }, [inventoryData])
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
@@ -64,7 +65,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
     setOpen(false);
   };
 
-  const handleInputChange = (field, value) => {
+  const handleChange = (field, value) => {
     setInventoryData((prevFilters) => ({
       ...prevFilters,
       [field]: value,
@@ -107,7 +108,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       value={inventoryData.sellerEmail}
-                      onChange={(e) => handleInputChange("sellerEmail", e.target.value)}
+                      onChange={(e) => handleChange("sellerEmail", e.target.value)}
                       fullWidth
                       size="small"
                       placeholder="Optional"
@@ -120,7 +121,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       value={inventoryData.sellerPhone}
-                      onChange={(e) => handleInputChange("sellerPhone", e.target.value)}
+                      onChange={(e) => handleChange("sellerPhone", e.target.value)}
                       fullWidth
                       size="small"
                       type="number"
@@ -133,7 +134,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                     <TextField
                       fullWidth
                       value={inventoryData.sellerName}
-                      onChange={(e) => handleInputChange("sellerName", e.target.value)}
+                      onChange={(e) => handleChange("sellerName", e.target.value)}
                       size="small"
                       type="text"
                     />
@@ -144,7 +145,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       value={inventoryData.sellerCompamyName}
-                      onChange={(e) => handleInputChange("sellerCompamyName", e.target.value)}
+                      onChange={(e) => handleChange("sellerCompamyName", e.target.value)}
                       fullWidth
                       size="small"
                       type="text"
@@ -155,17 +156,16 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                 <tr>
                   <td className="pb-4 text-lg">Seller City </td>
                   <td className="pb-4">
-                    <Select
+                    <Autocomplete
                       size="small"
+                      disablePortal={false}
+                      options={pakistanCities}
                       value={inventoryData.sellerCity}
-                      onChange={(e) => handleInputChange("sellerCity", e.target.value)}
-                      displayEmpty
-                      placeholder="Seller City"
-                      fullWidth>
-                      {pakistanCities.map((city) => (
-                        <MenuItem value={city.toLowerCase()}>{city}</MenuItem>
-                      ))}
-                    </Select>
+                      getOptionLabel={(top) => top}
+                      onChange={(e, city) => handleChange('sellerCity', city.trim().toLowerCase())}
+                      className="w-full"
+                      renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                    />
                   </td>
                 </tr>
               </table>
@@ -181,23 +181,16 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Project </td>
                 <td className="pb-4">
-                    <Select
-                      size="small"
-                      value={inventoryData.project}
-                      onChange={(e) => handleInputChange("project", e.target.value)}
-                      displayEmpty
-                      placeholder="Project"
-                      fullWidth>
-                      {projectsFetching ? (
-                        <Loader />
-                      ) : (
-                        projects.map((project, index) => (
-                          <MenuItem key={index} value={project._id}>
-                            {project.title}
-                          </MenuItem>
-                        ))
-                      )}
-                    </Select>
+                  <Autocomplete
+                    size="small"
+                    disablePortal={false}
+                    options={projects}
+                    value={inventoryData.project}
+                    getOptionLabel={(project) => project.title ? project.title : project}
+                    onChange={(e, project) => handleChange('project', project._id)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
@@ -205,7 +198,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     value={inventoryData.propertyNumber}
-                    onChange={(e) => handleInputChange("propertyNumber", e.target.value)}
+                    onChange={(e) => handleChange("propertyNumber", e.target.value)}
                     size="small"
                     placeholder="Plot/Shop/Appartment etc. No."
                     fullWidth
@@ -217,7 +210,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     value={inventoryData.propertyStreetNumber}
-                    onChange={(e) => handleInputChange("propertyStreetNumber", e.target.value)}
+                    onChange={(e) => handleChange("propertyStreetNumber", e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -228,7 +221,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     value={inventoryData.price}
-                    onChange={(e) => handleInputChange("price", e.target.value)}
+                    onChange={(e) => handleChange("price", e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -239,7 +232,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                 <td>
                   <TextField
                     value={inventoryData.remarks}
-                    onChange={(e) => handleInputChange("remarks", e.target.value)}
+                    onChange={(e) => handleChange("remarks", e.target.value)}
                     size="small"
                     multiline
                     rows={4}

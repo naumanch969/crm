@@ -55,7 +55,7 @@ const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
                 </td>
               </tr>
               <tr>
-                <td className="w-24 pt-4">Approvals : </td>
+                <td className="w-24 pt-4">Status : </td>
                 <td className="pt-4">
                   <Select
                     onChange={(e) => handleChange('status', e.target.value)}

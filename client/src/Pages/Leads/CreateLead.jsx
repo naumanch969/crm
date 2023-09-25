@@ -15,11 +15,6 @@ import {
   Button,
   TextField,
   Autocomplete,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { getProjects } from "../../redux/action/project";
@@ -54,6 +49,34 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   let time = today.toLocaleTimeString();
   let date = today.toLocaleDateString();
   let dateTime = date + "  " + time;
+  const priorities = [
+    { name: 'Very Cold', value: 'veryCold' },
+    { name: 'Cold', value: 'cold' },
+    { name: 'Moderate', value: 'moderate' },
+    { name: 'Hot', value: 'hot' },
+    { name: 'Very Hot', value: 'veryHot' },
+  ]
+  const statuses = [
+    { name: 'Closed (Lost)', value: "closedLost" },
+    { name: 'Followed Up (Call)', value: "followedUpCall" },
+    { name: 'Contacted Client (Call Attempt)', value: "contactedCallAttempt" },
+    { name: 'Contacted Client (Call)', value: "contactedCall" },
+    { name: 'Followed Up (Email)', value: "followedUpEmail" },
+    { name: 'Contacted Client (Email)', value: "contactedEmail" },
+    { name: 'New<', value: "new" },
+    { name: 'Meeting (Done)', value: "meetingDone" },
+    { name: 'Closed (Won)', value: "closedWon" },
+    { name: 'Meeting (Attempt)', value: "meetingAttempt" },
+  ]
+const sources  = [
+{ name:'Instagram', value:"instagram"},
+{ name:'Facebook Comment', value:"facebookComment"},
+{ name:'Friend and Family', value:"FriendAndFamily"},
+{ name:'Facebook', value:"facebook"},
+{ name:'Direct Call', value:"directCall"},
+{ name:'Google', value:"google"},
+{ name:'Referral', value:"referral"},
+]
 
   //////////////////////////////////////// STATES ////////////////////////////////////
   const [leadData, setLeadData] = useState(initialLeadState);
@@ -98,9 +121,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     setOpen(false);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setLeadData((pre) => ({ ...pre, [name]: value }));
+  const handleChange = (field, value) => {
+    setLeadData((pre) => ({ ...pre, [field]: value }));
   };
 
   const handleClose = () => {
@@ -139,7 +161,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <TextField
                     name="firstName"
                     value={leadData.firstName}
-                    onChange={handleChange}
+                    onChange={(e)=>handleChange('firstName',e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -151,7 +173,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <TextField
                     name="lastName"
                     value={leadData.lastName}
-                    onChange={handleChange}
+                    onChange={(e)=>handleChange('lastName',e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -163,7 +185,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <TextField
                     name="username"
                     value={leadData.username}
-                    onChange={handleChange}
+                    onChange={(e)=>handleChange('username',e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -174,7 +196,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     name="phone"
-                    onChange={handleChange}
+                    onChange={(e)=>handleChange('phone',e.target.value)}
                     value={leadData.phone}
                     type="number"
                     size="small"
@@ -187,7 +209,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     name="CNIC"
-                    onChange={handleChange}
+                    onChange={(e)=>handleChange('CNIC',e.target.value)}
                     value={leadData.CNIC}
                     type="number"
                     size="small"
@@ -198,19 +220,16 @@ const CreateLead = ({ setOpen, open, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={leadData.clientCity}
-                    name="clientCity"
-                    type="text"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    {pakistanCities.map((item, index) => (
-                      <MenuItem value={item} key={index}>
-                        {item}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                    disablePortal={false}
+                    options={pakistanCities}
+                    value={leadData.clientCity}
+                    getOptionLabel={(city) => city}
+                    onChange={(e, city) => handleChange('clientCity', city.trim().toLowerCase())}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
@@ -218,7 +237,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     type="email"
-                    onChange={handleChange}
+                    onChange={(e)=>handleChange('email',e.target.value)}
                     value={leadData.email}
                     name="email"
                     size="small"
@@ -240,105 +259,83 @@ const CreateLead = ({ setOpen, open, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={leadData.city}
-                    name="city"
-                    type="text"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    {pakistanCities.map((item, index) => (
-                      <MenuItem value={item} key={index} >{item}</MenuItem>
-                    ))}
-                  </Select>
+                    disablePortal={false}
+                    options={pakistanCities}
+                    value={leadData.city}
+                    getOptionLabel={(city) => city}
+                    onChange={(e, city) => handleChange('city', city.trim().toLowerCase())}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Projects </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={leadData.property}
-                    name="property"
-                    type="text"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    {projectsTitles.map((project, index) => (
-                      <MenuItem value={project._id} key={index}>
-                        {project.title}{" "}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                    disablePortal={false}
+                    options={projectsTitles}
+                    value={leadData.property}
+                    getOptionLabel={(project) => project.title ? project.title : project}
+                    onChange={(e, project) => handleChange('property', project._id)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Priority </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={leadData.priority}
-                    name="priority"
-                    type="text"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    <MenuItem value="veryCold">Very Cold</MenuItem>
-                    <MenuItem value="cold">Cold</MenuItem>
-                    <MenuItem value="moderate">Moderate</MenuItem>
-                    <MenuItem value="hot">Hot</MenuItem>
-                    <MenuItem value="veryHot">Very Hot</MenuItem>
-                  </Select>
+                    disablePortal={false}
+                    options={priorities}
+                    value={leadData.priority}
+                    getOptionLabel={(priority) => priority.name ? priority.name : priority}
+                    onChange={(e, priority) => handleChange('priority', priority.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Status </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={leadData.status}
-                    name="status"
-                    type="text"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    <MenuItem value="closedLost">Closed (Lost)</MenuItem>
-                    <MenuItem value="followedUpCall">Followed Up (Call)</MenuItem>
-                    <MenuItem value="contactedCallAttempt">
-                      Contacted Client (Call Attempt)
-                    </MenuItem>
-                    <MenuItem value="contactedCall">Contacted Client (Call)</MenuItem>
-                    <MenuItem value="followedUpEmail">Followed Up (Email)</MenuItem>
-                    <MenuItem value="contactedEmail">Contacted Client (Email)</MenuItem>
-                    <MenuItem value="new">New</MenuItem>
-                    <MenuItem value="meetingDone">Meeting (Done)</MenuItem>
-                    <MenuItem value="closedWon">Closed (Won)</MenuItem>
-                    <MenuItem value="meetingAttempt">Meeting (Attempt)</MenuItem>
-                  </Select>
+                    disablePortal={false}
+                    options={statuses}
+                    value={leadData.status}
+                    getOptionLabel={(status) => status.name ? status.name :status}
+                    onChange={(e, status) => handleChange('status', status.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg flex mt-1 items-start">Source </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={leadData.source}
-                    name="source"
-                    type="text"
+                <Autocomplete
                     size="small"
-                    fullWidth>
-                    <MenuItem value="instagram">Instagram</MenuItem>
-                    <MenuItem value="facebookComment">Facebook Comment</MenuItem>
-                    <MenuItem value="FriendAndFamily">Friend and Family</MenuItem>
-                    <MenuItem value="facebook">Facebook</MenuItem>
-                    <MenuItem value="directCall">Direct Call</MenuItem>
-                    <MenuItem value="google">Google</MenuItem>
-                    <MenuItem value="referral">Referral</MenuItem>
-                  </Select>
+                    disablePortal={false}
+                    options={sources}
+                    value={leadData.source}
+                    getOptionLabel={(source) => source.name ? source.name :source}
+                    onChange={(e, source) => handleChange('source', source.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="flex flex-col justify-start mt-1 text-lg">Description </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={handleChange}
+                    onChange={(e)=>handleChange('description',e.target.value)}
                     value={leadData.description}
                     name="description"
                     type="text"

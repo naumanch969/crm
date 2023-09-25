@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MenuItem, Select, Drawer, TextField, Autocomplete } from "@mui/material";
+import { Drawer, TextField, Autocomplete } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { PiFunnelLight, PiXLight } from "react-icons/pi";
 import { pakistanCities } from "../../../constant";
@@ -61,18 +61,16 @@ const ProjectFilter = ({ open, setOpen, isFiltered, setIsFiltered }) => {
               <TextField {...params} fullWidth label="City" value={filters.city} />
             )}
           />
-          <Select
-            name="society"
-            type="text"
-            onChange={(e) => handleChange('society', e.target.value)}
+          <Autocomplete
             size="small"
-            fullWidth
-          >
-            <MenuItem value={''} >None</MenuItem>
-            {societies.map((society, index) => (
-              <MenuItem value={society.title} key={index}>{society.title}{" "}</MenuItem>
-            ))}
-          </Select>
+            disablePortal={false}
+            options={societies}
+            value={filters.society}
+            getOptionLabel={(society) => society.title ? society.title : society}
+            onChange={(e, society) => handleChange('society', society.title)}
+            className="w-full"
+            renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+          />
 
           <div className="flex flex-col">
             <div>Creation Date : </div>
