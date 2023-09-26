@@ -162,7 +162,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                       options={pakistanCities}
                       value={inventoryData.sellerCity}
                       getOptionLabel={(top) => top}
-                      onChange={(e, city) => handleChange('sellerCity', city.trim().toLowerCase())}
+                      onChange={(e, city) => handleChange('sellerCity', city)}
                       className="w-full"
                       renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                     />

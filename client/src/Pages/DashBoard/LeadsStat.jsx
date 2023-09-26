@@ -1,151 +1,80 @@
 import { MenuItem, Select } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import { getLeadsStat } from "../../redux/action/lead";
+import { useDispatch, useSelector } from "react-redux";
+import { getProjects } from "../../redux/action/project";
 
-const projectsData = [
-  {
-    name: "Project 1",
-    leads: 10,
-  },
-  {
-    name: "Project 2",
-    leads: 7,
-  },
-  {
-    name: "Project 3",
-    leads: 6,
-  },
-  {
-    name: "Project 4",
-    leads: 5,
-  },
-  {
-    name: "Project 5",
-    leads: 2,
-  },
-  {
-    name: "Project 6",
-    leads: 0,
-  },
-  {
-    name: "Project 7",
-    leads: 9,
-  },
+const projects = [
+  { name: "Project 1", leads: 10, },
+  { name: "Project 2", leads: 7, },
+  { name: "Project 3", leads: 6, },
+  { name: "Project 4", leads: 5, },
+  { name: "Project 5", leads: 2, },
+  { name: "Project 6", leads: 0, },
+  { name: "Project 7", leads: 9, },
 ];
 
-const priorityVise = [
-  {
-    name: "Very Hot",
-    leads: 10,
-  },
-  {
-    name: "Hot",
-    leads: 7,
-  },
-  {
-    name: "Moderate",
-    leads: 6,
-  },
-  {
-    name: "Cold",
-    leads: 5,
-  },
-  {
-    name: "Very Cold",
-    leads: 2,
-  },
+const priorities = [
+  { name: "Very Hot", value: 'veryHot' },
+  { name: "Hot", value: 'hot' },
+  { name: "Moderate", value: 'moderate' },
+  { name: "Cold", value: 'cold' },
+  { name: "Very Cold", value: 'veryCold' },
 ];
 
-const sourceVise = [
-  {
-    name: "Instagram",
-    leads: 10,
-  },
-  {
-    name: "Facebook",
-    leads: 7,
-  },
-  {
-    name: "Facebook Comment",
-    leads: 6,
-  },
-  {
-    name: "Friend and Family",
-    leads: 5,
-  },
-  {
-    name: "Direct Call",
-    leads: 2,
-  },
-  {
-    name: "Google",
-    leads: 0,
-  },
-  {
-    name: "Referral",
-    leads: 9,
-  },
+const sources = [
+  { name: "Instagram", value: 'instagram' },
+  { name: "Facebook", value: 'facebook' },
+  { name: "Facebook Comment", value: 'facebookComment' },
+  { name: "Friend and Family", value: 'friendAndFamily' },
+  { name: "Direct Call", value: 'directCall' },
+  { name: "Google", value: 'google' },
+  { name: "Referral", value: 'referral' },
 ];
 
-const StatusVise = [
-  {
-    name: "New",
-    leads: 23,
-  },
-  {
-    name: "Closed (Lost)",
-    leads: 10,
-  },
-  {
-    name: "Closed (Won)",
-    leads: 7,
-  },
-  {
-    name: "Meeting (Done)",
-    leads: 6,
-  },
-  {
-    name: "Meeting (Attempt)",
-    leads: 5,
-  },
-  {
-    name: "Followed Up (Call)",
-    leads: 2,
-  },
-  {
-    name: "Followed Up (Email)",
-    leads: 2,
-  },
-  {
-    name: "Contacted Client (Call)",
-    leads: 1,
-  },
-  {
-    name: "Contacted Client (Call Attempt)",
-    leads: 1,
-  },
-  {
-    name: "Contacted Client (Email)",
-    leads: 1,
-  },
+const statuses = [
+  { name: "New", value: 'new' },
+  { name: "Closed (Lost)", value: 'closedLost' },
+  { name: "Closed (Won)", value: 'closedWon' },
+  { name: "Meeting (Done)", value: 'meetingDone' },
+  { name: "Meeting (Attempt)", value: 'meetingAttempt' },
+  { name: "Followed Up (Call)", value: 'followedUpCall' },
+  { name: "Followed Up (Email)", value: 'followedUpEmail' },
+  { name: "Contacted Client (Call)", value: 'contactedClientCall' },
+  { name: "Contacted Client (Call Attempt)", value: 'contactedClientCallAttempt' },
+  { name: "Contacted Client (Email)", value: 'contactedClientEmail' },
 ];
 
 const LeadsStat = () => {
-  const [selectedValue, setSelectedValue] = useState("projectsVise");
-  const [displayValue, setDisplayValue] = useState("projectsVise");
 
+  ////////////////////////////////////////////// VARIABLES //////////////////////////////////////////////////////
+  const { stats, leads } = useSelector(state => state.lead)
+  const dispatch = useDispatch()
+
+  ////////////////////////////////////////////// STATES //////////////////////////////////////////////////////
+  const [type, setType] = useState('status')  // status, priority, property, source
+
+  ////////////////////////////////////////////// USE EFFECTS //////////////////////////////////////////////////////
+  useEffect(() => {
+    dispatch(getProjects())
+    dispatch(getLeadsStat(type))
+  }, [type])
+
+  ////////////////////////////////////////////// FUNCTIONS //////////////////////////////////////////////////////
   const handleChange = (event) => {
     const selectedOption = event.target.value;
-    setSelectedValue(selectedOption);
-    setDisplayValue(selectedOption); // Update the display value
+    setType(selectedOption);
+    setType(selectedOption); // Update the display value
   };
+
 
   return (
     <div>
       <div className="flex items-center justify-center gap-4 pb-5">
         <div className="text-xl font-primary">View Leads : </div>
         <div className="flex items-center gap-2 w-3/12">
-          {selectedValue === "" ? (
+          {type === "" ? (
             <InputLabel
               sx={{
                 color: "#B3B3B3",
@@ -155,21 +84,21 @@ const LeadsStat = () => {
           ) : null}
           <Select
             style={{ fontFamily: "'Montserrat', sans-serif" }}
-            value={selectedValue}
+            value={type}
             onChange={handleChange}
             fullWidth
             size="small">
-            <MenuItem value="projectsVise">Projects Vise</MenuItem>
-            <MenuItem value="StatusVise">Status Vise</MenuItem>
-            <MenuItem value="priorityVise">Priority Vise</MenuItem>
-            <MenuItem value="sourceVise">Source Wise</MenuItem>
+            <MenuItem value="property">Projects Vise</MenuItem>
+            <MenuItem value="status">Status Vise</MenuItem>
+            <MenuItem value="priority">Priority Vise</MenuItem>
+            <MenuItem value="source">Source Wise</MenuItem>
           </Select>
         </div>
       </div>
       <BarChart
         width={window.innerWidth - 250}
         height={500}
-        data={displayValue == "projectsVise" ? projectsData : displayValue == "sourceVise" ? sourceVise : displayValue == "StatusVise" ? StatusVise : priorityVise}
+        data={stats}
         margin={{
           top: 5,
           right: 30,
@@ -177,11 +106,11 @@ const LeadsStat = () => {
           bottom: 5,
         }}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="_id" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="leads" fill="#8884d8" />
+        <Bar dataKey="count" fill="#8884d8" />
       </BarChart>
     </div>
   );

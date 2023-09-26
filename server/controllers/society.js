@@ -43,7 +43,7 @@ export const searchSociety = async (req, res, next) => {
         };
 
         // Check if isArchived is provided in the request body
-        if (isArchived !== undefined) {
+        if (isArchived != undefined) {
             societyFilter.isArchived = isArchived; // Filter by isArchived field
         }
 

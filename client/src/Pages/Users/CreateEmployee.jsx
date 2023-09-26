@@ -133,7 +133,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                     placeholder="Seller City"
                     fullWidth>
                     {pakistanCities.map((city) => (
-                      <MenuItem value={city.toLowerCase()}>{city}</MenuItem>
+                      <MenuItem value={city}>{city}</MenuItem>
                     ))}
                   </Select>
                 </td>

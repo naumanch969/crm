@@ -51,7 +51,7 @@ const Notification = ({ open, setOpen, notificationId }) => {
 
             <div className="flex flex-wrap w-full ">
               {currentNotification?.data && Object.keys(currentNotification?.data).map((key) =>
-                key !== '_id' ? (
+                key != '_id' ? (
                   <div key={key} className="flex md:w-[47%] w-full ">
                     <span className="font-semibold capitalize ">{key}:&nbsp;</span>
                     <span>{currentNotification?.data[key]}</span>

@@ -20,7 +20,7 @@ const objectToQueryString = (obj) => {
         if (obj.hasOwnProperty(key)) {
             const value = obj[key];
             // Check if the value is null, undefined, or an empty string
-            if (value !== null && value !== undefined && value !== '') {
+            if (value != null && value != undefined && value != '') {
                 // Encode both the key and value to handle special characters
                 const encodedKey = encodeURIComponent(key);
                 const encodedValue = encodeURIComponent(value);
@@ -104,7 +104,7 @@ export const deleteApproval = (approvalId, password) => API.delete(`/approval/de
 export const getLead = (leadId) => API.get(`/lead/get/single/${leadId}`)
 export const getLeads = () => API.get(`/lead/get/all`)
 export const getEmployeeLeads = () => API.get(`/lead/get/employee`)
-export const getLeadsStat = () => API.get(`/lead/get/stats`)
+export const getLeadsStat = (type) => API.get(`/lead/get/stats?type=${type}`)
 export const searchLead = (searchTerm) => API.get(`/lead/search?searchTerm=${searchTerm}`)
 export const filterLead = (filters) => API.get(`/lead/filter?${objectToQueryString(filters)}`)
 export const createLead = (leadData) => API.post(`/lead/create`, leadData)

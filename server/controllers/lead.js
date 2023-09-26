@@ -1,4 +1,5 @@
 import Lead from '../models/lead.js'
+import Project from '../models/project.js'
 import User from '../models/user.js'
 import { createError, isValidDate } from '../utils/error.js'
 import validator from 'validator'
@@ -40,38 +41,89 @@ export const getEmployeeLeads = async (req, res, next) => {
 }
 
 export const getLeadsStat = async (req, res, next) => {
+    const { type } = req.query;
+
     try {
+        let pipeline = [];
 
-        const leadStats = await Lead.aggregate([
-            {
-                $group: {
-                    _id: '$status',
-                    count: { $sum: 1 },
-                },
-            },
-            {
-                $project: {
-                    _id: 0,
-                    name: '$_id',
-                    value: '$count',
-                },
-            },
-        ]);
+        switch (type) {
+            case 'status':
+                pipeline = [
+                    {
+                        $group: {
+                            _id: '$status',
+                            count: { $sum: 1 },
+                        },
+                    },
+                ];
+                break;
+            case 'priority':
+                pipeline = [
+                    {
+                        $group: {
+                            _id: '$priority',
+                            count: { $sum: 1 },
+                        },
+                    },
+                ];
+                break;
+            case 'property':
+                pipeline = [
+                    {
+                        $group: {
+                            _id: '$property',
+                            count: { $sum: 1 },
+                        },
+                    },
+                ];
+                break;
+            case 'source':
+                pipeline = [
+                    {
+                        $group: {
+                            _id: '$source',
+                            count: { $sum: 1 },
+                        },
+                    },
+                ];
+                break;
+            default:
+                return res.status(400).json({ error: 'Invalid type' });
+        }
 
-        const statusEnum = ['successful', 'unsuccessful', 'underProcess', 'declined', 'remaining'];
-        const leadsStatArray = statusEnum.map(status => {
-            const stat = leadStats.find(stat => stat.name === status);
-            return {
-                name: status,
-                value: stat ? stat.value : 0,
-            };
-        });
+        const aggregatedResult = await Lead.aggregate(pipeline);
 
-        res.status(200).json({ result: leadsStatArray, message: 'Leads stats fetched successfully', success: true });
-    } catch (err) {
-        next(createError(500, err.message))
+        if (type === 'property') {
+            // Extract unique project IDs from the aggregatedResult
+            const projectIds = aggregatedResult.map((item) => item._id);
+
+            // Fetch project titles for the project IDs using Promise.all
+            const projectTitles = await Promise.all(
+                projectIds.map(async (projectId) => {
+                    const project = await Project.findById(projectId); // Replace with the actual model and query
+                    return { projectId, title: project ? project.title : null }; // Set to null if no match found
+                })
+            );
+
+            // Replace _id with the project title in the aggregatedResult
+            const updatedResult = aggregatedResult.map((item) => {
+                const matchingProject = projectTitles.find((project) => project.projectId.toString() === item._id.toString());
+                return {
+                    ...item,
+                    _id: matchingProject ? matchingProject.title : null, // Set to null if no match found
+                };
+            });
+
+            // Now 'updatedResult' contains project titles instead of project IDs
+            res.status(200).json({ result: updatedResult, message: 'Stats fetched successfully.' });
+        } else {
+            res.status(200).json({ result: aggregatedResult, message: 'Stats fetched successfully.' });
+        }
+    } catch (error) {
+        next(createError(500, error));
     }
-}
+};
+
 
 export const searchLead = async (req, res, next) => {
     try {
@@ -154,8 +206,6 @@ export const filterLead = async (req, res, next) => {
         next(createError(500, error.message));
     }
 };
-
-
 
 
 export const createOnsiteLead = async (req, res, next) => {

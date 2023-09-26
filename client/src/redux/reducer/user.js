@@ -113,11 +113,11 @@ const usersSlice = createSlice({
             const { payload: filters } = action;
 
             const filteredEmployees = allEmployees.filter((employee) => {
-                if (filters.city && employee.city.toLowerCase() !== filters.city.toLowerCase()) return false;
-                if (filters.martialStatus && employee.martialStatus.toLowerCase() !== filters.martialStatus.toLowerCase()) return false;
-                if (filters.gender && employee.gender.toLowerCase() !== filters.gender.toLowerCase()) return false;
+                if (filters.city && employee.city.toLowerCase() != filters.city.toLowerCase()) return false;
+                if (filters.martialStatus && employee.martialStatus.toLowerCase() != filters.martialStatus.toLowerCase()) return false;
+                if (filters.gender && employee.gender.toLowerCase() != filters.gender.toLowerCase()) return false;
                 console.log(employee)
-                if (filters.salaryType && employee?.salaryType.toLowerCase() !== filters?.salaryType.toLowerCase()) return false;
+                if (filters.salaryType && employee?.salaryType.toLowerCase() != filters?.salaryType.toLowerCase()) return false;
                 return true;
             });
 

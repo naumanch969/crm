@@ -8,7 +8,7 @@ import {
   DialogContentText,
 } from "@mui/material";
 import React from "react";
-import { deleteRefund } from "../../../redux/action/refund";
+import { deleteRefund } from "../../redux/action/refund";
 import { useDispatch, useSelector } from "react-redux";
 
 const DeleteModal = ({ open, setOpen, refundId }) => {

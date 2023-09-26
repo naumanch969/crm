@@ -22,7 +22,7 @@ const LedgerTopbar = () => {
   useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
+      if (descriptionElement != null) {
         descriptionElement.focus();
       }
     }

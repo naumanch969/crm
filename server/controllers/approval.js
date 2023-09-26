@@ -3,7 +3,6 @@ import User from '../models/user.js'
 import Lead from '../models/lead.js'
 import Notification from '../models/notification.js'
 import { createError } from '../utils/error.js'
-import { sendMail } from '../utils/mail.js'
 import validator from 'validator'
 import bcrypt from 'bcryptjs'
 
@@ -68,7 +67,7 @@ export const rejectRequestApproval = async (req, res, next) => {
     try {
         const { email } = req.body
 
-        sendMail(email, 'Registeration Rejected', 'Your registeration has been denied')
+        // sendMail(email, 'Registeration Rejected', 'Your registeration has been denied')
 
         res.status(200).json({ message: 'Refund request has been sent to the admin for approval', success: true })
 

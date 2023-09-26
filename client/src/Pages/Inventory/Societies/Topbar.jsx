@@ -15,7 +15,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters, isFiltered, 
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const title = pathname.split("/")[1];
-  const pathArr = pathname.split("/").filter((item) => item !== "");
+  const pathArr = pathname.split("/").filter((item) => item != "");
   const showOptionButtons = !pathArr.includes("create");
   const { societies } = useSelector((state) => state.society);
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters, isFiltered, 
   useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
+      if (descriptionElement != null) {
         descriptionElement.focus();
       }
     }

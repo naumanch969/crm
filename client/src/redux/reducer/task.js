@@ -39,12 +39,12 @@ const taskSlice = createSlice({
             const { payload: filters } = action;
 
             const filteredTasks = allTasks.filter((task) => {
-                if (filters.completedTask && task.completedTask.toLowerCase() !== filters.completedTask.toLowerCase()) return false;
-                if (filters.completedTaskStatus && task.completedTaskStatus.toLowerCase() !== filters.completedTaskStatus.toLowerCase()) return false;
+                if (filters.completedTask && task.completedTask.toLowerCase() != filters.completedTask.toLowerCase()) return false;
+                if (filters.completedTaskStatus && task.completedTaskStatus.toLowerCase() != filters.completedTaskStatus.toLowerCase()) return false;
                 if (filters.startingCompletedTaskDate && new Date(task.completedTaskDate) < new Date(filters.startingCompletedTaskDate)) return false;
                 if (filters.endingCompletedTaskDate && new Date(task.completedTaskDate) > new Date(filters.endingCompletedTaskDate)) return false;
 
-                if (filters.newTask && task.newTask.toLowerCase() !== filters.newTask.toLowerCase()) return false;
+                if (filters.newTask && task.newTask.toLowerCase() != filters.newTask.toLowerCase()) return false;
                 if (filters.startingNewTaskDeadline && new Date(task.newTaskDeadline) < new Date(filters.startingNewTaskDeadline)) return false;
                 if (filters.endingNewTaskDeadline && new Date(task.newTaskDeadline) > new Date(filters.endingNewTaskDeadline)) return false;
                 return true;

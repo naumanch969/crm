@@ -34,10 +34,10 @@ export const getLead = (leadId) => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const getLeadsStat = () => async (dispatch) => {
+export const getLeadsStat = (type) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.getLeadsStat()
+        const { data } = await api.getLeadsStat(type)
         dispatch(getLeadsStatReducer(data.result))
         dispatch(end())
     } catch (err) {

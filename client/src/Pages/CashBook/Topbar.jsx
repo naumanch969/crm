@@ -13,14 +13,14 @@ const Topbar = (view, setView) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const title = pathname.split('/')[1];
-  const pathArr = pathname.split('/').filter(item => item !== '');
+  const pathArr = pathname.split('/').filter(item => item != '');
   const showAddButton = !pathArr.includes('create');
   const descriptionElementRef = React.useRef(null);
 
   useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
+      if (descriptionElement != null) {
         descriptionElement.focus();
       }
     }

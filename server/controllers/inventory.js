@@ -53,7 +53,7 @@ export const searchInventory = async (req, res, next) => {
         };
 
         // Check if isArchived is provided in the request body
-        if (isArchived !== undefined) {
+        if (isArchived != undefined) {
             inventoryFilter.isArchived = isArchived; // Filter by isArchived field
         }
 
@@ -91,13 +91,13 @@ export const filterInventory = async (req, res, next) => {
         }
 
         // Check if minPrice and maxPrice are provided
-        if (minPrice !== undefined && maxPrice !== undefined) {
+        if (minPrice != undefined && maxPrice != undefined) {
             // Filter by price within the specified range
             query = query.where('price').gte(Number(minPrice)).lte(Number(maxPrice));
-        } else if (minPrice !== undefined) {
+        } else if (minPrice != undefined) {
             // Filter by minimum price
             query = query.where('price').gte(Number(minPrice));
-        } else if (maxPrice !== undefined) {
+        } else if (maxPrice != undefined) {
             // Filter by maximum price
             query = query.where('price').lte(Number(maxPrice));
         }

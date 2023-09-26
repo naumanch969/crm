@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateLead } from "../../redux/action/lead";
+import { getLead, updateLead } from "../../redux/action/lead";
 import { pakistanCities } from "../../constant";
 import {
   Divider,
@@ -12,15 +12,19 @@ import {
   DialogActions,
   TextField,
   Autocomplete,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { getProjects } from "../../redux/action/project";
+import { getLeadReducer } from "../../redux/reducer/lead";
+import { Loader } from "../../utils";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const EditModal = ({ open, setOpen, scroll }) => {
+const EditModal = ({ open, setOpen, scroll, leadId }) => {
   ////////////////////////////////////// VARIABLES  /////////////////////////////////////
   const dispatch = useDispatch();
   const { currentLead, isFetching } = useSelector((state) => state.lead);
@@ -35,51 +39,37 @@ const EditModal = ({ open, setOpen, scroll }) => {
     { name: 'Very Hot', value: 'veryHot' },
   ]
   const statuses = [
-    { name: 'Closed (Lost)', value: 'closedLost' },
-    { name: 'Followed Up (Call)', value: 'followedUpCall' },
-    { name: 'Contacted Client (Call Attempt)', value: 'contactedCallAttempt' },
-    { name: 'Contacted Client (Call)', value: 'contactedCall' },
-    { name: 'Followed Up (Email)', value: 'followedUpEmail' },
-    { name: 'Contacted Client (Email)', value: 'contactedEmail' },
-    { name: 'New<', value: 'new' },
-    { name: 'Meeting (Done)', value: 'meetingDone' },
-    { name: 'Closed (Won)', value: 'closedWon' },
-    { name: 'Meeting (Attempt)', value: 'meetingAttempt' },
+    { name: 'Closed (Lost)', value: "closedLost" },
+    { name: 'Followed Up (Call)', value: "followedUpCall" },
+    { name: 'Contacted Client (Call Attempt)', value: "contactedCallAttempt" },
+    { name: 'Contacted Client (Call)', value: "contactedCall" },
+    { name: 'Followed Up (Email)', value: "followedUpEmail" },
+    { name: 'Contacted Client (Email)', value: "contactedEmail" },
+    { name: 'New<', value: "new" },
+    { name: 'Meeting (Done)', value: "meetingDone" },
+    { name: 'Closed (Won)', value: "closedWon" },
+    { name: 'Meeting (Attempt)', value: "meetingAttempt" },
   ]
   const sources = [
     { name: 'Instagram', value: "instagram" },
     { name: 'Facebook Comment', value: "facebookComment" },
-    { name: 'Friend and Family', value: "FriendAndFamily" },
+    { name: 'Friend and Family', value: "friendAndFamily" },
     { name: 'Facebook', value: "facebook" },
     { name: 'Direct Call', value: "directCall" },
     { name: 'Google', value: "google" },
     { name: 'Referral', value: "referral" },
   ]
-  let initialLeadState = {
-    firstName: "",
-    lastName: "",
-    username: "",
-    phone: "",
-    CNIC: "",
-    clientCity: "",
-    email: "",
-    city: "",
-    priority: "",
-    property: "",
-    status: "",
-    source: "",
-    description: "",
-  };
+  let initialLeadState = { firstName: "", lastName: "", username: "", phone: "", CNIC: "", clientCity: "", email: "", city: "", priority: "", property: "", status: "", source: "", description: "", };
   ////////////////////////////////////// STATES  /////////////////////////////////////
   const [leadData, setLeadData] = useState({
     ...currentLead,
-    firstName: currentLead?.client.firstName,
-    lastName: currentLead?.client.lastName,
-    username: currentLead?.client.username,
-    phone: currentLead?.client.phone,
-    CNIC: currentLead?.client.CNIC,
-    clientCity: currentLead?.client.city,
-    email: currentLead?.client.email,
+    firstName: currentLead?.client?.firstName,
+    lastName: currentLead?.client?.lastName,
+    username: currentLead?.client?.username,
+    phone: currentLead?.client?.phone,
+    CNIC: currentLead?.client?.CNIC,
+    clientCity: currentLead?.client?.city,
+    email: currentLead?.client?.email,
   });
   console.log(leadData)
 
@@ -87,26 +77,31 @@ const EditModal = ({ open, setOpen, scroll }) => {
   useEffect(() => {
     setLeadData({
       ...currentLead,
-      firstName: currentLead?.client.firstName,
-      lastName: currentLead?.client.lastName,
-      username: currentLead?.client.username,
-      phone: currentLead?.client.phone,
-      CNIC: currentLead?.client.CNIC,
-      clientCity: currentLead?.client.city,
-      email: currentLead?.client.email,
+      firstName: currentLead?.client?.firstName,
+      lastName: currentLead?.client?.lastName,
+      username: currentLead?.client?.username,
+      phone: currentLead?.client?.phone,
+      CNIC: currentLead?.client?.CNIC,
+      clientCity: currentLead?.client?.city,
+      email: currentLead?.client?.email,
     });
   }, [currentLead]);
   useEffect(() => {
     dispatch(getProjects());
   }, []);
+  useEffect(() => {
+    leadId && dispatch(getLead(leadId))
+  }, [leadId])
 
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('edit leadData', leadData)
     const { firstName, lastName, username, phone, clientCity, city, priority, property, status, source, description, } = leadData;
     if (!firstName || !lastName || !username || !phone || !clientCity || !city || !priority || !property || !status || !source || !description)
       return alert("Make sure to provide all the fields");
     dispatch(updateLead(currentLead?._id, leadData));
+    dispatch(getLeadReducer(null))
     setLeadData(initialLeadState);
     setOpen(false);
   };
@@ -130,7 +125,9 @@ const EditModal = ({ open, setOpen, scroll }) => {
         onClose={handleClose}
         fullWidth="sm"
         maxWidth="md"
-        aria-describedby="alert-dialog-slide-description">
+        aria-describedby="alert-dialog-slide-description"
+      >
+
         <DialogTitle className="flex items-center justify-between">
           <div className="text-sky-400 font-primary">Edit Lead</div>
           <div className="cursor-pointer" onClick={handleClose}>
@@ -201,6 +198,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
                     onChange={(e) => handleChange('CNIC', e.target.value)}
                     value={leadData?.CNIC}
                     type="number"
+                    placeholder="Optional"
                     size="small"
                     fullWidth
                   />
@@ -209,15 +207,13 @@ const EditModal = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Client City </td>
                 <td className="pb-4">
-                  {console.log(leadData.clientCity)}
                   <Autocomplete
                     size="small"
                     disablePortal
                     options={pakistanCities}
                     value={leadData.clientCity}
                     getOptionLabel={(clientCity) => clientCity}
-                    getOptionSelected={(option, value) => option.toLowerCase() == value}
-                    onChange={(e, input) => handleChange('clientCity', input.value)}
+                    onChange={(e, clientCity) => handleChange('clientCity', clientCity)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                   />
@@ -256,24 +252,35 @@ const EditModal = ({ open, setOpen, scroll }) => {
                     options={pakistanCities}
                     value={leadData.city}
                     getOptionLabel={(city) => city}
-                    getOptionSelected={(option, value) => option.toLowerCase() == value}
-                    onChange={(e, input) => handleChange('city', input.value)}
+                    onChange={(e, city) => handleChange('city', city)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                   />
                 </td>
               </tr>
+              <Select
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
+                value={leadData.city}
+                onChange={(e, city) => handleChange('city', city)}
+                fullWidth
+                size="small">
+                {
+                  pakistanCities.map((city, index) => (
+                    <MenuItem value={city}>{city}</MenuItem>
+                  ))
+                }
+              </Select>
               <tr>
                 <td className="pb-4 text-lg">Property </td>
                 <td className="pb-4">
+                  {console.log(leadData.source, leadData)}
                   <Autocomplete
                     size="small"
                     disablePortal
                     options={projectsTitles}
                     value={leadData.property}
-                    getOptionLabel={(project) => project.title}
-                    getOptionSelected={(option, value) => option._id == value}
-                    onChange={(e, input) => handleChange('property', input.value)}
+                    getOptionLabel={(project) => project.title ? project.title : project}
+                    onChange={(e, property) => handleChange('property', property._id)}  // property = project
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                   />
@@ -288,7 +295,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
                     options={priorities}
                     value={leadData.priority}
                     getOptionLabel={(priority) => priority.name ? priority.name : priority}
-                    onChange={(e, input) => handleChange('priority', input.value)}
+                    onChange={(e, priority) => handleChange('priority', priority.value)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                   />
@@ -302,8 +309,10 @@ const EditModal = ({ open, setOpen, scroll }) => {
                     disablePortal
                     options={statuses}
                     value={leadData.status}
+                    // placeholder={leadData.status}
+                    placeholder="this is"
                     getOptionLabel={(status) => status.name ? status.name : status}
-                    onChange={(e, input) => handleChange('status', input.value)}
+                    onChange={(e, status) => handleChange('status', status.value)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                   />
@@ -318,7 +327,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
                     options={sources}
                     value={leadData.source}
                     getOptionLabel={(source) => source.name ? source.name : source}
-                    onChange={(e, input) => handleChange('source', input.value)}
+                    onChange={(e, source) => handleChange('source', source.value)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                   />
@@ -355,8 +364,9 @@ const EditModal = ({ open, setOpen, scroll }) => {
             Save
           </button>
         </DialogActions>
+
       </Dialog>
-    </div>
+    </div >
   );
 };
 
