@@ -52,9 +52,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
   const [inventoryData, setInventoryData] = useState(InventoryinitialState);
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
-  useEffect(() => {
-    console.log('inventoryData', inventoryData)
-  }, [inventoryData])
+
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createLead, getLeads } from "../../redux/action/lead";
 import Topbar from "./Topbar";
 import { getEmployees, register } from "../../redux/action/user";
+import { CFormSelect } from "@coreui/react";
 import { pakistanCities } from "../../constant";
 import {
   Divider,
@@ -88,7 +89,6 @@ const CreateLead = ({ setOpen, open, scroll }) => {
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
-    console.log('create leadData', leadData)
     e.preventDefault();
     const { firstName, lastName, username, phone, clientCity, city, priority, property, status, source, description, } = leadData;
     if (!firstName || !lastName || !username || !phone || !clientCity || !city || !priority || !property || !status || !source || !description)
@@ -109,7 +109,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
 
   return (
     <div>
-      <Dialog
+   <Dialog
         open={open}
         scroll={scroll}
         TransitionComponent={Transition}
@@ -117,9 +117,11 @@ const CreateLead = ({ setOpen, open, scroll }) => {
         onClose={handleClose}
         fullWidth="sm"
         maxWidth="md"
-        aria-describedby="alert-dialog-slide-description">
+        aria-describedby="alert-dialog-slide-description"
+      >
+
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400 font-primary">Add New Lead</div>
+          <div className="text-sky-400 font-primary">Edit Lead</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -136,9 +138,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">First Name </td>
                 <td className="pb-4">
                   <TextField
-                    name="firstName"
-                    value={leadData.firstName}
-                    onChange={(e) => handleChange('firstName', e.target.value)}
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}
+                    value={leadData?.firstName}
+                    onChange={(e) => handleChange("firstName", e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -149,8 +151,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     name="lastName"
-                    value={leadData.lastName}
-                    onChange={(e) => handleChange('lastName', e.target.value)}
+                    value={leadData?.lastName}
+                    onChange={(e) => handleChange("lastName", e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -161,8 +163,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     name="username"
-                    value={leadData.username}
-                    onChange={(e) => handleChange('username', e.target.value)}
+                    value={leadData?.username}
+                    onChange={(e) => handleChange("username", e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -173,8 +175,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     name="phone"
-                    onChange={(e) => handleChange('phone', e.target.value)}
-                    value={leadData.phone}
+                    onChange={(e) => handleChange("phone", e.target.value)}
+                    value={leadData?.phone}
                     type="number"
                     size="small"
                     fullWidth
@@ -186,8 +188,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     name="CNIC"
-                    onChange={(e) => handleChange('CNIC', e.target.value)}
-                    value={leadData.CNIC}
+                    onChange={(e) => handleChange("CNIC", e.target.value)}
+                    value={leadData?.CNIC}
                     type="number"
                     placeholder="Optional"
                     size="small"
@@ -196,18 +198,18 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">City </td>
+                <td className="pb-4 text-lg">Client City </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={pakistanCities}
+                  <CFormSelect
                     value={leadData.clientCity}
-                    getOptionLabel={(clientCity) => clientCity}
-                    onChange={(e, clientCity) => handleChange('clientCity', clientCity)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    onChange={(e) => handleChange("clientCity", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    {pakistanCities.map((city, key) => (
+                      <option key={key} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
@@ -215,8 +217,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     type="email"
-                    onChange={(e) => handleChange('email', e.target.value)}
-                    value={leadData.email}
+                    onChange={(e) => handleChange("email", e.target.value)}
+                    value={leadData?.email}
                     name="email"
                     size="small"
                     placeholder="Optional"
@@ -237,76 +239,76 @@ const CreateLead = ({ setOpen, open, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={pakistanCities}
+                  <CFormSelect
                     value={leadData.city}
-                    getOptionLabel={(city) => city}
-                    onChange={(e, city) => handleChange('city', city)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    onChange={(e) => handleChange("city", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    {pakistanCities.map((city, key) => (
+                      <option key={key} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Projects </td>
+                <td className="pb-4 text-lg">Project </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={projectsTitles}
+                  <CFormSelect
                     value={leadData.property}
-                    getOptionLabel={(project) => project.title ? project.title : project}
-                    onChange={(e, project) => handleChange('property', project._id)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    onChange={(e) => handleChange("property", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    {projects.map((project, key) => (
+                      <option key={key} value={project._id}>
+                        {project.title}
+                      </option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Priority </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={priorities}
+                  <CFormSelect
                     value={leadData.priority}
-                    getOptionLabel={(priority) => priority.name ? priority.name : priority}
-                    onChange={(e, priority) => handleChange('priority', priority.value)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    onChange={(e) => handleChange("priority", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    {priorities.map((item, key) => (
+                      <option key={key} value={item.value}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Status </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={statuses}
+                  <CFormSelect
                     value={leadData.status}
-                    getOptionLabel={(status) => status.name ? status.name : status}
-                    onChange={(e, status) => handleChange('status', status.value)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    onChange={(e) => handleChange("status", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    {statuses.map((item, key) => (
+                      <option key={key} value={item.value}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg flex mt-1 items-start">Source </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={sources}
+                  <CFormSelect
                     value={leadData.source}
-                    getOptionLabel={(source) => source.name ? source.name : source}
-                    onChange={(e, source) => handleChange('source', source.value)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    onChange={(e) => handleChange("source", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    {sources.map((item, key) => (
+                      <option key={key} value={item.value}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
@@ -314,7 +316,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     onChange={(e) => handleChange('description', e.target.value)}
-                    value={leadData.description}
+                    value={leadData?.description}
                     name="description"
                     type="text"
                     size="small"
@@ -337,9 +339,10 @@ const CreateLead = ({ setOpen, open, scroll }) => {
             className="bg-red-400 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-primary"
             onClick={handleSubmit}
             autoFocus>
-            Save
+            Create
           </button>
         </DialogActions>
+
       </Dialog>
     </div>
   );

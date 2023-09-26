@@ -45,11 +45,9 @@ const EventCalendar = () => {
     dispatch(getEvents())
   }, [])
   useEffect(() => {
-    console.log(event)
   }, [event, showViewModal])
 
   const handleShowViewModal = (event) => {
-    console.log(event)
     setSelectedEvent(event)
     setShowViewModal(true)
   }

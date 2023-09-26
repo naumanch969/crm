@@ -26,7 +26,6 @@ const ProjectFilter = ({ open, setOpen, isFiltered, setIsFiltered }) => {
   }, [])
   //////////////////////////////// FUNCTIONS ///////////////////////////////////////////////////
   const handleFilter = () => {
-    console.log(filters)
     dispatch(filterProjectReducer(filters))
     setIsFiltered(true)
     setFilters(initialFilterState)
@@ -108,7 +107,7 @@ const ProjectFilter = ({ open, setOpen, isFiltered, setIsFiltered }) => {
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={["active", "nonActive"]}
+            options={["active", "inactive"]}
             onSelect={(e) => handleChange("status", e.target.value)}
             className="w-full"
             renderInput={(params) => <TextField {...params} fullWidth label="Status" />}

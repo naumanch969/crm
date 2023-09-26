@@ -64,7 +64,6 @@ const Signup = () => {
 
   /////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleChange = (field, value) => {
-    console.log("e", field, value);
     const { firstName, lastName, username, email, phone, password } = userData;
 
     if (firstName.length > 3) setInputError((pre) => ({ ...pre, firstName: "" }));
@@ -112,7 +111,6 @@ const Signup = () => {
         password: "Password must be of atleast 6 characters",
       }));
 
-    console.log(userData);
     dispatch(register(userData, navigate));
   };
 

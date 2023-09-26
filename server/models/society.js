@@ -4,7 +4,7 @@ import { generateUniqueIdentifier } from '../utils/utils.js'
 const societySchema = Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
-    status: { type: String, default: 'active', enum: ['active', 'nonActive'] },
+    status: { type: String, default: 'active', enum: ['active', 'inactive'] },
     images: { type: [String], default: [] },
     projects: { type: [Schema.Types.ObjectId], ref: 'Project', default: [] },
     isArchived: { type: Boolean, default: false },

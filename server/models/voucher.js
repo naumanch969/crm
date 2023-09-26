@@ -5,7 +5,7 @@ const voucherSchema = Schema({
     branch: { type: String },
     issuingDate: { type: String },
     dueDate: { type: String },
-    customerName: { type: String },
+    clientName: { type: String },
     cnic: { type: Number },
     phone: { type: Number },
     email: { type: String },

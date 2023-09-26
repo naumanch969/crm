@@ -20,7 +20,7 @@ import { CFormSelect } from "@coreui/react";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
- 
+
 const UpateStatusModal = ({ open, setOpen }) => {
   ////////////////////////////////////// VARIABLES  /////////////////////////////////////
   const dispatch = useDispatch();
@@ -81,8 +81,8 @@ const UpateStatusModal = ({ open, setOpen }) => {
                   <td className="pb-4 text-lg">Status </td>
                   <td className="pb-4 w-64">
                     <CFormSelect
-                    value={status}
-                      onChange={(e, input) => handleChange("status", input.value)}
+                      value={status}
+                      onChange={(e) => setStatus(e.target.value)}
                       className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
                       {statuses.map((item, key) => (
                         <option key={key} value={item.value}>

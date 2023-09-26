@@ -29,7 +29,6 @@ const leadSlice = createSlice({
         searchLeadReducer: (state, action) => {
             const { allLeads } = state;
             const { payload: searchTerm } = action;
-            console.log(allLeads)
             const searchedLeads = allLeads.filter((lead) => {
                 const itemValues = Object.values(lead);
                 return itemValues.some((value) => {

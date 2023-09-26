@@ -29,11 +29,11 @@ export const getVouchers = async (req, res, next) => {
 export const createVoucher = async (req, res, next) => {
     try {
 
-        const { branch, issuingDate, dueDate, customerName, cnic, phone, type, total, paid, } = req.body
-        if (!branch || !issuingDate || !dueDate || !customerName || !cnic || !phone || !type || !total || !paid)
+        const { branch, issuingDate, dueDate, clientName, cnic, phone, type, total, paid, } = req.body
+        if (!branch || !issuingDate || !dueDate || !clientName || !cnic || !phone || !type || !total || !paid)
             return next(createError(400, 'Make sure to provide all thee fields.'))
 
-        const newVoucher = await Voucher.create({ branch, issuingDate, dueDate, customerName, cnic, phone, type, total, paid, remained: total - paid, })
+        const newVoucher = await Voucher.create({ branch, issuingDate, dueDate, clientName, cnic, phone, type, total, paid, remained: total - paid, })
         res.status(200).json({ result: newVoucher, message: 'voucher created successfully', success: true })
 
     } catch (err) {
@@ -44,9 +44,9 @@ export const createVoucher = async (req, res, next) => {
 export const updateVoucher = async (req, res, next) => {
     try {
 
-        const { branch, issuingDate, dueDate, customerName, cnic, phone, type, total, paid, remained, } = req.body
+        const { branch, issuingDate, dueDate, clientName, cnic, phone, type, total, paid, remained, } = req.body
 
-        const newVoucher = await Voucher.create({ branch, issuingDate, dueDate, customerName, cnic, phone, type, total, paid, remained, })
+        const newVoucher = await Voucher.create({ branch, issuingDate, dueDate, clientName, cnic, phone, type, total, paid, remained, })
         res.status(200).json({ result: newVoucher, message: 'voucher created successfully', success: true })
 
     } catch (err) {

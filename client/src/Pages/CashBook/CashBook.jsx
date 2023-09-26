@@ -43,35 +43,35 @@ function CashBook() {
       renderCell: (params) => <div className="font-primary">{new Date(params.row.createdAt).toLocaleDateString()}</div>,
     },
     {
-      field: "paymentType",
+      field: "top",
       headerName: "Type",
       headerClassName: "super-app-theme--header",
       width: 120,
       renderCell: (params) => (
-        <div className="font-primary capitalize">{params.row.paymentType}</div>
+        <div className="font-primary capitalize">{params.row.top}</div>
       ),
     },
     {
-      field: "paymentDetail",
+      field: "remarks",
       headerName: "Payment details",
       headerClassName: "super-app-theme--header",
       width: 250,
-      renderCell: (params) => <div className="font-primary">{params.row.paymentDetail}</div>,
+      renderCell: (params) => <div className="font-primary">{params.row.remarks}</div>,
     },
     {
-      field: "amountPaid",
-      headerName: "Amount In",
+      field: "amount",
+      headerName: "Amount",
       headerClassName: "super-app-theme--header",
       width: 140,
-      renderCell: (params) => <div className="font-primary">{params.row.amountPaid}</div>,
+      renderCell: (params) => <div className="font-primary">{params.row.amount}</div>,
     },
-    {
-      field: "branch",
-      headerName: "Branch",
-      headerClassName: "super-app-theme--header",
-      width: 190,
-      renderCell: (params) => <div className="font-primary">{params.row.branch}</div>,
-    },
+    // {
+    //   field: "branch",
+    //   headerName: "Branch",
+    //   headerClassName: "super-app-theme--header",
+    //   width: 190,
+    //   renderCell: (params) => <div className="font-primary">{params.row.branch}</div>,
+    // },
     {
       field: "action",
       headerName: "Action",

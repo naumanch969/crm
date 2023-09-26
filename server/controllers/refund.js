@@ -115,7 +115,6 @@ export const rejectRefund = async (req, res, next) => {
         res.status(200).json({ result: updatedRefund, message: 'Refund rejected successfully', success: true })
 
     } catch (err) {
-        console.log(err)
         next(createError(500, err.message))
     }
 }

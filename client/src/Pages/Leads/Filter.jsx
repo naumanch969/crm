@@ -56,9 +56,6 @@ const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
   useEffect(() => {
     dispatch(getProjects())
   }, [])
-  useEffect(() => {
-    console.log(filters)
-  }, [filters])
   //////////////////////////////// FUNCTIONS ///////////////////////////////////////////////////
   const handleFilter = () => {
     dispatch(filterLeadReducer(filters))

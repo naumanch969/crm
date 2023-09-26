@@ -44,7 +44,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
     city: "",
     society: "",
     images: [],
-    status: "nonActive",
+    status: "inactive",
   };
   //////////////////////////////////////// STATES ////////////////////////////////////
   const [projectData, setProjectData] = useState(ProjectinitialState);
@@ -175,7 +175,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                         onChange={(e) =>
                           setProjectData({
                             ...projectData,
-                            status: e.target.checked ? "active" : "nonActive",
+                            status: e.target.checked ? "active" : "inactive",
                           })
                         }
                         control={<Checkbox defaultChecked style={{ color: "#20aee3" }} />}

@@ -119,7 +119,7 @@ const EditSociety = ({ open, setOpen, scroll }) => {
                     <FormGroup>
                       <FormControlLabel
                         className="w-40 text-gray-400"
-                        onChange={(e) => setSocietyData({ ...societyData, 'status': e.target.checked ? "active" : "nonActive" })}
+                        onChange={(e) => setSocietyData({ ...societyData, 'status': e.target.checked ? "active" : "inactive" })}
                         control={<Checkbox defaultChecked style={{ color: "#20aee3" }} />}
                       />
                     </FormGroup>

@@ -98,7 +98,6 @@ function Leads({ type, showSidebar }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { leads, allLeads, isFetching, error } = useSelector((state) => state.lead);
-  console.log('first', leads, allLeads)
   const archivedLeads = leads.filter(lead => lead.isArchived)
   const unarchivedLeads = leads.filter(lead => !lead.isArchived)
   const { loggedUser } = useSelector((state) => state.user);
