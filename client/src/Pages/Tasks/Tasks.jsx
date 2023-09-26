@@ -172,13 +172,13 @@ function Tasks() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <div className="flex gap-[10px] ">
-          <Tooltip placement="top" title="Delete">
+          {/* <Tooltip placement="top" title="Delete">
             {" "}
             <PiTrashLight
               onClick={() => handleOpenDeleteModal(params.row._id)}
               className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
             />
-          </Tooltip>
+          </Tooltip> */}
           <Tooltip placement="top" title="View">
             {" "}
             <IoOpenOutline

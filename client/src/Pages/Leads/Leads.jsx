@@ -190,11 +190,11 @@ function Leads({ type, showSidebar }) {
               className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
             />
           </Tooltip>
-          <Tooltip placement="top" title="View">
+          {/* <Tooltip placement="top" title="View">
             <div className="cursor-pointer" onClick={() => handleOpenViewModal(params.row?._id)}>
               <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
             </div>
-          </Tooltip>
+          </Tooltip> */}
           <Tooltip placement="top" title="Edit">
             {" "}
             <CiEdit
