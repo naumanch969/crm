@@ -31,7 +31,7 @@ import Home from "./Client Panel/pages/Dashboard/Home";
 import ClientHeader from "./Client Panel/components/ClientHeader";
 import ClientProjects from "./Client Panel/pages/Your Projects/ClientProjects";
 import Contact from "./Client Panel/pages/Contact Us/Contact";
-import LeadRefunds from "./Pages/Refund/Refund";
+import LeadRefunds from "./Pages/Leads/Refund/Refund";
 import SettingNavbar from "./Pages/Settings/Components/Navbar/SettingNavbar";
 import SettingDashboard from "./Pages/Settings/DashBoard/SettingDashboard";
 import { Path } from "./utils";

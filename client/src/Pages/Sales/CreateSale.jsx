@@ -10,6 +10,7 @@ import {
   Slide,
   DialogActions,
   TextField,
+  Autocomplete,
 } from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -18,6 +19,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { getClients, getEmployees } from "../../redux/action/user";
 import { getLeadReducer } from "../../redux/reducer/lead";
+import { CFormSelect } from "@coreui/react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -27,11 +29,11 @@ const CreateSale = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { currentLead: lead } = useSelector(state => state.lead)
-  const { employees, clients } = useSelector(state => state.user)
+  const { currentLead: lead } = useSelector((state) => state.lead);
+  const { employees, clients } = useSelector((state) => state.user);
   const initialState = {
     staff: "",
-    clientName: lead?.client ? lead?.client?.username : '',
+    clientName: lead?.client ? lead?.client?.username : "",
     net: "",
     received: "",
     profit: "",
@@ -42,19 +44,18 @@ const CreateSale = ({ open, setOpen, scroll }) => {
 
   ////////////////////////////////////////// USE EFFECTS /////////////////////////////////
   useEffect(() => {
-    dispatch(getEmployees())
-    dispatch(getClients())
-  }, [open])
+    dispatch(getEmployees());
+    dispatch(getClients());
+  }, [open]);
   useEffect(() => {
-    setSaleData({ ...saleData, staff: lead?.client?.username })
-  }, [lead])
-
+    setSaleData({ ...saleData, staff: lead?.client?.username });
+  }, [lead]);
 
   ////////////////////////////////////////// FUNCTIONS ///////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createSale({ ...saleData, leadId: lead?._id || '' }, setOpen));
-    dispatch(getLeadReducer())
+    dispatch(createSale({ ...saleData, leadId: lead?._id || "" }, setOpen));
+    dispatch(getLeadReducer());
     setSaleData(initialState);
   };
   const handleChange = (field, value) => {
@@ -62,7 +63,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
   };
 
   const handleClose = () => {
-    setSaleData(initialState)
+    setSaleData(initialState);
     setOpen(false);
   };
 
@@ -94,6 +95,12 @@ const CreateSale = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Staff </td>
                 <td className="pb-4">
+                  {/* <CFormSelect
+                    value={saleData?.staff}
+                    options={employees}
+                    onChange={(e, input) => handleChange("clientCity", input.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  /> */}
                   <Autocomplete
                     size="small"
                     disablePortal={false}
@@ -109,16 +116,26 @@ const CreateSale = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Client Name </td>
                 <td className="pb-4">
-                  <Autocomplete
+                  <TextField
+                    onChange={handleChange}
+                    value={saleData?.clientName}
+                    name="clientName"
+                    size="small"
+                    type="number"
+                    fullWidth
+                  />
+                  {/* <Autocomplete
                     size="small"
                     disablePortal={false}
                     options={clients}
                     value={saleData?.clientName}
-                    getOptionLabel={(client) => client.username ? client.username : client}
-                    onChange={(e, client) => handleChange('clientName', client.username)}
+                    getOptionLabel={(client) => (client.username ? client.username : client)}
+                    onChange={(e, client) => handleChange("clientName", client.username)}
                     className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    renderInput={(params) => (
+                      <TextField {...params} autoComplete="false" fullWidth />
+                    )}
+                  /> */}
                 </td>
               </tr>
               <tr>
@@ -167,12 +184,18 @@ const CreateSale = ({ open, setOpen, scroll }) => {
                   <Autocomplete
                     size="small"
                     disablePortal={false}
-                    options={[{ name: 'Cash', value: 'cash' }, { name: 'Card', value: 'card' }, { name: 'Cheque', value: 'cheque' }]}
+                    options={[
+                      { name: "Cash", value: "cash" },
+                      { name: "Card", value: "card" },
+                      { name: "Cheque", value: "cheque" },
+                    ]}
                     value={saleData?.top}
-                    getOptionLabel={(top) => top.name ? top.name : top}
-                    onChange={(e, top) => handleChange('top', top.value)}
+                    getOptionLabel={(top) => (top.name ? top.name : top)}
+                    onChange={(e, top) => handleChange("top", top.value)}
                     className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                    renderInput={(params) => (
+                      <TextField {...params} autoComplete="false" fullWidth />
+                    )}
                   />
                 </td>
               </tr>

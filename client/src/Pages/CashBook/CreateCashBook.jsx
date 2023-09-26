@@ -16,6 +16,7 @@ import {
 import { PiNotepad, PiXLight } from "react-icons/pi";
 import { getClients, getEmployees } from "../../redux/action/user";
 import cashbook from "../../redux/reducer/cashbook";
+import { CFormSelect } from "@coreui/react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -36,7 +37,7 @@ function CreateCashBook({ open, setOpen, scroll }) {
   ]
   const initialCashbookState = {
     staff: "",
-    clientName: lead?.client?.username,
+    clientName: "",
     remarks: "",
     top: "",
     amount: 0,
@@ -51,7 +52,7 @@ function CreateCashBook({ open, setOpen, scroll }) {
     dispatch(getClients())
   }, [open])
   useEffect(() => {
-    setCashbookData({ ...cashbookData, staff: lead?.client?.username })
+    setCashbookData({ ...cashbookData })
   }, [lead])
 
 
@@ -99,27 +100,36 @@ function CreateCashBook({ open, setOpen, scroll }) {
               <tr>
                 <td className="pb-4 text-lg">Staff </td>
                 <td className="pb-4">
+                {/* <CFormSelect
+                    value={cashbookData.staff}
+                    onChange={(e, input) => handleChange("staff", input.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    {employees.map((item, key) => (
+                      <option key={key} value={item.value}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </CFormSelect> */}
                   <Autocomplete
                     size="small"
                     disablePortal
                     options={employees}
                     value={cashbookData.staff}
-                    getOptionLabel={(employee) => employee?.username ? employee.username : employee}
+                    getOptionLabel={(employee) => employee?.firstName ? employee.firstName : employee}
                     onChange={(e, employee) => handleChange('staff', employee.username)}
                     className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                    renderInput={(params) => <TextField   {...params}  fullWidth />}
                   />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Customer Name </td>
                 <td className="pb-4">
-                  <Autocomplete
+                  <TextField
                     size="small"
                     disablePortal={true}
                     options={clients}
                     value={cashbookData.clientName}
-                    getOptionLabel={(client) => client?.username ? client.username : client}
                     onChange={(e, client) => handleChange('clientName', client.username)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
