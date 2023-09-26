@@ -82,11 +82,11 @@ export const deleteNotification = (notificationId) => API.delete(`/notification/
 
 
 // MEETING
-export const getMeetings = () => API.get(`/meeting/get/all`)
-export const getMeeting = (meetingId) => API.get(`/meeting/get/single/${meetingId}`)
-export const createMeeting = (meetingData) => API.post(`/meeting/create`, meetingData)
-export const updateMeeting = (meetingId) => API.put(`/meeting/update/${meetingId}`)
-export const deleteMeeting = (meetingId) => API.delete(`/meeting/delete/${meetingId}`)
+export const getEvents = () => API.get(`/event/get/all`)
+export const getEvent = (eventId) => API.get(`/event/get/single/${eventId}`)
+export const createEvent = (eventData) => API.post(`/event/create`, eventData)
+export const updateEvent = (eventId, eventData) => API.put(`/event/update/${eventId}`, eventData)
+export const deleteEvent = (eventId) => API.delete(`/event/delete/${eventId}`)
 
 
 // APROVAL

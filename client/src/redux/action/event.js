@@ -1,0 +1,56 @@
+import * as api from '../api'
+import event, { start, end, error, getEventReducer, getEventsReducer, createEventReducer, updateEventReducer, deleteEventReducer, } from '../reducer/event'
+
+export const getEvent = (eventId) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getEvent(eventId)
+        dispatch(getEventReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const getEvents = () => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getEvents()
+        dispatch(getEventsReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const createEvent = (eventData) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.createEvent(eventData)
+        dispatch(createEventReducer(data.result))
+        dispatch(getEvents())
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const updateEvent = (eventId, eventData) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.updateEvent(eventId, eventData)
+        dispatch(updateEventReducer(data.result))
+        dispatch(getEvents())
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const deleteEvent = (eventId) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.deleteEvent(eventId)
+        dispatch(getEvents())
+        dispatch(deleteEventReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
