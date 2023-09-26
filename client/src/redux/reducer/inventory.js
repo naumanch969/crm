@@ -41,9 +41,9 @@ const inventorySlice = createSlice({
             const { payload: filters } = action;
 
             const filteredInventories = allInventories.filter((inventory) => {
-                if (filters.sellerCity && inventory.sellerCity.toLowerCase() !== filters.sellerCity.toLowerCase()) return false;
-                if (filters.status && inventory.status.toLowerCase() !== filters.status.toLowerCase()) return false;
-                if (filters.project && inventory.project.title.toString() !== filters.project.toString()) return false;
+                if (filters.sellerCity && inventory.sellerCity.toLowerCase() != filters.sellerCity.toLowerCase()) return false;
+                if (filters.status && inventory.status.toLowerCase() != filters.status.toLowerCase()) return false;
+                if (filters.project && inventory.project.title.toString() != filters.project.toString()) return false;
                 if (filters.startingDate && new Date(inventory.createdAt) < new Date(filters.startingDate)) return false;
                 if (filters.minPrice && Number(inventory.price) < filters.minPrice) return false;
                 if (filters.maxPrice && Number(inventory.price) > filters.maxPrice) return false;

@@ -39,8 +39,8 @@ const refundSlice = createSlice({
             const { payload: filters } = action;
 
             const filteredRefunds = allRefunds.filter((refund) => {
-                if (filters.branch && refund.branch.toLowerCase() !== filters.branch.toLowerCase()) return false;
-                if (filters.status && refund.status.toLowerCase() !== filters.status.toLowerCase()) return false;
+                if (filters.branch && refund.branch.toLowerCase() != filters.branch.toLowerCase()) return false;
+                if (filters.status && refund.status.toLowerCase() != filters.status.toLowerCase()) return false;
                 return true;
             });
 

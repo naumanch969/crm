@@ -50,11 +50,11 @@ const leadSlice = createSlice({
             const { payload: filters } = action;
 
             const filteredLeads = allLeads.filter((lead) => {
-                if (filters.city && lead.city.toLowerCase() !== filters.city.toLowerCase()) return false;
-                if (filters.priority && lead.priority.toLowerCase() !== filters.priority.toLowerCase()) return false;
-                if (filters.status && lead.status.toLowerCase() !== filters.status.toLowerCase()) return false;
-                if (filters.source && lead.source.toLowerCase() !== filters.source.toLowerCase()) return false;
-                if (filters.property && lead.property._id.toString() !== filters.property.toString()) return false;
+                if (filters.city && lead.city.toLowerCase() != filters.city.toLowerCase()) return false;
+                if (filters.priority && lead.priority.toLowerCase() != filters.priority.toLowerCase()) return false;
+                if (filters.status && lead.status.toLowerCase() != filters.status.toLowerCase()) return false;
+                if (filters.source && lead.source.toLowerCase() != filters.source.toLowerCase()) return false;
+                if (filters.property && lead.property._id.toString() != filters.property.toString()) return false;
                 if (filters.startingDate && new Date(lead.createdAt) < new Date(filters.startingDate)) return false;
                 if (filters.endingDate && new Date(lead.createdAt) > new Date(filters.endingDate)) return false;
                 return true;

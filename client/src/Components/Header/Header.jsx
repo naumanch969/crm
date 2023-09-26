@@ -206,7 +206,7 @@ const Header = () => {
     ...theme.mixins.toolbar,
   }));
   const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== "open",
+    shouldForwardProp: (prop) => prop != "open",
   })(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
@@ -222,7 +222,7 @@ const Header = () => {
       }),
     }),
   }));
-  const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" })(
+  const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop != "open" })(
     ({ theme, open }) => ({
       width: drawerWidth,
       flexShrink: 0,
@@ -324,7 +324,7 @@ const Header = () => {
                 className={clsx({
                   "hover:text-sky-400 hover:border-l-[3px] hover:border-l-sky-400 transition-all mt-2": true,
                   "text-sky-600 border-l-[3px] border-l-sky-600": selectedItem === text.id,
-                  "text-gray-500": selectedItem !== text.id,
+                  "text-gray-500": selectedItem != text.id,
                 })}
                 onClick={() => handleItemClick(text.id)}>
                 <Link to={text.link}>
@@ -333,7 +333,7 @@ const Header = () => {
                     className={clsx({
                       "hover:text-sky-400 hover:border-l-4 hover:border-l-sky-400 transition-all": true,
                       "text-sky-600 border-l-4 border-l-sky-600": selectedItem === text.id,
-                      "text-gray-500": selectedItem !== text.id,
+                      "text-gray-500": selectedItem != text.id,
                     })}
                     onClick={() => handleItemClick(text.id)}
                     selected={selectedItem === text.id}>

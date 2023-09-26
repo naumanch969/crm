@@ -130,7 +130,7 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                       options={pakistanCities}
                       value={inventoryData.sellerCity}
                       getOptionLabel={(city) => city}
-                      onChange={(e, city) => handleChange('sellerCity', city.toLowerCase())}
+                      onChange={(e, city) => handleChange('sellerCity', city)}
                       className="w-full"
                       renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                     />

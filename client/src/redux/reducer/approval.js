@@ -52,16 +52,16 @@ const approvalSlice = createSlice({
             const { type, result } = action.payload
             switch (type) {
                 case 'request':
-                    state.requestApprovals = state.requestApprovals.filter(a => a._id !== result._id)
+                    state.requestApprovals = state.requestApprovals.filter(a => a._id != result._id)
                     break;
                 case 'voucher':
-                    state.voucherApprovals = state.voucherApprovals.filter(a => a._id !== result._id)
+                    state.voucherApprovals = state.voucherApprovals.filter(a => a._id != result._id)
                     break;
                 case 'receipt':
-                    state.receiptApprovals = state.receiptApprovals.filter(a => a._id !== result._id)
+                    state.receiptApprovals = state.receiptApprovals.filter(a => a._id != result._id)
                     break;
                 case 'refund':
-                    state.refundApprovals = state.refundApprovals.filter(a => a._id !== result._id)
+                    state.refundApprovals = state.refundApprovals.filter(a => a._id != result._id)
                     break;
                 default:
                     break;

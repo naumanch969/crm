@@ -68,15 +68,15 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     { name: 'Closed (Won)', value: "closedWon" },
     { name: 'Meeting (Attempt)', value: "meetingAttempt" },
   ]
-const sources  = [
-{ name:'Instagram', value:"instagram"},
-{ name:'Facebook Comment', value:"facebookComment"},
-{ name:'Friend and Family', value:"FriendAndFamily"},
-{ name:'Facebook', value:"facebook"},
-{ name:'Direct Call', value:"directCall"},
-{ name:'Google', value:"google"},
-{ name:'Referral', value:"referral"},
-]
+  const sources = [
+    { name: 'Instagram', value: "instagram" },
+    { name: 'Facebook Comment', value: "facebookComment" },
+    { name: 'Friend and Family', value: "friendAndFamily" },
+    { name: 'Facebook', value: "facebook" },
+    { name: 'Direct Call', value: "directCall" },
+    { name: 'Google', value: "google" },
+    { name: 'Referral', value: "referral" },
+  ]
 
   //////////////////////////////////////// STATES ////////////////////////////////////
   const [leadData, setLeadData] = useState(initialLeadState);
@@ -88,33 +88,10 @@ const sources  = [
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
+    console.log('create leadData', leadData)
     e.preventDefault();
-    const {
-      firstName,
-      lastName,
-      username,
-      phone,
-      clientCity,
-      city,
-      priority,
-      property,
-      status,
-      source,
-      description,
-    } = leadData;
-    if (
-      !firstName ||
-      !lastName ||
-      !username ||
-      !phone ||
-      !clientCity ||
-      !city ||
-      !priority ||
-      !property ||
-      !status ||
-      !source ||
-      !description
-    )
+    const { firstName, lastName, username, phone, clientCity, city, priority, property, status, source, description, } = leadData;
+    if (!firstName || !lastName || !username || !phone || !clientCity || !city || !priority || !property || !status || !source || !description)
       return alert("Make sure to provide all the fields");
     dispatch(createLead(leadData, navigate));
     setLeadData(initialLeadState);
@@ -161,7 +138,7 @@ const sources  = [
                   <TextField
                     name="firstName"
                     value={leadData.firstName}
-                    onChange={(e)=>handleChange('firstName',e.target.value)}
+                    onChange={(e) => handleChange('firstName', e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -173,7 +150,7 @@ const sources  = [
                   <TextField
                     name="lastName"
                     value={leadData.lastName}
-                    onChange={(e)=>handleChange('lastName',e.target.value)}
+                    onChange={(e) => handleChange('lastName', e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -185,7 +162,7 @@ const sources  = [
                   <TextField
                     name="username"
                     value={leadData.username}
-                    onChange={(e)=>handleChange('username',e.target.value)}
+                    onChange={(e) => handleChange('username', e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -196,7 +173,7 @@ const sources  = [
                 <td className="pb-4">
                   <TextField
                     name="phone"
-                    onChange={(e)=>handleChange('phone',e.target.value)}
+                    onChange={(e) => handleChange('phone', e.target.value)}
                     value={leadData.phone}
                     type="number"
                     size="small"
@@ -209,9 +186,10 @@ const sources  = [
                 <td className="pb-4">
                   <TextField
                     name="CNIC"
-                    onChange={(e)=>handleChange('CNIC',e.target.value)}
+                    onChange={(e) => handleChange('CNIC', e.target.value)}
                     value={leadData.CNIC}
                     type="number"
+                    placeholder="Optional"
                     size="small"
                     fullWidth
                   />
@@ -225,8 +203,8 @@ const sources  = [
                     disablePortal={false}
                     options={pakistanCities}
                     value={leadData.clientCity}
-                    getOptionLabel={(city) => city}
-                    onChange={(e, city) => handleChange('clientCity', city.trim().toLowerCase())}
+                    getOptionLabel={(clientCity) => clientCity}
+                    onChange={(e, clientCity) => handleChange('clientCity', clientCity)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                   />
@@ -237,7 +215,7 @@ const sources  = [
                 <td className="pb-4">
                   <TextField
                     type="email"
-                    onChange={(e)=>handleChange('email',e.target.value)}
+                    onChange={(e) => handleChange('email', e.target.value)}
                     value={leadData.email}
                     name="email"
                     size="small"
@@ -265,7 +243,7 @@ const sources  = [
                     options={pakistanCities}
                     value={leadData.city}
                     getOptionLabel={(city) => city}
-                    onChange={(e, city) => handleChange('city', city.trim().toLowerCase())}
+                    onChange={(e, city) => handleChange('city', city)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                   />
@@ -309,7 +287,7 @@ const sources  = [
                     disablePortal={false}
                     options={statuses}
                     value={leadData.status}
-                    getOptionLabel={(status) => status.name ? status.name :status}
+                    getOptionLabel={(status) => status.name ? status.name : status}
                     onChange={(e, status) => handleChange('status', status.value)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
@@ -319,12 +297,12 @@ const sources  = [
               <tr>
                 <td className="pb-4 text-lg flex mt-1 items-start">Source </td>
                 <td className="pb-4">
-                <Autocomplete
+                  <Autocomplete
                     size="small"
                     disablePortal={false}
                     options={sources}
                     value={leadData.source}
-                    getOptionLabel={(source) => source.name ? source.name :source}
+                    getOptionLabel={(source) => source.name ? source.name : source}
                     onChange={(e, source) => handleChange('source', source.value)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
@@ -335,7 +313,7 @@ const sources  = [
                 <td className="flex flex-col justify-start mt-1 text-lg">Description </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={(e)=>handleChange('description',e.target.value)}
+                    onChange={(e) => handleChange('description', e.target.value)}
                     value={leadData.description}
                     name="description"
                     type="text"

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Add } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Path } from "../../../utils";
+import { Path } from "../../utils";
 import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import CreateRefund from "./CreateRefund";
-import { searchRefundReducer } from "../../../redux/reducer/refund";
+import { searchRefundReducer } from "../../redux/reducer/refund";
 import { useDispatch } from "react-redux";
 
 const Topbar = () => {
@@ -24,7 +24,7 @@ const Topbar = () => {
   useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
+      if (descriptionElement != null) {
         descriptionElement.focus();
       }
     }

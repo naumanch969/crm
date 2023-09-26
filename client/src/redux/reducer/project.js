@@ -42,9 +42,9 @@ const projectSlice = createSlice({
 
 
             const filteredProjects = allProjects.filter((project) => {
-                if (filters.city && project.city.toLowerCase() !== filters.city.toLowerCase()) return false;
-                if (filters.society && project.society.title.toLowerCase() !== filters.society.toLowerCase()) return false;
-                if (filters.status && project.status.toLowerCase() !== filters.status.toLowerCase()) return false;
+                if (filters.city && project.city.toLowerCase() != filters.city.toLowerCase()) return false;
+                if (filters.society && project.society.title.toLowerCase() != filters.society.toLowerCase()) return false;
+                if (filters.status && project.status.toLowerCase() != filters.status.toLowerCase()) return false;
                 if (filters.startingDate && new Date(project.createdAt) < new Date(filters.startingDate)) return false;
                 if (filters.endingDate && new Date(project.createdAt) > new Date(filters.endingDate)) return false;
                 return true;

@@ -139,7 +139,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                       options={pakistanCities}
                       value={projectData.city}
                       getOptionLabel={(city) => city}
-                      onChange={(e, city) => handleChange('city', city.toLowerCase())}
+                      onChange={(e, city) => handleChange('city', city)}
                       className="w-full"
                       renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                     />

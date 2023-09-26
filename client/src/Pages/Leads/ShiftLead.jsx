@@ -26,8 +26,8 @@ const ShiftLead = ({ open, setOpen, from }) => {
   const { currentLead, isFetching } = useSelector((state) => state.lead);
   const { employees, loggedUser } = useSelector((state) => state.user);
   const employeeNames = employees
-    .filter((employee) => employee.email !== null && employee.email !== undefined)
-    .filter((employee) => employee._id !== loggedUser._id) // Filter out employees with matching _id
+    .filter((employee) => employee.email != null && employee.email != undefined)
+    .filter((employee) => employee._id != loggedUser._id) // Filter out employees with matching _id
     .map(({ _id, email }) => ({ _id, email }));
 
   ////////////////////////////////////// STATES  /////////////////////////////////////

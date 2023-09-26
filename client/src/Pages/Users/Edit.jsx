@@ -131,7 +131,7 @@ const EditModal = ({ open, setOpen }) => {
                     options={pakistanCities}
                     value={employeeData?.city}
                     getOptionLabel={(city) =>  city}
-                    onChange={(e, city) => handleChange('city', city.trim().toLowerCase())}
+                    onChange={(e, city) => handleChange('city', city)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                   />

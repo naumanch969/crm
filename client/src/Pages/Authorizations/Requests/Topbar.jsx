@@ -13,7 +13,7 @@ const Topbar = ({ isFiltered, setIsFiltered }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const title = pathname.split("/")[1];
-  const pathArr = pathname.split("/").filter((item) => item !== "");
+  const pathArr = pathname.split("/").filter((item) => item != "");
   const showAddButton = !pathArr.includes("create");
 
   //////////////////////////////////////////// STATES //////////////////////////////////////////////////// 

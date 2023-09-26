@@ -38,8 +38,8 @@ const saleSlice = createSlice({
             const { allSales } = state;
             const { payload: filters } = action;
             const filteredSales = allSales.filter((sale) => {
-                if (filters.staff && sale.staff.toLowerCase() !== filters.staff.toLowerCase()) return false;
-                if (filters.top && sale.top.toLowerCase() !== filters.top.toLowerCase()) return false;
+                if (filters.staff && sale.staff.toLowerCase() != filters.staff.toLowerCase()) return false;
+                if (filters.top && sale.top.toLowerCase() != filters.top.toLowerCase()) return false;
                 if (filters.minNet && Number(sale.net) < filters.minNet) return false;
                 if (filters.maxNet && Number(sale.net) > filters.maxNet) return false;
                 if (filters.minReceived && Number(sale.received) < filters.minReceived) return false;

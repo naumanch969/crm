@@ -17,7 +17,7 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters, isFiltered, 
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const title = pathname.split("/")[1];
-  const pathArr = pathname.split("/").filter((item) => item !== "");
+  const pathArr = pathname.split("/").filter((item) => item != "");
   const showOptionButtons = !pathArr.includes("create");
   const { tasks } = useSelector((state) => state.task);
   const dispatch = useDispatch();

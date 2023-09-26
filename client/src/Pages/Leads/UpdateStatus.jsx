@@ -20,7 +20,7 @@ import { CFormSelect } from "@coreui/react";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
-
+ 
 const UpateStatusModal = ({ open, setOpen }) => {
   ////////////////////////////////////// VARIABLES  /////////////////////////////////////
   const dispatch = useDispatch();

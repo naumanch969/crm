@@ -36,7 +36,7 @@ const notificationSlice = createSlice({
         },
 
         createNotificationReducer: (state, action) => { state.notifications = [action.payload, ...state.notifications] },
-        deleteNotificationReducer: (state, action) => { state.notifications = state.notifications.filter(n => n._id !== action.payload._id) },
+        deleteNotificationReducer: (state, action) => { state.notifications = state.notifications.filter(n => n._id != action.payload._id) },
 
     }
 })

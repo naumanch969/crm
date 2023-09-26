@@ -15,7 +15,7 @@ const Topbar = ({ view, setView, open, setOpen, setIsFiltered, isFiltered }) => 
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const title = pathname.split('/')[1];
-  const pathArr = pathname.split('/').filter(item => item !== '');
+  const pathArr = pathname.split('/').filter(item => item != '');
   const showAddButton = !pathArr.includes('create');
   const descriptionElementRef = React.useRef(null);
 
@@ -27,7 +27,7 @@ const Topbar = ({ view, setView, open, setOpen, setIsFiltered, isFiltered }) => 
   useEffect(() => {
     if (openCreateModal) {
       const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
+      if (descriptionElement != null) {
         descriptionElement.focus();
       }
     }

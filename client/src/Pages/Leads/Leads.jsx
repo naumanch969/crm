@@ -249,7 +249,7 @@ function Leads({ type, showSidebar }) {
 
   let modifiedColumns = columns;
   if (role == "employee" && type == "all") {
-    modifiedColumns = modifiedColumns.filter((column) => column.field !== "allocatedTo");
+    modifiedColumns = modifiedColumns.filter((column) => column.field != "allocatedTo");
   }
 
   ////////////////////////////////////// STATES //////////////////////////////

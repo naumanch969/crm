@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom'
 const Path = () => {
 
     const { pathname } = useLocation()
-    const pathArr = pathname.split('/').filter(item => item !== ''); // Remove empty elements
+    const pathArr = pathname.split('/').filter(item => item != ''); // Remove empty elements
 
     const pathObjects = pathArr.map((item, index) => {
         const name = item;
@@ -22,7 +22,7 @@ const Path = () => {
                 pathObjects.map((path, index) => (
                     <React.Fragment key={index} >
                         <Link to={path.link} className='capitalize hover:text-primary-blue ' >{path.name}</Link>
-                        {index !== pathObjects.length - 1 && <PiCaretRightLight className='text-primary-gray ' />}
+                        {index != pathObjects.length - 1 && <PiCaretRightLight className='text-primary-gray ' />}
                     </React.Fragment>
                 ))
             }

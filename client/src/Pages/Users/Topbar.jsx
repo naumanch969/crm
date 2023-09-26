@@ -13,7 +13,7 @@ const Topbar = ({ view, setView, setIsFiltered, isFiltered }) => {
 
   ///////////////////////////////////////// VARIABLES ///////////////////////////////////////////////////
   const { pathname } = useLocation();
-  const pathArr = pathname.split("/").filter((item) => item !== "");
+  const pathArr = pathname.split("/").filter((item) => item != "");
   const showClientTopBar = !pathArr.includes("employees");
   const showEmployeeTopBar = !pathArr.includes("clients");
   const showCreatePageTopBar = !pathArr.includes("create");
@@ -31,7 +31,7 @@ const Topbar = ({ view, setView, setIsFiltered, isFiltered }) => {
   useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
+      if (descriptionElement != null) {
         descriptionElement.focus();
       }
     }

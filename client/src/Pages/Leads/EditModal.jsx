@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateLead } from "../../redux/action/lead";
+import { getLead, updateLead } from "../../redux/action/lead";
 import { pakistanCities } from "../../constant";
 import {
   Divider,
@@ -12,6 +12,8 @@ import {
   DialogActions,
   TextField,
   Autocomplete,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { getProjects } from "../../redux/action/project";
@@ -21,7 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const EditModal = ({ open, setOpen, scroll }) => {
+const EditModal = ({ open, setOpen, scroll, leadId }) => {
   ////////////////////////////////////// VARIABLES  /////////////////////////////////////
   const dispatch = useDispatch();
   const { currentLead, isFetching } = useSelector((state) => state.lead);
@@ -74,13 +76,13 @@ const EditModal = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////// STATES  /////////////////////////////////////
   const [leadData, setLeadData] = useState({
     ...currentLead,
-    firstName: currentLead?.client.firstName,
-    lastName: currentLead?.client.lastName,
-    username: currentLead?.client.username,
-    phone: currentLead?.client.phone,
-    CNIC: currentLead?.client.CNIC,
-    clientCity: currentLead?.client.city,
-    email: currentLead?.client.email,
+    firstName: currentLead?.client?.firstName,
+    lastName: currentLead?.client?.lastName,
+    username: currentLead?.client?.username,
+    phone: currentLead?.client?.phone,
+    CNIC: currentLead?.client?.CNIC,
+    clientCity: currentLead?.client?.city,
+    email: currentLead?.client?.email,
   });
   console.log(leadData);
 
@@ -88,18 +90,21 @@ const EditModal = ({ open, setOpen, scroll }) => {
   useEffect(() => {
     setLeadData({
       ...currentLead,
-      firstName: currentLead?.client.firstName,
-      lastName: currentLead?.client.lastName,
-      username: currentLead?.client.username,
-      phone: currentLead?.client.phone,
-      CNIC: currentLead?.client.CNIC,
-      clientCity: currentLead?.client.city,
-      email: currentLead?.client.email,
+      firstName: currentLead?.client?.firstName,
+      lastName: currentLead?.client?.lastName,
+      username: currentLead?.client?.username,
+      phone: currentLead?.client?.phone,
+      CNIC: currentLead?.client?.CNIC,
+      clientCity: currentLead?.client?.city,
+      email: currentLead?.client?.email,
     });
   }, [currentLead]);
   useEffect(() => {
     dispatch(getProjects());
   }, []);
+  useEffect(() => {
+    leadId && dispatch(getLead(leadId))
+  }, [leadId])
 
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
   const handleSubmit = (e) => {
@@ -132,6 +137,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
     )
       return alert("Make sure to provide all the fields");
     dispatch(updateLead(currentLead?._id, leadData));
+    dispatch(getLeadReducer(null))
     setLeadData(initialLeadState);
     setOpen(false);
   };
@@ -154,7 +160,9 @@ const EditModal = ({ open, setOpen, scroll }) => {
         onClose={handleClose}
         fullWidth="sm"
         maxWidth="md"
-        aria-describedby="alert-dialog-slide-description">
+        aria-describedby="alert-dialog-slide-description"
+      >
+
         <DialogTitle className="flex items-center justify-between">
           <div className="text-sky-400 font-primary">Edit Lead</div>
           <div className="cursor-pointer" onClick={handleClose}>
@@ -226,6 +234,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
                     onChange={(e) => handleChange("CNIC", e.target.value)}
                     value={leadData?.CNIC}
                     type="number"
+                    placeholder="Optional"
                     size="small"
                     placeholder="Optional"
                     fullWidth
@@ -252,8 +261,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
                     options={pakistanCities}
                     value={leadData.clientCity}
                     getOptionLabel={(clientCity) => clientCity}
-                    getOptionSelected={(option, value) => option.toLowerCase() == value}
-                    onChange={(e, input) => handleChange('clientCity', input.value)}
+                    onChange={(e, clientCity) => handleChange('clientCity', clientCity)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                   /> */}
@@ -311,6 +319,18 @@ const EditModal = ({ open, setOpen, scroll }) => {
                   /> */}
                 </td>
               </tr>
+              <Select
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
+                value={leadData.city}
+                onChange={(e, city) => handleChange('city', city)}
+                fullWidth
+                size="small">
+                {
+                  pakistanCities.map((city, index) => (
+                    <MenuItem value={city}>{city}</MenuItem>
+                  ))
+                }
+              </Select>
               <tr>
                 <td className="pb-4 text-lg">Project </td>
                 <td className="pb-4">
@@ -447,8 +467,9 @@ const EditModal = ({ open, setOpen, scroll }) => {
             Save
           </button>
         </DialogActions>
+
       </Dialog>
-    </div>
+    </div >
   );
 };
 

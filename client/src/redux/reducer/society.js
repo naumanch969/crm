@@ -40,7 +40,7 @@ const societySlice = createSlice({
             const { allSocieties } = state;
             const { payload: filters } = action;
             const filteredSocieties = allSocieties.filter((society) => {
-                if (filters.status && society.status.toLowerCase() !== filters.status.toLowerCase()) return false;
+                if (filters.status && society.status.toLowerCase() != filters.status.toLowerCase()) return false;
                 if (filters.startingDate && new Date(society.createdAt) < new Date(filters.startingDate)) return false;
                 if (filters.endingDate && new Date(society.createdAt) > new Date(filters.endingDate)) return false;
                 return true;

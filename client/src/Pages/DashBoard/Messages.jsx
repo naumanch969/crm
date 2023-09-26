@@ -21,7 +21,7 @@ const Messages = ({}) => {
 
   /////////////////////////////////////// FUNCTIONS ////////////////////////////////////
   const handleSend = () => {
-    if (input.trim() !== "") {
+    if (input.trim() != "") {
       setInput("");
     }
   };
