@@ -31,7 +31,6 @@ export const getLeadSales = async (req, res, next) => {
 
         const { leadId } = req.query
         const findedLeads = await Sale.find({ leadId }).populate('leadId').exec();
-        console.log(findedLeads)
         res.status(200).json({ result: findedLeads, message: 'Leads fetched successfully', success: true });
     } catch (err) {
         next(createError(500, err.message));

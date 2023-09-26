@@ -10,13 +10,8 @@ import {
   Slide,
   DialogActions,
   TextField,
-  Autocomplete,
 } from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { getClients, getEmployees } from "../../redux/action/user";
 import { getLeadReducer } from "../../redux/reducer/lead";
 import { CFormSelect } from "@coreui/react";
@@ -29,6 +24,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isFetching } = useSelector((state) => state.sale);
   const { currentLead: lead } = useSelector((state) => state.lead);
   const { employees, clients } = useSelector((state) => state.user);
   const initialState = {
@@ -95,54 +91,38 @@ const CreateSale = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Staff </td>
                 <td className="pb-4">
-                  {/* <CFormSelect
-                    value={saleData?.staff}
-                    options={employees}
-                    onChange={(e, input) => handleChange("clientCity", input.value)}
+                  <CFormSelect
+                    value={saleData.staff}
+                    onChange={(e) => handleChange("staff", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  /> */}
-                  <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={employees}
-                    value={saleData?.staff}
-                    getOptionLabel={(employee) => employee.username ? employee.username : employee}
-                    onChange={(e, employee) => handleChange('staff', employee.username)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                  >
+                    <option value={""}>None</option>
+                    {employees.map((employee, key) => (
+                      <option key={key} value={employee.username}>{employee.username}</option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Client Name </td>
                 <td className="pb-4">
-                  <TextField
-                    onChange={handleChange}
-                    value={saleData?.clientName}
-                    name="clientName"
-                    size="small"
-                    type="number"
-                    fullWidth
-                  />
-                  {/* <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={clients}
-                    value={saleData?.clientName}
-                    getOptionLabel={(client) => (client.username ? client.username : client)}
-                    onChange={(e, client) => handleChange("clientName", client.username)}
-                    className="w-full"
-                    renderInput={(params) => (
-                      <TextField {...params} autoComplete="false" fullWidth />
-                    )}
-                  /> */}
+                  <CFormSelect
+                    value={saleData.clientName}
+                    onChange={(e) => handleChange("clientName", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
+                    {clients.map((client, key) => (
+                      <option key={key} value={client.username}>{client.username}</option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Net Worth </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={handleChange}
+                    onChange={(e) => handleChange("net", e.target.value)}
                     value={saleData.net}
                     name="net"
                     size="small"
@@ -155,11 +135,10 @@ const CreateSale = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg">Recieved </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={handleChange}
+                    onChange={(e) => handleChange("received", e.target.value)}
                     value={saleData.received}
                     name="received"
                     size="small"
-                    type="number"
                     fullWidth
                   />
                 </td>
@@ -181,22 +160,16 @@ const CreateSale = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Type of Payment </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={[
-                      { name: "Cash", value: "cash" },
-                      { name: "Card", value: "card" },
-                      { name: "Cheque", value: "cheque" },
-                    ]}
-                    value={saleData?.top}
-                    getOptionLabel={(top) => (top.name ? top.name : top)}
-                    onChange={(e, top) => handleChange("top", top.value)}
-                    className="w-full"
-                    renderInput={(params) => (
-                      <TextField {...params} autoComplete="false" fullWidth />
-                    )}
-                  />
+                  <CFormSelect
+                    value={saleData.top}
+                    onChange={(e) => handleChange("top", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
+                    <option value={"card"}>Card</option>
+                    <option value={"cash"}>Cash</option>
+                    <option value={"cheque"}>Cheque</option>
+                  </CFormSelect>
                 </td>
               </tr>
             </table>
@@ -214,7 +187,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
             onClick={handleSubmit}
             variant="contained"
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
-            Submit
+            {isFetching  ? 'Submitting...' :'Submit'}
           </button>
         </DialogActions>
       </Dialog>

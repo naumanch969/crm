@@ -148,7 +148,6 @@ const Employees = memo(() => {
     setSelectedUserId(taskId);
     setOpenDeleteModal(true);
   };
-  console.log(employees)
 
   return (
     <div className="w-full">

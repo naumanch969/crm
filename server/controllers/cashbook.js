@@ -219,7 +219,7 @@ export const getLeadCashbooks = async (req, res, next) => {
 export const createCashbook = async (req, res, next) => {
     try {
 
-        const { clientName, top, remarks, amount, type, staff, password, leadId } = req.body
+        const { clientName, top, remarks, amount, type, staff,  leadId } = req.body
         if (!clientName || !top || !remarks || !amount || !type || !staff)
             return next(createError(400, 'Make sure to provide all the fields'))
 

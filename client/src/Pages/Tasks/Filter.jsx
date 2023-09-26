@@ -34,8 +34,6 @@ const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
   };
 
   const handleFilter = () => {
-    console.log(filters)
-    console.log(tasks)
     dispatch(filterTaskReducer(filters))
     setIsFiltered(true)
     setFilters(initialFilterState)

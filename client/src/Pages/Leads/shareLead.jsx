@@ -26,12 +26,12 @@ const ShiftLead = ({ open, setOpen }) => {
   const { currentLead, isFetching } = useSelector((state) => state.lead);
   const { employees } = useSelector((state) => state.user);
   const employeeNames = employees
-  .filter((employee) => employee.email != null && employee.email != undefined)
+  .filter((employee) => employee.username != null && employee.username != undefined)
   .filter((employee) => {
     // Check if employee._id does not match any currentLead?.allocatedTo._id
     return currentLead?.allocatedTo.every((allocatedTo) => allocatedTo._id != employee._id);
   })
-  .map(({ _id, email }) => ({ _id, email }));
+  .map(({ _id, username }) => ({ _id, username }));
 
 
   ////////////////////////////////////// STATES  /////////////////////////////////////
@@ -85,7 +85,7 @@ const ShiftLead = ({ open, setOpen }) => {
                     <Select name='allocatedTo' value={shareWith} onChange={handleChange} type="text" size="small" fullWidth>
                       {employeeNames.map((employee, index) => (
                         <MenuItem value={employee?._id} key={index}>
-                          {employee?.email}
+                          {employee?.username}
                         </MenuItem>
                       ))}
                     </Select>
@@ -124,7 +124,7 @@ const ShiftLead = ({ open, setOpen }) => {
     //             <select className='w-full min-h-[40px] text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='allocatedTo' value={allocatedTo} onChange={handleChange} >
     //                 {
     //                     employeeNames.map((employee, index) => (
-    //                         <option value={employee?._id} key={index} >{employee?.email}</option>
+    //                         <option value={employee?._id} key={index} >{employee?.username}</option>
     //                     ))
     //                 }
     //             </select>

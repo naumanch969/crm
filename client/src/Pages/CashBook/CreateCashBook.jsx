@@ -26,7 +26,6 @@ function CreateCashBook({ open, setOpen, scroll }) {
 
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { currentLead: lead } = useSelector(state => state.lead)
   const { employees, clients } = useSelector(state => state.user)
   const paymentTypes = [
@@ -40,7 +39,7 @@ function CreateCashBook({ open, setOpen, scroll }) {
     clientName: "",
     remarks: "",
     top: "",
-    amount: 0,
+    amount: '',
     type: '',
   }
 
@@ -63,7 +62,12 @@ function CreateCashBook({ open, setOpen, scroll }) {
   };
 
   const handleSubmit = (e) => {
-    dispatch(createCashbook({ ...cashbookData, leadId: lead?._id, clientName: lead?.client?.username }));
+    // clientName, top, remarks, amount, type, staff
+    const { staff, clientName, remarks, top, amount, type } = cashbookData
+    console.log('staff', staff, ' clientName', clientName, ' remarks', remarks, 'top', top, 'amount', amount, 'type', type)
+    if (!staff || !clientName || !remarks || !top || !amount || !type) return alert("Make sure to provide all the fields")
+
+    dispatch(createCashbook({ ...cashbookData, leadId: lead?._id }));
     setOpen(false);
     setCashbookData(initialCashbookState);
   };
@@ -100,55 +104,48 @@ function CreateCashBook({ open, setOpen, scroll }) {
               <tr>
                 <td className="pb-4 text-lg">Staff </td>
                 <td className="pb-4">
-                {/* <CFormSelect
+                  <CFormSelect
                     value={cashbookData.staff}
-                    onChange={(e, input) => handleChange("staff", input.value)}
+                    onChange={(e) => handleChange("staff", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                    {employees.map((item, key) => (
-                      <option key={key} value={item.value}>
-                        {item.name}
+                    <option value={""}>None</option>
+                    {employees.map((employee, key) => (
+                      <option key={key} value={employee.username}>
+                        {employee.username}
                       </option>
                     ))}
-                  </CFormSelect> */}
-                  <Autocomplete
-                    size="small"
-                    disablePortal
-                    options={employees}
-                    value={cashbookData.staff}
-                    getOptionLabel={(employee) => employee?.firstName ? employee.firstName : employee}
-                    onChange={(e, employee) => handleChange('staff', employee.username)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params}  fullWidth />}
-                  />
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Customer Name </td>
                 <td className="pb-4">
-                  <TextField
-                    size="small"
-                    disablePortal={true}
-                    options={clients}
+                  <CFormSelect
                     value={cashbookData.clientName}
-                    onChange={(e, client) => handleChange('clientName', client.username)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    onChange={(e) => handleChange("clientName", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value={""}>None</option>
+                    {clients.map((client, key) => (
+                      <option key={key} value={client.username}>
+                        {client.username}
+                      </option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Payment Type </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={paymentTypes}
+                  <CFormSelect
                     value={cashbookData.top}
-                    getOptionLabel={(top) => top?.name ? top.name : top}
-                    onChange={(e, top) => handleChange('top', top.value)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    onChange={(e) => handleChange("top", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
+                    {paymentTypes.map((top, key) => (
+                      <option key={key} value={top.value}>{top.name}</option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
@@ -156,6 +153,7 @@ function CreateCashBook({ open, setOpen, scroll }) {
                 <td className="pb-4">
                   <TextField
                     name="amount"
+                    type='number'
                     value={cashbookData.amount}
                     onChange={(e) => handleChange('amount', e.target.value)}
                     size="small"
@@ -166,16 +164,14 @@ function CreateCashBook({ open, setOpen, scroll }) {
               <tr>
                 <td className="pb-4 text-lg">Type </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal
-                    options={[{ name: 'In', value: 'in' }, { name: 'Out', value: 'out' }]}
+                  <CFormSelect
                     value={cashbookData.type}
-                    getOptionLabel={(type) => type?.name ? type.name : type}
-                    onChange={(e, type) => handleChange('type', type.value)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    onChange={(e) => handleChange("type", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value={""}>None</option>
+                    <option value={'in'}>In</option>
+                    <option value={'out'}>Out</option>
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>

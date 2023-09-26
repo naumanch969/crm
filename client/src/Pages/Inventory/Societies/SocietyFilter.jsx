@@ -92,7 +92,7 @@ const SocietyFilter = ({ open, setOpen, setIsFiltered }) => {
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={["active", "nonActive"]}
+            options={["active", "inactive"]}
             onSelect={(e) => handleInputChange("status", e.target.value)}
             className="w-full"
             renderInput={(params) => <TextField {...params} fullWidth label="Status" />}

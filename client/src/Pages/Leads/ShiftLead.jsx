@@ -26,10 +26,10 @@ const ShiftLead = ({ open, setOpen, from }) => {
   const { currentLead, isFetching } = useSelector((state) => state.lead);
   const { employees, loggedUser } = useSelector((state) => state.user);
   const employeeNames = employees
-    .filter((employee) => employee.email != null && employee.email != undefined)
-    .filter((employee) => employee._id != loggedUser._id) // Filter out employees with matching _id
-    .map(({ _id, email }) => ({ _id, email }));
-
+  .filter((employee) => employee.username != null && employee.username != undefined)
+  .filter((employee) => employee._id != loggedUser._id) // Filter out employees with matching _id
+  .map(({ _id, username }) => ({ _id, username }));
+  
   ////////////////////////////////////// STATES  /////////////////////////////////////
   const [shiftTo, setShiftTo] = useState('');
 
@@ -79,9 +79,9 @@ const ShiftLead = ({ open, setOpen, from }) => {
                   <td className="pb-4 text-lg">Shift to </td>
                   <td className="pb-4 w-64">
                     <Select name='allocatedTo' value={shiftTo} onChange={handleChange} type="text" size="small" fullWidth>
-                      {employeeNames.map((employee, index) => (
+                      {employees.map((employee, index) => (
                         <MenuItem value={employee?._id} key={index}>
-                          {employee?.email}
+                          {employee?.username}
                         </MenuItem>
                       ))}
                     </Select>
@@ -120,7 +120,7 @@ const ShiftLead = ({ open, setOpen, from }) => {
     //             <select className='w-full min-h-[40px] text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='allocatedTo' value={allocatedTo} onChange={handleChange} >
     //                 {
     //                     employeeNames.map((employee, index) => (
-    //                         <option value={employee?._id} key={index} >{employee?.email}</option>
+    //                         <option value={employee?._id} key={index} >{employee?.username}</option>
     //                     ))
     //                 }
     //             </select>

@@ -162,6 +162,7 @@ function Societies() {
     setSelectedSocietyId(leadId);
   };
   const handleOpenEditModal = (society) => {
+    console.log(society)
     setOpenEditModal(true);
     dispatch(getSocietyReducer(society));
   };
@@ -172,9 +173,9 @@ function Societies() {
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
-      <EditSociety scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
-      <SocietyFilter open={openFilters} setOpen={setOpenFilters}  isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
 
+      <EditSociety scroll={scroll} open={openEditModal} setOpen={setOpenEditModal} />
+      <SocietyFilter open={openFilters} setOpen={setOpenFilters}  isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
       <DeleteSociety
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}

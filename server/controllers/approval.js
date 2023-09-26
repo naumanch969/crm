@@ -117,7 +117,7 @@ export const createReceiptApproval = async (req, res, next) => {
 export const createRefundApproval = async (req, res, next) => {
     try {
 
-        const { branch, issuingDate, amount, customerName, cnic, phone, leadId, reason } = req.body
+        const { branch, issuingDate, amount, clientName, cnic, phone, leadId, reason } = req.body
 
         const findedLead = await Lead.findById(leadId)
 
@@ -129,15 +129,15 @@ export const createRefundApproval = async (req, res, next) => {
             type: 'refund',
             description: 'Need approval for the refund',
             leadId,
-            data: { branch, issuingDate, amount, customerName, cnic, phone, leadId, reason }
+            data: { branch, issuingDate, amount, clientName, cnic, phone, leadId, reason }
         })
 
 
         const notification = await Notification.create({
             title: 'Need Approval for Refund.',
             type: 'refund-approval',
-            description: `${customerName} needs approval for the refund.`,
-            data: { branch, issuingDate, amount, customerName, cnic, phone, leadId, reason }
+            description: `${clientName} needs approval for the refund.`,
+            data: { branch, issuingDate, amount, clientName, cnic, phone, leadId, reason }
         })
 
 
@@ -153,7 +153,7 @@ export const createRefundApproval = async (req, res, next) => {
 export const updateRefundApproval = async (req, res, next) => {
     try {
 
-        const { branch, issuingDate, amount, customerName, cnic, phone, leadId, reason } = req.body
+        const { branch, issuingDate, amount, clientName, cnic, phone, leadId, reason } = req.body
 
         const findedLead = await Lead.findById(leadId)
 
@@ -165,15 +165,15 @@ export const updateRefundApproval = async (req, res, next) => {
             type: 'refund',
             description: 'Need approval for the refund',
             leadId,
-            data: { branch, issuingDate, amount, customerName, cnic, phone, leadId, reason }
+            data: { branch, issuingDate, amount, clientName, cnic, phone, leadId, reason }
         })
 
 
         const notification = await Notification.create({
             title: 'Need Approval for Refund.',
             type: 'refund-approval',
-            description: `${customerName} needs approval for the refund.`,
-            data: { branch, issuingDate, amount, customerName, cnic, phone, leadId, reason }
+            description: `${clientName} needs approval for the refund.`,
+            data: { branch, issuingDate, amount, clientName, cnic, phone, leadId, reason }
         })
 
 
@@ -198,7 +198,6 @@ export const deleteApproval = async (req, res, next) => {
         res.status(200).json({ result: deletedApproval, message: 'Approval deleted successfully', success: true })
 
     } catch (err) {
-        console.log(err)
         next(createError(500, err.message))
     }
 }

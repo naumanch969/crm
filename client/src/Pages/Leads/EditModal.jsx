@@ -11,13 +11,11 @@ import {
   Slide,
   DialogActions,
   TextField,
-  Autocomplete,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { getProjects } from "../../redux/action/project";
 import { CFormSelect } from "@coreui/react";
+import { getLeadReducer } from "../../redux/reducer/lead";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -29,7 +27,6 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
   const { currentLead, isFetching } = useSelector((state) => state.lead);
   const { employees, loggedUser } = useSelector((state) => state.user);
   const { projects } = useSelector((state) => state.project);
-  const projectsTitles = projects.map(({ _id, title }) => [_id, title]);
   const priorities = [
     { name: "Very Cold", value: "veryCold" },
     { name: "Cold", value: "cold" },
@@ -58,24 +55,11 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
     { name: "Google", value: "google" },
     { name: "Referral", value: "referral" },
   ];
-  let initialLeadState = {
-    firstName: "",
-    lastName: "",
-    username: "",
-    phone: "",
-    CNIC: "",
-    clientCity: "",
-    email: "",
-    city: "",
-    priority: "",
-    property: "",
-    status: "",
-    source: "",
-    description: "",
-  };
+  let initialLeadState = { firstName: "", lastName: "", username: "", phone: "", CNIC: "", clientCity: "", email: "", city: "", priority: "", property: "", status: "", source: "", description: "", };
   ////////////////////////////////////// STATES  /////////////////////////////////////
   const [leadData, setLeadData] = useState({
     ...currentLead,
+    property: currentLead?.project?._id,
     firstName: currentLead?.client?.firstName,
     lastName: currentLead?.client?.lastName,
     username: currentLead?.client?.username,
@@ -84,7 +68,6 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
     clientCity: currentLead?.client?.city,
     email: currentLead?.client?.email,
   });
-  console.log(leadData);
 
   ////////////////////////////////////// USE EFFECTS  /////////////////////////////////////
   useEffect(() => {
@@ -245,7 +228,7 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="pb-4">
                   <CFormSelect
                     value={leadData.clientCity}
-                    onChange={(e, input) => handleChange("clientCity", input.value)}
+                    onChange={(e) => handleChange("clientCity", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
                     {pakistanCities.map((city, key) => (
                       <option key={key} value={city}>
@@ -253,17 +236,6 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                       </option>
                     ))}
                   </CFormSelect>
-
-                  {/* <Autocomplete
-                    size="small"
-                    disablePortal
-                    options={pakistanCities}
-                    value={leadData.clientCity}
-                    getOptionLabel={(clientCity) => clientCity}
-                    onChange={(e, clientCity) => handleChange('clientCity', clientCity)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  /> */}
                 </td>
               </tr>
               <tr>
@@ -295,7 +267,7 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="pb-4">
                   <CFormSelect
                     value={leadData.city}
-                    onChange={(e, input) => handleChange("city", input.value)}
+                    onChange={(e) => handleChange("city", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
                     {pakistanCities.map((city, key) => (
                       <option key={key} value={city}>
@@ -303,55 +275,21 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                       </option>
                     ))}
                   </CFormSelect>
-                  {/* <Autocomplete
-                    size="small"
-                    disablePortal
-                    options={pakistanCities}
-                    value={leadData.city}
-                    getOptionLabel={(city) => city}
-                    getOptionSelected={(option, value) => option.toLowerCase() == value}
-                    onChange={(e, input) => handleChange("city", input.value)}
-                    className="w-full"
-                    renderInput={(params) => (
-                      <TextField {...params} autoComplete="false" fullWidth />
-                    )}
-                  /> */}
                 </td>
               </tr>
-              <Select
-                style={{ fontFamily: "'Montserrat', sans-serif" }}
-                value={leadData.city}
-                onChange={(e, city) => handleChange('city', city)}
-                fullWidth
-                size="small">
-                {
-                  pakistanCities.map((city, index) => (
-                    <MenuItem value={city}>{city}</MenuItem>
-                  ))
-                }
-              </Select>
               <tr>
                 <td className="pb-4 text-lg">Project </td>
                 <td className="pb-4">
                   <CFormSelect
                     value={leadData.property}
-                    options={projectsTitles}
-                    onChange={(e, input) => handleChange("property", input.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  />
-                  {/* <Autocomplete
-                    size="small"
-                    disablePortal
-                    options={projectsTitles}
-                    value={leadData.property}
-                    getOptionLabel={(project) => project.title}
-                    getOptionSelected={(option, value) => option._id == value}
-                    onChange={(e, input) => handleChange("property", input.value)}
-                    className="w-full"
-                    renderInput={(params) => (
-                      <TextField {...params} autoComplete="false" fullWidth />
-                    )}
-                  /> */}
+                    onChange={(e) => handleChange("property", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    {projects.map((project, key) => (
+                      <option key={key} value={project._id}>
+                        {project.title}
+                      </option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
@@ -359,7 +297,7 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="pb-4">
                   <CFormSelect
                     value={leadData.priority}
-                    onChange={(e, input) => handleChange("priority", input.value)}
+                    onChange={(e) => handleChange("priority", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
                     {priorities.map((item, key) => (
                       <option key={key} value={item.value}>
@@ -367,18 +305,6 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                       </option>
                     ))}
                   </CFormSelect>
-                  {/* <Autocomplete
-                    size="small"
-                    disablePortal
-                    options={priorities}
-                    value={leadData.priority}
-                    getOptionLabel={(priority) => (priority.name ? priority.name : priority)}
-                    onChange={(e, input) => handleChange("priority", input.value)}
-                    className="w-full"
-                    renderInput={(params) => (
-                      <TextField {...params} autoComplete="false" fullWidth />
-                    )}
-                  /> */}
                 </td>
               </tr>
               <tr>
@@ -386,7 +312,7 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="pb-4">
                   <CFormSelect
                     value={leadData.status}
-                    onChange={(e, input) => handleChange("status", input.value)}
+                    onChange={(e) => handleChange("status", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
                     {statuses.map((item, key) => (
                       <option key={key} value={item.value}>
@@ -394,18 +320,6 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                       </option>
                     ))}
                   </CFormSelect>
-                  {/* <Autocomplete
-                    size="small"
-                    disablePortal
-                    options={statuses}
-                    value={leadData.status}
-                    getOptionLabel={(status) => (status.name ? status.name : status)}
-                    onChange={(e, input) => handleChange("status", input.value)}
-                    className="w-full"
-                    renderInput={(params) => (
-                      <TextField {...params} autoComplete="false" fullWidth />
-                    )}
-                  /> */}
                 </td>
               </tr>
               <tr>
@@ -413,7 +327,7 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="pb-4">
                   <CFormSelect
                     value={leadData.source}
-                    onChange={(e, input) => handleChange("source", input.value)}
+                    onChange={(e) => handleChange("source", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
                     {sources.map((item, key) => (
                       <option key={key} value={item.value}>
@@ -421,25 +335,13 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                       </option>
                     ))}
                   </CFormSelect>
-                  {/* <Autocomplete
-                    size="small"
-                    disablePortal
-                    options={sources}
-                    value={leadData.source}
-                    getOptionLabel={(source) => (source.name ? source.name : source)}
-                    onChange={(e, input) => handleChange("source", input.value)}
-                    className="w-full"
-                    renderInput={(params) => (
-                      <TextField {...params} autoComplete="false" fullWidth />
-                    )}
-                  /> */}
                 </td>
               </tr>
               <tr>
                 <td className="flex flex-col justify-start mt-1 text-lg">Description </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={handleChange}
+                    onChange={(e) => handleChange('description', e.target.value)}
                     value={leadData?.description}
                     name="description"
                     type="text"

@@ -4,6 +4,7 @@ import {
   FormControlLabel,
   FormGroup,
   TextField,
+  Autocomplete
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
@@ -154,7 +155,7 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                     <FormGroup>
                       <FormControlLabel
                         className="w-40 text-gray-400"
-                        onChange={(e) => setProjectData({ ...projectData, 'status': e.target.checked ? "active" : "nonActive" })}
+                        onChange={(e) => setProjectData({ ...projectData, 'status': e.target.checked ? "active" : "inactive" })}
                         control={<Checkbox defaultChecked style={{ color: "#20aee3" }} />}
                       />
                     </FormGroup>

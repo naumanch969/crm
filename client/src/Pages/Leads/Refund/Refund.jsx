@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getLead } from "../../redux/action/lead";
-import { createRefundApproval, getApprovals } from "../../redux/action/approval";
+import { getLead } from "../../../redux/action/lead";
+import { createRefundApproval, getApprovals } from "../../../redux/action/approval";
 import { useDispatch, useSelector } from "react-redux";
-import { Loader } from "../../utils";
+import { Loader } from "../../../utils";
 import Topbar from "./Topbar";
-import { Table } from "../../Components";
+import { Table } from "../../../Components";
 import { Tooltip } from "@mui/material";
 import { format } from "timeago.js";
-import { getLeadRefunds } from "../../redux/action/refund";
+import { getLeadRefunds } from "../../../redux/action/refund";
 import { PiTrashLight } from "react-icons/pi";
 import DeleteModal from "./DeleteModal";
 

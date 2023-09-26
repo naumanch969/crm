@@ -40,7 +40,7 @@ const CreateSociety = ({ open, setOpen, scroll }) => {
   const societyInitialState = {
     title: "",
     description: "",
-    status: "",
+    status: "inactive",
     images: [],
   };
   //////////////////////////////////////// STATES ////////////////////////////////////
@@ -53,6 +53,9 @@ const CreateSociety = ({ open, setOpen, scroll }) => {
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
+    const { title, description, status, images } = societyData
+    if (!title || !description || !images) return alert("Make sure to provide all the fields")
+    console.log(societyData)
     e.preventDefault();
     dispatch(createSociety(societyData, navigate));
     dispatch(deleteAllImagesReducer());
@@ -138,7 +141,8 @@ const CreateSociety = ({ open, setOpen, scroll }) => {
                     <FormGroup>
                       <FormControlLabel
                         className="w-40 text-gray-400"
-                        onChange={(e) => setSocietyData({ ...societyData, 'status': e.target.checked ? "active" : "nonActive" })}
+                        value={societyData.status == 'active' ? true : false}
+                        onChange={(e) => setSocietyData({ ...societyData, status: e.target.checked ? "active" : "inactive" })}
                         control={<Checkbox defaultChecked style={{ color: "#20aee3" }} />}
                       />
                     </FormGroup>
