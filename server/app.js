@@ -11,7 +11,7 @@ import userRoutes from './routes/user.js'
 import notificationRoutes from './routes/notification.js'
 import saleRoutes from './routes/sale.js'
 import taskRoutes from './routes/task.js'
-import meetingRoutes from './routes/meeting.js'
+import eventRoutes from './routes/event.js'
 import approvalRoutes from './routes/approval.js'
 import projectRoutes from './routes/project.js'
 import societyRoutes from './routes/society.js'
@@ -41,7 +41,7 @@ app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/user', userRoutes)
 app.use('/api/v1/notification', notificationRoutes)
 app.use('/api/v1/task', taskRoutes)
-app.use('/api/v1/meeting', meetingRoutes)
+app.use('/api/v1/event', eventRoutes)
 app.use('/api/v1/approval', approvalRoutes)
 app.use('/api/v1/sale', saleRoutes)
 app.use('/api/v1/project', projectRoutes)

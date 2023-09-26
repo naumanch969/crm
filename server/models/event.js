@@ -1,17 +1,16 @@
 import { generateUniqueIdentifier } from '../utils/utils.js'
 import { Schema, model } from 'mongoose'
 
-const meetingSchema = Schema({
+const eventSchema = Schema({
     title: { type: String, required: true },
     description: { type: String, required: false },
-    from: { type: String, required: true },
-    to: { type: String, required: true },
-    dueDate: { type: String, required: true },
+    start: { type: String, required: true },
+    end: { type: String, required: true },
     uid: { type: String }
 }, { timestamps: true })
 
 // Before saving a new document, generate a unique readable identifier
-meetingSchema.pre('save', async function (next) {
+eventSchema.pre('save', async function (next) {
     if (!this.uid) {
         let isUnique = false;
         let generatedIdentifier;
@@ -34,5 +33,5 @@ meetingSchema.pre('save', async function (next) {
     next();
 });
 
-const meetingModel = model('meeting', meetingSchema)
-export default meetingModel
+const eventModel = model('event', eventSchema)
+export default eventModel
