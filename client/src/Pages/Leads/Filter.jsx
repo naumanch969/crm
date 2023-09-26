@@ -18,7 +18,15 @@ const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
   const dispatch = useDispatch()
   const { projects } = useSelector(state => state.project)
   const { leads } = useSelector(state => state.lead)
-  const priorities = ["Very Cold", "Cold", "Moderate", "Hot", "Very Hot"];
+  const priorities = [
+    { name: "Very Cold", value: 'veryCold' },
+    { name: "Cold", value: 'cold' },
+    { name: "Moderate", value: 'moderate' },
+    { name: "Hot", value: 'hot' },
+    { name: "Very Hot", value: 'veryHot' },
+  ];
+  // const priorities = ["Very Cold", "Cold", "Moderate", "Hot", "Very Hot"];
+
   const statuses = [
     "New",
     "Closed(Won)",
@@ -48,6 +56,9 @@ const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
   useEffect(() => {
     dispatch(getProjects())
   }, [])
+  useEffect(() => {
+    console.log(filters)
+  }, [filters])
   //////////////////////////////// FUNCTIONS ///////////////////////////////////////////////////
   const handleFilter = () => {
     dispatch(filterLeadReducer(filters))
@@ -87,14 +98,14 @@ const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
           <Autocomplete
             size="small"
             disablePortal
-            id="combo-box-demo"
             options={priorities}
-            onSelect={(e) => handleChange('priority', e.target.value)}
+            getOptionLabel={(option) => option.name} // Customize the displayed option
+            getOptionSelected={(option, value) => option.value === value} // Compare by the 'value' property
+            onChange={(e, input) => handleChange('priority', input.value)} // Handle the selected value
             className="w-full"
-            renderInput={(params) => (
-              <TextField {...params} autoComplete="false" fullWidth label="Priority" />
-            )}
+            renderInput={(params) => <TextField   {...params} autoComplete="false" label="Priority" fullWidth />}
           />
+
           <div className="flex flex-col">
             <div>Date : </div>
             <div className="flex gap-3">

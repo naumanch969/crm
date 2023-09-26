@@ -1,4 +1,4 @@
-import { DialogActions, MenuItem, Select, TextField } from "@mui/material";
+import { DialogActions, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
 import { updateInventory } from "../../../redux/action/inventory";
@@ -124,17 +124,16 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                 <tr>
                   <td className="pb-4 text-lg">Seller City </td>
                   <td className="pb-4">
-                    <Select
+                    <Autocomplete
                       size="small"
-                      value={inventoryData?.sellerCity}
-                      onChange={(e) => handleInputChange("sellerCity", e.target.value)}
-                      displayEmpty
-                      placeholder="Seller City"
-                      fullWidth>
-                      {pakistanCities.map((city) => (
-                        <MenuItem value={city.toLowerCase()}>{city}</MenuItem>
-                      ))}
-                    </Select>
+                      disablePortal={false}
+                      options={pakistanCities}
+                      value={inventoryData.sellerCity}
+                      getOptionLabel={(city) => city}
+                      onChange={(e, city) => handleChange('sellerCity', city.toLowerCase())}
+                      className="w-full"
+                      renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                    />
                   </td>
                 </tr>
               </table>
@@ -150,23 +149,16 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Project </td>
                 <td className="pb-4">
-                  <Select
+                  <Autocomplete
                     size="small"
-                    value={inventoryData?.project}
-                    onChange={(e) => handleInputChange("project", e.target.value)}
-                    displayEmpty
-                    placeholder="Project"
-                    fullWidth>
-                    {projectsFetching ? (
-                      <Loader />
-                    ) : (
-                      projects.map((project, index) => (
-                        <MenuItem key={index} value={project._id}>
-                          {project.title}
-                        </MenuItem>
-                      ))
-                    )}
-                  </Select>
+                    disablePortal={false}
+                    options={projects}
+                    value={inventoryData.project}
+                    getOptionLabel={(project) => project.title ? project.title : project}
+                    onChange={(e, project) => handleChange('project', project._id)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>

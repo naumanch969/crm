@@ -9,8 +9,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  MenuItem,
-  Select,
   Slide,
 } from "@mui/material";
 import { PiXLight } from "react-icons/pi";
@@ -70,18 +68,16 @@ const UpateStatusModal = ({ open, setOpen }) => {
                 <tr>
                   <td className="pb-4 text-lg">Status </td>
                   <td className="pb-4 w-64">
-                    <Select
-                      name="status"
-                      value={status}
-                      onChange={handleChange}
-                      type="text"
-                      size="small"
-                      fullWidth>
-                        <MenuItem value="new">New</MenuItem>
-                        <MenuItem value="inProgress">In Progress</MenuItem>
-                        <MenuItem value="completed">Completed</MenuItem>
-                        <MenuItem value="overDue">Over Due</MenuItem>
-                    </Select>
+                    <Autocomplete
+                    size="small"
+                    disablePortal={false}
+                    options={[{name:'Successful',value:'successful'},{name:'Unuccessful',value:'unsuccessful'}]}
+                    value={status}
+                    getOptionLabel={(status) => status.name ? status.name : status}
+                    onChange={(e, stateInput) => setStatus(stateInput.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                   </td>
                 </tr>
               </table>

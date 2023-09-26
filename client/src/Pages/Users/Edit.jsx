@@ -125,17 +125,16 @@ const EditModal = ({ open, setOpen }) => {
             <tr>
               <td className="pb-4 text-lg">City </td>
               <td className="pb-4">
-                <Select
-                  size="small"
-                  value={employeeData?.city}
-                  onChange={(e) => handleInputChange("city", e.target.value)}
-                  displayEmpty
-                  placeholder="Seller City"
-                  fullWidth>
-                  {pakistanCities.map((city) => (
-                    <MenuItem value={city.toLowerCase()}>{city}</MenuItem>
-                  ))}
-                </Select>
+                <Autocomplete
+                    size="small"
+                    disablePortal={false}
+                    options={pakistanCities}
+                    value={employeeData?.city}
+                    getOptionLabel={(city) =>  city}
+                    onChange={(e, city) => handleChange('city', city.trim().toLowerCase())}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
               </td>
             </tr>
             <tr>

@@ -10,14 +10,8 @@ import {
   DialogTitle,
   Slide,
   DialogActions,
-  Button,
   TextField,
   Autocomplete,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { getProjects } from "../../redux/action/project";
@@ -33,9 +27,38 @@ const EditModal = ({ open, setOpen, scroll }) => {
   const { employees, loggedUser } = useSelector((state) => state.user);
   const { projects } = useSelector((state) => state.project);
   const projectsTitles = projects.map(({ _id, title }) => ({ _id, title }));
+  const priorities = [
+    { name: 'Very Cold', value: 'veryCold' },
+    { name: 'Cold', value: 'cold' },
+    { name: 'Moderate', value: 'moderate' },
+    { name: 'Hot', value: 'hot' },
+    { name: 'Very Hot', value: 'veryHot' },
+  ]
+  const statuses = [
+    { name: 'Closed (Lost)', value: 'closedLost' },
+    { name: 'Followed Up (Call)', value: 'followedUpCall' },
+    { name: 'Contacted Client (Call Attempt)', value: 'contactedCallAttempt' },
+    { name: 'Contacted Client (Call)', value: 'contactedCall' },
+    { name: 'Followed Up (Email)', value: 'followedUpEmail' },
+    { name: 'Contacted Client (Email)', value: 'contactedEmail' },
+    { name: 'New<', value: 'new' },
+    { name: 'Meeting (Done)', value: 'meetingDone' },
+    { name: 'Closed (Won)', value: 'closedWon' },
+    { name: 'Meeting (Attempt)', value: 'meetingAttempt' },
+  ]
+  const sources = [
+    { name: 'Instagram', value: "instagram" },
+    { name: 'Facebook Comment', value: "facebookComment" },
+    { name: 'Friend and Family', value: "FriendAndFamily" },
+    { name: 'Facebook', value: "facebook" },
+    { name: 'Direct Call', value: "directCall" },
+    { name: 'Google', value: "google" },
+    { name: 'Referral', value: "referral" },
+  ]
   let initialLeadState = {
     firstName: "",
     lastName: "",
+    username: "",
     phone: "",
     CNIC: "",
     clientCity: "",
@@ -48,11 +71,30 @@ const EditModal = ({ open, setOpen, scroll }) => {
     description: "",
   };
   ////////////////////////////////////// STATES  /////////////////////////////////////
-  const [leadData, setLeadData] = useState(currentLead);
+  const [leadData, setLeadData] = useState({
+    ...currentLead,
+    firstName: currentLead?.client.firstName,
+    lastName: currentLead?.client.lastName,
+    username: currentLead?.client.username,
+    phone: currentLead?.client.phone,
+    CNIC: currentLead?.client.CNIC,
+    clientCity: currentLead?.client.city,
+    email: currentLead?.client.email,
+  });
+  console.log(leadData)
 
   ////////////////////////////////////// USE EFFECTS  /////////////////////////////////////
   useEffect(() => {
-    setLeadData(currentLead);
+    setLeadData({
+      ...currentLead,
+      firstName: currentLead?.client.firstName,
+      lastName: currentLead?.client.lastName,
+      username: currentLead?.client.username,
+      phone: currentLead?.client.phone,
+      CNIC: currentLead?.client.CNIC,
+      clientCity: currentLead?.client.city,
+      email: currentLead?.client.email,
+    });
   }, [currentLead]);
   useEffect(() => {
     dispatch(getProjects());
@@ -61,54 +103,16 @@ const EditModal = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    const {
-      firstName,
-      lastName,
-      username,
-      phone,
-      clientCity,
-      city,
-      priority,
-      property,
-      status,
-      source,
-      description,
-    } = leadData;
-    console.log(
-      firstName,
-      lastName,
-      username,
-      phone,
-      clientCity,
-      city,
-      priority,
-      property,
-      status,
-      source,
-      description
-    );
-    if (
-      !firstName ||
-      !lastName ||
-      !username ||
-      !phone ||
-      !clientCity ||
-      !city ||
-      !priority ||
-      !property ||
-      !status ||
-      !source ||
-      !description
-    )
+    const { firstName, lastName, username, phone, clientCity, city, priority, property, status, source, description, } = leadData;
+    if (!firstName || !lastName || !username || !phone || !clientCity || !city || !priority || !property || !status || !source || !description)
       return alert("Make sure to provide all the fields");
     dispatch(updateLead(currentLead?._id, leadData));
     setLeadData(initialLeadState);
     setOpen(false);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setLeadData((pre) => ({ ...pre, [name]: value }));
+  const handleChange = (field, value) => {
+    setLeadData((pre) => ({ ...pre, [field]: value }));
   };
 
   const handleClose = () => {
@@ -128,7 +132,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
         maxWidth="md"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400 font-primary">Add New Lead</div>
+          <div className="text-sky-400 font-primary">Edit Lead</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -145,9 +149,8 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg">First Name </td>
                 <td className="pb-4">
                   <TextField
-                    name="firstName"
                     value={leadData?.firstName}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange('firstName', e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -159,7 +162,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
                   <TextField
                     name="lastName"
                     value={leadData?.lastName}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange('lastName', e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -171,7 +174,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
                   <TextField
                     name="username"
                     value={leadData?.username}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange('username', e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -182,7 +185,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     name="phone"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange('phone', e.target.value)}
                     value={leadData?.phone}
                     type="number"
                     size="small"
@@ -195,7 +198,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     name="CNIC"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange('CNIC', e.target.value)}
                     value={leadData?.CNIC}
                     type="number"
                     size="small"
@@ -204,21 +207,20 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">City </td>
+                <td className="pb-4 text-lg">Client City </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={leadData?.clientCity}
-                    name="clientCity"
-                    type="text"
+                  {console.log(leadData.clientCity)}
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    {pakistanCities.map((item, index) => (
-                      <MenuItem value={item} key={index}>
-                        {item}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                    disablePortal
+                    options={pakistanCities}
+                    value={leadData.clientCity}
+                    getOptionLabel={(clientCity) => clientCity}
+                    getOptionSelected={(option, value) => option.toLowerCase() == value}
+                    onChange={(e, input) => handleChange('clientCity', input.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
@@ -226,7 +228,7 @@ const EditModal = ({ open, setOpen, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     type="email"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange('email', e.target.value)}
                     value={leadData?.email}
                     name="email"
                     size="small"
@@ -248,98 +250,78 @@ const EditModal = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={leadData?.city}
-                    name="city"
-                    type="text"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    {pakistanCities.map((item) => (
-                      <MenuItem value={item}>{item}</MenuItem>
-                    ))}
-                  </Select>
+                    disablePortal
+                    options={pakistanCities}
+                    value={leadData.city}
+                    getOptionLabel={(city) => city}
+                    getOptionSelected={(option, value) => option.toLowerCase() == value}
+                    onChange={(e, input) => handleChange('city', input.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Property </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={leadData?.property}
-                    name="property"
-                    type="text"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    {projectsTitles.map((project, index) => (
-                      <MenuItem value={project._id} key={index}>
-                        {project.title}{" "}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                    disablePortal
+                    options={projectsTitles}
+                    value={leadData.property}
+                    getOptionLabel={(project) => project.title}
+                    getOptionSelected={(option, value) => option._id == value}
+                    onChange={(e, input) => handleChange('property', input.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Priority </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={leadData?.priority}
-                    name="priority"
-                    type="text"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    <MenuItem value="veryCold">Very Cold</MenuItem>
-                    <MenuItem value="cold">Cold</MenuItem>
-                    <MenuItem value="moderate">Moderate</MenuItem>
-                    <MenuItem value="hot">Hot</MenuItem>
-                    <MenuItem value="veryHot">Very Hot</MenuItem>
-                  </Select>
+                    disablePortal
+                    options={priorities}
+                    value={leadData.priority}
+                    getOptionLabel={(priority) => priority.name ? priority.name : priority}
+                    onChange={(e, input) => handleChange('priority', input.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Status </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={leadData?.status}
-                    name="status"
-                    type="text"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    <MenuItem value="closedLost">Closed (Lost)</MenuItem>
-                    <MenuItem value="followedUpCall">Followed Up (Call)</MenuItem>
-                    <MenuItem value="contactedCallAttempt">
-                      Contacted Client (Call Attempt)
-                    </MenuItem>
-                    <MenuItem value="contactedCall">Contacted Client (Call)</MenuItem>
-                    <MenuItem value="followedUpEmail">Followed Up (Email)</MenuItem>
-                    <MenuItem value="contactedEmail">Contacted Client (Email)</MenuItem>
-                    <MenuItem value="new">New</MenuItem>
-                    <MenuItem value="meetingDone">Meeting (Done)</MenuItem>
-                    <MenuItem value="closedWon">Closed (Won)</MenuItem>
-                    <MenuItem value="meetingAttempt">Meeting (Attempt)</MenuItem>
-                  </Select>
+                    disablePortal
+                    options={statuses}
+                    value={leadData.status}
+                    getOptionLabel={(status) => status.name ? status.name : status}
+                    onChange={(e, input) => handleChange('status', input.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg flex mt-1 items-start">Source </td>
                 <td className="pb-4">
-                  <Select
-                    onChange={handleChange}
-                    value={leadData?.source}
-                    name="source"
-                    type="text"
+                  <Autocomplete
                     size="small"
-                    fullWidth>
-                    <MenuItem value="instagram">Instagram</MenuItem>
-                    <MenuItem value="facebookComment">Facebook Comment</MenuItem>
-                    <MenuItem value="FriendAndFamily">Friend and Family</MenuItem>
-                    <MenuItem value="facebook">Facebook</MenuItem>
-                    <MenuItem value="directCall">Direct Call</MenuItem>
-                    <MenuItem value="google">Google</MenuItem>
-                    <MenuItem value="referral">Referral</MenuItem>
-                  </Select>
+                    disablePortal
+                    options={sources}
+                    value={leadData.source}
+                    getOptionLabel={(source) => source.name ? source.name : source}
+                    onChange={(e, input) => handleChange('source', input.value)}
+                    className="w-full"
+                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                  />
                 </td>
               </tr>
               <tr>

@@ -4,25 +4,29 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateInventory } from "../../../redux/action/inventory";
 import {
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    MenuItem,
-    Select,
-    Slide,
-  } from "@mui/material";
-  import { PiXLight } from "react-icons/pi";
-  import { Loader } from "../../../utils";
-  
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="down" ref={ref} {...props} />;
-  });
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Slide,
+} from "@mui/material";
+import { PiXLight } from "react-icons/pi";
+import { Loader } from "../../../utils";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
 
 const UpateStatusModal = ({ open, setOpen }) => {
   ////////////////////////////////////// VARIABLES  /////////////////////////////////////
   const dispatch = useDispatch();
   const { currentInventory, isFetching } = useSelector((state) => state.inventory);
+  const statuses = [
+    { name: 'Not Started', value: 'notStarted' },
+    { name: 'Completed', value: 'completed' },
+    { name: 'In Progress', value: 'inProgress' },
+    { name: 'On Hold', value: 'onHold' },
+  ]
 
   ////////////////////////////////////// STATES  /////////////////////////////////////
   const [status, setStatus] = useState(currentInventory?.status);
@@ -69,18 +73,16 @@ const UpateStatusModal = ({ open, setOpen }) => {
                 <tr>
                   <td className="pb-4 text-lg">Status </td>
                   <td className="pb-4 w-64">
-                    <Select
-                      name="status"
-                      value={status}
-                      onChange={handleChange}
-                      type="text"
+                    <Autocomplete
                       size="small"
-                      fullWidth>
-                      <MenuItem value="notStarted">Not Started</MenuItem>
-                      <MenuItem value="completed">Completed</MenuItem>
-                      <MenuItem value="inProgress">In Progress</MenuItem>
-                      <MenuItem value="onHold">On Hold</MenuItem>
-                    </Select>
+                      disablePortal={false}
+                      options={statuses}
+                      value={filters.status}
+                      getOptionLabel={(status) => status.name ? status.name : status}
+                      onChange={(e, status) => handleChange('status', status.value)}
+                      className="w-full"
+                      renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
+                    />
                   </td>
                 </tr>
               </table>
@@ -103,32 +105,7 @@ const UpateStatusModal = ({ open, setOpen }) => {
         </DialogActions>
       </Dialog>
     </div>
-    // <Modal open={open} onClose={() => setOpen(false)} className='w-screen h-screen flex justify-center items-center ' >
-
-    //     <div className='w-[14rem] h-fit overflow-y-scroll overflow-x-hidden bg-white rounded-[4px] ' >
-
-    //         <div className="bg-neutral-800 p-[8px] text-white flex justify-between items-center sticky top-0 ">
-    //             <h2 className='font-bold text-[20px] ' >Update Status</h2>
-    //             <IconButton onClick={() => setOpen(false)} ><Close className='text-white' /></IconButton>
-    //         </div>
-
-    //         <form onSubmit={handleSubmit} className='w-full p-[10px] flex flex-col gap-[10px] ' >
-    //             <select className='w-full min-h-[40px] text-gray-500 border-[1px] border-gray-400 py-[4px] px-[8px] rounded-[4px] ' name='status' value={status} onChange={handleChange} >
-    //                 <option value="notStarted">Not Started</option>
-    //                 <option value="completed">Completed</option>
-    //                 <option value="inProgress">In Progress</option>
-    //                 <option value="onHold">On Hold</option>
-    //             </select>
-    //             <div className="w-full flex justify-end items-center">
-    //                 <button type='submit' className='w-fit text-gray-900 bg-gray-200 border-[1px] border-gray-800 px-[20px] py-[4px] rounded-[4px] cursor-pointer ' >
-    //                     {isFetching ? 'Saving' : 'Save'}
-    //                 </button>
-    //             </div>
-    //         </form>
-
-    //     </div>
-
-    // </Modal>
+    
   );
 };
 
