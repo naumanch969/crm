@@ -236,7 +236,6 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                     type="number"
                     placeholder="Optional"
                     size="small"
-                    placeholder="Optional"
                     fullWidth
                   />
                 </td>
