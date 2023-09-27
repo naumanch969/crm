@@ -30,14 +30,14 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const initialTaskState = {
-    completedTask: '',
-    completedTaskDate: '',
-    completedTaskStatus: '',
-    completedTaskComment: '',
-    newTask: '',
-    newTaskDeadline: '',
-    newTaskComment: ''
-  }
+    completedTask: "",
+    completedTaskDate: "",
+    completedTaskStatus: "",
+    completedTaskComment: "",
+    newTask: "",
+    newTaskDeadline: "",
+    newTaskComment: "",
+  };
 
   ////////////////////////////////////// STATES ///////////////////////////////////
   const [taskData, setTaskData] = useState(initialTaskState);
@@ -46,16 +46,32 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
 
   ////////////////////////////////////// FUNCTION /////////////////////////////////
   const handleSubmit = (e) => {
-    const { completedTask, completedTaskComment, completedTaskDate, completedTaskStatus, newTask, newTaskComment, newTaskDeadline } = taskData
+    const {
+      completedTask,
+      completedTaskComment,
+      completedTaskDate,
+      completedTaskStatus,
+      newTask,
+      newTaskComment,
+      newTaskDeadline,
+    } = taskData;
     e.preventDefault();
-    if (!completedTask || !completedTaskComment || !completedTaskDate || !completedTaskStatus || !newTask || !newTaskComment || !newTaskDeadline)
+    if (
+      !completedTask ||
+      !completedTaskComment ||
+      !completedTaskDate ||
+      !completedTaskStatus ||
+      !newTask ||
+      !newTaskComment ||
+      !newTaskDeadline
+    )
       return alert("Make sure to rovide all the fields");
     dispatch(createTask(taskData, setOpen));
-    setTaskData(initialTaskState)
+    setTaskData(initialTaskState);
   };
 
   const handleInputChange = (field, value) => {
-    setTaskData((pre) => ({ ...pre, [field]: value, }));
+    setTaskData((pre) => ({ ...pre, [field]: value }));
   };
   const handleClose = () => {
     setOpen(false);
@@ -93,8 +109,7 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
                     fullWidth
                     size="small"
                     value={taskData.completedTask}
-                    onChange={(e) => handleInputChange('completedTask', e.target.value)}
-                  >
+                    onChange={(e) => handleInputChange("completedTask", e.target.value)}>
                     <MenuItem value="new">New</MenuItem>
                     <MenuItem value="sentAvailablityList">Sent Availablity List</MenuItem>
                     <MenuItem value="siteVisit">Site Visit</MenuItem>
@@ -116,14 +131,21 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
               <tr>
                 <td className="pb-4 text-lg">Completed Date </td>
                 <td className="pb-4">
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <TextField
+                    type="date"
+                    value={taskData.completedTaskDate}
+                    onChange={(e) => handleInputChange("completedTaskDate", e.target.value)}
+                    size="small"
+                    fullWidth
+                  />
+                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DesktopDatePicker"]}>
                       <DesktopDatePicker
                         onChange={(date) => handleInputChange("completedTaskDate", date.$d)}
                         slotProps={{ textField: { size: "small", fullWidth: "true" } }}
                       />
                     </DemoContainer>
-                  </LocalizationProvider>
+                  </LocalizationProvider> */}
                 </td>
               </tr>
               <tr>
@@ -134,8 +156,7 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
                     fullWidth
                     size="small"
                     value={taskData.completedTaskStatus}
-                    onChange={(e) => handleInputChange('completedTaskStatus', e.target.value)}
-                  >
+                    onChange={(e) => handleInputChange("completedTaskStatus", e.target.value)}>
                     <MenuItem value="successful">Successful</MenuItem>
                     <MenuItem value="unsuccessful">Unsuccessful</MenuItem>
                   </Select>
@@ -149,7 +170,7 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
                     rows={5}
                     type="text"
                     value={taskData.completedTaskComment}
-                    onChange={(e) => handleInputChange('completedTaskComment', e.target.value)}
+                    onChange={(e) => handleInputChange("completedTaskComment", e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -162,8 +183,7 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
                     fullWidth
                     size="small"
                     value={taskData.newTask}
-                    onChange={(e) => handleInputChange('newTask', e.target.value)}
-                  >
+                    onChange={(e) => handleInputChange("newTask", e.target.value)}>
                     <MenuItem value="doNothing">Do Nothing</MenuItem>
                     <MenuItem value="contactClient">Contact Client</MenuItem>
                     <MenuItem value="sentAvailablityList">Sent Availablity List</MenuItem>
@@ -179,14 +199,21 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
               <tr>
                 <td className="pb-4 text-lg">Deadline </td>
                 <td className="pb-4">
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <TextField
+                    type="date"
+                    value={taskData.newTaskDeadline}
+                    onChange={(e) => handleInputChange("newTaskDeadline", e.target.value)}
+                    size="small"
+                    fullWidth
+                  />
+                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DesktopDatePicker"]}>
                       <DesktopDatePicker
                         onChange={(date) => handleInputChange("newTaskDeadline", date.$d)}
                         slotProps={{ textField: { size: "small", fullWidth: "true" } }}
                       />
                     </DemoContainer>
-                  </LocalizationProvider>
+                  </LocalizationProvider> */}
                 </td>
               </tr>
               <tr>
@@ -197,7 +224,7 @@ const CreateTask = ({ open, setOpen, openFromNavbar, setOpenFromNavbar }) => {
                     rows={5}
                     type="text"
                     value={taskData.newTaskComment}
-                    onChange={(e) => handleInputChange('newTaskComment', e.target.value)}
+                    onChange={(e) => handleInputChange("newTaskComment", e.target.value)}
                     size="small"
                     fullWidth
                   />

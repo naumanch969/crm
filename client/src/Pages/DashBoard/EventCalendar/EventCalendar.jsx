@@ -9,6 +9,7 @@ import Delete from "./Delete";
 import { getEvents } from "../../../redux/action/event";
 import { useDispatch, useSelector } from "react-redux";
 import { Add } from "@mui/icons-material";
+import { Tooltip } from "@mui/material";
 
 const localizer = momentLocalizer(moment);
 
@@ -79,12 +80,15 @@ const EventCalendar = () => {
         eventId={selectedEvent?._id}
       />
 
+      <Tooltip title="Add New Event To Calendar" placement="top" arrow>
       <button
         onClick={() => setShowCreateModal(true)}
         className="absolute bottom-4 right-4 bg-red-500 text-white rounded-full p-[1rem] shadow-xl z-[50000] cursor-pointer "
       >
         <Add />
       </button>
+      </Tooltip>
+      
 
       <Calendar
         localizer={localizer}

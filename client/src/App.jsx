@@ -24,7 +24,6 @@ import {
   Inventory,
   Societies,
   Ledger,
-  ChangePassword
 } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
@@ -33,18 +32,6 @@ import ClientHeader from "./Client Panel/components/ClientHeader";
 import ClientProjects from "./Client Panel/pages/Your Projects/ClientProjects";
 import Contact from "./Client Panel/pages/Contact Us/Contact";
 import LeadRefunds from "./Pages/Leads/Refund/Refund";
-import SettingNavbar from "./Pages/Settings/Components/Navbar/SettingNavbar";
-import SettingDashboard from "./Pages/Settings/DashBoard/SettingDashboard";
-import { Path } from "./utils";
-import SettingSidebar from "./Pages/Settings/Components/Sidebar/SettingSidebar";
-import SettingProject from "./Pages/Settings/Project/SettingProject";
-import SettingLead from "./Pages/Settings/Leads/SettingLead";
-import SettingTask from "./Pages/Settings/Task/SettingTask";
-import SettingUser from "./Pages/Settings/User/SettingUser";
-import SettingSale from "./Pages/Settings/Sale/SettingSale";
-import SettingVoucher from "./Pages/Settings/Voucher/SettingVoucher";
-import SettingCashbook from "./Pages/Settings/Cashbook/SettingCashbook";
-import SettingAuth from "./Pages/Settings/Authorization/SettingAuth";
 
 const App = () => {
   ///////////////////////////////////// VARIABLES ////////////////////////////////////////
@@ -65,34 +52,10 @@ const App = () => {
   const ClientPanelLayout = () => <ClientHeader />;
 
   ///////////////////////////////////// Functions ////////////////////////////////////////
-  const Layout = () => {
-    return (
-      <div className="flex">
-        <div className={`${showSidebar ? "w-[250px]" : ""}`}>
-          <SettingSidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-        </div>
-        <div className="w-full sticky">
-          <SettingNavbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-        </div>
-      </div>
-    );
-  };
+
 
   return (
     <div>
-      <Routes>
-        <Route path="/settings" element={<Layout />}>
-          <Route path="/settings/dashboard" element={<SettingDashboard />} />
-          <Route path="/settings/project" element={<SettingProject />} />
-          <Route path="/settings/lead" element={<SettingLead />} />
-          <Route path="/settings/task" element={<SettingTask />} />
-          <Route path="/settings/user" element={<SettingUser />} />
-          <Route path="/settings/sale" element={<SettingSale />} />
-          <Route path="/settings/voucher" element={<SettingVoucher />} />
-          <Route path="/settings/cashbook" element={<SettingCashbook />} />
-          <Route path="/settings/authorization" element={<SettingAuth />} />
-        </Route>
-      </Routes>
       <div className="flex flex-col w-full h-full bg-[#f6f9fa]">
         {!loggedUser ? (
           <div className="flex justify-center items-center w-full ">
@@ -110,12 +73,11 @@ const App = () => {
             <div
               className={`${showSidebar ? "w-full " : "w-full "} flex flex-col overflow-y-scroll `}>
               <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-              <div className="flex p-[1rem] w-full">
+              <div className="flex p-[1rem] h-full w-full">
                 <Routes>
                   <Route path="/" element={<DashBoard />} />
                   <Route path="/auth/register" element={<Navigate to="/" />} />
                   <Route path="/auth/login" element={<Navigate to="/" />} />
-                  <Route exact path="/auth/change_password" element={<ChangePassword/>} />
                   <Route path="/projects" element={<Projects />} />
                   <Route path="/inventory" element={<Inventory />} />
                   <Route path="/societies" element={<Societies />} />

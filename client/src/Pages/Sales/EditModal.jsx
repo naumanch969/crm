@@ -1,4 +1,3 @@
-
 import { Close } from "@mui/icons-material";
 import {
   Dialog,
@@ -8,7 +7,7 @@ import {
   Divider,
   Slide,
   TextField,
-  Autocomplete
+  Autocomplete,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import React from "react";
@@ -16,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateSale } from "../../redux/action/sale";
 import { PiNotepad, PiXLight } from "react-icons/pi";
 import { getClients, getEmployees } from "../../redux/action/user";
+import { CFormSelect } from "@coreui/react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -23,10 +23,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const EditModal = ({ open, setOpen }) => {
   //////////////////////////////////////// VARIABLES ///////////////////////////////////
-  const { currentLead: lead } = useSelector(state => state.lead)
+  const { currentLead: lead } = useSelector((state) => state.lead);
   const initialState = {
     staff: "",
-    clientName: lead?.client ? lead?.client?.username : '',
+    clientName: lead?.client ? lead?.client?.username : "",
     net: "",
     received: "",
     profit: "",
@@ -44,12 +44,12 @@ const EditModal = ({ open, setOpen }) => {
     setSaleData(sale);
   }, [sale]);
   useEffect(() => {
-    setSaleData({ ...saleData, staff: lead?.client?.username })
-  }, [lead])
+    setSaleData({ ...saleData, staff: lead?.client?.username });
+  }, [lead]);
   useEffect(() => {
-    dispatch(getClients())
-    dispatch(getEmployees())
-  }, [])
+    dispatch(getClients());
+    dispatch(getEmployees());
+  }, []);
 
   //////////////////////////////////////// FUNCTIONS ///////////////////////////////////
   const handleSubmit = (e) => {
@@ -74,8 +74,7 @@ const EditModal = ({ open, setOpen }) => {
       onClose={handleClose}
       fullWidth="sm"
       maxWidth="sm"
-      aria-describedby="alert-dialog-slide-description"
-    >
+      aria-describedby="alert-dialog-slide-description">
       <DialogTitle className="flex items-center justify-between">
         <div className="text-sky-400 font-primary">Edit Sale</div>
         <div className="cursor-pointer" onClick={handleClose}>
@@ -93,38 +92,37 @@ const EditModal = ({ open, setOpen }) => {
             <tr>
               <td className="pb-4 text-lg">Staff </td>
               <td className="pb-4">
-                <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={employees}
-                    value={saleData?.staff}
-                    getOptionLabel={(employee) => employee.username? employee.username : employee}
-                    onChange={(e, employee) => handleChange('staff', employee.username)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                <CFormSelect
+                  size="sm"
+                  onChange={(e) => handleChange("staff", e.target.value)}
+                  value={saleData?.staff}
+                  name="staff"
+                  className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                  {employees?.map((employee) => (
+                    <option className="capitalize" value={employee.username}>
+                      {employee.username}
+                    </option>
+                  ))}
+                </CFormSelect>
               </td>
             </tr>
             <tr>
               <td className="pb-4 text-lg">Client Name </td>
               <td className="pb-4">
-                <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={clients}
-                    value={saleData?.clientName}
-                    getOptionLabel={(client) =>client.username? client.username : client}
-                    onChange={(e, client) => handleChange('clientName', client.username)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                <TextField
+                  onChange={(e) => handleChange("clientName", e.target.value)}
+                  value={saleData?.clientName}
+                  name="clientName"
+                  size="small"
+                  fullWidth
+                />
               </td>
             </tr>
             <tr>
               <td className="pb-4 text-lg">Net Worth </td>
               <td className="pb-4">
                 <TextField
-                  onChange={(e)=>handleChange('net',e.target.value)}
+                  onChange={(e) => handleChange("net", e.target.value)}
                   value={saleData?.net}
                   name="net"
                   size="small"
@@ -137,7 +135,7 @@ const EditModal = ({ open, setOpen }) => {
               <td className="pb-4 text-lg">Recieved </td>
               <td className="pb-4">
                 <TextField
-                  onChange={(e)=>handleChange('received',e.target.value)}
+                  onChange={(e) => handleChange("received", e.target.value)}
                   value={saleData?.received}
                   name="received"
                   size="small"
@@ -163,16 +161,16 @@ const EditModal = ({ open, setOpen }) => {
             <tr>
               <td className="pb-4 text-lg">Type of Payment </td>
               <td className="pb-4">
-                <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={[{name:'Cash',value:'cash'},{name:'Card',value:'card'},{name:'Cheque',value:'cheque'}]}
-                    value={saleData?.top}
-                    getOptionLabel={(top) =>top.name? top.name : top}
-                    onChange={(e, top) => handleChange('top',top.value)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                <CFormSelect
+                  size="sm"
+                  onChange={(e) => handleChange("top", e.target.value)}
+                  value={saleData?.top}
+                  name="top"
+                  className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                  <option value="cash">Cash</option>
+                  <option value="card">Card</option>
+                  <option value="cheque">Cheque</option>
+                </CFormSelect>
               </td>
             </tr>
           </table>

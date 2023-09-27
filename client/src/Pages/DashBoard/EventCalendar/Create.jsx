@@ -100,7 +100,6 @@ const Create = ({ setOpen, open }) => {
                                     </LocalizationProvider>
                                 </td>
                             </tr>
-
                             <tr>
                                 <td className="pb-4 text-lg">Ending Date </td>
                                 <td className="pb-4">
@@ -108,14 +107,13 @@ const Create = ({ setOpen, open }) => {
                                         <DemoContainer components={["DesktopDatePicker"]}>
                                             <DesktopDatePicker
                                                 onChange={(date) => handleChange("end", date.$d)}
-                                                slotProps={{ textField: { size: "small", maxWidth: 200 } }}
+                                                slotProps={{ textField: { size: "small",  } }}
                                                 label="From"
                                             />
                                         </DemoContainer>
                                     </LocalizationProvider>
                                 </td>
                             </tr>
-
                         </table>
                     </div>
                 </DialogContent>

@@ -16,6 +16,7 @@ import {
 } from "react-icons/pi";
 import { Divider, Dialog, DialogContent, DialogTitle, Slide, DialogActions } from "@mui/material";
 import { pakistanCities } from "../../constant";
+import { CFormSelect } from "@coreui/react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -39,7 +40,7 @@ const EditModal = ({ open, setOpen }) => {
     martialStatus: "married",
     salaryType: "",
     activeStatus: false,
-  }
+  };
 
   /////////////////////////////////////// STATES ///////////////////////////////////////
   const [employeeData, setEmployeeData] = useState(currentEmployee);
@@ -52,18 +53,17 @@ const EditModal = ({ open, setOpen }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateUser(currentEmployee._id, employeeData, employeeData?.role));
-    setEmployeeData(initialEmployeeState)
-    setOpen(false)
+    setEmployeeData(initialEmployeeState);
+    setOpen(false);
   };
 
   const handleInputChange = (field, value) => {
-    setEmployeeData((prevFilters) => ({ ...prevFilters, [field]: value, }));
+    setEmployeeData((prevFilters) => ({ ...prevFilters, [field]: value }));
   };
 
   const handleClose = () => {
     setOpen(false);
   };
-
 
   return (
     <Dialog
@@ -76,7 +76,7 @@ const EditModal = ({ open, setOpen }) => {
       maxWidth="sm"
       aria-describedby="alert-dialog-slide-description">
       <DialogTitle className="flex items-center justify-between">
-        <div className="text-sky-400 font-primary">Add New Employee</div>
+        <div className="text-sky-400 font-primary">Edit Employee</div>
         <div className="cursor-pointer" onClick={handleClose}>
           <PiXLight className="text-[25px]" />
         </div>
@@ -96,7 +96,7 @@ const EditModal = ({ open, setOpen }) => {
                   size="small"
                   fullWidth
                   value={employeeData?.firstName}
-                  onChange={(e) => handleInputChange('firstName', e.target.value)}
+                  onChange={(e) => handleInputChange("firstName", e.target.value)}
                 />
               </td>
             </tr>
@@ -107,7 +107,7 @@ const EditModal = ({ open, setOpen }) => {
                   size="small"
                   fullWidth
                   value={employeeData?.lastName}
-                  onChange={(e) => handleInputChange('lastName', e.target.value)}
+                  onChange={(e) => handleInputChange("lastName", e.target.value)}
                 />
               </td>
             </tr>
@@ -118,38 +118,37 @@ const EditModal = ({ open, setOpen }) => {
                   size="small"
                   fullWidth
                   value={employeeData?.username}
-                  onChange={(e) => handleInputChange('username', e.target.value)}
+                  onChange={(e) => handleInputChange("username", e.target.value)}
                 />
               </td>
             </tr>
             <tr>
               <td className="pb-4 text-lg">City </td>
               <td className="pb-4">
-                <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={pakistanCities}
-                    value={employeeData?.city}
-                    getOptionLabel={(city) =>  city}
-                    onChange={(e, city) => handleChange('city', city)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                <CFormSelect
+                  size="sm"
+                  value={employeeData?.city}
+                  onChange={(e) => handleInputChange("city", e.target.value)}
+                  className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                  {pakistanCities.map((city, index) => (
+                    <option key={index} value={city}>
+                      {city}
+                    </option>
+                  ))}
+                </CFormSelect>
               </td>
             </tr>
             <tr>
               <td className="flex items-start pt-2 text-lg">Gender </td>
               <td className="pb-4">
-                <Autocomplete
-                  size="small"
-                  disablePortal
-                  id="combo-box-demo"
-                  options={["male", "female"]}
+                <CFormSelect
+                  size="sm"
                   value={employeeData?.gender}
                   onSelect={(e) => handleInputChange("gender", e.target.value)}
-                  className="w-full"
-                  renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                />
+                  className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </CFormSelect>
               </td>
             </tr>
             <tr>
@@ -168,6 +167,7 @@ const EditModal = ({ open, setOpen }) => {
               <td className="flex items-start pt-2 text-lg">Password </td>
               <td className="pb-4">
                 <TextField
+                  value={employeeData?.password}
                   type="password"
                   onChange={(e) => handleInputChange("password", e.target.value)}
                   size="small"
@@ -214,31 +214,28 @@ const EditModal = ({ open, setOpen }) => {
             <tr>
               <td className="flex items-start pt-2 text-lg">Martial Status </td>
               <td className="pb-4">
-                <Autocomplete
-                  size="small"
-                  disablePortal
-                  id="combo-box-demo"
-                  options={["married", "single"]}
+                <CFormSelect
+                  size="sm"
                   value={employeeData?.martialStatus}
                   onSelect={(e) => handleInputChange("martialStatus", e.target.value)}
-                  className="w-full"
-                  renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                />
+                  className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                  <option value="married">Married</option>
+                  <option value="single">Single</option>
+                </CFormSelect>
               </td>
             </tr>
             <tr>
               <td className="flex items-start pt-2 text-lg">Salary Type </td>
               <td className="pb-4">
-                <Autocomplete
-                  size="small"
-                  disablePortal
-                  id="combo-box-demo"
-                  options={["Online", "Pay Check", "Cash"]}
+                <CFormSelect
+                  size="sm"
                   value={employeeData?.salaryType}
                   onSelect={(e) => handleInputChange("salaryType", e.target.value)}
-                  className="w-full"
-                  renderInput={(params) => <TextField {...params} fullWidth size="small" />}
-                />
+                  className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                  <option value="online">Online</option>
+                  <option value="paycheck">Pay Check</option>
+                  <option value="cash">Cash</option>
+                </CFormSelect>
               </td>
             </tr>
           </table>
@@ -256,11 +253,10 @@ const EditModal = ({ open, setOpen }) => {
           onClick={handleSubmit}
           variant="contained"
           className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
-          {isFetching ? 'Submitting...' : 'Submit'}
+          {isFetching ? "Submitting..." : "Submit"}
         </button>
       </DialogActions>
     </Dialog>
-
   );
 };
 

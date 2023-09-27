@@ -21,7 +21,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
-
+import { CFormSelect } from "@coreui/react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -32,40 +32,40 @@ const EditModal = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const { currentTask: task, isFetching, error } = useSelector((state) => state.task);
   const initialTaskState = {
-    completedTask: '',
-    completedTaskDate: '',
-    completedTaskStatus: '',
-    completedTaskComment: '',
-    newTask: '',
-    newTaskDeadline: '',
-    newTaskComment: ''
-  }
+    completedTask: "",
+    completedTaskDate: "",
+    completedTaskStatus: "",
+    completedTaskComment: "",
+    newTask: "",
+    newTaskDeadline: "",
+    newTaskComment: "",
+  };
   const newTasks = [
-    { name: 'Do Nothing', value: "doNothing" },
-    { name: 'Contact Client', value: "contactClient" },
-    { name: 'Sent Availablity List', value: "sentAvailablityList" },
-    { name: 'Follow Up', value: "followUp" },
-    { name: 'Arrange Meeting', value: "arrangeMeeting" },
-    { name: 'Push Meeting', value: "pushMeeting" },
-    { name: 'Meet Client', value: "meetClient" },
-    { name: 'Sign Agreement', value: "signAgreement" },
-    { name: 'Recieve Token', value: "recieveToken" },
-  ]
+    { name: "Do Nothing", value: "doNothing" },
+    { name: "Contact Client", value: "contactClient" },
+    { name: "Sent Availablity List", value: "sentAvailablityList" },
+    { name: "Follow Up", value: "followUp" },
+    { name: "Arrange Meeting", value: "arrangeMeeting" },
+    { name: "Push Meeting", value: "pushMeeting" },
+    { name: "Meet Client", value: "meetClient" },
+    { name: "Sign Agreement", value: "signAgreement" },
+    { name: "Recieve Token", value: "recieveToken" },
+  ];
   const completedTasks = [
-    { name: 'New', value: "new" },
-    { name: 'Sent Availablity List', value: "sentAvailablityList" },
-    { name: 'Site Visit', value: "siteVisit" },
-    { name: 'Token Recieved', value: "tokenRecieved" },
-    { name: 'Closed (Won', value: "closedWon" },
-    { name: 'Closed (Lost', value: "closedLost" },
-    { name: 'Followed Up (Call', value: "followedUpCall" },
-    { name: 'Followed Up (Email', value: "followedUpEmail" },
-    { name: 'Contacted Client (Call', value: "contactedCall" },
-    { name: 'Contacted Client (Call Attempt', value: "contactedCallAttempt" },
-    { name: 'Contacted Client (Email', value: "contactedEmail" },
-    { name: 'Meeting (Done', value: "meetingDone" },
-    { name: 'Meeting (Attempt', value: "meetingAttempt" },
-  ]
+    { name: "New", value: "new" },
+    { name: "Sent Availablity List", value: "sentAvailablityList" },
+    { name: "Site Visit", value: "siteVisit" },
+    { name: "Token Recieved", value: "tokenRecieved" },
+    { name: "Closed (Won)", value: "closedWon" },
+    { name: "Closed (Lost)", value: "closedLost" },
+    { name: "Followed Up (Call)", value: "followedUpCall" },
+    { name: "Followed Up (Email)", value: "followedUpEmail" },
+    { name: "Contacted Client (Call)", value: "contactedCall" },
+    { name: "Contacted Client (Call Attempt)", value: "contactedCallAttempt" },
+    { name: "Contacted Client (Email)", value: "contactedEmail" },
+    { name: "Meeting (Done)", value: "meetingDone" },
+    { name: "Meeting (Attempt)", value: "meetingAttempt" },
+  ];
   ///////////////////////////////////// STATES ////////////////////////////////////////
   const [taskData, setTaskData] = useState(task);
 
@@ -76,17 +76,33 @@ const EditModal = ({ open, setOpen }) => {
 
   ///////////////////////////////////// FUNCTIONS /////////////////////////////////////
   const handleSubmit = (e) => {
-    const { completedTask, completedTaskComment, completedTaskDate, completedTaskStatus, newTask, newTaskComment, newTaskDeadline } = taskData
+    const {
+      completedTask,
+      completedTaskComment,
+      completedTaskDate,
+      completedTaskStatus,
+      newTask,
+      newTaskComment,
+      newTaskDeadline,
+    } = taskData;
     e.preventDefault();
-    if (!completedTask || !completedTaskComment || !completedTaskDate || !completedTaskStatus || !newTask || !newTaskComment || !newTaskDeadline)
+    if (
+      !completedTask ||
+      !completedTaskComment ||
+      !completedTaskDate ||
+      !completedTaskStatus ||
+      !newTask ||
+      !newTaskComment ||
+      !newTaskDeadline
+    )
       return alert("Make sure to rovide all the fields");
     dispatch(updateTask(taskData?._id, taskData));
-    setTaskData(initialTaskState)
-    setOpen(false)
+    setTaskData(initialTaskState);
+    setOpen(false);
   };
 
   const handleInputChange = (field, value) => {
-    setTaskData((pre) => ({ ...pre, [field]: value, }));
+    setTaskData((pre) => ({ ...pre, [field]: value }));
   };
   const handleClose = () => {
     setOpen(false);
@@ -103,7 +119,7 @@ const EditModal = ({ open, setOpen }) => {
         maxWidth="sm"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400">Add New Task</div>
+          <div className="text-sky-400">Edit Task</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -119,44 +135,42 @@ const EditModal = ({ open, setOpen }) => {
               <tr>
                 <td className="pb-4 text-lg">Task </td>
                 <td className="pb-4">
-                      <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={completedTasks}
+                  <CFormSelect
+                    size="sm"
                     value={taskData?.completedTask}
-                    getOptionLabel={(task) => task.name ? task.name : task}
-                    onChange={(e, task) => handleChange('completedTask', task.value)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    onChange={(e) => handleInputChange("completedTask", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    {completedTasks.map((task, index) => (
+                      <option key={index} value={task.value}>
+                        {task.name}
+                      </option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Completed Date </td>
                 <td className="pb-4">
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DesktopDatePicker"]}>
-                      <DesktopDatePicker
-                        onChange={(date) => handleInputChange("completedTaskDate", date.$d)}
-                        slotProps={{ textField: { size: "small", fullWidth: "true" } }}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider>
+                  <TextField
+                    type="date"
+                    onChange={(e) => handleInputChange("completedTaskDate", e.target.value)}
+                    value={taskData?.completedTaskDate}
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Status </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={[{ name: 'Successful', value: 'successful' }, { name: 'Unsuccessful', value: 'unsuccessful' }]}
+                  <CFormSelect
+                    size="sm"
                     value={taskData?.completedTaskStatus}
-                    getOptionLabel={(status) => status.name ? status.name : status}
-                    onChange={(e, status) => handleChange('completedTaskStatus', status.value)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    onChange={(e) => handleInputChange("completedTaskStatus", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="successful">Successful</option>
+                    <option value="unsuccessful">Unsuccessful</option>
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
@@ -167,7 +181,7 @@ const EditModal = ({ open, setOpen }) => {
                     rows={5}
                     type="text"
                     value={taskData?.completedTaskComment}
-                    onChange={(e) => handleInputChange('completedTaskComment', e.target.value)}
+                    onChange={(e) => handleInputChange("completedTaskComment", e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -176,29 +190,29 @@ const EditModal = ({ open, setOpen }) => {
               <tr>
                 <td className="pb-4 text-lg">Next Task </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={newTasks}
+                  <CFormSelect
+                    size="sm"
                     value={taskData?.newTask}
-                    getOptionLabel={(task) => task.name ? task.name : task}
-                    onChange={(e, task) => handleChange('newTask', task.value)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    onChange={(e) => handleInputChange("newTask", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    {newTasks.map((task, index) => (
+                      <option key={index} value={task.value}>
+                        {task.name}
+                      </option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Deadline </td>
                 <td className="pb-4">
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DesktopDatePicker"]}>
-                      <DesktopDatePicker
-                        onChange={(date) => handleInputChange("newTaskDeadline", date.$d)}
-                        slotProps={{ textField: { size: "small", fullWidth: "true" } }}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider>
+                  <TextField
+                    type="date"
+                    onChange={(e) => handleInputChange("newTaskDeadline", e.target.value)}
+                    value={taskData?.newTaskDeadline}
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
@@ -209,7 +223,7 @@ const EditModal = ({ open, setOpen }) => {
                     rows={5}
                     type="text"
                     value={taskData?.newTaskComment}
-                    onChange={(e) => handleInputChange('newTaskComment', e.target.value)}
+                    onChange={(e) => handleInputChange("newTaskComment", e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -235,7 +249,6 @@ const EditModal = ({ open, setOpen }) => {
         </DialogActions>
       </Dialog>
     </div>
-
   );
 };
 

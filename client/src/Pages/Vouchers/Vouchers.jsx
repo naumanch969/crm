@@ -41,13 +41,20 @@ function Vouchers() {
     {
       field: "clientName",
       headerName: "Customer Name",
-      width: 150,
+      width: 200,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <div className="capitalize font-primary">
           <p>{params.row.clientName}</p>
         </div>
       ),
+    },
+    {
+      field: "project",
+      headerName: "Project",
+      width: 150,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => <div className="font-primary">{params.row.paid}</div>,
     },
     {
       field: "cnic",
@@ -73,27 +80,10 @@ function Vouchers() {
     {
       field: "paid",
       headerName: "Amount Paid",
-      width: 150,
+      width: 170,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => <div className="font-primary">{params.row.paid}</div>,
     },
-    // {
-    //   headerName: "Status",
-    //   width: 150,
-    //   headerClassName: "super-app-theme--header",
-    //   renderCell: (params) => (
-    //     <div className="font-primay">
-    //       <span
-    //         className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize  font-primary font-medium
-    //       ${params.row.status == "approved" ? "border-green-500 text-green-500" : ""}
-    //       ${params.row.status == "rejected" ? "border-red-400 text-red-400" : ""} 
-    //       `}>
-    //         {params.row.status == "approved" ? "Approved" : ""}
-    //         {params.row.status == "rejected" ? "Rejected" : ""}
-    //       </span>
-    //     </div>
-    //   ),
-    // },
     {
       field: "action",
       headerName: "Action",

@@ -161,13 +161,6 @@ const Clients = () => {
               className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400"
             />
           </Tooltip>
-          <Tooltip placement="top" title="Edit" arrow>
-            {" "}
-            <CiEdit
-              onClick={() => handleOpenEditModal(params.row)}
-              className="cursor-pointer text-green-500 text-[23px] hover:text-green-600"
-            />
-          </Tooltip>
         </div>
       ),
     },

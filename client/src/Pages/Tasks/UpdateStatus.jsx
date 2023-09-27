@@ -4,15 +4,10 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTask } from "../../redux/action/task";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Slide,
-} from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Slide } from "@mui/material";
 import { PiXLight } from "react-icons/pi";
 import { Loader } from "../../utils";
+import { CFormSelect } from "@coreui/react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -68,16 +63,13 @@ const UpateStatusModal = ({ open, setOpen }) => {
                 <tr>
                   <td className="pb-4 text-lg">Status </td>
                   <td className="pb-4 w-64">
-                    <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={[{name:'Successful',value:'successful'},{name:'Unuccessful',value:'unsuccessful'}]}
-                    value={status}
-                    getOptionLabel={(status) => status.name ? status.name : status}
-                    onChange={(e, stateInput) => setStatus(stateInput.value)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                    <CFormSelect
+                      name="propertyType"
+                      value={status}
+                      onChange={(e) => setStatus(e.value)}
+                      options={[{name:'Successful',value:'successful'},{name:'Unuccessful',value:'unsuccessful'}]}
+                      className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                    />
                   </td>
                 </tr>
               </table>

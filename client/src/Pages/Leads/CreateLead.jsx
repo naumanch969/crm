@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createLead, getLeads } from "../../redux/action/lead";
 import Topbar from "./Topbar";
-import {   register } from "../../redux/action/user";
+import { getEmployees, register } from "../../redux/action/user";
 import { CFormSelect } from "@coreui/react";
 import { pakistanCities } from "../../constant";
 import {
@@ -121,7 +121,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
       >
 
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400 font-primary">Edit Lead</div>
+          <div className="text-sky-400 font-primary">Create Lead</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -139,7 +139,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     style={{ fontFamily: "'Montserrat', sans-serif" }}
-                    value={leadData?.firstName}
+                    value={leadData.firstName}
                     onChange={(e) => handleChange("firstName", e.target.value)}
                     size="small"
                     fullWidth
@@ -151,7 +151,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     name="lastName"
-                    value={leadData?.lastName}
+                    value={leadData.lastName}
                     onChange={(e) => handleChange("lastName", e.target.value)}
                     size="small"
                     fullWidth
@@ -163,7 +163,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     name="username"
-                    value={leadData?.username}
+                    value={leadData.username}
                     onChange={(e) => handleChange("username", e.target.value)}
                     size="small"
                     fullWidth
@@ -176,7 +176,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <TextField
                     name="phone"
                     onChange={(e) => handleChange("phone", e.target.value)}
-                    value={leadData?.phone}
+                    value={leadData.phone}
                     type="number"
                     size="small"
                     fullWidth
@@ -189,7 +189,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <TextField
                     name="CNIC"
                     onChange={(e) => handleChange("CNIC", e.target.value)}
-                    value={leadData?.CNIC}
+                    value={leadData.CNIC}
                     type="number"
                     placeholder="Optional"
                     size="small"
@@ -218,7 +218,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <TextField
                     type="email"
                     onChange={(e) => handleChange("email", e.target.value)}
-                    value={leadData?.email}
+                    value={leadData.email}
                     name="email"
                     size="small"
                     placeholder="Optional"
