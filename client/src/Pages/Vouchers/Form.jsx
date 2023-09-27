@@ -310,7 +310,7 @@ const FORM = ({ open, setOpen, scroll }) => {
                     onChange={handleInputChange}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
                   >
-                    <option value={"None"}>None</option>
+                    <option value={""}>None</option>
                     {clients.map((client, key) => (
                       <option key={key} value={client.username}>{client.username}</option>
                     ))}

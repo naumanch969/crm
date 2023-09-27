@@ -48,7 +48,6 @@ const CreateRefund = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSave = () => {
     const { branch, amount, clientName, phone, reason } = refundData
-    console.log( branch, amount, clientName, phone, reason)
     if (!amount || !phone || !reason || !branch || !clientName) return alert('Make sure to provide all the fields')
 
     dispatch(createRefund({ ...refundData, leadId: lead?._id }, setOpen))

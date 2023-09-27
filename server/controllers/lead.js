@@ -123,7 +123,6 @@ export const getLeadsStat = async (req, res, next) => {
         }
 
         const aggregatedResult = await Lead.aggregate(pipeline);
-        console.log(aggregatedResult)
         if (type === 'property') {
             // Fetch all projects
             const allProjects = await Project.find({}, { title: 1, _id: 1 }); // Replace with the actual model and fields
