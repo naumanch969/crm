@@ -59,6 +59,27 @@ export const login = async (req, res, next) => {
 }
 
 
+export const changePassword = async (req, res, next) => {
+    try {
+
+        const { oldPassword, newPassword } = req.body
+
+        const findedUser = await User.findById(req.user._id)
+
+        const isPasswordCorrect = await bcrypt.compare(oldPassword, findedUser.password)
+        if (!isPasswordCorrect) return next(createError(401, 'Wrong Credentials'))
+
+        const hashedPassword = await bcrypt.hash(newPassword, 12)
+
+        const result = await User.findByIdAndUpdate(req.user._id, { password: hashedPassword }, { new: true })
+        res.status(200).json({ result, message: 'Password Changed Successfully', success: true })
+
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
+
+
 export const logout = async (req, res, next) => {
     try {
 

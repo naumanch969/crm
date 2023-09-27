@@ -41,6 +41,7 @@ export const deleteImage = (filename) => API.delete(`/delete_image/${filename}`)
 // AUTH
 export const register = (userData) => API.post(`/auth/register`, userData)
 export const login = (userData) => API.post(`/auth/login`, userData)
+export const changePassword = (passwordData) => API.put(`/auth/change_password`, passwordData)
 
 
 // USER

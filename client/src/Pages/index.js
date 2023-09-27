@@ -14,6 +14,7 @@ export { default as User } from "./Users/User";
 export { default as Vouchers } from "./Vouchers/Vouchers";
 export { default as Login } from "./Auth/Login";
 export { default as Register } from "./Auth/Register";
+export { default as ChangePassword } from "./Auth/ChangePassword";
 export { default as Request } from "./Authorizations/Requests/Requests";
 export { default as Refunds } from "./Authorizations/Refunds/Refunds";
 export { default as Projects } from "./Inventory/Projects/Projects";

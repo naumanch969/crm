@@ -272,6 +272,11 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                     className="text-gray-600 flex items-center gap-4 font-primary">
                     <PiSignOutLight className="text-xl" /> Logout
                   </StyledMenuItem>
+                  <StyledMenuItem
+                    onClick={()=>navigate('/auth/change_password')}
+                    className="text-gray-600 flex items-center gap-4 font-primary">
+                    <PiSignOutLight className="text-xl" /> Change Password
+                  </StyledMenuItem>
                 </Menu>
               </Dropdown>
             </div>

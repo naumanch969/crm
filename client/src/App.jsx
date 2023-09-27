@@ -24,6 +24,7 @@ import {
   Inventory,
   Societies,
   Ledger,
+  ChangePassword
 } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
@@ -98,6 +99,7 @@ const App = () => {
             <Routes>
               <Route exact path="/auth/register" element={<Register />} />
               <Route exact path="/auth/login" element={<Login />} />
+              <Route exact path="/auth/change_password" element={<Navigate to='/auth/register' />} />
               <Route path="/" element={<Navigate to="/auth/login" />} />
               <Route path="/:anyotherRoutes" element={<Navigate to="/auth/login" />} />
             </Routes>
@@ -113,6 +115,7 @@ const App = () => {
                   <Route path="/" element={<DashBoard />} />
                   <Route path="/auth/register" element={<Navigate to="/" />} />
                   <Route path="/auth/login" element={<Navigate to="/" />} />
+                  <Route exact path="/auth/change_password" element={<ChangePassword/>} />
                   <Route path="/projects" element={<Projects />} />
                   <Route path="/inventory" element={<Inventory />} />
                   <Route path="/societies" element={<Societies />} />

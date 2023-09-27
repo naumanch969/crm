@@ -26,6 +26,8 @@ const Create = ({ setOpen, open }) => {
 
     //////////////////////////////////////// FUNCTIONS //////////////////////////////////
     const handleSubmit = (e) => {
+        const { title, description, start, end } = eventData
+        if (!title || !description || !start || !end) return alert("Make sure to provide all the fields")
         dispatch(createEvent(eventData))
         setEventData(initialEventState)
         setOpen(false)
