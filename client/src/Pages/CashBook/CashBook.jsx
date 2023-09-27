@@ -14,6 +14,7 @@ function CashBook() {
   ///////////////////////////////////// VARIABLES ////////////////////////////////////////
   const dispatch = useDispatch();
   const { cashbooks, isFetching, error } = useSelector((state) => state.cashbook);
+  const { loggedUser } = useSelector((state) => state.user);
   const columns = [
     {
       field: "uid",
@@ -79,9 +80,12 @@ function CashBook() {
       width: 100,
       renderCell: (params) => (
         <div className="flex gap-[4px] ">
-          <Tooltip arrow placement="top" title="Delete">
-            <PiTrashThin onClick={() => handleOpenDeleteModal(params.row._id)} className="text-red-500 text-[23px] cursor-pointer" />
-          </Tooltip>
+          {
+            loggedUser?.role != 'employee' &&
+            <Tooltip arrow placement="top" title="Delete">
+              <PiTrashThin onClick={() => handleOpenDeleteModal(params.row._id)} className="text-red-500 text-[23px] cursor-pointer" />
+            </Tooltip>
+          }
         </div>
       ),
     },

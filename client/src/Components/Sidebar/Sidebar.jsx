@@ -31,7 +31,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const { loggedUser } = useSelector((state) => state.user);
   const { pathname } = useLocation();
   const role = loggedUser?.role;
-  const links = [
+  const adminLinks = [
     {
       id: 1,
       title: "Dashboard",
@@ -44,7 +44,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       id: 2,
       title: "Leads",
       icon: <PiUsersThreeLight className="text-[25px]" />,
-      link: "/leads?type=all",
+      link: "/leads",
       role: ["employee", "manager", "super_admin"],
       childrens: [],
     },
@@ -62,7 +62,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         {
           title: "Projects",
           icon: <PiDatabaseLight className="text-[25px]" />,
-          link: "/projects?type=all",
+          link: "/projects",
           role: ["employee", "manager", "super_admin"],
         },
         {
@@ -155,19 +155,100 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       childrens: [],
     },
   ];
-
-  const filteredLinks = links.map((link) => {
-    const filteredLink = { ...link };
-
-    if (!filteredLink.role || filteredLink.role.includes(role)) {
-      if (filteredLink.childrens) {
-        filteredLink.childrens = filteredLink.childrens.filter(
-          (childLink) => !childLink.role || childLink.role.includes(role)
-        );
-      }
-      return filteredLink;
-    }
-  });
+  const employeeLinks = [
+    {
+      id: 1,
+      title: "Dashboard",
+      link: "/",
+      icon: <PiHouseLight className="text-[25px]" />,
+      role: ["employee", "manager", "super_admin"],
+      childrens: [],
+    },
+    {
+      id: 2,
+      title: "Leads",
+      icon: <PiUsersThreeLight className="text-[25px]" />,
+      link: "/leads",
+      role: ["employee", "manager", "super_admin"],
+      childrens: [],
+    },
+    {
+      id: 3,
+      title: "Inventory",
+      icon: <PiFoldersLight className="text-[25px]" />,
+      childrens: [
+        {
+          title: "Projects",
+          icon: <PiDatabaseLight className="text-[25px]" />,
+          link: "/projects",
+          role: ["employee", "manager", "super_admin"],
+        },
+        {
+          title: "Inventories",
+          icon: <PiHardDrivesLight className="text-[25px]" />,
+          link: "/inventory",
+          role: ["employee", "manager", "super_admin"],
+        },
+      ],
+    },
+    {
+      id: 4,
+      title: "To Do Tasks",
+      icon: <PiListChecksLight className="text-[25px]" />,
+      link: "/tasks",
+      role: ["employee", "manager", "super_admin"],
+      childrens: [],
+    },
+    {
+      id: 5,
+      title: "User",
+      icon: <PiUserCircleLight className="text-[25px]" />,
+      childrens: [
+        {
+          title: "Clients",
+          icon: <PiUserListLight className="text-[25px]" />,
+          link: "/clients",
+          role: ["employee", "manager", "super_admin"],
+        },
+      ],
+    },
+    {
+      id: 7,
+      title: "Sales",
+      icon: <PiShoppingCartSimpleLight className="text-[25px]" />,
+      role: ["employee", "manager", "super_admin"],
+      link: "/sales",
+      childrens: [],
+    },
+    {
+      id: 8,
+      title: "Cash Book",
+      icon: <PiBankLight className="text-[25px]" />,
+      childrens: [
+        {
+          title: "All Cash Book",
+          icon: <PiMoneyLight className="text-[25px]" />,
+          link: "/cashbook",
+          role: ["employee", "manager", "super_admin"],
+        },
+        {
+          title: "View Cash Book",
+          icon: <PiCalendarCheckLight className="text-[25px]" />,
+          link: "/view/cashbook",
+          role: ["employee", "manager", "super_admin"],
+        },
+      ],
+    },
+    {
+      id: 9,
+      title: "Vouchers",
+      icon: <PiReceiptLight className="text-[25px]" />,
+      role: ["employee", "manager", "super_admin"],
+      link: "/voucher",
+      childrens: [],
+    },
+  ];
+  const links = loggedUser.role == 'employee' ? employeeLinks : adminLinks
 
   const [openedMenu, setOpenedMenu] = useState(false);
 
@@ -175,9 +256,8 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     <div>
       {/* desktop sidebar */}
       <Box
-        className={`w-[220px] sticky top-0 flex flex-col shadow-none h-screen ${
-          showSidebar ? "md:flex hidden" : "hidden"
-        } bg-white z-[1000] border-r-[1px] border-r-[#eeeff0] border-b-[1px] border-b-[#eeeff0]`}>
+        className={`w-[220px] sticky top-0 flex flex-col shadow-none h-screen ${showSidebar ? "md:flex hidden" : "hidden"
+          } bg-white z-[1000] border-r-[1px] border-r-[#eeeff0] border-b-[1px] border-b-[#eeeff0]`}>
         <a href="/">
           <div className="flex border-b-[1px] border-b-[#eeeff0] h-[4rem] items-center justify-center">
             {!showSidebar ? "" : <img className="h-[45px]" src="/favicon/GrowLOGO.png" />}
@@ -186,7 +266,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         <div
           style={{ height: "calc(100vh - 4rem)" }}
           className="py-[5px] gap-1 flex flex-col h-fit overflow-y-scroll">
-          {filteredLinks.map((link, index) => (
+          {links.map((link, index) => (
             <SidebarItem
               item={link}
               key={index}
@@ -212,7 +292,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             <div
               style={{ height: "calc(100vh - 4rem)" }}
               className="flex flex-col gap-[5px] py-[6px] overflow-y-scroll ">
-              {filteredLinks.map((link, index) => (
+              {links.map((link, index) => (
                 <SidebarItem
                   item={link}
                   key={index}

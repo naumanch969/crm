@@ -101,10 +101,11 @@ export const createClient = (clientData) => async (dispatch) => {
 }
 export const createEmployee = (employeeData, setOpen) => async (dispatch) => {
     try {
+        console.log(employeeData)
         dispatch(start())
         const { data } = await api.createEmployee(employeeData)
         dispatch(createEmployeeReducer(data.result))
-        // setOpen(false)
+        setOpen(false)
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

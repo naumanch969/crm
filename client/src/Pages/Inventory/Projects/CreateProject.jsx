@@ -19,6 +19,7 @@ import {
   Checkbox,
 } from "@mui/material";
 import { PiImages, PiNotepad, PiUser, PiXLight } from "react-icons/pi";
+import { CFormSelect } from "@coreui/react";
 import { pakistanCities } from "../../../constant";
 import { getSocieties } from "../../../redux/action/society";
 
@@ -44,7 +45,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
     city: "",
     society: "",
     images: [],
-    status: "inactive",
+    status: "active",
   };
   //////////////////////////////////////// STATES ////////////////////////////////////
   const [projectData, setProjectData] = useState(ProjectinitialState);
@@ -66,7 +67,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
     setOpen(false);
   };
 
-  const handleInputChange = (field, value) => {
+  const handleChange = (field, value) => {
     setProjectData((prevFilters) => ({
       ...prevFilters,
       [field]: value,
@@ -109,7 +110,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       value={projectData.title}
-                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      onChange={(e) => handleChange("title", e.target.value)}
                       fullWidth
                       size="small"
                       type="text"
@@ -121,7 +122,7 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       value={projectData.description}
-                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      onChange={(e) => handleChange("description", e.target.value)}
                       fullWidth
                       size="small"
                       type="number"
@@ -133,31 +134,31 @@ const CreateProject = ({ open, setOpen, scroll }) => {
                 <tr>
                   <td className="pb-4 text-lg">City </td>
                   <td className="pb-4">
-                    <Autocomplete
-                      size="small"
-                      disablePortal={false}
-                      options={pakistanCities}
+                    <CFormSelect
                       value={projectData.city}
-                      getOptionLabel={(city) => city}
-                      onChange={(e, city) => handleChange('city', city)}
-                      className="w-full"
-                      renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                    />
+                      onChange={(e) => handleChange("city", e.target.value)}
+                      className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                    >
+                      <option value={""}>None</option>
+                      {pakistanCities.map((city, key) => (
+                        <option key={key} value={city}>{city}</option>
+                      ))}
+                    </CFormSelect>
                   </td>
                 </tr>
                 <tr>
                   <td className="pb-4 text-lg">Society </td>
                   <td className="pb-4">
-                    <Autocomplete
-                      size="small"
-                      disablePortal={false}
-                      options={societies}
+                    <CFormSelect
                       value={projectData.society}
-                      getOptionLabel={(society) => society.title ? society.title : society}
-                      onChange={(e, society) => handleChange('society', society._id)}
-                      className="w-full"
-                      renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                    />
+                      onChange={(e) => handleChange("society", e.target.value)}
+                      className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                    >
+                      <option value={""}>None</option>
+                      {societies.map((society, key) => (
+                        <option key={key} value={society._id}>{society.title}</option>
+                      ))}
+                    </CFormSelect>
                   </td>
                 </tr>
                 <tr>

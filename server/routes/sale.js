@@ -1,13 +1,13 @@
 import express from 'express'
 import { createSale, getSale, getSales, getLeadSales, updateSale, deleteSale, deleteWholeCollection } from '../controllers/sale.js'
-import { verifyEmployee, verifyManager, verifyToken } from '../middleware/auth.js'
+import { verifyEmployee, verifyToken } from '../middleware/auth.js'
 
 const router = express.Router()
 
 // GET
-router.get('/get/single/:saleId', verifyToken, verifyManager, getSale)
-router.get('/get/all', verifyToken, verifyManager, getSales)
-router.get('/get/lead', verifyToken, verifyManager, getLeadSales)
+router.get('/get/single/:saleId', verifyToken, verifyEmployee, getSale)
+router.get('/get/all', verifyToken, verifyEmployee, getSales)
+router.get('/get/lead', verifyToken, verifyEmployee, getLeadSales)
 
 // POST
 router.post('/create', verifyToken, verifyEmployee, createSale)

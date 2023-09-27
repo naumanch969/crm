@@ -269,6 +269,7 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                     value={leadData.city}
                     onChange={(e) => handleChange("city", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value={""}>None</option>
                     {pakistanCities.map((city, key) => (
                       <option key={key} value={city}>
                         {city}
@@ -283,7 +284,9 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                   <CFormSelect
                     value={leadData.property}
                     onChange={(e) => handleChange("property", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
                     {projects.map((project, key) => (
                       <option key={key} value={project._id}>
                         {project.title}
@@ -298,7 +301,9 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                   <CFormSelect
                     value={leadData.priority}
                     onChange={(e) => handleChange("priority", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
                     {priorities.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -313,7 +318,9 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                   <CFormSelect
                     value={leadData.status}
                     onChange={(e) => handleChange("status", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
                     {statuses.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -328,7 +335,9 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                   <CFormSelect
                     value={leadData.source}
                     onChange={(e) => handleChange("source", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
                     {sources.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}

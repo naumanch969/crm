@@ -6,7 +6,7 @@ export const getEvent = async (req, res, next) => {
     try {
 
         const { eventId } = req.params
-        const findedEvent = await Event.findById(eventId)
+        const findedEvent = await Event.findById(eventId).populate('userId').exec()
         if (!findedEvent) return next(createError(401, 'Event not exist'))
 
         res.status(200).json({ result: findedEvent, message: 'event fetched seccessfully', success: true })
@@ -19,7 +19,7 @@ export const getEvent = async (req, res, next) => {
 export const getEvents = async (req, res, next) => {
     try {
 
-        const events = await Event.find()
+        const events = await Event.find().populate('userId').exec()
 
         res.status(200).json({ result: events, message: 'events fetched seccessfully', success: true })
 
@@ -34,7 +34,7 @@ export const createEvent = async (req, res, next) => {
         const { title, description, start, end } = req.body
         if (!title || !description || !start || !end) return next(createError(400, 'Make sure to provide all the fields'))
 
-        const newEvent = await Event.create({ title, description, start: new Date(start), end: new Date(end) })
+        const newEvent = await Event.create({ title, description, userId: req.user._id, start: new Date(start), end: new Date(end) })
         res.status(200).json({ result: newEvent, message: 'Event created successfully', success: true })
 
     } catch (err) {
@@ -49,7 +49,7 @@ export const updateEvent = async (req, res, next) => {
         const findedEvent = await Event.findById(eventId)
         if (!Boolean(findedEvent)) return next(createError(401, 'Event not exist'))
 
-        const udpatedEvent = await Event.findByIdAndUpdate(eventId, { $set: req.body }, { new: true })
+        const udpatedEvent = await Event.findByIdAndUpdate(eventId, { $set: req.body }, { new: true }).populate('userId').exec()
         res.status(200).json({ result: udpatedEvent, message: 'event udpated successfully', success: true })
 
     } catch (err) {

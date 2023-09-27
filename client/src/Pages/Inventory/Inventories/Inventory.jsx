@@ -97,6 +97,7 @@ function Inventory() {
   const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
   const { inventories, allInventories, isFetching, error } = useSelector((state) => state.inventory);
+  const { loggedUser } = useSelector(state => state.user)
   const columns = [
     {
       field: "uid",
@@ -204,13 +205,16 @@ function Inventory() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <div className="flex gap-[10px] items-center transition-all">
-          <Tooltip arrow placement="top" title="Delete">
-            {" "}
-            <PiTrashLight
-              onClick={() => handleOpenDeleteModal(params.row._id)}
-              className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
-            />
-          </Tooltip>
+          {
+            loggedUser?.role != 'employee' &&
+            <Tooltip arrow placement="top" title="Delete">
+              {" "}
+              <PiTrashLight
+                onClick={() => handleOpenDeleteModal(params.row._id)}
+                className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
+              />
+            </Tooltip>
+          }
           <Tooltip arrow placement="top" title="Edit">
             {" "}
             <CiEdit onClick={() => handleOpenEditModal(params.row)} className="cursor-pointer text-green-500 text-[23px] hover:text-green-600" />

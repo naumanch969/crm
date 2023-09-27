@@ -6,13 +6,14 @@ import { FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import CreateRefund from "./CreateRefund";
 import { searchRefundReducer } from "../../../redux/reducer/refund";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Topbar = () => {
   ////////////////////////////////////////// VARIABLES //////////////////////////////////////
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const {loggedUser} = useSelector(state=>state.user)
   const title = pathname.split("/")[1];
 
   ////////////////////////////////////////// STATES //////////////////////////////////////
@@ -65,13 +66,16 @@ const Topbar = () => {
             </FormControl>
           </div>
           <div>
-            <Tooltip title="Add New Follow Up" placement="top" arrow>
+            {
+            loggedUser?.role == 'employee' &&  
+              <Tooltip title="Add New Follow Up" placement="top" arrow>
               <div onClick={handleCreateopen("body")}>
                 <button className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
                   <Add />
                 </button>
               </div>
             </Tooltip>
+            }
           </div>
         </div>
       </div>

@@ -20,6 +20,7 @@ function Projects() {
   const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
   const { projects, allProjects, isFetching, error } = useSelector((state) => state.project);
+  const { loggedUser } = useSelector((state) => state.user);
   const columns = [
     {
       field: "uid",
@@ -105,13 +106,16 @@ function Projects() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <div className="flex gap-[10px] items-center transition-all">
-          <Tooltip arrow placement="top" title="Delete">
-            {" "}
-            <PiTrashLight
-              onClick={() => handleOpenDeleteModal(params.row._id)}
-              className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
-            />
-          </Tooltip>
+          {
+            loggedUser?.role != 'employee' &&
+            <Tooltip arrow placement="top" title="Delete">
+              {" "}
+              <PiTrashLight
+                onClick={() => handleOpenDeleteModal(params.row._id)}
+                className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
+              />
+            </Tooltip>
+          }
           <Tooltip arrow placement="top" title="Edit">
             {" "}
             <CiEdit
@@ -202,7 +206,7 @@ function Projects() {
       <EditProject scroll={scroll} openEdit={openEditModal} setOpenEdit={setOpenEditModal} />
       <EditProject scroll={scroll} open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteProject open={openDeleteModal} setOpen={setOpenDeleteModal} projectId={selectedProjectId} />
-      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters}  isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
+      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
       <ProjectFilter open={openFilters} setOpen={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
 
       <div className="flex justify-center items-center ">

@@ -85,7 +85,7 @@ const EventCalendar = () => {
         onClick={() => setShowCreateModal(true)}
         className="absolute bottom-4 right-4 bg-red-500 text-white rounded-full p-[1rem] shadow-xl z-[50000] cursor-pointer "
       >
-        <Add />
+        <Add style={{}} />
       </button>
       </Tooltip>
       

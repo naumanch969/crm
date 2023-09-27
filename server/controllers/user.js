@@ -1,5 +1,6 @@
 import User from '../models/user.js'
 import { createError } from '../utils/error.js'
+import bcrypt from 'bcryptjs'
 
 
 export const getUsers = async (req, res, next) => {
@@ -31,7 +32,7 @@ export const getUser = async (req, res, next) => {
 
 export const filterUser = async (req, res, next) => {
     const { startingDate, endingDate, ...filters } = req.query;
-     try {
+    try {
         let query = await User.find(filters).populate('project').exec();
 
         // Check if startingDate is provided and valid
@@ -106,7 +107,10 @@ export const createEmployee = async (req, res, next) => {
         const findedUser = await User.findOne({ username: req.body.username })
         if (Boolean(findedUser)) return next(createError(400, 'Username already exist'))
 
-        const result = await User.create({ ...req.body, role: 'employee' })
+        const { password } = req.body
+        const hashedPassword = await bcrypt.hash(password, 12)
+
+        const result = await User.create({ ...req.body, password: hashedPassword, role: 'employee' })
         res.status(200).json({ result, message: 'employee created seccessfully', success: true })
 
     } catch (err) {

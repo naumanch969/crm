@@ -27,11 +27,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-const FORM = ({ open, setOpen, scroll }) => {
+const CreateVoucher = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////// VARIBALES ///////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
+<<<<<<< HEAD:client/src/Pages/Vouchers/Form.jsx
   const { clients } = useSelector((state) => state.user);
+=======
+  const { clients } = useSelector(state => state.user)
+>>>>>>> 18ba82687197147003373f4aae57da651b05f185:client/src/Pages/Vouchers/CreateVoucher.jsx
   const initialVoucherState = {
     branch: "",
     issuingDate: "",
@@ -79,7 +83,7 @@ const FORM = ({ open, setOpen, scroll }) => {
 
   const handleDownloadPDF = (e) => {
     e.preventDefault();
-    dispatch(createVoucher(voucherData));
+    dispatch(createVoucher(voucherData, setOpen));
     setIsVoucherCreated(false);
 
     const documentDefinition = {
@@ -327,8 +331,14 @@ const FORM = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Customer Name </td>
                 <td className="pb-4">
+<<<<<<< HEAD:client/src/Pages/Vouchers/Form.jsx
                   <TextField
                     name="clientName"
+=======
+                  <CFormSelect
+                    value={voucherData.clientName}
+                    name='clientName'
+>>>>>>> 18ba82687197147003373f4aae57da651b05f185:client/src/Pages/Vouchers/CreateVoucher.jsx
                     onChange={handleInputChange}
                     value={voucherData.clientName}
                     size="small"
@@ -390,9 +400,14 @@ const FORM = ({ open, setOpen, scroll }) => {
                 <td className="pb-4 text-lg">Payment Type </td>
                 <td className="pb-4">
                   <CFormSelect
+<<<<<<< HEAD:client/src/Pages/Vouchers/Form.jsx
                     name="type"
+=======
+>>>>>>> 18ba82687197147003373f4aae57da651b05f185:client/src/Pages/Vouchers/CreateVoucher.jsx
                     value={voucherData.type}
+                    name='type'
                     onChange={handleInputChange}
+<<<<<<< HEAD:client/src/Pages/Vouchers/Form.jsx
                     options={["Select an Option", "Cash", "Cheque", "Credit Card", "Online"]}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
                   />
@@ -410,6 +425,16 @@ const FORM = ({ open, setOpen, scroll }) => {
                     fullWidth
                     placeholder="Area in Marla"
                   />
+=======
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
+                    <option value={"cash"}>Cash</option>
+                    <option value={"cheque"}>Cheque</option>
+                    <option value={"card"}>Card</option>
+                    <option value={"online"}>Online</option>
+                  </CFormSelect>
+>>>>>>> 18ba82687197147003373f4aae57da651b05f185:client/src/Pages/Vouchers/CreateVoucher.jsx
                 </td>
               </tr>
               <tr>
@@ -475,4 +500,4 @@ const FORM = ({ open, setOpen, scroll }) => {
   );
 };
 
-export default FORM;
+export default CreateVoucher;
