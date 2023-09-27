@@ -26,6 +26,17 @@ export const login = (userData, navigate) => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
+export const changePassword = (passwordData, navigate) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.changePassword(passwordData)
+        dispatch(loginReducer(data.result))
+        navigate('/')
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
 export const logout = (navigate) => async (dispatch) => {
     try {
         dispatch(start())

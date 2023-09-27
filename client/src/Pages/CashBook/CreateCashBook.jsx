@@ -64,7 +64,6 @@ function CreateCashBook({ open, setOpen, scroll }) {
   const handleSubmit = (e) => {
     // clientName, top, remarks, amount, type, staff
     const { staff, clientName, remarks, top, amount, type } = cashbookData
-    console.log('staff', staff, ' clientName', clientName, ' remarks', remarks, 'top', top, 'amount', amount, 'type', type)
     if (!staff || !clientName || !remarks || !top || !amount || !type) return alert("Make sure to provide all the fields")
 
     dispatch(createCashbook({ ...cashbookData, leadId: lead?._id }));

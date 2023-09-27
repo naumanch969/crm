@@ -162,7 +162,6 @@ function Societies() {
     setSelectedSocietyId(leadId);
   };
   const handleOpenEditModal = (society) => {
-    console.log(society)
     setOpenEditModal(true);
     dispatch(getSocietyReducer(society));
   };

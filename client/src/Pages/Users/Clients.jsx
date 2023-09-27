@@ -119,13 +119,13 @@ const Clients = () => {
       width: "200",
       renderCell: (params) => <div className="capitalize font-primary">{params.row.username}</div>,
     },
-    {
-      field: "email",
-      headerName: "Client Email",
-      headerClassName: "super-app-theme--header",
-      width: "200",
-      renderCell: (params) => <div className="font-primary">{params.row.email}</div>,
-    },
+    // {
+    //   field: "email",
+    //   headerName: "Client Email",
+    //   headerClassName: "super-app-theme--header",
+    //   width: "200",
+    //   renderCell: (params) => <div className="font-primary">{params.row.email}</div>,
+    // },
     {
       field: "phone",
       headerName: "Phone",

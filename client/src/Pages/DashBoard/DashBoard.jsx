@@ -6,8 +6,17 @@ import LeadsStat from "./LeadsStat";
 import ProjectsStats from "./ProjectsStats";
 import Messages from "./Messages";
 import EventCalendar from "./EventCalendar/EventCalendar";
+import { getNotifications } from "../../redux/action/notification";
+import { useDispatch } from "react-redux";
 
 function DashBoard() {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getNotifications());
+  }, []);
+
   return (
     <div className="w-full h-auto">
       <PaymentStats />

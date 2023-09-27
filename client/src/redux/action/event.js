@@ -15,7 +15,8 @@ export const getEvents = () => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.getEvents()
-        dispatch(getEventsReducer(data.result))
+        const result = data.result.map((event) => ({ ...event, start: new Date(event.start), end: new Date(event.end) }))
+        dispatch(getEventsReducer(result))
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

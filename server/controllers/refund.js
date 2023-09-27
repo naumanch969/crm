@@ -2,6 +2,7 @@ import Refund from '../models/refund.js'
 import User from '../models/user.js'
 import bcrypt from 'bcryptjs'
 import Cashbook from '../models/cashbook.js'
+import Notification from '../models/notification.js'
 import { createError } from '../utils/error.js'
 
 
@@ -49,9 +50,16 @@ export const createRefund = async (req, res, next) => {
     try {
 
         const { branch, amount, clientName, CNIC, phone, reason, leadId } = req.body
-        if (!amount || !clientName || !phone || !reason || !leadId) return next(createError(400, 'Make sure to provide all the fields'))
+        if (!amount || !branch || !clientName || !phone || !reason || !leadId) return next(createError(400, 'Make sure to provide all the fields'))
 
-        const newRefund = await Refund.create({ branch, amount, clientName, CNIC, phone, reason, leadId })
+        const notification = await Notification.create({
+            title: 'Refund Request',
+            type: 'refund-approval',
+            description: `${clientName} is requesting for refund.`,
+            data: { branch, amount, clientName, CNIC, phone, reason, leadId },
+        })
+
+        const newRefund = await Refund.create({ branch, amount, clientName, CNIC, phone, reason, leadId, notificationId: notification._id })
         res.status(200).json({ result: newRefund, message: 'Refund created successfully', success: true })
 
     } catch (err) {
@@ -88,9 +96,11 @@ export const acceptRefund = async (req, res, next) => {
         const isPasswordCorrect = await bcrypt.compare(inputPassword, savedPassword)
         if (!isPasswordCorrect) return next(createError(401, 'Incorrect Password'))
 
+
         await Cashbook.create(cashbookData)
 
         const updatedRefund = await Refund.findByIdAndUpdate(refundId, { $set: { status: 'accepted' } }, { new: true })
+        await Notification.findByIdAndDelete(cashbookData.notificationId)
         res.status(200).json({ result: updatedRefund, message: 'Refund accepted successfully', success: true })
 
     } catch (err) {
@@ -112,6 +122,7 @@ export const rejectRefund = async (req, res, next) => {
         if (!isPasswordCorrect) return next(createError(401, 'Incorrect Password'))
 
         const updatedRefund = await Refund.findByIdAndUpdate(refundId, { $set: { status: 'rejected' } }, { new: true })
+        await Notification.findByIdAndDelete(cashbookData.notificationId)
         res.status(200).json({ result: updatedRefund, message: 'Refund rejected successfully', success: true })
 
     } catch (err) {

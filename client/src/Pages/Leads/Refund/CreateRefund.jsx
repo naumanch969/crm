@@ -9,7 +9,7 @@ import {
   Slide,
   DialogActions,
   TextField,
- } from "@mui/material";
+} from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
 import { createRefund } from "../../../redux/action/refund";
 import { getClients } from "../../../redux/action/user";
@@ -47,8 +47,8 @@ const CreateRefund = ({ open, setOpen, scroll }) => {
 
   ////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSave = () => {
-    const { amount, phone, reason } = refundData
-    if (!amount || !phone || !reason) return alert('Make sure to provide all the fields')
+    const { branch, amount, clientName, phone, reason } = refundData
+    if (!amount || !phone || !reason || !branch || !clientName) return alert('Make sure to provide all the fields')
 
     dispatch(createRefund({ ...refundData, leadId: lead?._id }, setOpen))
     setRefundData(initialRefundData)
@@ -117,6 +117,7 @@ const CreateRefund = ({ open, setOpen, scroll }) => {
                   <TextField
                     disabled={lead?.client}
                     value={refundData.clientName}
+                    onChange={handleChange}
                     type="text"
                     name="clientName"
                     size="small"
