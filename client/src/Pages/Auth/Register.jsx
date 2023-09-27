@@ -6,10 +6,9 @@ import {
   Input,
   InputAdornment,
   Snackbar,
-  MenuItem,
-  Select,
   InputLabel,
 } from "@mui/material";
+import { CFormSelect } from "@coreui/react";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -248,24 +247,18 @@ const Signup = () => {
                       City
                     </InputLabel>
                   ) : null}
-                  <Select
-                    placeholder="City"
-                    type="text"
+                  <CFormSelect
                     value={userData.city}
                     onChange={(e) => handleChange("city", e.target.value)}
-                    size="small"
-                    style={{ fontFamily: "'Montserrat', sans-serif" }}
-                    variant="standard"
-                    className="w-[20rem] h-[40px] px-[8px]">
-                    <MenuItem disabled value="city">
-                      <em>City</em>
-                    </MenuItem>
-                    {pakistanCities.map((item, index) => (
-                      <MenuItem value={item} key={index}>
-                        {item}
-                      </MenuItem>
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
+                    {pakistanCities.map((city, key) => (
+                      <option key={key} value={city}>
+                        {city}
+                      </option>
                     ))}
-                  </Select>
+                  </CFormSelect>
                 </FormControl>
                 {/* project */}
                 <FormControl>
@@ -279,22 +272,18 @@ const Signup = () => {
                       Project
                     </InputLabel>
                   ) : null}
-                  <Select
+                  <CFormSelect
                     value={userData.project}
-                    onChange={(e) => {
-                      handleChange("project", e.target.value);
-                    }}
-                    type="text"
-                    size="small"
-                    variant="standard"
-                    style={{ fontFamily: "'Montserrat', sans-serif" }}
-                    className="w-[20rem] h-[40px] px-[8px]">
-                    {projectsTitles.map((project, index) => (
-                      <MenuItem value={project._id} key={index}>
-                        {project.title}{" "}
-                      </MenuItem>
+                    onChange={(e) => handleChange("project", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
+                    {projects.map((project, key) => (
+                      <option key={key} value={project._id}>
+                        {project.title}
+                      </option>
                     ))}
-                  </Select>
+                  </CFormSelect>
                 </FormControl>
                 {/* phone */}
                 <Input
@@ -399,9 +388,8 @@ const Signup = () => {
               <button
                 onClick={handleOpenSnackbar}
                 type="submit"
-                className={`w-[20rem]  hover:bg-[#45b8e2] mt-4 p-[6px] rounded-lg transition-all text-white font-medium tracking-wider ${
-                  isFetching ? "bg-[#17a2b8]  cursor-not-allowed" : "bg-[#20aee3]"
-                }`}
+                className={`w-[20rem]  hover:bg-[#45b8e2] mt-4 p-[6px] rounded-lg transition-all text-white font-medium tracking-wider ${isFetching ? "bg-[#17a2b8]  cursor-not-allowed" : "bg-[#20aee3]"
+                  }`}
                 variant="contained">
                 {isFetching ? "Submitting..." : "Sign Up"}
               </button>

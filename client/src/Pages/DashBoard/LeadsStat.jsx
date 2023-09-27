@@ -5,15 +5,6 @@ import { getLeadsStat } from "../../redux/action/lead";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjects } from "../../redux/action/project";
 
-const projects = [
-  { name: "Project 1", leads: 10, },
-  { name: "Project 2", leads: 7, },
-  { name: "Project 3", leads: 6, },
-  { name: "Project 4", leads: 5, },
-  { name: "Project 5", leads: 2, },
-  { name: "Project 6", leads: 0, },
-  { name: "Project 7", leads: 9, },
-];
 
 const priorities = [
   { name: "Very Hot", value: 'veryHot' },
@@ -22,7 +13,7 @@ const priorities = [
   { name: "Cold", value: 'cold' },
   { name: "Very Cold", value: 'veryCold' },
 ];
-
+  
 const sources = [
   { name: "Instagram", value: 'instagram' },
   { name: "Facebook", value: 'facebook' },
@@ -51,6 +42,7 @@ const LeadsStat = () => {
   ////////////////////////////////////////////// VARIABLES //////////////////////////////////////////////////////
   const { stats, leads } = useSelector(state => state.lead)
   const dispatch = useDispatch()
+ 
 
   ////////////////////////////////////////////// STATES //////////////////////////////////////////////////////
   const [type, setType] = useState('status')  // status, priority, property, source
@@ -106,7 +98,7 @@ const LeadsStat = () => {
           bottom: 5,
         }}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="_id" />
+        <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
         <Legend />

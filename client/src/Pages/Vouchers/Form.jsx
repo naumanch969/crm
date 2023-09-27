@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { createVoucher } from "../../redux/action/voucher";
+import { getClients } from "../../redux/action/user";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -17,6 +18,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
+import { CFormSelect } from "@coreui/react";
 import JsBarcode from 'jsbarcode';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -29,6 +31,7 @@ const FORM = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////// VARIBALES ///////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { clients } = useSelector(state=>state.user)
   const initialVoucherState = {
     branch: "",
     issuingDate: "",
@@ -60,7 +63,9 @@ const FORM = ({ open, setOpen, scroll }) => {
   const [voucherData, setVoucherData] = useState(initialVoucherState);
 
   ////////////////////////////////////// Use Effects ///////////////////////////////////////////
-
+  useEffect(() => {
+    dispatch(getClients());
+  }, [open]);
   
   ////////////////////////////////////// FUNCTIONS ////////////////////////////////////////
 
@@ -299,14 +304,17 @@ const FORM = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Customer Name </td>
                 <td className="pb-4">
-                  <TextField
-                    name="clientName"
+                   <CFormSelect
                     value={voucherData.clientName}
+                    name='clientName'
                     onChange={handleInputChange}
-                    size="small"
-                    type="text"
-                    fullWidth
-                  />
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={"None"}>None</option>
+                    {clients.map((client, key) => (
+                      <option key={key} value={client.username}>{client.username}</option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>

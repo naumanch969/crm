@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createLead, getLeads } from "../../redux/action/lead";
 import Topbar from "./Topbar";
-import { getEmployees, register } from "../../redux/action/user";
+import {   register } from "../../redux/action/user";
 import { CFormSelect } from "@coreui/react";
 import { pakistanCities } from "../../constant";
 import {

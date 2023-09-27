@@ -40,6 +40,37 @@ export const getEmployeeLeads = async (req, res, next) => {
     }
 }
 
+
+const priorities = [
+    { name: "Very Hot", value: 'veryHot' },
+    { name: "Hot", value: 'hot' },
+    { name: "Moderate", value: 'moderate' },
+    { name: "Cold", value: 'cold' },
+    { name: "Very Cold", value: 'veryCold' },
+];
+
+const sources = [
+    { name: "Instagram", value: 'instagram' },
+    { name: "Facebook", value: 'facebook' },
+    { name: "Facebook Comment", value: 'facebookComment' },
+    { name: "Friend and Family", value: 'friendAndFamily' },
+    { name: "Direct Call", value: 'directCall' },
+    { name: "Google", value: 'google' },
+    { name: "Referral", value: 'referral' },
+];
+
+const statuses = [
+    { name: "New", value: 'new' },
+    { name: "Closed (Lost)", value: 'closedLost' },
+    { name: "Closed (Won)", value: 'closedWon' },
+    { name: "Meeting (Done)", value: 'meetingDone' },
+    { name: "Meeting (Attempt)", value: 'meetingAttempt' },
+    { name: "Followed Up (Call)", value: 'followedUpCall' },
+    { name: "Followed Up (Email)", value: 'followedUpEmail' },
+    { name: "Contacted Client (Call)", value: 'contactedClientCall' },
+    { name: "Contacted Client (Call Attempt)", value: 'contactedClientCallAttempt' },
+    { name: "Contacted Client (Email)", value: 'contactedClientEmail' },
+];
 export const getLeadsStat = async (req, res, next) => {
     const { type } = req.query;
 
@@ -67,6 +98,16 @@ export const getLeadsStat = async (req, res, next) => {
                     },
                 ];
                 break;
+            case 'source':
+                pipeline = [
+                    {
+                        $group: {
+                            _id: `$source`,
+                            count: { $sum: 1 },
+                        },
+                    },
+                ];
+                break;
             case 'property':
                 pipeline = [
                     {
@@ -77,52 +118,70 @@ export const getLeadsStat = async (req, res, next) => {
                     },
                 ];
                 break;
-            case 'source':
-                pipeline = [
-                    {
-                        $group: {
-                            _id: '$source',
-                            count: { $sum: 1 },
-                        },
-                    },
-                ];
-                break;
             default:
                 return res.status(400).json({ error: 'Invalid type' });
         }
 
         const aggregatedResult = await Lead.aggregate(pipeline);
-
+        console.log(aggregatedResult)
         if (type === 'property') {
-            // Extract unique project IDs from the aggregatedResult
-            const projectIds = aggregatedResult.map((item) => item._id);
+            // Fetch all projects
+            const allProjects = await Project.find({}, { title: 1, _id: 1 }); // Replace with the actual model and fields
 
-            // Fetch project titles for the project IDs using Promise.all
-            const projectTitles = await Promise.all(
-                projectIds.map(async (projectId) => {
-                    const project = await Project.findById(projectId); // Replace with the actual model and query
-                    return { projectId, title: project ? project.title : null }; // Set to null if no match found
-                })
-            );
+            // Create a map to store counts for each project
+            const projectCounts = {};
 
-            // Replace _id with the project title in the aggregatedResult
-            const updatedResult = aggregatedResult.map((item) => {
-                const matchingProject = projectTitles.find((project) => project.projectId.toString() === item._id.toString());
-                return {
-                    ...item,
-                    _id: matchingProject ? matchingProject.title : null, // Set to null if no match found
-                };
+            // Initialize counts to zero for all projects
+            allProjects.forEach((project) => {
+                projectCounts[project._id] = 0; // Use project._id as _id
             });
 
-            // Now 'updatedResult' contains project titles instead of project IDs
+            // Update counts based on the aggregated result
+            aggregatedResult.forEach((item) => {
+                const projectId = item._id; // Use projectId as _id
+                const count = item.count || 0; // Use 0 if count is not present
+                projectCounts[projectId] = count;
+            });
+
+            // Convert the projectCounts map into an array with _id and name fields
+            const updatedResult = Object.entries(projectCounts).map(([projectId, count]) => {
+                const project = allProjects.find((p) => p._id.toString() === projectId);
+                const name = project ? project.title : ''; // Use project.title as name
+                return { _id: projectId, name, count };
+            });
+
             res.status(200).json({ result: updatedResult, message: 'Stats fetched successfully.' });
         } else {
-            res.status(200).json({ result: aggregatedResult, message: 'Stats fetched successfully.' });
+            // For priorities, sources, and statuses, create a map to store counts
+            const itemCounts = {};
+
+            // Initialize counts to zero for all items
+            const allItems = type == 'priority' ? priorities : type == 'source' ? sources : statuses; // Change to sources, statuses, etc. as needed
+            allItems.forEach((item) => {
+                itemCounts[item.value] = 0;
+            });
+
+            // Update counts based on the aggregated result
+            aggregatedResult.forEach((item) => {
+                const itemName = item._id;
+                const count = item.count || 0; // Use 0 if count is not present
+                itemCounts[itemName] = count;
+            });
+
+            // Convert the itemCounts map into an array with all three fields
+            const updatedResult = Object.keys(itemCounts).map((itemValue) => {
+                const itemName = allItems.find((item) => item.value === itemValue)?.name || itemValue;
+                return { _id: itemValue, name: itemName, count: itemCounts[itemValue] };
+            });
+
+            res.status(200).json({ result: updatedResult, message: 'Stats fetched successfully.' });
         }
     } catch (error) {
         next(createError(500, error));
     }
 };
+
+
 
 
 export const searchLead = async (req, res, next) => {

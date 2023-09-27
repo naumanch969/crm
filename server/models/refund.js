@@ -8,6 +8,7 @@ const refundSchema = Schema({
     CNIC: { type: String, required: false, default: '' },
     phone: { type: String, required: true },
     reason: { type: String, required: true },
+    notificationId: { type: Schema.Types.ObjectId, ref: 'Notification', required: true },
     leadId: { type: Schema.Types.ObjectId, ref: 'Lead' },  // for refund
     status: { type: String, default: 'underProcess', enum: ['accepted', 'rejected', 'underProcess'] },  // for refund
     uid: { type: String }
