@@ -35,6 +35,7 @@ const EventCalendar = () => {
 
   const dispatch = useDispatch()
   const { events } = useSelector(state => state.event)
+  console.log(events)
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [showViewModal, setShowViewModal] = useState(false)
   const [showCreateModal, setShowCreateModal] = useState(false)
@@ -87,8 +88,8 @@ const EventCalendar = () => {
 
       <Calendar
         localizer={localizer}
-        startAccessor="start"
-        endAccessor="end"
+        // startAccessor="start"
+        // endAccessor="end"
         events={events}
         onDoubleClickEvent={(event) => handleShowViewModal(event)}
         // view="month" // agenda, day, month, week, work_week

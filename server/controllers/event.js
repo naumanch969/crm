@@ -34,7 +34,7 @@ export const createEvent = async (req, res, next) => {
         const { title, description, start, end } = req.body
         if (!title || !description || !start || !end) return next(createError(400, 'Make sure to provide all the fields'))
 
-        const newEvent = await Event.create({ title, description, start, end })
+        const newEvent = await Event.create({ title, description, start: new Date(start), end: new Date(end) })
         res.status(200).json({ result: newEvent, message: 'Event created successfully', success: true })
 
     } catch (err) {
