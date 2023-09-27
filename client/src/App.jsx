@@ -115,12 +115,12 @@ const App = () => {
                   <Route path="/" element={<DashBoard />} />
                   <Route path="/auth/register" element={<Navigate to="/" />} />
                   <Route path="/auth/login" element={<Navigate to="/" />} />
-                  <Route exact path="/auth/change_password" element={<ChangePassword/>} />
+                  <Route exact path="/auth/change_password" element={<ChangePassword />} />
                   <Route path="/projects" element={<Projects />} />
                   <Route path="/inventory" element={<Inventory />} />
                   <Route path="/societies" element={<Societies />} />
-                  <Route path="/myLeads" element={<Leads type="mine" />} />
-                  <Route path="/leads" element={<Leads type="all" />} />
+                  <Route path="/myLeads" element={<Leads />} />
+                  <Route path="/leads" exact element={<Leads />} />
                   <Route path="/leads/ledger" element={<Navigate to='/leads' />} />
                   <Route path="/leads/ledger/:leadId" element={<Ledger />} />
                   <Route path="/leads/:leadId" element={<Lead />} />

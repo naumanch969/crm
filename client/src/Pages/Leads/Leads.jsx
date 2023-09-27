@@ -269,16 +269,17 @@ function Leads({ type, showSidebar }) {
   });
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
-  useEffect(() => {
-    // dispatch(getLeads()); // only find my leads (of one who is logged in)
-    dispatch(getEmployeeLeads()); // only find my leads (of one who is logged in)
-  }, []);
-  useEffect(() => {
-    if (!isFiltered) {
-      dispatch(getLeadsReducer(allLeads))
-    }
-  }, [isFiltered])
+  // useEffect(() => {
+  //   // dispatch(getLeads()); // only find my leads (of one who is logged in)
+  //   dispatch(getEmployeeLeads()); // only find my leads (of one who is logged in)
+  // }, []);
+  // useEffect(() => {
+  //   if (!isFiltered) {
+  //     dispatch(getLeadsReducer(allLeads))
+  //   }
+  // }, [isFiltered])
 
+  console.log('this')
   ////////////////////////////////////// FUNCTION //////////////////////////////
   const handleOpenAttachmentModal = (leadId) => {
     setSelectedLeadId(leadId);
@@ -327,14 +328,14 @@ function Leads({ type, showSidebar }) {
 
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
-      <EditModal open={openEditModal} setOpen={setOpenEditModal} />
+      {/* <EditModal open={openEditModal} setOpen={setOpenEditModal} />
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} leadId={selectedLeadId} />
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
       <ShiftLeadModal open={openShiftLeadModal} setOpen={setOpenShiftLeadModal} />
       <ShareLeadModal open={openShareLeadModal} setOpen={setOpenShareLeadModal} />
       <Filter open={openFilters} setOpen={setOpenFilters} setIsFiltered={setIsFiltered} />
       <Lead open={openViewModal} setOpen={setOpenViewModal} leadId={selectedLeadId} />
-      <Attachments open={openAttachmentModal} setOpen={setOpenAttachmentModal} leadId={selectedLeadId} />
+      <Attachments open={openAttachmentModal} setOpen={setOpenAttachmentModal} leadId={selectedLeadId} /> */}
 
       <Topbar
         options={options}

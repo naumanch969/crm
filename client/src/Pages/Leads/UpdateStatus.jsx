@@ -83,23 +83,15 @@ const UpateStatusModal = ({ open, setOpen }) => {
                     <CFormSelect
                       value={status}
                       onChange={(e) => setStatus(e.target.value)}
-                      className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                      className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                    >
+                      <option value={""}>None</option>
                       {statuses.map((item, key) => (
                         <option key={key} value={item.value}>
                           {item.name}
                         </option>
                       ))}
                     </CFormSelect>
-                    {/* <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={statuses}
-                    value={status}
-                    getOptionLabel={(status) => status.name ? status.name :status}
-                    onChange={(e, status) => setStatus(status.value)}
-                    className="w-full"
-                    renderInput={(params) => <TextField  {...params} autoComplete="false" fullWidth />}
-                  /> */}
                   </td>
                 </tr>
               </table>

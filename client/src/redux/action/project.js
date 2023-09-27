@@ -59,7 +59,7 @@ export const createProject = (projectData, navigate) => async (dispatch) => {
         dispatch(start())
         const { data } = await api.createProject(projectData)
         dispatch(createProjectReducer(data.result))
-        navigate('/projects?type=all')
+        navigate('/projects')
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

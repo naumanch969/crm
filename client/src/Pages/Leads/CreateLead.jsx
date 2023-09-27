@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createLead, getLeads } from "../../redux/action/lead";
 import Topbar from "./Topbar";
-import {   register } from "../../redux/action/user";
+import { register } from "../../redux/action/user";
 import { CFormSelect } from "@coreui/react";
 import { pakistanCities } from "../../constant";
 import {
@@ -16,6 +16,9 @@ import {
   Button,
   TextField,
   Autocomplete,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { getProjects } from "../../redux/action/project";
@@ -46,10 +49,6 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     source: "",
     description: "",
   };
-  let today = new Date();
-  let time = today.toLocaleTimeString();
-  let date = today.toLocaleDateString();
-  let dateTime = date + "  " + time;
   const priorities = [
     { name: 'Very Cold', value: 'veryCold' },
     { name: 'Cold', value: 'cold' },
@@ -81,6 +80,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
 
   //////////////////////////////////////// STATES ////////////////////////////////////
   const [leadData, setLeadData] = useState(initialLeadState);
+  const [createMultiple, setCreateMultiple] = useState(false)
+  const [leadCountsToCreate, setLeadCountsToCreate] = useState(1)
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
   useEffect(() => {
@@ -93,8 +94,10 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     const { firstName, lastName, username, phone, clientCity, city, priority, property, status, source, description, } = leadData;
     if (!firstName || !lastName || !username || !phone || !clientCity || !city || !priority || !property || !status || !source || !description)
       return alert("Make sure to provide all the fields");
-    dispatch(createLead(leadData, navigate));
+    dispatch(createLead({ ...leadData, count: leadCountsToCreate < 1 ? 1 : leadCountsToCreate }, navigate));
     setLeadData(initialLeadState);
+    setCreateMultiple(false)
+    setLeadCountsToCreate(1)
     setOpen(false);
   };
 
@@ -109,7 +112,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
 
   return (
     <div>
-   <Dialog
+      <Dialog
         open={open}
         scroll={scroll}
         TransitionComponent={Transition}
@@ -121,7 +124,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
       >
 
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400 font-primary">Edit Lead</div>
+          <div className="text-sky-400 font-primary">Create Lead</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -203,7 +206,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <CFormSelect
                     value={leadData.clientCity}
                     onChange={(e) => handleChange("clientCity", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
                     {pakistanCities.map((city, key) => (
                       <option key={key} value={city}>
                         {city}
@@ -242,7 +247,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <CFormSelect
                     value={leadData.city}
                     onChange={(e) => handleChange("city", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
                     {pakistanCities.map((city, key) => (
                       <option key={key} value={city}>
                         {city}
@@ -257,7 +264,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <CFormSelect
                     value={leadData.property}
                     onChange={(e) => handleChange("property", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
                     {projects.map((project, key) => (
                       <option key={key} value={project._id}>
                         {project.title}
@@ -272,7 +281,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <CFormSelect
                     value={leadData.priority}
                     onChange={(e) => handleChange("priority", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
                     {priorities.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -287,7 +298,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <CFormSelect
                     value={leadData.status}
                     onChange={(e) => handleChange("status", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
                     {statuses.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -302,7 +315,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <CFormSelect
                     value={leadData.source}
                     onChange={(e) => handleChange("source", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
                     {sources.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -326,6 +341,34 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   />
                 </td>
               </tr>
+              <tr>
+                <td className="text-lg">Create Multiple Leads </td>
+                <td>
+                  <FormGroup>
+                    <FormControlLabel
+                      className="w-40 text-gray-400"
+                      checked={createMultiple ? true : false}
+                      onChange={(e) => setCreateMultiple(e.target.checked)}
+                      control={<Checkbox defaultChecked style={{ color: "#20aee3" }} />}
+                    />
+                  </FormGroup>
+                </td>
+              </tr>
+              {
+                createMultiple &&
+                <tr>
+                  <td className="flex flex-col justify-start mt-1 text-lg">Lead Count </td>
+                  <td className="pb-4">
+                    <TextField
+                      onChange={(e) => setLeadCountsToCreate(e.target.value)}
+                      value={leadCountsToCreate}
+                      type="number"
+                      size="small"
+                      fullWidth
+                    />
+                  </td>
+                </tr>
+              }
             </table>
           </div>
         </DialogContent>

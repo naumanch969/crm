@@ -314,37 +314,79 @@ export const createOnlineLead = async (req, res, next) => {
 
 export const createLead = async (req, res, next) => {
     try {
-
         const {
             firstName, lastName, username, phone, CNIC, clientCity,
-            city, priority, property, status, source, description
-        } = req.body
+            city, priority, property, status, source, description, count
+        } = req.body;
+
         if (
-            !firstName || !lastName || !username || !phone || !clientCity ||
-            !city || !priority || !property || !status || !source || !description
-        )
-            return next(createError(401, 'Make sure to provide all the fields.'))
+            !firstName ||
+            !lastName ||
+            !username ||
+            !phone ||
+            !clientCity ||
+            !city ||
+            !priority ||
+            !property ||
+            !status ||
+            !source ||
+            !description
+        ) {
+            return next(createError(401, 'Make sure to provide all the fields.'));
+        }
 
-        const findedClient = await User.findOne({ username })
-        if (Boolean(findedClient)) return next(createError(400, 'Username is already exist'))
+        const findedClient = await User.findOne({ username });
+        if (Boolean(findedClient)) {
+            return next(createError(400, 'Username is already exist'));
+        }
 
-        const client = await User.create({ firstName, lastName, username, phone, CNIC, city: clientCity, project: property })
+        // Create the client (user) once
+        const client = await User.create({
+            firstName,
+            lastName,
+            username,
+            phone,
+            CNIC,
+            city: clientCity,
+            project: property
+        });
 
-        const newLead = await Lead.create({ client: client._id, city, priority, property, status, source, description, allocatedTo: [req.user?._id] })
+        // Create the lead(s) based on the counts value or once if counts is undefined
+        const leadsToCreate = Number(count) || 1;
+        const createdLeads = [];
 
-        // Query to populate the fields
-        const populatedLead = await Lead.findById(newLead._id)
-            .populate('allocatedTo')
-            .populate('client')
-            .populate('property')
-            .exec();
+        for (let i = 0; i < leadsToCreate; i++) {
+            const newLead = await Lead.create({
+                client: client._id,
+                city,
+                priority,
+                property,
+                status,
+                source,
+                description,
+                allocatedTo: [req.user?._id]
+            });
 
-        res.status(200).json({ result: populatedLead, message: 'Lead created successfully', success: true })
+            // Query to populate the fields
+            const populatedLead = await Lead.findById(newLead._id)
+                .populate('allocatedTo')
+                .populate('client')
+                .populate('property')
+                .exec();
 
+            createdLeads.push(populatedLead);
+        }
+
+        res.status(200).json({
+            result: createdLeads,
+            message: `Lead(s) created successfully (${createdLeads.length} lead(s) created)`,
+            success: true
+        });
     } catch (err) {
-        next(createError(500, err.message))
+        next(createError(500, err.message));
     }
-}
+};
+
 
 export const updateLead = async (req, res, next) => {
     try {

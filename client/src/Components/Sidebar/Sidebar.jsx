@@ -44,7 +44,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       id: 2,
       title: "Leads",
       icon: <PiUsersThreeLight className="text-[25px]" />,
-      link: "/leads?type=all",
+      link: "/leads",
       role: ["employee", "manager", "super_admin"],
       childrens: [],
     },
@@ -62,7 +62,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         {
           title: "Projects",
           icon: <PiDatabaseLight className="text-[25px]" />,
-          link: "/projects?type=all",
+          link: "/projects",
           role: ["employee", "manager", "super_admin"],
         },
         {

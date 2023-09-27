@@ -22,7 +22,7 @@ const leadSlice = createSlice({
         getLeadsReducer: (state, action) => { state.leads = action.payload; state.allLeads = action.payload },
         getLeadReducer: (state, action) => { state.currentLead = action.payload },
         getLeadsStatReducer: (state, action) => { state.stats = action.payload },
-        createLeadReducer: (state, action) => { state.leads = [action.payload, ...state.leads] },
+        createLeadReducer: (state, action) => { state.leads = [...action.payload, ...state.leads] },
         updateLeadReducer: (state, action) => { state.leads = state.leads.map(l => l = l._id == action.payload._id ? action.payload : l) },
 
         // Replace searchLead reducer with the provided code
