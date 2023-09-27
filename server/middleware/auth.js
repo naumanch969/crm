@@ -19,10 +19,11 @@ export const verifyEmployee = (req, res, next) => {
     try {
         verifyToken(req, res, () => {
             const allowedRoles = ['employee', 'manager', 'super_admin'];
+            console.log(req.user)
             if (allowedRoles.includes(req.user.role)) {
                 next();
             } else {
-                next(createError(403, 'Access denied'))
+                next(createError(403, 'Only employee can access this route'))
             }
         });
     } catch (err) {
@@ -38,7 +39,7 @@ export const verifyManager = (req, res, next) => {
             if (allowedRoles.includes(req.user.role)) {
                 next();
             } else {
-                next(createError(403, 'Access denied'))
+                next(createError(403, 'Only manager can access this route'))
             }
         });
     } catch (err) {

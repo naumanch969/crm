@@ -2,6 +2,7 @@ import { generateUniqueIdentifier } from '../utils/utils.js'
 import { Schema, model } from 'mongoose'
 
 const eventSchema = Schema({
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     title: { type: String, required: true },
     description: { type: String, required: false },
     start: { type: Date, required: true },

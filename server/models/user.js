@@ -16,7 +16,7 @@ const userSchema = Schema({
     salaryType: { type: String, required: false },
     officialNumber: { type: Number, required: false, default: '' },
     gender: { type: String, required: false, enum: ['male', 'female'], default: 'male' },
-    martialStatus: { type: String, required: false, enum: ['married', 'single'], default: 'single' },
+    martialStatus: { type: String, required: false, enum: ['married', 'single', 'unmarried'], default: 'single' },
     isActive: { type: Boolean, required: false, default: false },
     uid: { type: String },
 }, { timestamps: true })

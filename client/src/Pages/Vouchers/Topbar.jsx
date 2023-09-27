@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Add, TableBar, ViewKanban } from "@mui/icons-material";
 import { Path } from "../../utils";
 import { IconButton } from "@mui/material";
-import FORM from "./Form";
+import CreateVoucher from "./CreateVoucher";
 import { searchVoucherReducer } from "../../redux/reducer/voucher";
 
 const Topbar = (view, setView) => {
@@ -53,7 +53,7 @@ const Topbar = (view, setView) => {
           </button>
         )}
       </div>
-      <FORM open={open} setOpen={setOpen} scroll={scroll} />
+      <CreateVoucher open={open} setOpen={setOpen} scroll={scroll} />
     </div>
   );
 };

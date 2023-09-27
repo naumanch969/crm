@@ -25,6 +25,7 @@ function Vouchers() {
   //////////////////////////////////////// VARIABLES ////////////////////////////////////
   const dispatch = useDispatch();
   const { vouchers, isFetching, error } = useSelector((state) => state.voucher);
+  const { loggedUser } = useSelector((state) => state.user);
 
   const columns = [
     {
@@ -101,16 +102,19 @@ function Vouchers() {
       width: 120,
       renderCell: (params) => (
         <div className="flex gap-[4px] ">
-          <Tooltip placement="top" title="Delete">
-            <IconButton
-              onClick={() => {
-                setOpenDeleteModal(true);
-                setSelectedVoucherId(params.row._id);
-              }}
-              className="hover:text-red-500">
-              <PiTrashLight className="text-red-500" />
-            </IconButton>
-          </Tooltip>
+          {
+            loggedUser?.role != 'employee' &&
+            <Tooltip placement="top" title="Delete">
+              <IconButton
+                onClick={() => {
+                  setOpenDeleteModal(true);
+                  setSelectedVoucherId(params.row._id);
+                }}
+                className="hover:text-red-500">
+                <PiTrashLight className="text-red-500" />
+              </IconButton>
+            </Tooltip>
+          }
           {/* <Tooltip placement="top" title="View">
             <IconButton onClick={() => setOpenViewModal(true)} className="hover:text-red-500">
               <OpenInNewOutlined />

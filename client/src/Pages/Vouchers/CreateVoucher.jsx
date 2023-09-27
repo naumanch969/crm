@@ -27,11 +27,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-const FORM = ({ open, setOpen, scroll }) => {
+const CreateVoucher = ({ open, setOpen, scroll }) => {
   ////////////////////////////////////// VARIBALES ///////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { clients } = useSelector(state=>state.user)
+  const { clients } = useSelector(state => state.user)
   const initialVoucherState = {
     branch: "",
     issuingDate: "",
@@ -66,7 +66,7 @@ const FORM = ({ open, setOpen, scroll }) => {
   useEffect(() => {
     dispatch(getClients());
   }, [open]);
-  
+
   ////////////////////////////////////// FUNCTIONS ////////////////////////////////////////
 
   const handleInputChange = (event) => {
@@ -76,7 +76,7 @@ const FORM = ({ open, setOpen, scroll }) => {
 
   const handleDownloadPDF = (e) => {
     e.preventDefault();
-    dispatch(createVoucher(voucherData));
+    dispatch(createVoucher(voucherData, setOpen));
     setIsVoucherCreated(false);
 
     const documentDefinition = {
@@ -304,7 +304,7 @@ const FORM = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Customer Name </td>
                 <td className="pb-4">
-                   <CFormSelect
+                  <CFormSelect
                     value={voucherData.clientName}
                     name='clientName'
                     onChange={handleInputChange}
@@ -346,17 +346,18 @@ const FORM = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Payment Type </td>
                 <td className="pb-4">
-                  <Select
-                    name="type"
+                  <CFormSelect
                     value={voucherData.type}
+                    name='type'
                     onChange={handleInputChange}
-                    size="small"
-                    fullWidth>
-                    <MenuItem value="cash">Cash</MenuItem>
-                    <MenuItem value="cheque">Cheque</MenuItem>
-                    <MenuItem value="creditCard">Credit Card</MenuItem>
-                    <MenuItem value="online">Onlone</MenuItem>
-                  </Select>
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
+                    <option value={""}>None</option>
+                    <option value={"cash"}>Cash</option>
+                    <option value={"cheque"}>Cheque</option>
+                    <option value={"card"}>Card</option>
+                    <option value={"online"}>Online</option>
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>
@@ -422,4 +423,4 @@ const FORM = ({ open, setOpen, scroll }) => {
   );
 };
 
-export default FORM;
+export default CreateVoucher;

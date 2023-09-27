@@ -182,13 +182,16 @@ function Leads({ type, showSidebar }) {
       width: 160,
       renderCell: (params) => (
         <div className="flex gap-[10px] items-center transition-all">
-          <Tooltip placement="top" title="Delete">
-            {" "}
-            <PiTrashLight
-              onClick={() => handleOpenDeleteModal(params.row?._id)}
-              className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
-            />
-          </Tooltip>
+          {
+            loggedUser?.role != 'employee' &&
+            <Tooltip placement="top" title="Delete">
+              {" "}
+              <PiTrashLight
+                onClick={() => handleOpenDeleteModal(params.row?._id)}
+                className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
+              />
+            </Tooltip>
+          }
           {/* <Tooltip placement="top" title="View">
             <div className="cursor-pointer" onClick={() => handleOpenViewModal(params.row?._id)}>
               <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
@@ -220,13 +223,13 @@ function Leads({ type, showSidebar }) {
                 onClick={() => handleOpenShiftLeadModal(params.row)}>
                 Shift Lead
               </StyledMenuItem>
+              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => handleOpenShareLeadModal(params.row)}>
+                Share Lead
+              </StyledMenuItem>
               <StyledMenuItem
                 className="text-gray-600 flex font-primary"
                 onClick={() => navigateToRefund(params.row)}>
                 Refunds
-              </StyledMenuItem>
-              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => handleOpenShareLeadModal(params.row)}>
-                Share Lead
               </StyledMenuItem>
               <StyledMenuItem
                 onClick={() => navigateToFollowUps(params.row._id)}

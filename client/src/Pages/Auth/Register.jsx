@@ -237,20 +237,10 @@ const Signup = () => {
                 )}
                 {/* city */}
                 <FormControl>
-                  {selectedValue === "" ? (
-                    <InputLabel
-                      sx={{
-                        color: "#B3B3B3",
-                        fontFamily: "'Montserrat', sans-serif",
-                        paddingTop: "8px",
-                      }}>
-                      City
-                    </InputLabel>
-                  ) : null}
                   <CFormSelect
                     value={userData.city}
                     onChange={(e) => handleChange("city", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                    className="w-[20rem] h-[40px] px-[8px] border-b-[1px] p-2 border-[#c1c1c1] cursor-pointer text-black"
                   >
                     <option value={""}>None</option>
                     {pakistanCities.map((city, key) => (
@@ -262,20 +252,10 @@ const Signup = () => {
                 </FormControl>
                 {/* project */}
                 <FormControl>
-                  {selectedValue === "" ? (
-                    <InputLabel
-                      sx={{
-                        color: "#B3B3B3",
-                        fontFamily: "'Montserrat', sans-serif",
-                        paddingTop: "8px",
-                      }}>
-                      Project
-                    </InputLabel>
-                  ) : null}
                   <CFormSelect
                     value={userData.project}
                     onChange={(e) => handleChange("project", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                    className="w-[20rem] h-[40px] px-[8px] border-b-[1px] p-2 border-[#c1c1c1] cursor-pointer text-black"
                   >
                     <option value={""}>None</option>
                     {projects.map((project, key) => (
