@@ -270,19 +270,18 @@ function Leads({ type, showSidebar }) {
     showEmployeeLeads: false,
     showArchivedLeads: false,
   });
-
+console.log(leads)
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
-  // useEffect(() => {
-  //   // dispatch(getLeads()); // only find my leads (of one who is logged in)
-  //   dispatch(getEmployeeLeads()); // only find my leads (of one who is logged in)
-  // }, []);
-  // useEffect(() => {
-  //   if (!isFiltered) {
-  //     dispatch(getLeadsReducer(allLeads))
-  //   }
-  // }, [isFiltered])
+  useEffect(() => {
+    // dispatch(getLeads()); 
+     dispatch(getEmployeeLeads()); // only find my leads (of one who is logged in)
+  }, []);
+  useEffect(() => {
+    if (!isFiltered) {
+      dispatch(getLeadsReducer(allLeads))
+    }
+  }, [isFiltered])
 
-  console.log('this')
   ////////////////////////////////////// FUNCTION //////////////////////////////
   const handleOpenAttachmentModal = (leadId) => {
     setSelectedLeadId(leadId);

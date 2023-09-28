@@ -52,7 +52,6 @@ const CreateUser = ({ open, setOpen, scroll }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { firstName, lastName, username, city, email, password, CNIC, phone, officialNumber, gender, martialStatus, salaryType, activeStatus, } = employeeData
-    console.log(firstName, lastName, username, city, email, password, CNIC, phone, officialNumber, gender, martialStatus, salaryType, activeStatus)
     if (!firstName || !lastName || !username || !city || !email || !password || !CNIC || !phone || !officialNumber || !gender || !martialStatus || !salaryType || !activeStatus)
       return alert("Make sure to provide all the fields")
     dispatch(createEmployee(employeeData, setOpen));

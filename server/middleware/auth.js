@@ -19,7 +19,6 @@ export const verifyEmployee = (req, res, next) => {
     try {
         verifyToken(req, res, () => {
             const allowedRoles = ['employee', 'manager', 'super_admin'];
-            console.log(req.user)
             if (allowedRoles.includes(req.user.role)) {
                 next();
             } else {

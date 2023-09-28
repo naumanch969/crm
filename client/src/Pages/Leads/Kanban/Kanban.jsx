@@ -13,21 +13,37 @@ const Kanban = ({ options, setOptions }) => {
   const archivedLeads = leads.filter(lead => lead.isArchived)
   const unarchivedLeads = leads.filter(lead => !lead.isArchived)
   let initialFilteredLeadsState = {
-    successful: [],
-    unsuccessful: [],
-    underProcess: [],
-    declined: [],
-    remaining: [],
+    closedLost: [],
+    followedUpCall: [],
+    contactedCallAttempt: [],
+    contactedCall: [],
+    followedUpEmail: [],
+    contactedEmail: [],
+    new: [],
+    meetingDone: [],
+    closedWon: [],
+    meetingAttempt: [],
   };
-  const statusEnum = ["successful", "unsuccessful", "underProcess", "declined", "remaining"];
 
+  const statuses = [
+    'closedLost',
+    'followedUpCall',
+    'contactedCallAttempt',
+    'contactedCall',
+    'followedUpEmail',
+    'contactedEmail',
+    'new',
+    'meetingDone',
+    'closedWon',
+    'meetingAttempt',
+  ]
   /////////////////////////////////////// STATE ////////////////////////////////////////
   let [filteredLeads, setFilteredLeads] = useState(initialFilteredLeadsState);
-  const { successful, unsuccessful, underProcess, declined, remaining } = filteredLeads;
+  const { closedLost, followedUpCall, contactedCallAttempt, contactedCall, followedUpEmail, contactedEmail, new: newLeads, meetingDone, closedWon, meetingAttempt, } = filteredLeads;
 
   /////////////////////////////////////// USE EFFECT /////////////////////////////////////
   useEffect(() => {
-    statusEnum.forEach(
+    statuses.forEach(
       (status) =>
       (filteredLeads[status] = (options.showArchivedLeads ? archivedLeads : unarchivedLeads).filter(
         (lead) => lead.status == status
@@ -57,17 +73,25 @@ const Kanban = ({ options, setOptions }) => {
   const getSourceColumn = (droppableId) => {
     switch (droppableId) {
       case "1":
-        return { leads: newLeads, title: "new" };
+        return { leads: closedLost, title: "closedLost" };
       case "2":
-        return { leads: successful, title: "successful" };
+        return { leads: followedUpCall, title: "followedUpCall" };
       case "3":
-        return { leads: unsuccessful, title: "unsuccessful" };
+        return { leads: contactedCallAttempt, title: "contactedCallAttempt" };
       case "4":
-        return { leads: underProcess, title: "underProcess" };
+        return { leads: contactedCall, title: "contactedCall" };
       case "5":
-        return { leads: remaining, title: "remaining" };
+        return { leads: followedUpEmail, title: "followedUpEmail" };
       case "6":
-        return { leads: declined, title: "declined" };
+        return { leads: contactedEmail, title: "contactedEmail" };
+      case "7":
+        return { leads: newLeads, title: "new" };
+      case "8":
+        return { leads: meetingDone, title: "meetingDone" };
+      case "9":
+        return { leads: closedWon, title: "closedWon" };
+      case "10":
+        return { leads: meetingAttempt, title: "meetingAttempt" };
       default:
         return newLeads;
     }
@@ -91,12 +115,16 @@ const Kanban = ({ options, setOptions }) => {
       ) : (
         <DragDropContext onDragEnd={handleDragEnd}>
           <div className="flex justify-start gap-[1rem] w-full min-h-[30rem] h-fit pb-[1rem] overflow-x-scroll ">
-            {/* <Board leads={newLeads} title='New' _id='1' /> */}
-            <Board leads={successful} title="Successful" _id="2" />
-            <Board leads={unsuccessful} title="Unsuccessful" _id="3" />
-            <Board leads={underProcess} title="Under Process" _id="4" />
-            <Board leads={remaining} title="Remaining" _id="5" />
-            <Board leads={declined} title="Declined" _id="6" />
+            <Board leads={closedLost} title='closedLost' _id='1' />
+            <Board leads={followedUpCall} title="followedUpCall" _id="2" />
+            <Board leads={contactedCallAttempt} title="contactedCallAttempt" _id="3" />
+            <Board leads={contactedCall} title="Under contactedCall" _id="4" />
+            <Board leads={followedUpEmail} title="followedUpEmail" _id="5" />
+            <Board leads={contactedEmail} title="contactedEmail" _id="6" />
+            <Board leads={newLeads} title="new" _id="7" />
+            <Board leads={meetingDone} title="Under meetingDone" _id="8" />
+            <Board leads={closedWon} title="closedWon" _id="9" />
+            <Board leads={meetingAttempt} title="meetingAttempt" _id="10" />
           </div>
         </DragDropContext>
       )}
