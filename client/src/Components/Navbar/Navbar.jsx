@@ -57,6 +57,7 @@ const StyledListbox = styled("ul")(
     max-width: 400px;
     border-radius: 12px;
     overflow: auto;
+    position: relative;
     outline: 0px;
     background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
     border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
@@ -69,13 +70,13 @@ const StyledListbox = styled("ul")(
 const StyledMenuItem = styled(MenuItem)(
   ({ theme }) => `
     list-style: none;
-    padding: 8px;
+    padding: 10px;
     cursor: pointer;
     user-select: none;
     &:last-of-type {
       border-bottom: none;
     }
-  
+    
     &.${menuItemClasses.focusVisible} {
       outline: 3px solid ${theme.palette.mode === "dark" ? blue[600] : blue[200]};
       background-color: ${theme.palette.mode === "dark" ? grey[800] : grey[100]};
@@ -104,7 +105,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
 
   /////////////////////////////////////////// STATES ////////////////////////////////////////////////
   const [date, setDate] = useState(new Date());
-  const [ openPasswordChange, setOpenPasswordChange ] = useState(false)
+  const [openPasswordChange, setOpenPasswordChange] = useState(false);
 
   /////////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////
   useEffect(() => {
@@ -124,13 +125,9 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
     dispatch(logout(navigate));
   };
 
-  const handleTaskOpen = () => {
-    setOpen(true);
-  };
-
   const handleChangePasswordOpen = () => {
-    setOpenPasswordChange(true)
-  }
+    setOpenPasswordChange(true);
+  };
 
   return (
     <div>
@@ -155,17 +152,21 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
           </div>
 
           {/* right section */}
-          <div className="flex gap-[10px] ">
+          <div className="flex gap-[20px] ">
             {/* icons */}
             <div className="sm:flex items-center hidden gap-[10px] ">
               <Dropdown>
                 <MenuButton>
                   <Tooltip title="Notifications" arrow placement="bottom">
                     <IconButton
-                      className="h-fit hover:text-red-400 inline-block relative"
+                      className="h-fit hover:text-sky-400 inline-block relative"
                       size="small"
                       aria-label="menu">
-                      <PiBell className={`text-[25px] animate-none ${notifications.length > 0 ? "text-sky-400" : ""}`} />
+                      <PiBell
+                        className={`text-[25px] animate-none ${
+                          notifications.length > 0 ? "text-sky-400" : ""
+                        }`}
+                      />
                       {notifications.length > 0 && (
                         <span className="animate-ping absolute top-1.5 right-2 block h-1 w-1 rounded-full ring-2 ring-sky-400 bg-sky-600"></span>
                       )}
@@ -175,13 +176,17 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                 <Menu slots={{ listbox: StyledListbox }}>
                   {notifications.length > 0 ? (
                     <div className="flex flex-col gap-[8px]">
-                      <div className="w-full bg-sky-400 font-primary text-2xl text-white p-4">Notifications</div>
+                      <div className="w-full bg-sky-400 font-primary text-2xl text-white p-4">
+                        Notifications
+                      </div>
                       {notifications.slice(0, 5).map((notification, index) => (
                         <React.Fragment key={index}>
                           <StyledMenuItem
                             onClick={() => navigate("/authorization/refund")}
                             className="text-gray-600 flex items-center gap-2">
-                              <div><Avatar /></div>
+                            <div>
+                              <Avatar />
+                            </div>
                             <div className="font-primary">
                               <span className="text-lg font-light text-sky-400 font-primary">
                                 {notification.title}
@@ -200,7 +205,12 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
                       )}
                     </div>
                   ) : (
-                    <span>Your notifications will show here</span>
+                    <div className="z-1000 flex flex-col items-center p-2">
+                      <img className="p-4" src="/images/notifications.png" />
+                      <div className="font-primary text-lg font-light">
+                        No Notifications Yet
+                      </div>
+                    </div>
                   )}
                 </Menu>
               </Dropdown>

@@ -1,4 +1,4 @@
-import { DialogActions, TextField } from "@mui/material";
+import { Autocomplete, DialogActions, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
 import { updateInventory } from "../../../redux/action/inventory";
@@ -8,6 +8,7 @@ import { Loader, Upload } from "../../../utils";
 import { PiImages, PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
 import { pakistanCities } from "../../../constant";
+import { CFormSelect } from "@coreui/react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -124,16 +125,17 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                 <tr>
                   <td className="pb-4 text-lg">Seller City </td>
                   <td className="pb-4">
-                    <Autocomplete
-                      size="small"
-                      disablePortal={false}
-                      options={pakistanCities}
-                      value={inventoryData.sellerCity}
-                      getOptionLabel={(city) => city}
-                      onChange={(e, city) => handleChange('sellerCity', city)}
-                      className="w-full"
-                      renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                    />
+                    <CFormSelect
+                      size="sm"
+                      value={inventoryData?.sellerCity}
+                      onChange={(e) => handleInputChange("sellerCity", e.target.value)}
+                      className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                      {pakistanCities.map((city) => (
+                        <option key={city} value={city}>
+                          {city}
+                        </option>
+                      ))}
+                    </CFormSelect>
                   </td>
                 </tr>
               </table>
@@ -149,16 +151,17 @@ const EditInventory = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Project </td>
                 <td className="pb-4">
-                  <Autocomplete
-                    size="small"
-                    disablePortal={false}
-                    options={projects}
-                    value={inventoryData.project}
-                    getOptionLabel={(project) => project.title ? project.title : project}
-                    onChange={(e, project) => handleChange('project', project._id)}
-                    className="w-full"
-                    renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                  />
+                  <CFormSelect
+                    size="sm"
+                    value={inventoryData?.project}
+                    onChange={(e) => handleInputChange("project", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    {projects.map((project) => (
+                      <option key={project._id} value={project._id}>
+                        {project.title}
+                      </option>
+                    ))}
+                  </CFormSelect>
                 </td>
               </tr>
               <tr>

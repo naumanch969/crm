@@ -67,7 +67,7 @@ const Topbar = () => {
           </div>
           <div>
             {
-            loggedUser?.role == 'employee' &&  
+            loggedUser?.role == 'employee' || 'admin' &&  
               <Tooltip title="Add New Follow Up" placement="top" arrow>
               <div onClick={handleCreateopen("body")}>
                 <button className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">

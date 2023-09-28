@@ -4,14 +4,17 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateInventory } from "../../../redux/action/inventory";
 import {
+  Autocomplete,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Slide,
+  TextField,
 } from "@mui/material";
 import { PiXLight } from "react-icons/pi";
 import { Loader } from "../../../utils";
+import { CFormSelect } from "@coreui/react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -22,11 +25,11 @@ const UpateStatusModal = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const { currentInventory, isFetching } = useSelector((state) => state.inventory);
   const statuses = [
-    { name: 'Not Started', value: 'notStarted' },
-    { name: 'Completed', value: 'completed' },
-    { name: 'In Progress', value: 'inProgress' },
-    { name: 'On Hold', value: 'onHold' },
-  ]
+    { name: "Not Started", value: "notStarted" },
+    { name: "Completed", value: "completed" },
+    { name: "In Progress", value: "inProgress" },
+    { name: "On Hold", value: "onHold" },
+  ];
 
   ////////////////////////////////////// STATES  /////////////////////////////////////
   const [status, setStatus] = useState(currentInventory?.status);
@@ -73,16 +76,27 @@ const UpateStatusModal = ({ open, setOpen }) => {
                 <tr>
                   <td className="pb-4 text-lg">Status </td>
                   <td className="pb-4 w-64">
-                    <Autocomplete
+                    <CFormSelect
+                      size="sm"
+                      value={status?.status}
+                      onChange={handleChange}
+                      className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                      {statuses.map((status) => (
+                        <option key={status.value} value={status.value}>
+                          {status.name}
+                        </option>
+                      ))}
+                    </CFormSelect>
+                    {/* <Autocomplete
                       size="small"
                       disablePortal={false}
                       options={statuses}
-                      value={filters.status}
+                      value={status?.status}
                       getOptionLabel={(status) => status.name ? status.name : status}
                       onChange={(e, status) => handleChange('status', status.value)}
                       className="w-full"
                       renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                    />
+                    /> */}
                   </td>
                 </tr>
               </table>
@@ -105,7 +119,6 @@ const UpateStatusModal = ({ open, setOpen }) => {
         </DialogActions>
       </Dialog>
     </div>
-    
   );
 };
 

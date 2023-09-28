@@ -29,7 +29,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
   const { employees, clients } = useSelector((state) => state.user);
   const initialState = {
     staff: "",
-    clientName: lead?.client ? lead?.client?.username : "",
+    clientName: "",
     net: "",
     received: "",
     profit: "",
@@ -96,7 +96,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
                     onChange={(e) => handleChange("staff", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
                   >
-                    <option value={""}>None</option>
+                    <option value={""}>Select an Option</option>
                     {employees.map((employee, key) => (
                       <option key={key} value={employee.username}>{employee.username}</option>
                     ))}
@@ -106,16 +106,13 @@ const CreateSale = ({ open, setOpen, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg">Client Name </td>
                 <td className="pb-4">
-                  <CFormSelect
-                    value={saleData.clientName}
+                  <TextField
                     onChange={(e) => handleChange("clientName", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    <option value={""}>None</option>
-                    {clients.map((client, key) => (
-                      <option key={key} value={client.username}>{client.username}</option>
-                    ))}
-                  </CFormSelect>
+                    value={saleData.clientName}
+                    name="clientName"
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
@@ -165,7 +162,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
                     onChange={(e) => handleChange("top", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
                   >
-                    <option value={""}>None</option>
+                    <option value={""}>Select an Option</option>
                     <option value={"card"}>Card</option>
                     <option value={"cash"}>Cash</option>
                     <option value={"cheque"}>Cheque</option>

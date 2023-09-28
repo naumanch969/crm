@@ -107,7 +107,7 @@ function CreateCashBook({ open, setOpen, scroll }) {
                     value={cashbookData.staff}
                     onChange={(e) => handleChange("staff", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                    <option value={""}>None</option>
+                    <option value={""}>Select an Option</option>
                     {employees.map((employee, key) => (
                       <option key={key} value={employee.username}>
                         {employee.username}
@@ -119,17 +119,13 @@ function CreateCashBook({ open, setOpen, scroll }) {
               <tr>
                 <td className="pb-4 text-lg">Customer Name </td>
                 <td className="pb-4">
-                  <CFormSelect
+                  <TextField
+                    name="clientName"
                     value={cashbookData.clientName}
-                    onChange={(e) => handleChange("clientName", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                    <option value={""}>None</option>
-                    {clients.map((client, key) => (
-                      <option key={key} value={client.username}>
-                        {client.username}
-                      </option>
-                    ))}
-                  </CFormSelect>
+                    onChange={(e) => handleChange('clientName', e.target.value)}
+                    size="small"
+                    fullWidth
+                  />
                 </td>
               </tr>
               <tr>
@@ -140,7 +136,7 @@ function CreateCashBook({ open, setOpen, scroll }) {
                     onChange={(e) => handleChange("top", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
                   >
-                    <option value={""}>None</option>
+                    <option value={""}>Select an Option</option>
                     {paymentTypes.map((top, key) => (
                       <option key={key} value={top.value}>{top.name}</option>
                     ))}
@@ -167,9 +163,9 @@ function CreateCashBook({ open, setOpen, scroll }) {
                     value={cashbookData.type}
                     onChange={(e) => handleChange("type", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                    <option value={""}>None</option>
-                    <option value={'in'}>In</option>
-                    <option value={'out'}>Out</option>
+                    <option value={""}>Select an Option</option>
+                    <option value={'in'}>Amount In</option>
+                    <option value={'out'}>Amount Out</option>
                   </CFormSelect>
                 </td>
               </tr>

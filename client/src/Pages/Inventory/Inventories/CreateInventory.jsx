@@ -185,7 +185,7 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
                     options={projects}
                     value={inventoryData.project}
                     getOptionLabel={(project) => project.title ? project.title : project}
-                    onChange={(e, project) => handleChange('project', project._id)}
+                    onChange={(e, project) => handleChange('project', project.title)}
                     className="w-full"
                     renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
                   />

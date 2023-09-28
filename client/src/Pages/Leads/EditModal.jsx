@@ -227,7 +227,7 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="pb-4 text-lg">Client City </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={leadData.clientCity}
+                    value={leadData?.clientCity}
                     onChange={(e) => handleChange("clientCity", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
                     {pakistanCities.map((city, key) => (
@@ -266,10 +266,9 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={leadData.city}
+                    value={leadData?.city}
                     onChange={(e) => handleChange("city", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                    <option value={""}>None</option>
                     {pakistanCities.map((city, key) => (
                       <option key={key} value={city}>
                         {city}
@@ -282,11 +281,10 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="pb-4 text-lg">Project </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={leadData.property}
+                    value={leadData?.property}
                     onChange={(e) => handleChange("property", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
                   >
-                    <option value={""}>None</option>
                     {projects.map((project, key) => (
                       <option key={key} value={project._id}>
                         {project.title}
@@ -299,11 +297,10 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="pb-4 text-lg">Priority </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={leadData.priority}
+                    value={leadData?.priority}
                     onChange={(e) => handleChange("priority", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
                   >
-                    <option value={""}>None</option>
                     {priorities.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -316,11 +313,10 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="pb-4 text-lg">Status </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={leadData.status}
+                    value={leadData?.status}
                     onChange={(e) => handleChange("status", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
                   >
-                    <option value={""}>None</option>
                     {statuses.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -333,11 +329,10 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="pb-4 text-lg flex mt-1 items-start">Source </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={leadData.source}
+                    value={leadData?.source}
                     onChange={(e) => handleChange("source", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
                   >
-                    <option value={""}>None</option>
                     {sources.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}

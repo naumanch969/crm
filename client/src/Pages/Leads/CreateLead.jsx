@@ -50,38 +50,38 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     description: "",
   };
   const priorities = [
-    { name: 'Very Cold', value: 'veryCold' },
-    { name: 'Cold', value: 'cold' },
-    { name: 'Moderate', value: 'moderate' },
-    { name: 'Hot', value: 'hot' },
-    { name: 'Very Hot', value: 'veryHot' },
-  ]
+    { name: "Very Cold", value: "veryCold" },
+    { name: "Cold", value: "cold" },
+    { name: "Moderate", value: "moderate" },
+    { name: "Hot", value: "hot" },
+    { name: "Very Hot", value: "veryHot" },
+  ];
   const statuses = [
-    { name: 'Closed (Lost)', value: "closedLost" },
-    { name: 'Followed Up (Call)', value: "followedUpCall" },
-    { name: 'Contacted Client (Call Attempt)', value: "contactedCallAttempt" },
-    { name: 'Contacted Client (Call)', value: "contactedCall" },
-    { name: 'Followed Up (Email)', value: "followedUpEmail" },
-    { name: 'Contacted Client (Email)', value: "contactedEmail" },
-    { name: 'New<', value: "new" },
-    { name: 'Meeting (Done)', value: "meetingDone" },
-    { name: 'Closed (Won)', value: "closedWon" },
-    { name: 'Meeting (Attempt)', value: "meetingAttempt" },
-  ]
+    { name: "Closed (Lost)", value: "closedLost" },
+    { name: "Followed Up (Call)", value: "followedUpCall" },
+    { name: "Contacted Client (Call Attempt)", value: "contactedCallAttempt" },
+    { name: "Contacted Client (Call)", value: "contactedCall" },
+    { name: "Followed Up (Email)", value: "followedUpEmail" },
+    { name: "Contacted Client (Email)", value: "contactedEmail" },
+    { name: "New<", value: "new" },
+    { name: "Meeting (Done)", value: "meetingDone" },
+    { name: "Closed (Won)", value: "closedWon" },
+    { name: "Meeting (Attempt)", value: "meetingAttempt" },
+  ];
   const sources = [
-    { name: 'Instagram', value: "instagram" },
-    { name: 'Facebook Comment', value: "facebookComment" },
-    { name: 'Friend and Family', value: "friendAndFamily" },
-    { name: 'Facebook', value: "facebook" },
-    { name: 'Direct Call', value: "directCall" },
-    { name: 'Google', value: "google" },
-    { name: 'Referral', value: "referral" },
-  ]
+    { name: "Instagram", value: "instagram" },
+    { name: "Facebook Comment", value: "facebookComment" },
+    { name: "Friend and Family", value: "friendAndFamily" },
+    { name: "Facebook", value: "facebook" },
+    { name: "Direct Call", value: "directCall" },
+    { name: "Google", value: "google" },
+    { name: "Referral", value: "referral" },
+  ];
 
   //////////////////////////////////////// STATES ////////////////////////////////////
   const [leadData, setLeadData] = useState(initialLeadState);
-  const [createMultiple, setCreateMultiple] = useState(false)
-  const [leadCountsToCreate, setLeadCountsToCreate] = useState(1)
+  const [createMultiple, setCreateMultiple] = useState(false);
+  const [leadCountsToCreate, setLeadCountsToCreate] = useState(1);
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
   useEffect(() => {
@@ -91,13 +91,39 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { firstName, lastName, username, phone, clientCity, city, priority, property, status, source, description, } = leadData;
-    if (!firstName || !lastName || !username || !phone || !clientCity || !city || !priority || !property || !status || !source || !description)
+    const {
+      firstName,
+      lastName,
+      username,
+      phone,
+      clientCity,
+      city,
+      priority,
+      property,
+      status,
+      source,
+      description,
+    } = leadData;
+    if (
+      !firstName ||
+      !lastName ||
+      !username ||
+      !phone ||
+      !clientCity ||
+      !city ||
+      !priority ||
+      !property ||
+      !status ||
+      !source ||
+      !description
+    )
       return alert("Make sure to provide all the fields");
-    dispatch(createLead({ ...leadData, count: leadCountsToCreate < 1 ? 1 : leadCountsToCreate }, navigate));
+    dispatch(
+      createLead({ ...leadData, count: leadCountsToCreate < 1 ? 1 : leadCountsToCreate }, navigate)
+    );
     setLeadData(initialLeadState);
-    setCreateMultiple(false)
-    setLeadCountsToCreate(1)
+    setCreateMultiple(false);
+    setLeadCountsToCreate(1);
     setOpen(false);
   };
 
@@ -120,9 +146,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
         onClose={handleClose}
         fullWidth="sm"
         maxWidth="md"
-        aria-describedby="alert-dialog-slide-description"
-      >
-
+        aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
           <div className="text-sky-400 font-primary">Create Lead</div>
           <div className="cursor-pointer" onClick={handleClose}>
@@ -206,9 +230,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <CFormSelect
                     value={leadData.clientCity}
                     onChange={(e) => handleChange("clientCity", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    <option value={""}>None</option>
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select an Option</option>
+
                     {pakistanCities.map((city, key) => (
                       <option key={key} value={city}>
                         {city}
@@ -247,9 +271,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <CFormSelect
                     value={leadData.city}
                     onChange={(e) => handleChange("city", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    <option value={""}>None</option>
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select an Option</option>
+
                     {pakistanCities.map((city, key) => (
                       <option key={key} value={city}>
                         {city}
@@ -264,9 +288,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <CFormSelect
                     value={leadData.property}
                     onChange={(e) => handleChange("property", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    <option value={""}>None</option>
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select an Option</option>
+
                     {projects.map((project, key) => (
                       <option key={key} value={project._id}>
                         {project.title}
@@ -281,9 +305,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <CFormSelect
                     value={leadData.priority}
                     onChange={(e) => handleChange("priority", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    <option value={""}>None</option>
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select an Option</option>
+
                     {priorities.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -298,9 +322,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <CFormSelect
                     value={leadData.status}
                     onChange={(e) => handleChange("status", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    <option value={""}>None</option>
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select an Option</option>
+
                     {statuses.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -315,9 +339,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   <CFormSelect
                     value={leadData.source}
                     onChange={(e) => handleChange("source", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    <option value={""}>None</option>
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select an Option</option>
                     {sources.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -330,8 +353,8 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="flex flex-col justify-start mt-1 text-lg">Description </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={(e) => handleChange('description', e.target.value)}
-                    value={leadData?.description}
+                    onChange={(e) => handleChange("description", e.target.value)}
+                    value={leadData.description}
                     name="description"
                     type="text"
                     size="small"
@@ -354,8 +377,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                   </FormGroup>
                 </td>
               </tr>
-              {
-                createMultiple &&
+              {createMultiple && (
                 <tr>
                   <td className="flex flex-col justify-start mt-1 text-lg">Lead Count </td>
                   <td className="pb-4">
@@ -368,7 +390,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                     />
                   </td>
                 </tr>
-              }
+              )}
             </table>
           </div>
         </DialogContent>
@@ -385,7 +407,6 @@ const CreateLead = ({ setOpen, open, scroll }) => {
             Create
           </button>
         </DialogActions>
-
       </Dialog>
     </div>
   );

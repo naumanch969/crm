@@ -4,7 +4,7 @@ import {
   FormControlLabel,
   FormGroup,
   TextField,
-  Autocomplete
+  Autocomplete,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
@@ -16,6 +16,7 @@ import { PiImages, PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
 import { pakistanCities } from "../../../constant";
 import { getSocieties } from "../../../redux/action/society";
+import { CFormSelect } from "@coreui/react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -39,8 +40,8 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
     setProjectData({ ...projectData, images: urls });
   }, [urls]);
   useEffect(() => {
-    dispatch(getSocieties())
-  }, [])
+    dispatch(getSocieties());
+  }, []);
 
   //////////////////////////////////////// FUNCTION ////////////////////////////////////////////
   const handleSubmit = (e) => {
@@ -92,7 +93,7 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       value={projectData?.title}
-                      onChange={(e) => handleInputChange('title', e.target.value)}
+                      onChange={(e) => handleInputChange("title", e.target.value)}
                       fullWidth
                       size="small"
                       type="text"
@@ -104,7 +105,7 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                   <td className="pb-4">
                     <TextField
                       value={projectData?.description}
-                      onChange={(e) => handleInputChange('description', e.target.value)}
+                      onChange={(e) => handleInputChange("description", e.target.value)}
                       fullWidth
                       size="small"
                       type="number"
@@ -116,31 +117,33 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                 <tr>
                   <td className="pb-4 text-lg">City </td>
                   <td className="pb-4">
-                    <Autocomplete
-                      size="small"
-                      disablePortal={false}
-                      options={pakistanCities}
+                    <CFormSelect
+                      size="sm"
                       value={projectData?.city}
-                      getOptionLabel={(city) => city}
-                      onChange={(e, city) => handleChange('city', city)}
-                      className="w-full"
-                      renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                    />
+                      onChange={(e) => handleInputChange("city", e.target.value)}
+                      className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                      {pakistanCities.map((city, index) => (
+                        <option key={index} value={city}>
+                          {city}
+                        </option>
+                      ))}
+                    </CFormSelect>
                   </td>
                 </tr>
                 <tr>
                   <td className="pb-4 text-lg">Society </td>
                   <td className="pb-4">
-                    <Autocomplete
-                      size="small"
-                      disablePortal={false}
-                      options={societies}
+                    <CFormSelect
+                      size="sm"
                       value={projectData?.society}
-                      getOptionLabel={(society) => society.title ? society.title : society}
-                      onChange={(e, society) => handleChange('society', society._id)}
-                      className="w-full"
-                      renderInput={(params) => <TextField   {...params} autoComplete="false" fullWidth />}
-                    />
+                      onChange={(e) => handleInputChange("society", e.target.value)}
+                      className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                      {societies.map((society, index) => (
+                        <option key={index} value={society._id}>
+                          {society.title}
+                        </option>
+                      ))}
+                    </CFormSelect>
                   </td>
                 </tr>
                 <tr>
@@ -155,7 +158,12 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
                     <FormGroup>
                       <FormControlLabel
                         className="w-40 text-gray-400"
-                        onChange={(e) => setProjectData({ ...projectData, 'status': e.target.checked ? "active" : "inactive" })}
+                        onChange={(e) =>
+                          setProjectData({
+                            ...projectData,
+                            status: e.target.checked ? "active" : "inactive",
+                          })
+                        }
                         control={<Checkbox defaultChecked style={{ color: "#20aee3" }} />}
                       />
                     </FormGroup>
@@ -176,7 +184,7 @@ const EditProject = ({ open, setOpen, openEdit, setOpenEdit, scroll }) => {
             onClick={handleSubmit}
             variant="contained"
             className="bg-sky-400 px-4 py-2 rounded-lg text-white mt-4 hover:bg-sky-500 font-thin">
-            {isFetching ? 'Submitting...' : 'Submit'}
+            {isFetching ? "Submitting..." : "Submit"}
           </button>
         </DialogActions>
       </Dialog>
