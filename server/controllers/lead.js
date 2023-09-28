@@ -269,9 +269,9 @@ export const filterLead = async (req, res, next) => {
 export const createOnsiteLead = async (req, res, next) => {
     try {
 
-        let { gender, firstName, lastName, phone, email, cnic, allocatedTo, ...leadData } = req.body
+        let { gender, firstName, lastName, phone, email, CNIC, allocatedTo, ...leadData } = req.body
 
-        if (!firstName || !lastName || !gender || !phone || !cnic) return next(createError(400, 'Make sure to provide all the client fields'))
+        if (!firstName || !lastName || !gender || !phone || !CNIC) return next(createError(400, 'Make sure to provide all the client fields'))
         if (!validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
 
         allocatedTo = allocatedTo ?? mongoose.Types.ObjectId(req.user._id)
@@ -279,7 +279,7 @@ export const createOnsiteLead = async (req, res, next) => {
         // create new client
         const findedUser = await User.findOne({ email })
         if (Boolean(findedUser)) return next(createError(400, 'Email already exist'))
-        const newClient = await User.create({ gender, firstName, lastName, phone, email, cnic })
+        const newClient = await User.create({ gender, firstName, lastName, phone, email, CNIC })
 
         // create new lead
         const newLead = await Lead.create({ ...leadData, createdBy: req.user._id, allocatedTo, clientId: newClient._id, type: 'onsite' })

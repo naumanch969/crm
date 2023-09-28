@@ -36,7 +36,6 @@ const EventCalendar = () => {
 
   const dispatch = useDispatch()
   const { events } = useSelector(state => state.event)
-  console.log(events)
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [showViewModal, setShowViewModal] = useState(false)
   const [showCreateModal, setShowCreateModal] = useState(false)

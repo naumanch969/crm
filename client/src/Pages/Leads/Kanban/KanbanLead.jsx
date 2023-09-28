@@ -11,7 +11,6 @@ import { useDispatch } from 'react-redux';
 
 
 const Lead = ({ lead, index, }) => {
-
   const dispatch = useDispatch()
 
   const handleCopyLink = () => {

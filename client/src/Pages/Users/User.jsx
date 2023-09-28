@@ -111,7 +111,7 @@ const User = ({ open, setOpen }) => {
     //                 </div>
     //                 <div className="flex flex-col">
     //                     <span className='text-[14px] text-gray-900 ' >CNIC:</span>
-    //                     <span className='text-gray-500 text-[16px] ' >{user?.cnic}</span>
+    //                     <span className='text-gray-500 text-[16px] ' >{user?.CNIC}</span>
     //                 </div>
     //             </div>
 

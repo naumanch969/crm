@@ -58,11 +58,11 @@ function Vouchers() {
       renderCell: (params) => <div className="font-primary">{params.row.paid}</div>,
     },
     {
-      field: "cnic",
+      field: "CNIC",
       headerName: "CNIC",
       width: 150,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary">{params.row.cnic}</div>,
+      renderCell: (params) => <div className="font-primary">{params.row.CNIC}</div>,
     },
     {
       field: "issuingDate",

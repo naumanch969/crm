@@ -270,11 +270,11 @@ function Leads({ type, showSidebar }) {
     showEmployeeLeads: false,
     showArchivedLeads: false,
   });
-
+console.log(leads)
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
-    // dispatch(getLeads()); // only find my leads (of one who is logged in)
-    dispatch(getEmployeeLeads()); // only find my leads (of one who is logged in)
+    // dispatch(getLeads()); 
+     dispatch(getEmployeeLeads()); // only find my leads (of one who is logged in)
   }, []);
   useEffect(() => {
     if (!isFiltered) {
@@ -282,7 +282,6 @@ function Leads({ type, showSidebar }) {
     }
   }, [isFiltered])
 
-  console.log('this')
   ////////////////////////////////////// FUNCTION //////////////////////////////
   const handleOpenAttachmentModal = (leadId) => {
     setSelectedLeadId(leadId);
