@@ -32,6 +32,7 @@ import ClientHeader from "./Client Panel/components/ClientHeader";
 import ClientProjects from "./Client Panel/pages/Your Projects/ClientProjects";
 import Contact from "./Client Panel/pages/Contact Us/Contact";
 import LeadRefunds from "./Pages/Leads/Refund/Refund";
+import VoucherPage from "./Pages/Vouchers/VoucherPage";
 
 const App = () => {
   ///////////////////////////////////// VARIABLES ////////////////////////////////////////
@@ -53,16 +54,19 @@ const App = () => {
 
   ///////////////////////////////////// Functions ////////////////////////////////////////
 
-
   return (
     <div>
-      <div className="flex flex-col w-full h-full bg-[#f6f9fa]">
+      <div className="flex flex-col w-full h-screen bg-[#f6f9fa]">
         {!loggedUser ? (
-          <div className="flex justify-center items-center w-full ">
+          <div className={`flex justify-center items-center w-full `}>
             <Routes>
               <Route exact path="/auth/register" element={<Register />} />
               <Route exact path="/auth/login" element={<Login />} />
-              <Route exact path="/auth/change_password" element={<Navigate to='/auth/register' />} />
+              <Route
+                exact
+                path="/auth/change_password"
+                element={<Navigate to="/auth/register" />}
+              />
               <Route path="/" element={<Navigate to="/auth/login" />} />
               <Route path="/:anyotherRoutes" element={<Navigate to="/auth/login" />} />
             </Routes>
@@ -73,7 +77,7 @@ const App = () => {
             <div
               className={`${showSidebar ? "w-full " : "w-full "} flex flex-col overflow-y-scroll `}>
               <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-              <div className="flex p-[1rem] h-full w-full">
+              <div className="flex p-[1rem] w-full">
                 <Routes>
                   <Route path="/" element={<DashBoard />} />
                   <Route path="/auth/register" element={<Navigate to="/" />} />
@@ -83,12 +87,12 @@ const App = () => {
                   <Route path="/societies" element={<Societies />} />
                   <Route path="/myLeads" element={<Leads />} />
                   <Route path="/leads" exact element={<Leads />} />
-                  <Route path="/leads/ledger" element={<Navigate to='/leads' />} />
+                  <Route path="/leads/ledger" element={<Navigate to="/leads" />} />
                   <Route path="/leads/ledger/:leadId" element={<Ledger />} />
                   <Route path="/leads/:leadId" element={<Lead />} />
-                  <Route path="/leads/followUps" element={<Navigate to='/leads' />} />
+                  <Route path="/leads/followUps" element={<Navigate to="/leads" />} />
                   <Route path="/leads/followUps/:leadId" element={<FollowUps />} />
-                  <Route path="/leads/refund" element={<Navigate to='/leads' />} />
+                  <Route path="/leads/refund" element={<Navigate to="/leads" />} />
                   <Route path="/leads/refund/:leadId" element={<LeadRefunds />} />
                   <Route path="/tasks" element={<Tasks />} />
                   <Route path="/employees" element={<Employees />} />
@@ -108,6 +112,10 @@ const App = () => {
             </div>
           </div>
         )}
+
+        <Routes>
+          <Route path="/download/voucher" element={<VoucherPage />} />
+        </Routes>
         <Routes>
           <Route path="/client" element={<ClientPanelLayout />}>
             <Route path="/client/home" element={<Home />} />

@@ -32,6 +32,7 @@
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",
     "email-validator": "^2.0.4",
+    "html2canvas": "^1.4.1",
     "js-cookie": "^3.0.5",
     "jsbarcode": "^3.11.5",
     "jspdf": "^2.5.1",

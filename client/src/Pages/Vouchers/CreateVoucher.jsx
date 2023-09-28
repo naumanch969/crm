@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+// import pdfMake from "pdfmake/build/pdfmake";
+// import pdfFonts from "pdfmake/build/vfs_fonts";
 import { createVoucher } from "../../redux/action/voucher";
 import { getClients } from "../../redux/action/user";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,14 +21,15 @@ import { PiNotepad, PiXLight } from "react-icons/pi";
 import { CFormSelect } from "@coreui/react";
 import JsBarcode from "jsbarcode";
 import { getProjects } from "../../redux/action/project";
+import VoucherPage from "./VoucherPage";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-const CreateVoucher = ({ open, setOpen, scroll }) => {
+const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
   ////////////////////////////////////// VARIBALES ///////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,18 +50,6 @@ const CreateVoucher = ({ open, setOpen, scroll }) => {
     paid: "",
     remained: "",
   };
-  const barcodeValue = "AD157491594D5";
-
-  // Create a barcode canvas using JsBarcode
-  const canvas = document.createElement("canvas");
-  JsBarcode(canvas, barcodeValue, {
-    format: "CODE128", // You can choose a barcode format
-    width: 2,
-    height: 50,
-  });
-
-  // Convert the canvas to an image
-  const barcodeImage = canvas.toDataURL("image/png");
 
   ////////////////////////////////////// STATES //////////////////////////////////////
   const [modalVisible, setModalVisible] = useState(false);
@@ -82,6 +71,7 @@ const CreateVoucher = ({ open, setOpen, scroll }) => {
   const handleDownloadPDF = (e) => {
     e.preventDefault();
     dispatch(createVoucher(voucherData, setOpen));
+    
     // setIsVoucherCreated(false);
 
     // const documentDefinition = {
@@ -480,15 +470,21 @@ const CreateVoucher = ({ open, setOpen, scroll }) => {
             Cancel
           </button>
           <button
-            onClick={(e) => handleDownloadPDF(e)}
+            onClick={downloadPdf}
             variant="contained"
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
-            Submit
+            {loader? (
+              <span>Downloading</span>
+            ): (
+              <span>Download</span>
+            )}
           </button>
         </DialogActions>
       </Dialog>
+
     </div>
   );
 };
+
 
 export default CreateVoucher;
