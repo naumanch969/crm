@@ -33,7 +33,7 @@ const EditModal = ({ open, setOpen }) => {
     city: "",
     email: "",
     password: "",
-    cnic: "",
+    CNIC: "",
     phone: "",
     officialNumber: "",
     gender: "male",

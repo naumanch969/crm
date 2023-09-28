@@ -141,7 +141,7 @@ const Lead = ({ open, setOpen, leadId, scroll }) => {
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
                     <div className="flex items-center gap-2">
                       <PiIdentificationCard className="text-gray-700" /> CNIC :{" "}
-                      <span className="text-black">{currentLead?.clientId?.cnic}</span>
+                      <span className="text-black">{currentLead?.clientId?.CNIC}</span>
                     </div>
                   </div>
                   <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">

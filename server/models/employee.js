@@ -10,7 +10,7 @@ const employeeSchema = Schema({
     password: { type: String, required: false, },
     role: { type: String, required: true, default: 'client', enum: ['client', 'employee', 'manager', 'super_admin'] },
     officialNumber: { type: Number, required: false, },
-    cnic: { type: String, required: false, },
+    CNIC: { type: String, required: false, },
     gender: { type: String, required: false, enum: ['male', 'female'], default: 'male' },
     martialStatus: { type: String, required: false, enum: ['married', 'single'], default: 'single' },
     isActive: { type: Boolean, required: false, default: false },
