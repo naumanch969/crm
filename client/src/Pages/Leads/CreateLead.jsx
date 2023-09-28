@@ -3,11 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createLead, getLeads } from "../../redux/action/lead";
 import Topbar from "./Topbar";
-<<<<<<< HEAD
-import { getEmployees, register } from "../../redux/action/user";
-=======
 import { register } from "../../redux/action/user";
->>>>>>> 18ba82687197147003373f4aae57da651b05f185
 import { CFormSelect } from "@coreui/react";
 import { pakistanCities } from "../../constant";
 import {
