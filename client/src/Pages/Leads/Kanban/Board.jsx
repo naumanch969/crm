@@ -5,7 +5,6 @@ import { Droppable } from "react-beautiful-dnd";
 
 const Board = ({ leads, title, _id }) => {
 
-  console.log(title, '     ', leads, '     ', _id)
 
   return (
     <div

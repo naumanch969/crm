@@ -263,6 +263,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             {!showSidebar ? "" : <img className="h-[45px]" src="/favicon/GrowLOGO.png" />}
           </div>
         </a>
+
         <div
           style={{ height: "calc(100vh - 4rem)" }}
           className="py-[5px] gap-1 flex flex-col h-fit overflow-y-scroll">
@@ -276,6 +277,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             />
           ))}
         </div>
+        
         {/* </div> */}
       </Box>
 

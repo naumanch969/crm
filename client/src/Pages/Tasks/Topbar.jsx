@@ -7,7 +7,7 @@ import { Add, Close } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../../utils";
 import { useDispatch } from "react-redux";
-import { getArchivedTasks, getTasks } from "../../redux/action/task";
+import {  getTasks } from "../../redux/action/task";
 import CreateTask from "./CreateTask";
 import Navbar from "../../Components/Navbar/Navbar";
 import { searchTaskReducer } from "../../redux/reducer/task";
@@ -39,7 +39,6 @@ const Topbar = ({ options, setOptions, openFilters, setOpenFilters, isFiltered, 
 
   ////////////////////////////////////////// USE EFFECTS //////////////////////////////////
   useEffect(() => {
-    options?.showArchivedTasks && dispatch(getArchivedTasks());
     options?.showEmployeeTasks && dispatch(getTasks());
     !options?.showArchivedTasks && !options?.showEmployeeTasks && dispatch(getTasks());
   }, [options]);

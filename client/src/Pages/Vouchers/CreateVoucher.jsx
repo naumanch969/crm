@@ -63,15 +63,21 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
   }, [open]);
 
   ////////////////////////////////////// FUNCTIONS ////////////////////////////////////////
-
   const handleChange = (field, value) => {
     setVoucherData((prevData) => ({ ...prevData, [field]: value }));
   };
 
   const handleDownloadPDF = (e) => {
     e.preventDefault();
+    const { branch, issuingDate, dueDate, clientName, CNIC, phone, project, propertyType, area, type, total, paid } = voucherData
+    if (!branch || !issuingDate || !dueDate || !clientName || !CNIC || !phone || !project || !propertyType || !area || !type || !total || !paid)
+      return alert("Make sure to provide all the fields")
+
+    const findedProject = projects.find(p => p._id == project)
+
+    navigate('/download/voucher', { state: { voucher: { ...voucherData, remained: total - paid, projectTitle: findedProject?.title } } })
     dispatch(createVoucher(voucherData, setOpen));
-    
+
     // setIsVoucherCreated(false);
 
     // const documentDefinition = {
@@ -254,6 +260,8 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
 
   return (
     <div>
+
+
       <Dialog
         open={open}
         scroll={scroll}
@@ -359,7 +367,7 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
                 <td className="pb-4">
                   <CFormSelect
                     value={voucherData.project}
-                    onChange={(e) => handleChange("project", e.target.value)}
+                    onChange={(e) => { handleChange("project", e.target.value) }}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
                   >
                     <option value={""}>None</option>
@@ -470,12 +478,13 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
             Cancel
           </button>
           <button
-            onClick={downloadPdf}
+            // onClick={downloadPdf}
+            onClick={handleDownloadPDF}
             variant="contained"
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
-            {loader? (
+            {loader ? (
               <span>Downloading</span>
-            ): (
+            ) : (
               <span>Download</span>
             )}
           </button>
