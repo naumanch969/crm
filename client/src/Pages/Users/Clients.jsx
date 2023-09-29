@@ -156,13 +156,6 @@ const Clients = () => {
               />
             </Tooltip>
           }
-          <Tooltip placement="top" title="View" arrow>
-            {" "}
-            <IoOpenOutline
-              onClick={() => handleClickOpen(params.row._id)}
-              className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400"
-            />
-          </Tooltip>
         </div>
       ),
     },

@@ -92,10 +92,6 @@ function Sales() {
               />
             </Tooltip>
           </div>
-          <Tooltip placement="top" title="View">
-            {" "}
-            <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
-          </Tooltip>
           <Tooltip placement="top" title="Edit">
             {" "}
             <CiEdit

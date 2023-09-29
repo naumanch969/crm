@@ -106,7 +106,6 @@ const EditModal = ({ open, setOpen }) => {
   };
   const handleClose = () => {
     setOpen(false);
-    setOpenFromNavbar(false);
   };
   return (
     <div>

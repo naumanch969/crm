@@ -61,133 +61,121 @@ const Lead = ({ open, setOpen, leadId, scroll }) => {
             <PiXLight className="text-[25px]" />
           </div>
         </DialogTitle>
-        {isFetching ? (
-          <div className="flex justify-center"><Loader /></div>
-        ) : (
-          <DialogContent>
-            <div className="md:flex text-[#67757c] font-primary">
-              <div className="bg-white md:w-[65%] w-full h-full px-4">
-                <div className="text-2xl flex justify-center">Lead Details</div>
+        <DialogContent>
+          <div className="md:flex text-[#67757c] font-primary">
+            <div className="bg-white md:w-[65%] w-full h-full px-4">
+              <div className="text-2xl flex justify-center">Lead Details</div>
 
-                <div className="flex items-center pt-6 pb-2 gap-3 text-[20px]">
-                  <PiHouseLine className="text-[25px]" />
-                  Property Details
-                </div>
-                <Divider />
-                <div className="pt-2 text-lg font-[350]">
-                  Property Type :{" "}
-                  <span className="text-black font-normal">{currentLead?.propertyType}</span>
-                </div>
-                <div className="text-lg font-[350]">
-                  Home Type :{" "}
-                  <span className="text-black font-normal">{currentLead?.homeType}</span>
-                </div>
-                <div className="text-lg font-[350] pb-2">
-                  Beds Required :{" "}
-                  <span className="text-black font-normal">{currentLead?.beds}</span>
-                </div>
+              <div className="flex items-center pt-6 pb-2 gap-3 text-[20px]">
+                <PiHouseLine className="text-[25px]" />
+                Property Details
+              </div>
+              <Divider />
+              <div className="pt-2 text-lg font-[350]">
+                Project :{" "}
+                <span className="text-black font-normal">{currentLead?.property.title}</span>
+              </div>
+              <div className="text-lg font-[350]">
+                Priority :{" "}
+                <span className="text-black font-normal capitalize">{currentLead?.priority}</span>
+              </div>
 
-                <div className="flex items-center pt-4 pb-2 gap-3 text-[20px]">
-                  <PiMapPinLine className="text-[25px]" />
-                  Location
-                </div>
-                <Divider />
-                <div className="pt-2 text-lg font-[350]">
-                  Required City :{" "}
-                  <span className="text-black font-normal">{currentLead?.city}</span>
-                </div>
+              <div className="flex items-center pt-4 pb-2 gap-3 text-[20px]">
+                <PiMapPinLine className="text-[25px]" />
+                Location
+              </div>
+              <Divider />
+              <div className="pt-2 text-lg font-[350]">
+                Required City : <span className="text-black font-normal">{currentLead?.city}</span>
+              </div>
 
-                <div className="flex items-center pt-4 pb-2 gap-3 text-[20px]">
-                  <PiRuler className="text-[25px]" />
-                  Area
-                </div>
-                <Divider />
-                <div className="pt-2 text-lg font-[350]">
-                  Minimum Area :{" "}
-                  <span className="text-black font-normal">{currentLead?.minArea} {currentLead?.minAreaUnit}</span>
-                </div>
-                <div className="text-lg font-[350] pb-2">
-                  Maximum Area :{" "}
-                  <span className="text-black font-normal">{currentLead?.maxArea} {currentLead?.maxAreaUnit}</span>
-                </div>
+              <div className="flex items-center pt-4 pb-2 gap-3 text-[20px]">
+                <PiRuler className="text-[25px]" />
+                Details
+              </div>
+              <Divider />
 
-                <div className="flex items-center pt-4 pb-2 gap-3 text-[20px]">
-                  <PiHandCoins className="text-[25px]" />
-                  Budget
+              <div className="text-lg font-[350] pt-2">
+                Source :{" "}
+                <span className="text-black font-normal capitalize">{currentLead?.source}</span>
+              </div>
+
+              <div className="flex items-center pt-4 pb-2 gap-3 text-[20px]">
+                <PiHandCoins className="text-[25px]" />
+                Description
+              </div>
+              <Divider />
+              <div className="pt-2 text-lg font-[350]">
+                <span className="text-black font-normal">{currentLead?.description}</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col">
+              <div className="bg-[#ebf2f5] w-full h-full md:mt-0 mt-8 px-4 py-4 flex flex-col justify-between gap-4 rounded-md">
+                <div className="text-xl">Customer Details</div>
+                <div className="bg-[#d1dfe4] p-1 w-full rounded-lg text-black flex justify-center text-lg capitalize">
+                  {currentLead?.client?.username == "" ? "Null" : currentLead?.client?.username}
                 </div>
-                <Divider />
-                <div className="pt-2 text-lg font-[350]">
-                  Minimum Budget :{" "}
-                  <span className="text-black font-normal">Rs. {currentLead?.minBudget}</span>
+                <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <PiIdentificationCard className="text-gray-700" /> CNIC :{" "}
+                    <span className="text-black">
+                      {currentLead?.client?.CNIC == "" ? "Null" : currentLead?.client?.CNIC}
+                    </span>
+                  </div>
                 </div>
-                <div className="text-lg font-[350] pb-2">
-                  Maximum Budget :{" "}
-                  <span className="text-black font-normal">Rs. {currentLead?.maxBudget}</span>
+                <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <PiPhone className="text-gray-700" /> Phone :{" "}
+                    <span className="text-black">{currentLead?.client?.phone}</span>
+                  </div>
+                </div>
+                <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <PiEnvelopeSimple className="text-gray-700" /> Email:{" "}
+                    <span className="text-black">
+                      {currentLead?.client?.email == "" ? "Null" : currentLead?.client?.email}
+                    </span>
+                  </div>
+                </div>
+                <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <PiCalendar className="text-gray-700" /> Created :{" "}
+                    <span className="text-black">{format(currentLead?.createdAt)}</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="flex flex-col">
-                <div className="bg-[#ebf2f5] w-full h-full md:mt-0 mt-8 px-4 py-4 flex flex-col justify-between gap-4 rounded-md">
-                  <div className="text-xl">Customer Details</div>
-                  <div className="bg-[#d1dfe4] p-1 w-full rounded-lg text-black flex justify-center text-lg capitalize">
-                    {currentLead?.clientId?.firstName} {currentLead?.clientId?.lastName}
+              <div className="bg-[#ebf2f5] w-full h-full mt-4 px-4 py-4 flex flex-col justify-between gap-4 rounded-md">
+                <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <PiUserFocus className="text-gray-700" />
+                    <div>Allocated Persons </div>
                   </div>
-                  <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <PiGenderMaleDuotone className="text-gray-700 " /> Gender :{" "}
-                      <span className="text-black capitalize">{currentLead?.clientId?.gender}</span>
+                  {currentLead?.allocatedTo.length < 1 ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="text-black capitalize">
+                        {currentLead?.allocatedTo[0]?.username}
+                      </span>
                     </div>
-                  </div>
-                  <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <PiIdentificationCard className="text-gray-700" /> CNIC :{" "}
-                      <span className="text-black">{currentLead?.clientId?.CNIC}</span>
-                    </div>
-                  </div>
-                  <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <PiPhone className="text-gray-700" /> Phone :{" "}
-                      <span className="text-black">{currentLead?.clientId?.phone}</span>
-                    </div>
-                  </div>
-                  <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <PiEnvelopeSimple className="text-gray-700" /> Email:{" "}
-                      <span className="text-black">{currentLead?.clientId?.email}</span>
-                    </div>
-                  </div>
-                  <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <PiUser className="text-gray-700" /> Client Type :{" "}
-                      <span className="text-black capitalize">{currentLead?.clientType}</span>
-                    </div>
-                  </div>
-                  <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <PiCalendar className="text-gray-700" /> Created :{" "}
-                      <span className="text-black">{format(currentLead?.createdAt)}</span>
-                    </div>
-                  </div>
+                  ) : (
+                    currentLead?.allocatedTo.map((person) => (
+                      <div>
+                        <div className="flex items-center gap-2 text-black">{">"} {person.username}</div>
+                      </div>
+                    ))
+                  )}
                 </div>
-
-                <div className="bg-[#ebf2f5] w-full h-full mt-4 px-4 py-4 flex flex-col justify-between gap-4 rounded-md">
-                  <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <PiUserFocus className="text-gray-700" /> Allocated to :{" "}
-                      <span className="text-black">{currentLead?.allocatedTo?.username}</span>
-                    </div>
-                  </div>
-                  <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <PiSealQuestion className="text-gray-700" /> Status :{" "}
-                      <span className="text-black capitalize">{currentLead?.status}</span>
-                    </div>
+                <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <PiSealQuestion className="text-gray-700" /> Status :{" "}
+                    <span className="text-black capitalize">{currentLead?.status}</span>
                   </div>
                 </div>
               </div>
             </div>
-          </DialogContent>
-        )}
+          </div>
+        </DialogContent>
       </Dialog>
     </div>
   );

@@ -16,7 +16,6 @@ const leadSchema = Schema({
     followUps: { type: [Schema.Types.ObjectId], ref: 'FollowUp', default: [] },
     isAppliedForRefund: { type: Boolean, default: false },
     uid: { type: String, },
-
 }, { timestamps: true })
 
 // Before saving a new document, generate a unique readable identifier
