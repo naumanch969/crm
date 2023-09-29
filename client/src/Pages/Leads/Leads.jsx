@@ -270,7 +270,6 @@ function Leads({ type, showSidebar }) {
     showEmployeeLeads: false,
     showArchivedLeads: false,
   });
-console.log(leads)
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
     // dispatch(getLeads()); 

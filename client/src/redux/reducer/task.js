@@ -69,7 +69,6 @@ export const {
     searchTaskReducer,
     filterTaskReducer,
     createTaskReducer,
-    getArchivedTasksReducer,
     updateTaskReducer,
     unarchiveTaskReducer,
     deleteTaskReducer,

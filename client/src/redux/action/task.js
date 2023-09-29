@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { start, end, error, getTasksReducer, getTaskReducer, createTaskReducer, getArchivedTasksReducer, updateTaskReducer, deleteTaskReducer, } from '../reducer/task'
+import { start, end, error, getTasksReducer, getTaskReducer, createTaskReducer, updateTaskReducer, deleteTaskReducer, } from '../reducer/task'
 
 
 export const getTasks = () => async (dispatch) => {
@@ -7,16 +7,6 @@ export const getTasks = () => async (dispatch) => {
         dispatch(start())
         const { data } = await api.getTasks()
         dispatch(getTasksReducer(data.result))
-        dispatch(end())
-    } catch (err) {
-        dispatch(error(err.message))
-    }
-}
-export const getArchivedTasks = () => async (dispatch) => {
-    try {
-        dispatch(start())
-        const { data } = await api.getArchivedTasks()
-        dispatch(getArchivedTasksReducer(data.result))
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))
