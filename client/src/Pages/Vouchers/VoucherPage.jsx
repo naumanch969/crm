@@ -85,7 +85,7 @@ const VoucherPage = ({ }) => {
               <th className="text-center border-y-[1px] border-x-[1px] border-black bg-[#dddddd] h-[2rem] w-[13rem] ">Phone</th>
             </tr>
             <tr className='w-full' >
-              <td className="text-center border-b-[1px] border-x-[1px] border-black h-[2rem] w-[13rem] capitalize ">{voucher?.clientName}</td>
+              <td className="text-center border-b-[1px] border-x-[1px] border-black h-[2rem] w-[13rem] capitalize ">{voucher?.type}</td>
               <td className="text-center border-b-[1px] border-black h-[2rem] w-[13rem] ">{voucher?.CNIC}</td>
               <td className="text-center border-b-[1px] border-x-[1px] border-black h-[2rem] w-[13rem] ">{voucher?.phone}</td>
             </tr>
