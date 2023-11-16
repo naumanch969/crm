@@ -62,7 +62,7 @@ const LeadsStat = () => {
 
 
   return (
-    <div>
+    <div className="w-9/12">
       <div className="flex items-center justify-center gap-4 pb-5">
         <div className="text-xl font-primary">View Leads : </div>
         <div className="flex items-center gap-2 w-3/12">
@@ -88,7 +88,7 @@ const LeadsStat = () => {
         </div>
       </div>
       <BarChart
-        width={window.innerWidth - 250}
+        width={window.innerWidth - 300}
         height={500}
         data={stats}
         margin={{
