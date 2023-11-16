@@ -12,7 +12,7 @@ const IncomeAndExpense = () => {
     const currentYear = new Date().getFullYear();
     let incomeSum = incomeAndExpenses.reduce((prev, current) => prev + +current.income, 0);
     let expensesSum = incomeAndExpenses.reduce((prev, current) => prev + +current.expense, 0);
-
+ 
     useEffect(() => {
         dispatch(getIncomeAndExpenses())
     }, [])

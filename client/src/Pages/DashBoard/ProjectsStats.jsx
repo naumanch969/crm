@@ -12,7 +12,7 @@ const Projects = () => {
         // dispatch(getUserAssignedProjectsStats())
     }, [])
 
-    return (
+    return ( 
         <Box className='w-7/12 h-full bg-white mt-5 ml-5 p-2'>
             <div className='flex justify-center text-xl'>Projects</div>
             {
