@@ -1,6 +1,7 @@
 import express from 'express'
 import { getUsers, getUser,filterUser, createClient, createEmployee, updateRole, updateUser, deleteUser, getClients, getEmployees, deleteWholeCollection } from '../controllers/user.js'
-import { verifyManager, verifyEmployee, verifyToken } from '../middleware/auth.js'
+import { verifyManager, verifyEmployee, verifyToken, verifySuperAdmin } from '../middleware/auth.js'
+import { createError } from '../utils/error.js'
 
 const router = express.Router()
 
@@ -27,10 +28,10 @@ router.post('/create/employee', verifyToken, verifyManager, createEmployee)
 
 // PUT
 router.put('/update-role/:userId', verifyToken, verifyManager, updateRole)
-router.put('/update/:userId', verifyToken, verifyIsSameUser, updateUser)
+router.put('/update/:userId', verifyToken, verifySuperAdmin, updateUser)
 
 // DELETE
-router.delete('/delete/:userId', verifyToken, verifyIsSameUser, deleteUser)
+router.delete('/delete/:userId', verifyToken, verifySuperAdmin, deleteUser)
 router.delete('/delete-whole-collection', deleteWholeCollection)
 
 export default router

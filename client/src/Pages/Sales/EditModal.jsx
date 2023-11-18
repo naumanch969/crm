@@ -48,8 +48,10 @@ const EditModal = ({ open, setOpen }) => {
   }, [lead]);
   useEffect(() => {
     dispatch(getClients());
-    dispatch(getEmployees());
-  }, []);
+    if (employees.length === 0) {
+      dispatch(getEmployees());
+    }
+    }, []);
 
   //////////////////////////////////////// FUNCTIONS ///////////////////////////////////
   const handleSubmit = (e) => {

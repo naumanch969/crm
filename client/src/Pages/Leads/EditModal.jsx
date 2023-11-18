@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLead, updateLead } from "../../redux/action/lead";
-import { pakistanCities } from "../../constant";
+import { pakistanCities, countries } from "../../constant";
 import {
   Divider,
   Dialog,
@@ -13,7 +13,6 @@ import {
   TextField,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
-import { getProjects } from "../../redux/action/project";
 import { CFormSelect } from "@coreui/react";
 import { getLeadReducer } from "../../redux/reducer/lead";
 
@@ -26,7 +25,6 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
   const dispatch = useDispatch();
   const { currentLead, isFetching } = useSelector((state) => state.lead);
   const { employees, loggedUser } = useSelector((state) => state.user);
-  const { projects } = useSelector((state) => state.project);
   const priorities = [
     { name: "Very Cold", value: "veryCold" },
     { name: "Cold", value: "cold" },
@@ -55,72 +53,69 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
     { name: "Google", value: "google" },
     { name: "Referral", value: "referral" },
   ];
-  let initialLeadState = { firstName: "", lastName: "", username: "", phone: "", CNIC: "", clientCity: "", email: "", city: "", priority: "", property: "", status: "", source: "", description: "", };
+  const degrees = [
+    { name: "Bacholers", value: "bacholers" },
+    { name: "Masters", value: "masters" },
+    { name: "PHD", value: "phd" },
+    { name: "Diploma", value: "diploma" },
+    { name: "Other", value: "other" },
+  ];
+  const Visa = [
+    { name: "Student Visa", value: "studentVisa" },
+    { name: "Visit Visa", value: "visitVisa" },
+  ];
+
+  let initialLeadState = {
+    clientName: "",
+    clientPhone: "",
+    priority: "",
+    country: "",
+    degree: "",
+    major: "",
+    degreeName: "",
+    visa: "",
+    status: "",
+    source: "",
+    description: "",
+  };
   ////////////////////////////////////// STATES  /////////////////////////////////////
   const [leadData, setLeadData] = useState({
     ...currentLead,
-    property: currentLead?.project?._id,
-    firstName: currentLead?.client?.firstName,
-    lastName: currentLead?.client?.lastName,
-    username: currentLead?.client?.username,
-    phone: currentLead?.client?.phone,
-    CNIC: currentLead?.client?.CNIC,
-    clientCity: currentLead?.client?.city,
-    email: currentLead?.client?.email,
+    clientName: currentLead?.client?.clientName,
+    clientPhone: currentLead?.client?.phone,
   });
 
   ////////////////////////////////////// USE EFFECTS  /////////////////////////////////////
   useEffect(() => {
     setLeadData({
       ...currentLead,
-      firstName: currentLead?.client?.firstName,
-      lastName: currentLead?.client?.lastName,
-      username: currentLead?.client?.username,
-      phone: currentLead?.client?.phone,
-      CNIC: currentLead?.client?.CNIC,
-      clientCity: currentLead?.client?.city,
-      email: currentLead?.client?.email,
+      clientName: currentLead?.client?.clientName,
+      clientPhone: currentLead?.client?.phone,
     });
   }, [currentLead]);
+
   useEffect(() => {
-    dispatch(getProjects());
-  }, []);
-  useEffect(() => {
-    leadId && dispatch(getLead(leadId))
-  }, [leadId])
+    leadId && dispatch(getLead(leadId));
+  }, [leadId]);
 
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
     const {
-      firstName,
-      lastName,
-      username,
-      phone,
-      clientCity,
-      city,
+      clientName,
+      clientPhone,
+      country,
       priority,
-      property,
       status,
+      degree,
+      major,
+      visa,
       source,
       description,
     } = leadData;
-    if (
-      !firstName ||
-      !lastName ||
-      !username ||
-      !phone ||
-      !clientCity ||
-      !city ||
-      !priority ||
-      !property ||
-      !status ||
-      !source ||
-      !description
-    )
-      return alert("Make sure to provide all the fields");
+
     dispatch(updateLead(currentLead?._id, leadData));
-    dispatch(getLeadReducer(null))
+    dispatch(getLeadReducer(null));
     setLeadData(initialLeadState);
     setOpen(false);
   };
@@ -130,8 +125,11 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
   };
 
   const handleClose = () => {
+    setLeadData(initialLeadState)
     setOpen(false);
   };
+
+  console.log(currentLead);
 
   return (
     <div>
@@ -143,9 +141,7 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
         onClose={handleClose}
         fullWidth="sm"
         maxWidth="md"
-        aria-describedby="alert-dialog-slide-description"
-      >
-
+        aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
           <div className="text-sky-400 font-primary">Edit Lead</div>
           <div className="cursor-pointer" onClick={handleClose}>
@@ -161,36 +157,12 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
             <Divider />
             <table className="mt-4">
               <tr>
-                <td className="pb-4 text-lg">First Name </td>
+                <td className="pb-4 text-lg">Client Name </td>
                 <td className="pb-4">
                   <TextField
-                    style={{ fontFamily: "'Montserrat', sans-serif" }}
-                    value={leadData?.firstName}
-                    onChange={(e) => handleChange("firstName", e.target.value)}
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Last Name </td>
-                <td className="pb-4">
-                  <TextField
-                    name="lastName"
-                    value={leadData?.lastName}
-                    onChange={(e) => handleChange("lastName", e.target.value)}
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Username </td>
-                <td className="pb-4">
-                  <TextField
-                    name="username"
-                    value={leadData?.username}
-                    onChange={(e) => handleChange("username", e.target.value)}
+                    value={leadData?.clientName}
+                    name="clientName"
+                    onChange={(e) => handleChange("clientName", e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -200,54 +172,11 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="pb-4 text-lg">Phone </td>
                 <td className="pb-4">
                   <TextField
-                    name="phone"
-                    onChange={(e) => handleChange("phone", e.target.value)}
-                    value={leadData?.phone}
+                    name="clientPhone"
+                    onChange={(e) => handleChange("clientPhone", e.target.value)}
+                    value={leadData?.clientPhone}
                     type="number"
                     size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">CNIC </td>
-                <td className="pb-4">
-                  <TextField
-                    name="CNIC"
-                    onChange={(e) => handleChange("CNIC", e.target.value)}
-                    value={leadData?.CNIC}
-                    type="number"
-                    placeholder="Optional"
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Client City </td>
-                <td className="pb-4">
-                  <CFormSelect
-                    value={leadData?.clientCity}
-                    onChange={(e) => handleChange("clientCity", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                    {pakistanCities.map((city, key) => (
-                      <option key={key} value={city}>
-                        {city}
-                      </option>
-                    ))}
-                  </CFormSelect>
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Email </td>
-                <td className="pb-4">
-                  <TextField
-                    type="email"
-                    onChange={(e) => handleChange("email", e.target.value)}
-                    value={leadData?.email}
-                    name="email"
-                    size="small"
-                    placeholder="Optional"
                     fullWidth
                   />
                 </td>
@@ -263,31 +192,63 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
             <Divider />
             <table className="mt-4">
               <tr>
-                <td className="pb-4 text-lg">City </td>
+                <td className="pb-4 text-lg">Country </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={leadData?.city}
-                    onChange={(e) => handleChange("city", e.target.value)}
+                    value={leadData?.country}
+                    onChange={(e) => handleChange("country", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                    {pakistanCities.map((city, key) => (
-                      <option key={key} value={city}>
-                        {city}
+                    <option value="">Select Country</option>
+                    {countries.map((country, key) => (
+                      <option key={key} value={country.name}>
+                        {country.name}
                       </option>
                     ))}
                   </CFormSelect>
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Project </td>
+                <td className="pb-4 text-lg">Degree </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={leadData?.property}
-                    onChange={(e) => handleChange("property", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    {projects.map((project, key) => (
-                      <option key={key} value={project._id}>
-                        {project.title}
+                    value={leadData?.degree}
+                    onChange={(e) => handleChange("degree", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select Degree</option>
+                    {degrees.map((item, key) => (
+                      <option key={key} value={item.value}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </CFormSelect>
+                </td>
+              </tr>
+              {leadData?.degree === "other" && (
+                <tr>
+                  <td className="pb-4 text-lg">Degree Name </td>
+                  <td className="pb-4">
+                    <TextField
+                      onChange={(e) => handleChange("degreeName", e.target.value)}
+                      value={leadData?.degreeName}
+                      name="degreeName"
+                      type="text"
+                      size="small"
+                      fullWidth
+                    />
+                  </td>
+                </tr>
+              )}
+              <tr>
+                <td className="pb-4 text-lg">Visa </td>
+                <td className="pb-4">
+                  <CFormSelect
+                    value={leadData?.visa}
+                    onChange={(e) => handleChange("visa", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select Visa</option>
+                    {Visa.map((item, key) => (
+                      <option key={key} value={item.value}>
+                        {item.name}
                       </option>
                     ))}
                   </CFormSelect>
@@ -299,8 +260,8 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                   <CFormSelect
                     value={leadData?.priority}
                     onChange={(e) => handleChange("priority", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select Priority</option>
                     {priorities.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -315,8 +276,8 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                   <CFormSelect
                     value={leadData?.status}
                     onChange={(e) => handleChange("status", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select Status</option>
                     {statuses.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -331,8 +292,8 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                   <CFormSelect
                     value={leadData?.source}
                     onChange={(e) => handleChange("source", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select Source</option>
                     {sources.map((item, key) => (
                       <option key={key} value={item.value}>
                         {item.name}
@@ -345,7 +306,7 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
                 <td className="flex flex-col justify-start mt-1 text-lg">Description </td>
                 <td className="pb-4">
                   <TextField
-                    onChange={(e) => handleChange('description', e.target.value)}
+                    onChange={(e) => handleChange("description", e.target.value)}
                     value={leadData?.description}
                     name="description"
                     type="text"
@@ -372,9 +333,8 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
             Save
           </button>
         </DialogActions>
-
       </Dialog>
-    </div >
+    </div>
   );
 };
 

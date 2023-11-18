@@ -130,9 +130,9 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
   };
 
   return (
-    <div className={`${pathname.includes("download") ? "hidden" : null}`}>
+    <div className={`${pathname.includes('/client/') || pathname.includes('download') ? 'invisible' : 'visible'}`}>
       <div
-        className={`${pathname.includes("download") ? "hidden" : null} flex flex-col z-10 sticky top-0 w-full sm:h-[4rem] h-[4rem] bg-white border-b-[1px] border-b-[#eeeff0] font-primary`}>
+        className={`flex flex-col z-10 sticky top-0 w-full sm:h-[4rem] h-[4rem] bg-white border-b-[1px] border-b-[#eeeff0] font-primary`}>
         <div
           className={`sm:h-full h-[4rem] md:pl-[20px] sm:pl-[1rem] pl-[8px] flex items-center justify-between sm:border-none border-b-[1px] border-[#eeeff0] sm:shadow-none`}>
           {/* left section */}

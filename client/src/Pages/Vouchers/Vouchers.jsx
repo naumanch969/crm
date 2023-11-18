@@ -1,17 +1,10 @@
 import { Add, KeyboardArrowRight, Search } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Table } from "../../Components";
-import { getVouchers } from "../../redux/action/voucher";
+import { getVouchers,getEmployeeVouchers } from "../../redux/action/voucher";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Button,
-  Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   IconButton,
   Tooltip,
 } from "@mui/material";
@@ -19,10 +12,11 @@ import { DeleteOutline, OpenInNewOutlined } from "@mui/icons-material";
 import View from "./View";
 import Topbar from "./Topbar";
 import DeleteModal from "./DeleteModal";
-import { PiTrashLight } from "react-icons/pi";
+import { PiDownloadSimpleLight, PiTrashLight } from "react-icons/pi";
 
 function Vouchers() {
   //////////////////////////////////////// VARIABLES ////////////////////////////////////
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { vouchers, isFetching, error } = useSelector((state) => state.voucher);
   const { loggedUser } = useSelector((state) => state.user);
@@ -51,13 +45,6 @@ function Vouchers() {
       ),
     },
     {
-      field: "project",
-      headerName: "Project",
-      width: 150,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary">{params.row.paid}</div>,
-    },
-    {
       field: "CNIC",
       headerName: "CNIC",
       width: 150,
@@ -74,9 +61,16 @@ function Vouchers() {
     {
       field: "type",
       headerName: "Payment Type",
-      width: 200,
+      width: 180,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => <div className="font-primary capitalize">{params.row.type}</div>,
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 200,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => <div className="font-primary capitalize">{params.row?.status}</div>,
     },
     {
       field: "paid",
@@ -92,8 +86,7 @@ function Vouchers() {
       width: 120,
       renderCell: (params) => (
         <div className="flex gap-[4px] ">
-          {
-            loggedUser?.role != 'employee' &&
+          {loggedUser?.role != "employee" && (
             <Tooltip placement="top" title="Delete">
               <IconButton
                 onClick={() => {
@@ -104,12 +97,14 @@ function Vouchers() {
                 <PiTrashLight className="text-red-500" />
               </IconButton>
             </Tooltip>
-          }
-          {/* <Tooltip placement="top" title="View">
-            <IconButton onClick={() => setOpenViewModal(true)} className="hover:text-red-500">
-              <OpenInNewOutlined />
-            </IconButton>
-          </Tooltip> */}
+          )}
+          {params.row.status == "accepted" && (
+            <Tooltip placement="top" title="Download">
+              <IconButton onClick={() => handleDownload(params.row)} className="hover:text-red-500">
+                <PiDownloadSimpleLight className="text-green-500" />
+              </IconButton>
+            </Tooltip>
+          )}
         </div>
       ),
     },
@@ -122,10 +117,15 @@ function Vouchers() {
 
   //////////////////////////////////////// USE EFFECTS //////////////////////////////////
   useEffect(() => {
-    dispatch(getVouchers());
+    loggedUser.role == 'employee' ? dispatch(getEmployeeVouchers()) : dispatch(getVouchers())
   }, []);
 
   //////////////////////////////////////// FUNCTIONS ////////////////////////////////////
+  const handleDownload = (voucher) => {
+    navigate("/download/voucher", { 
+      state: { voucher },
+    });
+  };
 
   return (
     <div className="h-full w-full float-left pb-28">

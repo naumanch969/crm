@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { start, end, error, getApprovalReducer, getApprovalsReducer, createRequestApprovalReducer, rejectRequestApprovalReducer, createVoucherApprovalReducer, createReceiptApprovalReducer, createRefundApprovalReducer, rejectRefundApprovalReducer, deleteApprovalReducer, } from '../reducer/approval'
+import { start, end, error, getApprovalReducer, getApprovalsReducer, createRequestApprovalReducer, rejectRequestApprovalReducer, createVoucherApprovalReducer, acceptVoucherApprovalReducer, rejectVoucherApprovalReducer, createReceiptApprovalReducer, createRefundApprovalReducer, rejectRefundApprovalReducer, deleteApprovalReducer, } from '../reducer/approval'
 import { createNotificationReducer } from '../reducer/notification'
 import { updateLead } from './lead'
 
@@ -14,10 +14,10 @@ export const getApproval = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const getApprovals = (type, leadId) => async (dispatch) => {
+export const getApprovals = (type) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.getApprovals(type, leadId)
+        const { data } = await api.getApprovals(type)
         dispatch(getApprovalsReducer({ result: data.result, type }))
         dispatch(end())
     } catch (err) {
@@ -44,11 +44,33 @@ export const rejectRequestApproval = (email) => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const createVoucherApproval = () => async (dispatch) => {
+export const createVoucherApproval = (data) => async (dispatch) => {
     try {
         dispatch(start())
-        const { data } = await api.createVoucherApproval()
+        const { data } = await api.createVoucherApproval(data)
         dispatch(createVoucherApprovalReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const acceptVoucherApproval = (approvalId, password, setOpen) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.acceptVoucherApproval(approvalId, password)
+        dispatch(acceptVoucherApprovalReducer(approvalId))
+        setOpen(false)
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const rejectVoucherApproval = (approvalId, password, setOpen) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.rejectVoucherApproval(approvalId, password)
+        dispatch(rejectVoucherApprovalReducer(approvalId))
+        setOpen(false)
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

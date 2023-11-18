@@ -23,6 +23,7 @@ const Lead = ({ lead, index, }) => {
     dispatch(updateLead(lead._id, { isArchived: false }, { loading: false }))
   }
 
+
   return (
     <Draggable draggableId={lead?._id} key={lead?._id} index={index}  >
       {(provided, snapshot) => (

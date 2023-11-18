@@ -30,16 +30,8 @@ const EditModal = ({ open, setOpen }) => {
     firstName: "",
     lastName: "",
     username: "",
-    city: "",
     email: "",
-    password: "",
-    CNIC: "",
     phone: "",
-    officialNumber: "",
-    gender: "male",
-    martialStatus: "married",
-    salaryType: "",
-    activeStatus: false,
   };
 
   /////////////////////////////////////// STATES ///////////////////////////////////////
@@ -112,6 +104,18 @@ const EditModal = ({ open, setOpen }) => {
               </td>
             </tr>
             <tr>
+                <td className="pb-4 text-lg">Email </td>
+                <td className="pb-4">
+                  <TextField
+                    size="small"
+                    fullWidth
+                    placeholder="Optional"
+                    value={employeeData?.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                  />
+                </td>
+              </tr>
+            <tr>
               <td className="pb-4 text-lg">User Name </td>
               <td className="pb-4">
                 <TextField
@@ -119,71 +123,6 @@ const EditModal = ({ open, setOpen }) => {
                   fullWidth
                   value={employeeData?.username}
                   onChange={(e) => handleInputChange("username", e.target.value)}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className="pb-4 text-lg">City </td>
-              <td className="pb-4">
-                <CFormSelect
-                  size="sm"
-                  value={employeeData?.city}
-                  onChange={(e) => handleInputChange("city", e.target.value)}
-                  className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                  {pakistanCities.map((city, index) => (
-                    <option key={index} value={city}>
-                      {city}
-                    </option>
-                  ))}
-                </CFormSelect>
-              </td>
-            </tr>
-            <tr>
-              <td className="flex items-start pt-2 text-lg">Gender </td>
-              <td className="pb-4">
-                <CFormSelect
-                  size="sm"
-                  value={employeeData?.gender}
-                  onSelect={(e) => handleInputChange("gender", e.target.value)}
-                  className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </CFormSelect>
-              </td>
-            </tr>
-            <tr>
-              <td className="flex items-start pt-2 text-lg">Email </td>
-              <td className="pb-4">
-                <TextField
-                  type="email"
-                  size="small"
-                  fullWidth
-                  value={employeeData?.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className="flex items-start pt-2 text-lg">Password </td>
-              <td className="pb-4">
-                <TextField
-                  value={employeeData?.password}
-                  type="password"
-                  onChange={(e) => handleInputChange("password", e.target.value)}
-                  size="small"
-                  fullWidth
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className="flex items-start pt-2 text-lg">CNIC </td>
-              <td className="pb-4">
-                <TextField
-                  type="number"
-                  size="small"
-                  value={employeeData?.CNIC}
-                  onChange={(e) => handleInputChange("CNIC", e.target.value)}
-                  fullWidth
                 />
               </td>
             </tr>
@@ -197,45 +136,6 @@ const EditModal = ({ open, setOpen }) => {
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   fullWidth
                 />
-              </td>
-            </tr>
-            <tr>
-              <td className="flex items-start pt-2 text-lg">Official Number </td>
-              <td className="pb-4">
-                <TextField
-                  type="number"
-                  size="small"
-                  value={employeeData?.officialNumber}
-                  onChange={(e) => handleInputChange("officialNumber", e.target.value)}
-                  fullWidth
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className="flex items-start pt-2 text-lg">Martial Status </td>
-              <td className="pb-4">
-                <CFormSelect
-                  size="sm"
-                  value={employeeData?.martialStatus}
-                  onSelect={(e) => handleInputChange("martialStatus", e.target.value)}
-                  className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                  <option value="married">Married</option>
-                  <option value="single">Single</option>
-                </CFormSelect>
-              </td>
-            </tr>
-            <tr>
-              <td className="flex items-start pt-2 text-lg">Salary Type </td>
-              <td className="pb-4">
-                <CFormSelect
-                  size="sm"
-                  value={employeeData?.salaryType}
-                  onSelect={(e) => handleInputChange("salaryType", e.target.value)}
-                  className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                  <option value="online">Online</option>
-                  <option value="paycheck">Pay Check</option>
-                  <option value="cash">Cash</option>
-                </CFormSelect>
               </td>
             </tr>
           </table>

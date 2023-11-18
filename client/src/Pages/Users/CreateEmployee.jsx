@@ -31,16 +31,9 @@ const CreateUser = ({ open, setOpen, scroll }) => {
     firstName: "",
     lastName: "",
     username: "",
-    city: "",
-    email: "",
     password: "",
-    CNIC: "",
     phone: "",
-    officialNumber: "",
-    gender: "male",
-    martialStatus: "married",
-    salaryType: "",
-    activeStatus: false,
+    email: "",
   }
 
   //////////////////////////////////////// STATES /////////////////////////////////////
@@ -51,10 +44,11 @@ const CreateUser = ({ open, setOpen, scroll }) => {
   //////////////////////////////////////// FUNCTIONS /////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { firstName, lastName, username, city, email, password, CNIC, phone, officialNumber, gender, martialStatus, salaryType, activeStatus, } = employeeData
-    if (!firstName || !lastName || !username || !city || !email || !password || !CNIC || !phone || !officialNumber || !gender || !martialStatus || !salaryType || !activeStatus)
+    const { firstName, lastName, username, password, phone, email } = employeeData
+    if (!firstName || !lastName || !username || !password || !phone  )
       return alert("Make sure to provide all the fields")
     dispatch(createEmployee(employeeData, setOpen));
+    setEmployeeData(initialEmployeeState)
   };
 
   const handleChange = (field, value) => {
@@ -63,6 +57,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
 
   const handleClose = () => {
     setOpen(false);
+    setEmployeeData(initialEmployeeState)
   };
 
   return (
@@ -124,46 +119,14 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">City </td>
-                <td className="pb-4">
-                  <CFormSelect
-                    value={employeeData.city}
-                    placeholder='Seller City'
-                    onChange={(e) => handleChange("city", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    <option value={""}>None</option>
-                    {pakistanCities.map((city, key) => (
-                      <option key={key} value={city}>
-                        {city}
-                      </option>
-                    ))}
-                  </CFormSelect>
-                </td>
-              </tr>
-              <tr>
-                <td className="flex items-start pt-2 text-lg">Gender </td>
-                <td className="pb-4">
-                  <CFormSelect
-                    value={employeeData.gender}
-                    onChange={(e) => handleChange("gender", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    <option value={""}>None</option>
-                    <option value={"male"}>Male</option>
-                    <option value={"female"}>Female</option>
-                  </CFormSelect>
-                </td>
-              </tr>
-              <tr>
-                <td className="flex items-start pt-2 text-lg">Email </td>
+                <td className="pb-4 text-lg">Email </td>
                 <td className="pb-4">
                   <TextField
-                    type="email"
                     size="small"
                     fullWidth
+                    placeholder="Optional"
                     value={employeeData.email}
-                    onChange={(e) => handleChange("email", e.target.value)}
+                    onChange={(e) => handleChange('email', e.target.value)}
                   />
                 </td>
               </tr>
@@ -180,18 +143,6 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                 </td>
               </tr>
               <tr>
-                <td className="flex items-start pt-2 text-lg">CNIC </td>
-                <td className="pb-4">
-                  <TextField
-                    type="number"
-                    size="small"
-                    value={employeeData.CNIC}
-                    onChange={(e) => handleChange("CNIC", e.target.value)}
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
                 <td className="flex items-start pt-2 text-lg">Phone </td>
                 <td className="pb-4">
                   <TextField
@@ -203,57 +154,6 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                   />
                 </td>
               </tr>
-              <tr>
-                <td className="flex items-start pt-2 text-lg">Official Number </td>
-                <td className="pb-4">
-                  <TextField
-                    type="number"
-                    size="small"
-                    value={employeeData.officialNumber}
-                    onChange={(e) => handleChange("officialNumber", e.target.value)}
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="flex items-start pt-2 text-lg">Martial Status </td>
-                <td className="pb-4">
-                  <CFormSelect
-                    value={employeeData.martialStatus}
-                    placeholder='Martial Status'
-                    onChange={(e) => handleChange("martialStatus", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    <option value={""}>None</option>
-                    <option value={"married"}>Married</option>
-                    <option value={"unmarried"}>Unmarried</option>
-                  </CFormSelect>
-                </td>
-              </tr>
-              <tr>
-                <td className="flex items-start pt-2 text-lg">Salary Type </td>
-                <td className="pb-4">
-                  <CFormSelect
-                    value={employeeData.salaryType}
-                    placeholder='Salary Type'
-                    onChange={(e) => handleChange("salaryType", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    <option value={""}>None</option>
-                    <option value={"online"}>Online</option>
-                    <option value={"cheque"}>Pay Cheque</option>
-                    <option value={"cash"}>Cash</option>
-                  </CFormSelect>
-                </td>
-              </tr>
-              <FormGroup>
-                <FormControlLabel
-                  className="w-40 text-gray-400"
-                  checked={employeeData.activeStatus ? true : false}
-                  onChange={(e) => setEmployeeData({ ...employeeData, activeStatus: e.target.checked })}
-                  control={<Checkbox style={{ color: "#20aee3" }} />}
-                />
-              </FormGroup>
             </table>
           </div>
         </DialogContent>

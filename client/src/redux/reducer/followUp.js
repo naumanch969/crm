@@ -7,6 +7,7 @@ const followUpSlice = createSlice({
         error: null,
         allFollowUps: [],
         followUps: [],
+        followUpsStats: [],
         currentFollowUp: null,
     },
     reducers: {
@@ -15,6 +16,7 @@ const followUpSlice = createSlice({
         error: (state, action) => { state.isFetching = false; state.error = action.payload; },
         getFollowUpReducer: (state, action) => { state.currentFollowUp = action.payload },
         getFollowUpsReducer: (state, action) => { state.followUps = action.payload; state.allFollowUps = action.payload },
+        getFollowUpsStatsReducer: (state, action) => { console.log('action',action.payload); state.followUpsStats = action.payload },
         searchFollowUpReducer: (state, action) => {
             const { allFollowUps } = state;
             const { payload: searchTerm } = action;
@@ -63,5 +65,5 @@ const followUpSlice = createSlice({
     }
 })
 
-export const { start, end, error, getFollowUpReducer, getFollowUpsReducer, searchFollowUpReducer, filterFollowUpReducer, createFollowUpReducer, deleteFollowUpReducer, } = followUpSlice.actions
+export const { start, end, error, getFollowUpReducer, getFollowUpsReducer, getFollowUpsStatsReducer, searchFollowUpReducer, filterFollowUpReducer, createFollowUpReducer, deleteFollowUpReducer, } = followUpSlice.actions
 export default followUpSlice.reducer

@@ -9,11 +9,13 @@ import saleReducer from './reducer/sale';
 import leadReducer from './reducer/lead';
 import followUpReducer from './reducer/followUp';
 import refundReducer from './reducer/refund';
+import cashbookReducer from './reducer/cashbook';
+import voucherReducer from './reducer/voucher';
+import deductionReducer from './reducer/deduction';
+import transcriptReducer from './reducer/transcript';
 import societyReducer from './reducer/society';
 import projectReducer from './reducer/project';
 import inventoryReducer from './reducer/inventory';
-import cashbookReducer from './reducer/cashbook';
-import voucherReducer from './reducer/voucher';
 
 const rootReducer = combineReducers({
     upload: uploadReducer,
@@ -31,8 +33,11 @@ const rootReducer = combineReducers({
     inventory: inventoryReducer,
     cashbook: cashbookReducer,
     voucher: voucherReducer,
+    deduction: deductionReducer,
+    transcript: transcriptReducer,
 });
 
 export const store = configureStore({
     reducer: rootReducer,
-});
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
+})

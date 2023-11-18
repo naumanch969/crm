@@ -1,6 +1,6 @@
 import express from 'express'
-import { createLead, createOnsiteLead, createOnlineLead, getLead, getEmployeeLeads, getLeadsStat, getLeads, filterLead, updateLead, shiftLead, shareLead, archiveLead, deleteLead, deleteWholeCollection, searchLead, } from '../controllers/lead.js'
-import { verifyEmployee, verifyManager, verifyToken } from '../middleware/auth.js'
+import { createLead, getLeadByPhone, getLead, getEmployeeLeads, getLeadsStat, getLeads, filterLead, updateLead, shiftLead, shareLead, archiveLead, deleteLead, deleteWholeCollection, searchLead, } from '../controllers/lead.js'
+import { verifyEmployee, verifyManager, verifySuperAdmin, verifyToken } from '../middleware/auth.js'
 import Lead from '../models//lead.js'
 import { createError } from '../utils/error.js'
 
@@ -22,15 +22,14 @@ const verifyIsAllocatedTo = async (req, res, next) => {
 
 // GET
 router.get('/get/single/:leadId', getLead)
+router.get('/get/phone/:phone', getLeadByPhone)
 router.get('/get/employee', verifyToken, verifyEmployee, getEmployeeLeads)
-router.get('/get/all', verifyToken, verifyManager, getLeads)
+router.get('/get/all', verifyToken, getLeads)
 router.get('/get/stats', verifyToken, verifyEmployee, getLeadsStat)
 router.get('/search', verifyToken, searchLead)
 router.get('/filter', verifyToken, filterLead)
 
 // POST
-router.post('/create/onsite', verifyToken, verifyEmployee, createOnsiteLead)
-router.post('/create/online', verifyToken, createOnlineLead)
 router.post('/create', verifyToken, createLead)
 
 // PUT
@@ -40,7 +39,7 @@ router.put('/update/shift/:leadId', verifyToken, verifyEmployee, shiftLead)
 router.put('/update/share/:leadId', verifyToken, verifyEmployee, shareLead)
 
 // DELETE
-router.delete('/delete/:leadId', verifyToken, verifyEmployee, verifyIsAllocatedTo, deleteLead)
+router.delete('/delete/:leadId', verifyToken, verifySuperAdmin, deleteLead)
 router.delete('/delete-whole-collection', deleteWholeCollection)
 
 export default router

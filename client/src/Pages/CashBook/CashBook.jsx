@@ -120,7 +120,7 @@ function CashBook() {
 
       <div className="mt-6">
         <div className="flex flex-col">
-          <div className="flex justify-center text-3xl mb-4 font-Mulish text-gray-600 mt-5">
+          <div className="flex justify-center text-3xl mb-4 font-primary text-gray-600 mt-5">
             <h3>Amounts In</h3>
           </div>
           <Table
@@ -133,7 +133,7 @@ function CashBook() {
         </div>
 
         <div className="flex flex-col">
-          <div className="flex justify-center text-3xl mb-4 font-Mulish text-gray-600 mt-5">
+          <div className="flex justify-center text-3xl mb-4 font-primary text-gray-600 mt-5">
             <h3>Amounts Out</h3>
           </div>
           <Table

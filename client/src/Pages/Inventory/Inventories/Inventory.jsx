@@ -3,10 +3,7 @@ import { Table } from "../../../Components";
 import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getInventories, updateInventory } from "../../../redux/action/inventory";
-import {
-  getInventoriesReducer,
-  getInventoryReducer,
-} from "../../../redux/reducer/inventory";
+import { getInventoriesReducer, getInventoryReducer, } from "../../../redux/reducer/inventory";
 import { Avatar, AvatarGroup, Tooltip, styled } from "@mui/material";
 import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base";
 import { PiArchiveBoxLight, PiArchiveLight, PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";

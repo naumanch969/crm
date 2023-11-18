@@ -22,7 +22,8 @@
     "moment": "^2.29.4",
     "mongoose": "^7.4.1",
     "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.4",
+    "nodemailer": "^6.9.7",
+    "otp-generator": "^4.0.1",
     "validator": "^13.9.0"
   }
 }

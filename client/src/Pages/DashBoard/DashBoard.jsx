@@ -27,7 +27,7 @@ function DashBoard() {
         <IncomeAndExpense />
       </div>
 
-      <div className="mt-5 py-10 bg-white rounded-md md:block hidden">
+      <div className="mt-5 py-10 bg-white rounded-md">
         <LeadsStat />
       </div>
     </div>

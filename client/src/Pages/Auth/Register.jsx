@@ -17,7 +17,6 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import validator from "email-validator";
 import { PiEyeSlashThin, PiEyeThin, PiX } from "react-icons/pi";
 import { pakistanCities } from "../../constant";
-import { getProjects } from "../../redux/action/project";
 
 const Signup = () => {
   const PasswordButtonInitialStyle = {
@@ -27,8 +26,6 @@ const Signup = () => {
   /////////////////////////////////// VARIABLES /////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { projects } = useSelector((state) => state.project);
-  const projectsTitles = projects.map(({ _id, title }) => ({ _id, title }));
   const { isFetching, error } = useSelector((state) => state.user);
 
   /////////////////////////////////// STATES /////////////////////////////////////
@@ -39,7 +36,6 @@ const Signup = () => {
     phone: "",
     email: "",
     city: "",
-    project: "",
     password: "",
   });
   const [inputError, setInputError] = useState({
@@ -48,7 +44,6 @@ const Signup = () => {
     username: "",
     phone: "",
     email: "",
-    project: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -57,9 +52,6 @@ const Signup = () => {
   const [selectedValue, setSelectedValue] = React.useState("");
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
-  useEffect(() => {
-    dispatch(getProjects());
-  }, []);
 
   /////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleChange = (field, value) => {
@@ -101,7 +93,7 @@ const Signup = () => {
     if (email && !validator.validate(email))
       return setInputError((pre) => ({ ...pre, email: "Make sure to provide a valid email" }));
     if (!phone) return setInputError((pre) => ({ ...pre, phone: "Phone Number is required" }));
-    if (phone.length < 10)
+    if (phone.length < 0)
       return setInputError((pre) => ({ ...pre, phone: "Please provide a valid phone number" }));
     if (!password) return setInputError((pre) => ({ ...pre, password: "Password is required" }));
     if (password.length < 6)
@@ -134,13 +126,13 @@ const Signup = () => {
   };
 
   return (
-    <div className="font-primary w-full h-full ">
-      <div className="md:opacity-100 opacity-0 left-0 bottom-[-20%] absolute h-[52%] w-[25%]">
+    <div className="font-primary w-full h-full bg-[#F6F9FA]">
+      <div className="md:opacity-100 opacity-0 left-0 bottom-[-4%] absolute h-[52%] w-[25%]">
         <img src="/images/login-1.png" />
       </div>
       <div className="pb-10">
         <div className="flex justify-center pt-8">
-          <img className="w-41 h-11" src="/favicon/GrowLOGO.png" />
+          <img className="h-12" src="/background/A-consultant-logo.png" />
         </div>
         <div className="flex justify-center pt-6 pl-0 ml-0 rounded-lg">
           <div className="w-96 h-auto shadow-xl rounded bg-white">
@@ -242,25 +234,10 @@ const Signup = () => {
                     onChange={(e) => handleChange("city", e.target.value)}
                     className="w-[20rem] h-[40px] px-[8px] border-b-[1px] p-2 border-[#c1c1c1] cursor-pointer text-black"
                   >
-                    <option value={""}>None</option>
+                    <option value={""}>City</option>
                     {pakistanCities.map((city, key) => (
                       <option key={key} value={city}>
                         {city}
-                      </option>
-                    ))}
-                  </CFormSelect>
-                </FormControl>
-                {/* project */}
-                <FormControl>
-                  <CFormSelect
-                    value={userData.project}
-                    onChange={(e) => handleChange("project", e.target.value)}
-                    className="w-[20rem] h-[40px] px-[8px] border-b-[1px] p-2 border-[#c1c1c1] cursor-pointer text-black"
-                  >
-                    <option value={""}>None</option>
-                    {projects.map((project, key) => (
-                      <option key={key} value={project._id}>
-                        {project.title}
                       </option>
                     ))}
                   </CFormSelect>

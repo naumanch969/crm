@@ -113,8 +113,32 @@ function Tasks() {
       renderCell: (params) => (
         <span
           className="cursor-pointer text-[#20aee3] hover:text-[#007bff] capitalize font-primary font-light"
-          onClick={() => handleClickOpen(params.row)}
-        >{params.row.completedTask}</span>
+          onClick={() => handleClickOpen(params.row)}>
+          {params.row.completedTask == "sentAvailablityList" ? (
+            <div>Sent Availability List</div>
+          ) : (
+            <div></div>
+          )}
+          {params.row.completedTask == "siteVisit" ? <div>Site Visit</div> : <div></div>}
+          {params.row.completedTask == "tokenRecieved" ? <div>Token Received</div> : <div></div>}
+          {params.row.completedTask == "closedWon" ? <div>Closed Won</div> : <div></div>}
+          {params.row.completedTask == "closedLost" ? <div>Closed Lost</div> : <div></div>}
+          {params.row.completedTask == "followedUpCall" ? <div>Followed Up Call</div> : <div></div>}
+          {params.row.completedTask == "followedUpEmail" ? (
+            <div>Followed Up Email</div>
+          ) : (
+            <div></div>
+          )}
+          {params.row.completedTask == "contactedCall" ? <div>Contacted Call</div> : <div></div>}
+          {params.row.completedTask == "contactedCallAttempt" ? (
+            <div>Contacted Call Attempt</div>
+          ) : (
+            <div></div>
+          )}
+          {params.row.completedTask == "ContactedEmail" ? <div>Contact Email</div> : <div></div>}
+          {params.row.completedTask == "MeetingDone" ? <div>Meeting Done</div> : <div></div>}
+          {params.row.completedTask == "MeetingAttempt" ? <div>Meeting Attempt</div> : <div></div>}
+        </span>
       ),
     },
     {
@@ -136,9 +160,11 @@ function Tasks() {
       renderCell: (params) => (
         <span
           className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize  font-primary font-medium
-          ${params.row.status == "successful" ? "border-green-500 text-green-500" : ""}
-          ${params.row.status == "unsuccessful" ? "border-red-400 text-red-400" : ""} 
-          `}>{params.row.completedTaskStatus}</span>
+          ${params.row.completedTaskStatus == "successful" ? "border-green-500 text-green-500" : ""}
+          ${params.row.completedTaskStatus == "unsuccessful" ? "border-red-400 text-red-400" : ""} 
+          `}>
+          {params.row.completedTaskStatus}
+        </span>
       ),
     },
     {
@@ -147,12 +173,24 @@ function Tasks() {
       width: 200,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <Tooltip
-          className="capitalize font-primary"
-          placeholder="bottom"
-          arrow
-          title="">
-            {params.row.newTask}
+        <Tooltip className="capitalize font-primary" placeholder="bottom" arrow title="">
+          <span className="cursor-pointer text-[#20aee3] hover:text-[#007bff] capitalize font-primary font-light"
+                onClick={() => handleClickOpen(params.row)}
+          >
+            {params.row.newTask == "doNothing" ? <div>Do Nothing</div> : <div></div>}
+            {params.row.newTask == "contactClient" ? <div>Contact Client</div> : <div></div>}
+            {params.row.newTask == "sentAvailablityList" ? (
+              <div>Sent Availability List</div>
+            ) : (
+              <div></div>
+            )}
+            {params.row.newTask == "followUp" ? <div>Follow Up</div> : <div></div>}
+            {params.row.newTask == "arrangeMeeting" ? <div>Arrange Meeting</div> : <div></div>}
+            {params.row.newTask == "pushMeeting" ? <div>Push Meeting</div> : <div></div>}
+            {params.row.newTask == "meetClient" ? <div>Meet Client</div> : <div></div>}
+            {params.row.newTask == "signAgreement" ? <div>Sign Agreement</div> : <div></div>}
+            {params.row.newTask == "recieveToken" ? <div>Recieve Token</div> : <div></div>}
+          </span>
         </Tooltip>
       ),
     },
@@ -161,7 +199,9 @@ function Tasks() {
       headerName: "Deadline",
       width: 150,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary">{format(params.row.newTaskDeadline)}</div>,
+      renderCell: (params) => (
+        <div className="font-primary">{format(params.row.newTaskDeadline)}</div>
+      ),
     },
 
     {
@@ -220,7 +260,7 @@ function Tasks() {
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [openTask, setOpenTask] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
-  const [isFiltered, setIsFiltered] = useState(false)
+  const [isFiltered, setIsFiltered] = useState(false);
   const [options, setOptions] = useState({
     isKanbanView: false,
     showEmployeeTasks: false,
@@ -233,9 +273,9 @@ function Tasks() {
   }, []);
   useEffect(() => {
     if (!isFiltered) {
-      dispatch(getTasksReducer(allTasks))
+      dispatch(getTasksReducer(allTasks));
     }
-  }, [isFiltered])
+  }, [isFiltered]);
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
   const handleOpenStatusModal = (task) => {
@@ -265,9 +305,21 @@ function Tasks() {
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} taskId={selectedTaskId} />
       <Task open={openTask} setOpen={setOpenTask} />
       <UpateStatusModal open={openStatusModal} setOpen={setOpenStatusModal} />
-      <Filter open={openFilters} setOpen={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
+      <Filter
+        open={openFilters}
+        setOpen={setOpenFilters}
+        isFiltered={isFiltered}
+        setIsFiltered={setIsFiltered}
+      />
 
-      <Topbar options={options} setOptions={setOptions} openFilters={openFilters} setOpenFilters={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
+      <Topbar
+        options={options}
+        setOptions={setOptions}
+        openFilters={openFilters}
+        setOpenFilters={setOpenFilters}
+        isFiltered={isFiltered}
+        setIsFiltered={setIsFiltered}
+      />
 
       {options.isKanbanView ? (
         <Kanban options={options} setOptions={setOptions} />
@@ -285,6 +337,3 @@ function Tasks() {
 }
 
 export default Tasks;
-
-
-

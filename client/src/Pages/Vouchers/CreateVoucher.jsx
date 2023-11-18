@@ -13,15 +13,10 @@ import {
   Slide,
   DialogActions,
   TextField,
-  Autocomplete,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import { PiNotepad, PiXLight } from "react-icons/pi";
 import { CFormSelect } from "@coreui/react";
-import JsBarcode from "jsbarcode";
-import { getProjects } from "../../redux/action/project";
-import VoucherPage from "./VoucherPage";
+import { countries } from "../../constant";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -31,35 +26,34 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
   ////////////////////////////////////// VARIBALES ///////////////////////////////////
+  const { isFetching } = useSelector(state => state.voucher)
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { clients } = useSelector(state => state.user)
-  const { projects } = useSelector(state => state.project)
   const initialVoucherState = {
-    branch: "",
     issuingDate: "",
     dueDate: "",
     clientName: "",
     CNIC: "",
     phone: "",
-    project: "",
-    propertyType: "",
-    area: "",
+    degree: "",
+    degreeName: "",
+    country: "",
+    project: "Null",
+    major: "",
+    visa: "",
     type: "",
     total: "",
     paid: "",
     remained: "",
+    note: ""
   };
 
   ////////////////////////////////////// STATES //////////////////////////////////////
-  const [modalVisible, setModalVisible] = useState(false);
-  const [isVoucherCreated, setIsVoucherCreated] = useState(false);
   const [voucherData, setVoucherData] = useState(initialVoucherState);
 
   ////////////////////////////////////// Use Effects ///////////////////////////////////////////
   useEffect(() => {
     dispatch(getClients());
-    dispatch(getProjects());
   }, [open]);
 
   ////////////////////////////////////// FUNCTIONS ////////////////////////////////////////
@@ -67,209 +61,78 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
     setVoucherData((prevData) => ({ ...prevData, [field]: value }));
   };
 
-  const handleDownloadPDF = (e) => {
+  const handleCreateVoucher = (e) => {
     e.preventDefault();
-    const { branch, issuingDate, dueDate, clientName, CNIC, phone, project, propertyType, area, type, total, paid } = voucherData
-    if (!branch || !issuingDate || !dueDate || !clientName || !CNIC || !phone || !project || !propertyType || !area || !type || !total || !paid)
-      return alert("Make sure to provide all the fields")
+    const {
+      issuingDate,
+      dueDate,
+      clientName,
+      phone,
+      type,
+      total,
+      degreeName,
+      note,
+      paid,
+      degree,
+      country,
+      visa,
+      remained,
+      major,
+    } = voucherData;
+    // if (
+    //   !visa ||
+    //   !degree ||
+    //   !issuingDate ||
+    //   !dueDate ||
+    //   !clientName ||
+    //   !phone ||
+    //   !type ||
+    //   !country ||
+    //   !total ||
+    //   !paid ||
+    //   !remained ||
+    //   !major ||
+    //   !note
+    // )
+    //   return alert("Make sure to provide all the fields");
 
-    const findedProject = projects.find(p => p._id == project)
-
-    navigate('/download/voucher', { state: { voucher: { ...voucherData, remained: total - paid, projectTitle: findedProject?.title } } })
+   
     dispatch(createVoucher(voucherData, setOpen));
-
-    // setIsVoucherCreated(false);
-
-    // const documentDefinition = {
-    //   content: [
-    //     {
-    //       columns: [
-    //         {},
-    //         { text: "Payment Reciept", style: "header", alignment: "center" },
-    //         {
-    //           margin: [10, 0, 0, 0],
-    //           table: {
-    //             widths: [50, 80],
-    //             body: [
-    //               [
-    //                 { text: "Branch", bold: true, alignment: "center" },
-    //                 { text: `${voucherData.branch}`, alignment: "center" },
-    //               ],
-    //               [
-    //                 { text: "Date", bold: true, alignment: "center" },
-    //                 { text: `${voucherData.issuingDate}`, alignment: "center" },
-    //               ],
-    //             ],
-    //           },
-    //         },
-    //       ],
-    //     },
-
-    //     {
-    //       margin: [0, 40, 0, 0],
-    //       table: {
-    //         headerRows: 1,
-    //         widths: [160, 160, 160],
-    //         body: [
-    //           [
-    //             { text: "Name", alignment: "center", bold: true, fillColor: "#dddddd" },
-    //             { text: "CNIC", alignment: "center", bold: true, fillColor: "#dddddd" },
-    //             { text: "Phone", alignment: "center", bold: true, fillColor: "#dddddd" },
-    //           ],
-    //           [
-    //             { text: `${voucherData.clientName}`, alignment: "center" },
-    //             { text: `${voucherData.CNIC}`, alignment: "center" },
-    //             { text: `${voucherData.phone}`, alignment: "center" },
-    //           ],
-    //           [
-    //             {
-    //               colSpan: 3,
-    //               text: "* If, for some reason, the deal fails through, there is no penalty and the same amount is returned to the buyer.",
-    //             },
-    //             "",
-    //             "",
-    //           ],
-    //         ],
-    //       },
-    //     },
-
-    //     {
-    //       margin: [0, 5, 0, 0],
-    //       table: {
-    //         headerRows: 1,
-    //         widths: [160, 160, 160],
-    //         body: [
-    //           [
-    //             { text: "Type of Payment", alignment: "center", bold: true, fillColor: "#dddddd" },
-    //             { text: "Amount", alignment: "center", bold: true, fillColor: "#dddddd" },
-    //             { text: "Pay before", alignment: "center", bold: true, fillColor: "#dddddd" },
-    //           ],
-    //           [
-    //             { text: `${voucherData.type}`, alignment: "center" },
-    //             { text: `${voucherData.paid}`, alignment: "center" },
-    //             { text: `${voucherData.dueDate}`, alignment: "center" },
-    //           ],
-    //         ],
-    //       },
-    //     },
-
-    //     {
-    //       margin: [0, 5, 0, 0],
-    //       table: {
-    //         headerRows: 1,
-    //         widths: [160, 160, 160],
-    //         body: [
-    //           [
-    //             { text: "Project", alignment: "center", bold: true, fillColor: "#dddddd" },
-    //             { text: "Property Type", alignment: "center", bold: true, fillColor: "#dddddd" },
-    //             { text: "Area", alignment: "center", bold: true, fillColor: "#dddddd" },
-    //           ],
-    //           [
-    //             { text: `${voucherData.project}`, alignment: "center" },
-    //             { text: `${voucherData.propertyType}`, alignment: "center" },
-    //             { text: `${voucherData.Area} Marla`, alignment: "center" },
-    //           ],
-    //         ],
-    //       },
-    //     },
-
-    //     {
-    //       columns: [
-    //         {
-    //           margin: [10, 30, 0, 0],
-    //           table: {
-    //             widths: [130],
-    //             body: [
-    //               [
-    //                 {
-    //                   text: "Total Amount",
-    //                   bold: true,
-    //                   alignment: "center",
-    //                   border: [false, false, false, false],
-    //                 },
-    //               ],
-    //               [{ text: `${voucherData.total}`, alignment: "center" }],
-    //             ],
-    //           },
-    //         },
-    //         {
-    //           margin: [10, 30, 0, 0],
-    //           table: {
-    //             widths: [130],
-    //             body: [
-    //               [
-    //                 {
-    //                   text: "Amount Paying",
-    //                   bold: true,
-    //                   alignment: "center",
-    //                   border: [false, false, false, false],
-    //                 },
-    //               ],
-    //               [{ text: `${voucherData.paid}`, alignment: "center" }],
-    //             ],
-    //           },
-    //         },
-    //         {
-    //           margin: [10, 30, 0, 0],
-    //           table: {
-    //             widths: [130],
-    //             body: [
-    //               [
-    //                 {
-    //                   text: "Remaining Amount",
-    //                   bold: true,
-    //                   alignment: "center",
-    //                   border: [false, false, false, false],
-    //                 },
-    //               ],
-    //               [{ text: `${voucherData.total - voucherData.paid}`, alignment: "center" }],
-    //             ],
-    //           },
-    //         },
-    //       ],
-    //     },
-    //     {
-    //       image: barcodeImage,
-    //       alignment: "center",
-    //       margin: [0, 20, 0, 0],
-    //     },
-    //     {
-    //       text: "© Generated by GROW company",
-    //       alignment: "center",
-    //       fontSize: 10,
-    //       margin: [0, 20, 0, 0],
-    //     },
-    //   ],
-    //   styles: {
-    //     header: {
-    //       fontSize: 20,
-    //       bold: true,
-    //       alignment: "center",
-    //     },
-    //   },
-    // };
-
-    // const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
-    // pdfDocGenerator.download("Voucher.pdf");
-    // setVoucherData(initialVoucherState);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  const today = new Date().toISOString().split("T")[0];
+
+  const degrees = [
+    { name: "Bachelors", value: "bachelors" },
+    { name: "MPhil", value: "mphil" },
+    { name: "PhD", value: "phd" },
+    { name: "Diploma", value: "diploma" },
+    { name: "Other", value: "other" },
+  ];
+
+  const handleRemainingAmount = () => {
+    const [number1, postfix1] =  voucherData.total.split(" ");
+    const [number2, postfix2] =  voucherData.paid.split(" ");
+    const total = parseInt(number1);
+    const paid = parseInt(number2);
+    const remained = total - paid;
+    return remained + " " + postfix2;
+  }
+
   return (
     <div>
-
-
       <Dialog
         open={open}
         scroll={scroll}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
-        fullWidth="sm"
-        maxWidth="sm"
+        fullWidth="md"
+        maxWidth="md"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
           <div className="text-sky-400 font-primary">Add New Voucher</div>
@@ -286,25 +149,13 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
             <Divider />
             <table className="mt-4">
               <tr>
-                <td className="pb-4 text-lg">Voucher Number </td>
-                <td className="pb-4">
-                  <TextField
-                    name="branch"
-                    value={voucherData.branch}
-                    onChange={(e) => handleChange("branch", e.target.value)}
-                    size="small"
-                    type="text"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
                 <td className="pb-4 text-lg">Date of Issue </td>
                 <td className="pb-4">
                   <TextField
                     type="date"
                     name="issuingDate"
-                    value={voucherData.issuingDate}
+                    disabled
+                    value={(voucherData.issuingDate = today)}
                     onChange={(e) => handleChange("issuingDate", e.target.value)}
                     size="small"
                     fullWidth
@@ -363,36 +214,80 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Project </td>
+                <td className="pb-4 text-lg">Country </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={voucherData.project}
-                    onChange={(e) => { handleChange("project", e.target.value) }}
+                    value={voucherData.country}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
+                    onChange={(e) => {
+                      handleChange("country", e.target.value);
+                    }}>
                     <option value={""}>None</option>
-                    {projects.map((project, key) => (
-                      <option key={key} value={project._id}>
-                        {project.title}
+                    {countries.map((project, key) => (
+                      <option key={key} value={project.name}>
+                        {project.name}
                       </option>
                     ))}
                   </CFormSelect>
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Property Type </td>
+                <td className="pb-4 text-lg">Degree </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={voucherData.propertyType}
-                    onChange={(e) => handleChange("propertyType", e.target.value)}
+                    value={voucherData.degree}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
+                    onChange={(e) => {
+                      handleChange("degree", e.target.value);
+                    }}>
                     <option value={""}>None</option>
-                    <option value={"residential"}>Residential</option>
-                    <option value={"commercial"}>Commercial</option>
-                    <option value={"industrial"}>Industrial</option>
-                    <option value={"agricultural"}>Agricultural</option>
-                    <option value={"other"}>Other</option>
+                    {degrees.map((project, key) => (
+                      <option key={key} value={project.value}>
+                        {project.name}
+                      </option>
+                    ))}
+                  </CFormSelect>
+                </td>
+              </tr>
+              {voucherData.degree === "other" && (
+                <tr>
+                  <td className="pb-4 text-lg">Degree Name </td>
+                  <td className="pb-4">
+                    <TextField
+                      name="degreeName"
+                      value={voucherData.degreeName}
+                      onChange={(e) => handleChange("degreeName", e.target.value)}
+                      size="small"
+                      type="text"
+                      fullWidth
+                    />
+                  </td>
+                </tr>
+              )}
+              <tr>
+                <td className="pb-4 text-lg">Major </td>
+                <td className="pb-4">
+                  <TextField
+                    name="major"
+                    value={voucherData.major}
+                    onChange={(e) => handleChange("major", e.target.value)}
+                    size="small"
+                    type="text"
+                    fullWidth
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Visa </td>
+                <td className="pb-4">
+                  <CFormSelect
+                    value={voucherData.visa}
+                    onChange={(e) => handleChange("visa", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value={""}>None</option>
+                    <option value="studentVisa">Student Visa</option>
+                    <option value="VisitVisa">Visit Visa</option>
+                    <option value="WorkVisa">Work Visa</option>
                   </CFormSelect>
                 </td>
               </tr>
@@ -402,28 +297,13 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
                   <CFormSelect
                     value={voucherData.type}
                     onChange={(e) => handleChange("type", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                  >
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
                     <option value={""}>None</option>
                     <option value={"cash"}>Cash</option>
                     <option value={"cheque"}>Cheque</option>
                     <option value={"card"}>Card</option>
                     <option value={"online"}>Online</option>
                   </CFormSelect>
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Area </td>
-                <td className="pb-4">
-                  <TextField
-                    name="Area"
-                    value={voucherData.area}
-                    onChange={(e) => handleChange("area", e.target.value)}
-                    size="small"
-                    type="number"
-                    fullWidth
-                    placeholder="Area in Marla"
-                  />
                 </td>
               </tr>
               <tr>
@@ -458,10 +338,25 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
                   <TextField
                     disabled
                     name="remained"
-                    value={voucherData.total - voucherData.paid}
+                    value={voucherData.remained = handleRemainingAmount()}
                     onChange={(e) => handleChange("remained", e.target.value)}
                     size="small"
                     type="text"
+                    fullWidth
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="pt-1 text-lg flex flex-col justify-start">Note </td>
+                <td className="pb-4">
+                  <TextField
+                    name="note"
+                    value={voucherData.note}
+                    onChange={(e) => handleChange("note", e.target.value)}
+                    size="small"
+                    type="text"
+                    rows={4}
+                    multiline
                     fullWidth
                   />
                 </td>
@@ -478,22 +373,15 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
             Cancel
           </button>
           <button
-            // onClick={downloadPdf}
-            onClick={handleDownloadPDF}
+            onClick={handleCreateVoucher}
             variant="contained"
             className="bg-primary-red px-4 py-2 rounded-lg text-white mt-4 hover:bg-red-400 font-thin">
-            {loader ? (
-              <span>Downloading</span>
-            ) : (
-              <span>Download</span>
-            )}
+            {isFetching ? <span>Submitting...</span> : <span>Create</span>}
           </button>
         </DialogActions>
       </Dialog>
-
     </div>
   );
 };
-
 
 export default CreateVoucher;

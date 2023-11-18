@@ -13,14 +13,16 @@ import saleRoutes from './routes/sale.js'
 import taskRoutes from './routes/task.js'
 import eventRoutes from './routes/event.js'
 import approvalRoutes from './routes/approval.js'
-import projectRoutes from './routes/project.js'
-import societyRoutes from './routes/society.js'
-import inventoryRoutes from './routes/inventory.js'
 import leadRoutes from './routes/lead.js'
 import followUpRoutes from './routes/followUp.js'
 import cashbookRoutes from './routes/cashbook.js'
 import refundRoutes from './routes/refund.js'
 import voucherRoutes from './routes/voucher.js'
+import deductionRoutes from './routes/deduction.js'
+import transcriptRoutes from './routes/transcript.js'
+import projectRoutes from './routes/project.js'
+import societyRoutes from './routes/society.js'
+import inventoryRoutes from './routes/inventory.js'
 
 dotenv.config()
 const app = express()
@@ -44,22 +46,23 @@ app.use('/api/v1/task', taskRoutes)
 app.use('/api/v1/event', eventRoutes)
 app.use('/api/v1/approval', approvalRoutes)
 app.use('/api/v1/sale', saleRoutes)
+app.use('/api/v1/lead', leadRoutes)
 app.use('/api/v1/project', projectRoutes)
 app.use('/api/v1/society', societyRoutes)
 app.use('/api/v1/inventory', inventoryRoutes)
-app.use('/api/v1/lead', leadRoutes)
 app.use('/api/v1/followUp', followUpRoutes)
 app.use('/api/v1/cashbook', cashbookRoutes)
 app.use('/api/v1/refund', refundRoutes)
 app.use('/api/v1/voucher', voucherRoutes)
-
+app.use('/api/v1/deduction', deductionRoutes)
+app.use('/api/v1/trasncript', transcriptRoutes)
+ 
 app.use((err, req, res, next) => {
     const message = err.message || 'Something went wrong.'
     const status = err.status || 500
     res.status(status).json({ message, status, stack: err.stack })
     next()
 })
-
 
 mongoose.connect(CONNECTION_URL)
     .then(() => app.listen(PORT, () => console.log('listening at port ' + PORT)))

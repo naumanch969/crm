@@ -40,8 +40,10 @@ const CreateSale = ({ open, setOpen, scroll }) => {
 
   ////////////////////////////////////////// USE EFFECTS /////////////////////////////////
   useEffect(() => {
-    dispatch(getEmployees());
-    dispatch(getClients());
+    if (employees.length === 0) {
+      dispatch(getEmployees());
+    }
+        dispatch(getClients());
   }, [open]);
   useEffect(() => {
     setSaleData({ ...saleData, staff: lead?.client?.username });
@@ -53,6 +55,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
     dispatch(createSale({ ...saleData, leadId: lead?._id || "" }, setOpen));
     dispatch(getLeadReducer());
     setSaleData(initialState);
+    setOpen(false);
   };
   const handleChange = (field, value) => {
     setSaleData({ ...saleData, [field]: value });
@@ -116,7 +119,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Net Worth </td>
+                <td className="pb-4 text-lg">Net Price </td>
                 <td className="pb-4">
                   <TextField
                     onChange={(e) => handleChange("net", e.target.value)}
@@ -145,7 +148,7 @@ const CreateSale = ({ open, setOpen, scroll }) => {
                 <td className="pb-4">
                   <TextField
                     onChange={handleChange}
-                    value={saleData.net - saleData.received}
+                    value={saleData.received - saleData.net}
                     name="profit"
                     size="small"
                     type="number"
