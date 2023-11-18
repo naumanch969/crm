@@ -24,6 +24,7 @@ import {
   Inventory,
   Societies,
   Ledger,
+  Transcript,
 } from "./Pages";
 import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
@@ -33,6 +34,7 @@ import ClientProjects from "./Client Panel/pages/Your Projects/ClientProjects";
 import Contact from "./Client Panel/pages/Contact Us/Contact";
 import LeadRefunds from "./Pages/Leads/Refund/Refund";
 import VoucherPage from "./Pages/Vouchers/VoucherPage";
+import TranscriptPage from "./Pages/Transcript/TranscriptPage";
 
 const App = () => {
   ///////////////////////////////////// VARIABLES ////////////////////////////////////////
@@ -107,6 +109,7 @@ const App = () => {
                   <Route path="/sales/create" element={<CreateSale />} />
                   <Route path="/voucher" element={<Vouchers showSidebar={showSidebar} />} />
                   <Route path="/notifications" element={<Notifications />} />
+                  <Route path="/transcript" element={<Transcript />} />
                 </Routes>
               </div>
             </div>
@@ -114,8 +117,13 @@ const App = () => {
         )}
 
         <Routes>
+          <Route path="/download/transcript" element={<TranscriptPage />} />
+        </Routes>
+
+        <Routes>
           <Route path="/download/voucher" element={<VoucherPage />} />
         </Routes>
+
         <Routes>
           <Route path="/client" element={<ClientPanelLayout />}>
             <Route path="/client/home" element={<Home />} />

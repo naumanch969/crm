@@ -128,7 +128,15 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       childrens: [],
     },
     {
-      id: 8,
+      id: 6,
+      title: "Transcript",
+      icon: <PiMoneyLight className="text-[25px]" />,
+      role: ["manager", "super_admin"],
+      link: "/transcript",
+      childrens: [],
+    },
+    {
+      id: 9,
       title: "Cash Book",
       icon: <PiBankLight className="text-[25px]" />,
       childrens: [
@@ -147,7 +155,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       ],
     },
     {
-      id: 9,
+      id: 10,
       title: "Vouchers",
       icon: <PiReceiptLight className="text-[25px]" />,
       role: ["employee", "manager", "super_admin"],
