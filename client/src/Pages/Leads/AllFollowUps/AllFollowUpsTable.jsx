@@ -51,16 +51,12 @@ const AllFollowUpsTable = () => {
     return createData(stat.date, DAYS[date.getDay()], stat.followUps);
   });
 
-  console.log('rows',rows)
 
   const currentDate = new Date();
   const sortedRow = rows
     .filter((item) => moment(item.date, "DD/MM/YYYY").isSameOrBefore(currentDate, "day")) // Filter out dates greater than current date
     .sort((a, b) => moment(a.date, "DD/MM/YYYY").diff(moment(b.date, "DD/MM/YYYY"))) // Sort by date
     .reverse(); // Reverse the order so that latest date comes first
-
-    console.log('this')
-  console.log('sortedRow',sortedRow);
 
   const columns = [
     {

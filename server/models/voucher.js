@@ -3,6 +3,7 @@ import { Schema, model } from 'mongoose'
 
 const voucherSchema = Schema({
     issuingDate: { type: String },
+    branch: { type: String },
     allocatedTo: { type: Schema.Types.ObjectId, ref:'User' },
     dueDate: { type: String },
     clientName: { type: String },
@@ -10,12 +11,10 @@ const voucherSchema = Schema({
     phone: { type: Number },
     email: { type: String },
     type: { type: String, enum: ['cash', 'cheque', 'creditCard', 'card', 'online',] },
+    propertyType: { type: String },
+    area: { type: String },
+    project: { type: Schema.Types.ObjectId, ref: 'Project', },
     total: { type: String },
-    degree: { type: String },
-    degreeName: { type: String, default: '' },
-    country: { type: String },
-    visa: { type: String },
-    major: { type: String },
     paid: { type: String },
     remained: { type: String },
     note: { type: String },

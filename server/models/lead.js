@@ -2,16 +2,14 @@ import { Schema, model } from 'mongoose'
 import { generateUniqueIdentifier } from '../utils/utils.js'
 
 const leadSchema = Schema({
+    client: { type: Schema.Types.ObjectId, ref: 'User', required: true, },
+    property: { type: Schema.Types.ObjectId, ref: 'Project', required: true, },
+    city: { type: String, required: true },
+    priority: { type: String, required: true, default: 'moderate', enum: ['veryCold', 'cold', 'moderate', 'hot', 'veryHot'] },
+    status: { type: String, required: true },   // closed, followed up, contacted etc.
     clientName: { type: String, required: false },
     clientPhone: { type: String, required: false },
     client: { type: Schema.Types.ObjectId, ref: 'User', required: false },
-    country: { type: String, required: false },
-    degree: { type: String, required: false },
-    degreeName: { type: String, required: false },
-    major: { type: String, required: false },
-    visa: { type: String, required: false },
-    priority: { type: String, required: false, default: 'moderate'  },
-    status: { type: String, required: false, default: 'New' },   // closed, followed up, contacted etc.
     source: { type: String, required: false },   // facebook,instagram etc.
     description: { type: String, required: false },
     allocatedTo: { type: [Schema.Types.ObjectId], ref: 'User' },
@@ -21,6 +19,7 @@ const leadSchema = Schema({
     isAppliedForRefund: { type: Boolean, default: false },
     uid: { type: String, },
 }, { timestamps: true })
+
 
 // Before saving a new document, generate a unique readable identifier
 leadSchema.pre('save', async function (next) {

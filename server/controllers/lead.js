@@ -1,42 +1,44 @@
-import Lead from '../models/lead.js'
-import User from '../models/user.js'
-import { createError, isValidDate } from '../utils/error.js'
-import validator from 'validator'
+import Lead from '../models/lead.js';
+import User from '../models/user.js';
+import Project from '../models/project.js';
+import { createError, isValidDate } from '../utils/error.js';
 
 export const getLead = async (req, res, next) => {
     try {
+        const { leadId } = req.params;
+        const findedLead = await Lead.findById(leadId)
+            .populate('property')
+            .populate('client')
+            .populate('allocatedTo')
+            .exec();
 
-        const { leadId } = req.params
-        const findedLead = await Lead.findById(leadId).populate('client').populate('allocatedTo').exec()
-        if (!findedLead) return next(createError(400, 'Lead not exist'))
+        if (!findedLead) return next(createError(400, 'Lead not exist'));
 
-        res.status(200).json({ result: findedLead, message: 'lead fetched successfully', success: true })
-
+        res.status(200).json({ result: findedLead, message: 'Lead fetched successfully', success: true });
     } catch (err) {
-        next(createError(500, err.message))
+        next(createError(500, err.message));
     }
-}
-export const getLeadByPhone = async (req, res, next) => {
-    try {
-
-        const { phone } = req.params
-
-        const findedUser = await User.findOne({ phone })
-
-        const findedLead = await Lead.find({ client: findedUser._id }).populate('client').populate('allocatedTo').exec()
-
-        res.status(200).json({ result: findedLead, message: 'lead fetched successfully', success: true })
-
-    } catch (err) {
-        next(createError(500, err.message))
-    }
-}
+};
 
 export const getLeads = async (req, res, next) => {
     try {
         const findedLeads = await Lead.find().populate('client').populate('allocatedTo').exec();
-
         res.status(200).json({ result: findedLeads, message: 'Leads fetched successfully', success: true });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
+};
+
+export const getLeadByPhone = async (req, res, next) => {
+    try {
+        const { phone } = req.params;
+        const findedUser = await User.findOne({ phone });
+        const findedLead = await Lead.find({ client: findedUser?._id })
+            .populate('client')
+            .populate('allocatedTo')
+            .exec();
+
+        res.status(200).json({ result: findedLead, message: 'Lead fetched successfully', success: true });
     } catch (err) {
         next(createError(500, err.message));
     }
@@ -44,15 +46,18 @@ export const getLeads = async (req, res, next) => {
 
 export const getEmployeeLeads = async (req, res, next) => {
     try {
-        const findedLeads = await Lead.find({ allocatedTo: { $in: req.user?._id }, isArchived: false })
-            .populate('client').populate('allocatedTo')
+        const findedLeads = await Lead.find({ allocatedTo: req.user?._id, isArchived: false })
+            .populate('property')
+            .populate('client')
+            .populate('allocatedTo')
             .exec();
 
         res.status(200).json({ result: findedLeads, message: 'Leads fetched successfully', success: true });
     } catch (err) {
         next(createError(500, err.message));
     }
-}
+};
+
 
 
 const priorities = [
@@ -62,7 +67,6 @@ const priorities = [
     { name: "Cold", value: 'cold' },
     { name: "Very Cold", value: 'veryCold' },
 ];
-
 const sources = [
     { name: "Instagram", value: 'instagram' },
     { name: "Facebook", value: 'facebook' },
@@ -72,7 +76,6 @@ const sources = [
     { name: "Google", value: 'google' },
     { name: "Referral", value: 'referral' },
 ];
-
 const statuses = [
     { name: "New", value: 'new' },
     { name: "Closed (Lost)", value: 'closedLost' },
@@ -85,6 +88,7 @@ const statuses = [
     { name: "Contacted Client (Call Attempt)", value: 'contactedClientCallAttempt' },
     { name: "Contacted Client (Email)", value: 'contactedClientEmail' },
 ];
+
 export const getLeadsStat = async (req, res, next) => {
     const { type } = req.query;
 
@@ -102,6 +106,7 @@ export const getLeadsStat = async (req, res, next) => {
                     },
                 ];
                 break;
+
             case 'priority':
                 pipeline = [
                     {
@@ -112,51 +117,81 @@ export const getLeadsStat = async (req, res, next) => {
                     },
                 ];
                 break;
+
             case 'source':
                 pipeline = [
                     {
                         $group: {
-                            _id: `$source`,
+                            _id: '$source',
                             count: { $sum: 1 },
                         },
                     },
                 ];
                 break;
+
+            case 'property':
+                pipeline = [
+                    {
+                        $group: {
+                            _id: '$property',
+                            count: { $sum: 1 },
+                        },
+                    },
+                ];
+                break;
+
             default:
                 return res.status(400).json({ error: 'Invalid type' });
         }
 
         const aggregatedResult = await Lead.aggregate(pipeline);
 
-        // For priorities, sources, and statuses, create a map to store counts
-        const itemCounts = {};
+        if (type === 'property') {
+            const allProjects = await Project.find({}, { title: 1, _id: 1 });
+            const projectCounts = {};
 
-        // Initialize counts to zero for all items
-        const allItems = type == 'priority' ? priorities : type == 'source' ? sources : statuses; // Change to sources, statuses, etc. as needed
-        allItems.forEach((item) => {
-            itemCounts[item.value] = 0;
-        });
+            allProjects.forEach((project) => {
+                projectCounts[project._id] = 0;
+            });
 
-        // Update counts based on the aggregated result
-        aggregatedResult.forEach((item) => {
-            const itemName = item._id;
-            const count = item.count || 0; // Use 0 if count is not present
-            itemCounts[itemName] = count;
-        });
+            aggregatedResult.forEach((item) => {
+                const projectId = item._id;
+                const count = item.count || 0;
+                projectCounts[projectId] = count;
+            });
 
-        // Convert the itemCounts map into an array with all three fields
-        const updatedResult = Object.keys(itemCounts).map((itemValue) => {
-            const itemName = allItems.find((item) => item.value === itemValue)?.name || itemValue;
-            return { _id: itemValue, name: itemName, count: itemCounts[itemValue] };
-        });
+            const updatedResult = Object.entries(projectCounts).map(([projectId, count]) => {
+                const project = allProjects.find((p) => p._id.toString() === projectId);
+                const name = project ? project.title : '';
+                return { _id: projectId, name, count };
+            });
 
-        res.status(200).json({ result: updatedResult, message: 'Stats fetched successfully.' });
+            res.status(200).json({ result: updatedResult, message: 'Stats fetched successfully.' });
+        } else {
+            const itemCounts = {};
+            const allItems = type == 'priority' ? priorities : type == 'source' ? sources : statuses;
 
+            allItems.forEach((item) => {
+                itemCounts[item.value] = 0;
+            });
+
+            aggregatedResult.forEach((item) => {
+                const itemName = item._id;
+                const count = item.count || 0;
+                itemCounts[itemName] = count;
+            });
+
+            const updatedResult = Object.keys(itemCounts).map((itemValue) => {
+                const itemName = allItems.find((item) => item.value === itemValue)?.name || itemValue;
+                return { _id: itemValue, name: itemName, count: itemCounts[itemValue] };
+            });
+
+            res.status(200).json({ result: updatedResult, message: 'Stats fetched successfully.' });
+        }
     } catch (error) {
         next(createError(500, error));
     }
 };
-
 
 export const searchLead = async (req, res, next) => {
     try {
@@ -184,6 +219,17 @@ export const searchLead = async (req, res, next) => {
                     ],
                 },
             },
+            {
+                $project: {
+                    client: { $arrayElemAt: ['$clientData', 0] },
+                    city: 1,
+                    priority: 1,
+                    status: 1,
+                    source: 1,
+                    description: 1,
+                    uid: 1,
+                },
+            },
         ]);
 
         res.status(200).json({
@@ -198,32 +244,29 @@ export const searchLead = async (req, res, next) => {
 
 export const filterLead = async (req, res, next) => {
     const { startingDate, endingDate, ...filters } = req.query;
+
     try {
         let query = Lead.find(filters);
 
-        // Check if startingDate is provided and valid
         if (startingDate && isValidDate(startingDate)) {
             const startDate = new Date(startingDate);
             startDate.setHours(0, 0, 0, 0);
-
-            // Add createdAt filtering for startingDate
             query = query.where('createdAt').gte(startDate);
         }
 
-        // Check if endingDate is provided and valid
         if (endingDate && isValidDate(endingDate)) {
             const endDate = new Date(endingDate);
             endDate.setHours(23, 59, 59, 999);
 
-            // Add createdAt filtering for endingDate
-            if (query.model.modelName === 'Lead') { // Check if the query has not been executed yet
+            if (query.model.modelName === 'Lead') {
                 query = query.where('createdAt').lte(endDate);
             }
         }
 
+        query = await query.populate('property').populate('client').populate('allocatedTo').exec();
         query = await query.populate('client').populate('allocatedTo').exec();
-        res.status(200).json({ result: query });
 
+        res.status(200).json({ result: query });
     } catch (error) {
         next(createError(500, error.message));
     }
@@ -234,33 +277,40 @@ export const filterLead = async (req, res, next) => {
 
 export const createLead = async (req, res, next) => {
     try {
-        const { clientName, clientPhone, priority, country, visa, degree, degreeName, status, source, description, count, major } = req.body;
+        const {
+            username,
+            city, priority, property, status, source, description, count, clientName, clientPhone,
+        } = req.body;
 
-        const findedLead = await User.findOne({ phone: clientPhone })
-        
-        // Create the lead(s) based on the counts value or once if counts is undefined
+        const foundClient = await User.findOne({ username });
+
+        if (Boolean(foundClient)) {
+            return next(createError(400, 'Username is already exist'));
+        }
+
+        const foundLead = await User.findOne({ phone: clientPhone });
+
         const leadsToCreate = Number(count) || 1;
         const createdLeads = [];
 
         for (let i = 0; i < leadsToCreate; i++) {
             const newLead = await Lead.create({
+                client: foundLead ? foundLead._id : null,
+                city,
                 clientName,
-                client: findedLead ? findedLead._id : null,
                 clientPhone,
                 priority,
-                country,
-                visa,
-                degree,
-                degreeName,
+                property,
                 status,
                 source,
-                major,
                 description,
-                allocatedTo: [req.user?._id]
+                allocatedTo: [req.user?._id],
             });
-            // Query to populate the fields
+
             const populatedLead = await Lead.findById(newLead._id)
                 .populate('allocatedTo')
+                .populate('client')
+                .populate('property')
                 .exec();
 
             createdLeads.push(populatedLead);
@@ -268,46 +318,59 @@ export const createLead = async (req, res, next) => {
 
         res.status(200).json({
             result: createdLeads,
-            message: `Lead(s) created successfully. (${createdLeads.length} lead(s) created)`,
-            success: true
+            message: `Lead(s) created successfully (${createdLeads.length} lead(s) created)`,
+            success: true,
         });
     } catch (err) {
         next(createError(500, err.message));
     }
 };
 
-
 export const updateLead = async (req, res, next) => {
     try {
-
-        const { leadId } = req.params
+        const { leadId } = req.params;
         const {
             firstName, lastName, username, phone, CNIC, clientCity,
-            priority, country, degree, degreeName, visa, status, source, description
-        } = req.body
+            city, priority, property, status, source, description,
+        } = req.body;
 
-        const findedLead = await Lead.findById(leadId)
+        const foundLead = await Lead.findById(leadId);
 
-        const updatedUser = await User.findByIdAndUpdate(findedLead.client, { firstName, lastName, username, phone, CNIC, city: clientCity })
-        const updatedLead = await Lead.findByIdAndUpdate(leadId, { priority, country, visa, degree, degreeName, status, source, description, ...req.body }, { new: true }).populate('client').populate('allocatedTo').exec()
+        const updatedUser = await User.findByIdAndUpdate(
+            foundLead.client,
+            { firstName, lastName, username, phone, CNIC, city: clientCity, project: property },
+        );
 
-        res.status(200).json({ result: updatedLead, message: 'lead updated successfully', success: true })
+        const updatedLead = await Lead.findByIdAndUpdate(
+            leadId,
+            { city, priority, property, status, source, description, ...req.body },
+            { new: true },
+        )
+            .populate('property')
+            .populate('client')
+            .populate('allocatedTo')
+            .exec();
 
+        res.status(200).json({ result: updatedLead, message: 'Lead updated successfully', success: true });
     } catch (err) {
-        next(createError(500, err.message))
+        next(createError(500, err.message));
     }
-}
+};
 
 export const shiftLead = async (req, res, next) => {
     try {
         const { leadId } = req.params;
-        const { shiftTo } = req.body; // lead data
+        const { shiftTo } = req.body;
 
         const updatedLead = await Lead.findByIdAndUpdate(
             leadId,
             { $set: { allocatedTo: [shiftTo] } },
-            { new: true }
-        ).populate('client').populate('allocatedTo').exec();
+            { new: true },
+        )
+            .populate('property')
+            .populate('client')
+            .populate('allocatedTo')
+            .exec();
 
         res.status(200).json({
             result: updatedLead,
@@ -319,17 +382,20 @@ export const shiftLead = async (req, res, next) => {
     }
 };
 
-
 export const shareLead = async (req, res, next) => {
     try {
         const { leadId } = req.params;
-        const { shareWith } = req.body; // The userId to be added
+        const { shareWith } = req.body;
 
         const updatedLead = await Lead.findByIdAndUpdate(
             leadId,
-            { $push: { allocatedTo: shareWith } }, // Use $push to add userId to allocatedTo array
-            { new: true }
-        ).populate('client').populate('allocatedTo').exec();
+            { $push: { allocatedTo: shareWith } },
+            { new: true },
+        )
+            .populate('property')
+            .populate('client')
+            .populate('allocatedTo')
+            .exec();
 
         res.status(200).json({
             result: updatedLead,
@@ -343,37 +409,33 @@ export const shareLead = async (req, res, next) => {
 
 export const archiveLead = async (req, res, next) => {
     try {
-
-        const { leadId } = req.params
-        const result = await Lead.findByIdAndUpdate(leadId, { $set: { isArchived: true } }, { new: true })
-        res.status(200).json({ result, message: 'lead deleted successfully', success: true })
-
+        const { leadId } = req.params;
+        const result = await Lead.findByIdAndUpdate(leadId, { $set: { isArchived: true } }, { new: true });
+        res.status(200).json({ result, message: 'Lead archived successfully', success: true });
     } catch (err) {
-        next(createError(500, err.message))
+        next(createError(500, err.message));
     }
-}
+};
+
 export const deleteLead = async (req, res, next) => {
     try {
+        const { leadId } = req.params;
+        const foundLead = await Lead.findById(leadId);
 
-        const { leadId } = req.params
-        const findedLead = await Lead.findById(leadId)
-        if (!findedLead) return next(createError(400, 'Lead not exist'))
+        if (!foundLead) return next(createError(400, 'Lead not exist'));
 
-        const deletedLead = await Lead.findByIdAndDelete(leadId)
-        res.status(200).json({ result: deletedLead, message: 'lead deleted successfully', success: true })
-
+        const deletedLead = await Lead.findByIdAndDelete(leadId);
+        res.status(200).json({ result: deletedLead, message: 'Lead deleted successfully', success: true });
     } catch (err) {
-        next(createError(500, err.message))
+        next(createError(500, err.message));
     }
-}
+};
 
 export const deleteWholeCollection = async (req, res, next) => {
     try {
-
-        const result = await Lead.deleteMany()
-        res.status(200).json({ result, message: 'Lead collection deleted successfully', success: true })
-
+        const result = await Lead.deleteMany();
+        res.status(200).json({ result, message: 'Lead collection deleted successfully', success: true });
     } catch (err) {
-        next(createError(500, err.message))
+        next(createError(500, err.message));
     }
-}
+};
