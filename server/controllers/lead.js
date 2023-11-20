@@ -8,9 +8,9 @@ export const getLead = async (req, res, next) => {
     try {
         const { leadId } = req.params;
         const findedLead = await Lead.findById(leadId)
-            .populate('property')
             .populate('client')
             .populate('allocatedTo')
+            .populate('property')
             .exec();
 
         if (!findedLead) return next(createError(400, 'Lead not exist'));
@@ -275,7 +275,7 @@ export const filterLead = async (req, res, next) => {
 
 export const createLead = async (req, res, next) => {
     try {
-        const {city, priority, property, status, source, description, count, clientName, clientPhone,} = req.body;
+        const {city, priority, property, status, source, description, count, clientName, clientPhone} = req.body;
 
         const foundLead = await User.findOne({ phone: clientPhone });
 
@@ -297,15 +297,13 @@ export const createLead = async (req, res, next) => {
             });
 
             const populatedLead = await Lead.findById(newLead._id)
-                .populate('allocatedTo')
                 .populate('client')
                 .populate('property')
+                .populate('allocatedTo')
                 .exec();
 
             createdLeads.push(populatedLead);
         }
-
-        console.log('createdLeads', createdLeads);
 
         res.status(200).json({
             result: createdLeads,

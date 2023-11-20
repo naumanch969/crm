@@ -75,7 +75,7 @@ const AllFollowUpsTable = () => {
       headerClassName: "super-app-theme--header",
       width: 100,
       renderCell: (params) => (
-        <Tooltip title={params.row.leadId?.source} placement="top">
+        <Tooltip title={params.row.leadId?.source} arrow placement="bottom">
           <div className="font-primary font-light capitalize">{params.row.leadId?.source}</div>
         </Tooltip>
       ),
@@ -86,8 +86,8 @@ const AllFollowUpsTable = () => {
       headerClassName: "super-app-theme--header",
       width: 130,
       renderCell: (params) => (
-        <Tooltip title={params.row?.leadId?.project?.title} placement="top">
-          <div className="font-primary font-light capitalize">{params.row?.leadId?.property}</div>
+        <Tooltip title={params.row?.leadId?.property?.title} arrow placement="bottom">
+          <div className="font-primary font-light capitalize">{params.row?.leadId?.property?.title}</div>
         </Tooltip>
       ),
     },
@@ -97,19 +97,19 @@ const AllFollowUpsTable = () => {
       headerClassName: "super-app-theme--header",
       width: 100,
       renderCell: (params) => (
-        <Tooltip title={params.row.leadId?.city} placement="top">
+        <Tooltip title={params.row.leadId?.city} arrow placement="bottom">
           <div className="font-primary font-light capitalize">{params.row.leadId?.city}</div>
         </Tooltip>
       ),
     },
     {
-      field: "leadId?.property?.title",
-      headerName: "Country",
+      field: "leadId?.clientPhone",
+      headerName: "Phone",
       headerClassName: "super-app-theme--header",
-      width: 100,
+      width: 110,
       renderCell: (params) => (
-        <Tooltip title={params.row.leadId?.property?.title} placement="top">
-          <div className="font-primary font-light capitalize">{params.row.leadId?.property?.title}</div>
+        <Tooltip title={params.row.leadId?.clientPhone} arrow placement="bottom">
+          <div className="font-primary font-light capitalize">{params.row.leadId?.clientPhone}</div>
         </Tooltip>
       ),
     },
@@ -119,7 +119,7 @@ const AllFollowUpsTable = () => {
       headerClassName: "super-app-theme--header",
       width: 130,
       renderCell: (params) => (
-        <Tooltip title={params.row.leadId?.clientName} placement="top">
+        <Tooltip title={params.row.leadId?.clientName} arrow placement="bottom">
           <div className="font-primary font-light capitalize">{params.row.leadId?.clientName}</div>
         </Tooltip>
       ),
@@ -130,7 +130,7 @@ const AllFollowUpsTable = () => {
       headerClassName: "super-app-theme--header",
       width: 150,
       renderCell: (params) => (
-        <Tooltip title={params.row?.status} placement="top">
+        <Tooltip title={params.row?.status} arrow placement="bottom">
           <div className="font-primary font-light">{params.row.status}</div>
         </Tooltip>
       ),
@@ -164,7 +164,7 @@ const AllFollowUpsTable = () => {
       width: 130,
       renderCell: (params) => (
         <div>
-          <Tooltip placement="top" title="View">
+          <Tooltip arrow placement="bottom" title="View">
             <div
               className="cursor-pointer"
               onClick={() => handleOpenViewModal(params.row?.leadId?._id)}>

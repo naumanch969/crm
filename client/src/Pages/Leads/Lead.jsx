@@ -84,15 +84,29 @@ const Lead = () => {
                       <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Property</TableCell>
                       <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>City</TableCell>
                       <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Created</TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Allocated To</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                       <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.clientName} arrow>{currentLead?.clientName}</Tooltip></TableCell>
                       <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.clientPhone} arrow>{currentLead?.clientPhone}</Tooltip></TableCell>
-                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.visa} arrow>{currentLead?.property?.title}</Tooltip></TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.property?.title} arrow>{currentLead?.property?.title}</Tooltip></TableCell>
                       <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip className="capitalize" title={currentLead?.city} arrow>{currentLead?.city}</Tooltip></TableCell>
                       <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={date} arrow>{date}</Tooltip></TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}>
+                      {
+                        currentLead?.allocatedTo?.length > 1 ? (
+                          currentLead?.allocatedTo?.map((item, key) => (
+                            <Tooltip className="capitalize flex gap-2" key={key} title={`• ${item?.firstName}`} arrow>• {item?.firstName}</Tooltip>
+                          ))
+                        ) : (
+                          currentLead?.allocatedTo?.map((item, key) => (
+                            <Tooltip className="capitalize flex gap-2" key={key} title={item?.firstName} arrow>{item?.firstName}</Tooltip>
+                          ))
+                        )
+                      }
+                    </TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
