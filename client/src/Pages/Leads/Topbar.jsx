@@ -5,7 +5,7 @@ import { Path } from "../../utils";
 import { Chip, FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getEmployeeLeads, getLeads, searchLead } from "../../redux/action/lead";
-import { PiArchive, PiMagnifyingGlass } from "react-icons/pi";
+import { PiArchive, PiChartBar, PiMagnifyingGlass, PiNote } from "react-icons/pi";
 import { FiFilter, FiList, FiUser } from "react-icons/fi";
 import CreateLead from "./CreateLead";
 import EditModal from "./EditModal";
@@ -68,6 +68,10 @@ const Topbar = ({ options, setOptions, isFiltered, setIsFiltered, openFilters, s
     setOpen(true);
     setScroll(scrollType);
   };
+
+  const handleOpenFollowUps = () => {
+    navigate('/leads/followups/all')
+  }
 
   return (
     <div className="flex flex-col tracking-wide pb-8 font-primary">
@@ -140,6 +144,16 @@ const Topbar = ({ options, setOptions, isFiltered, setIsFiltered, openFilters, s
                   : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
                   }`}>
                 <FiFilter className="text-[25px] " />
+              </div>
+            </Tooltip>
+            <Tooltip title="Call Reminders" arrow placement="top">
+              <div
+                onClick={()=>navigate('/leads/call-reminders')}
+                className={` p-2 rounded-md cursor-pointer ${openFilters
+                  ? "text-[#20aee3] bg-[#e4f1ff]"
+                  : "bg-[#ebf2f5] hover:bg-[#dfe6e8] text-[#a6b5bd]"
+                  }`}>
+                <PiNote className="text-[25px] " />
               </div>
             </Tooltip>
             <div>

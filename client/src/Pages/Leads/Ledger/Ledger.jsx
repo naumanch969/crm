@@ -13,21 +13,29 @@ import { getLead } from "../../../redux/action/lead";
 
 const Ledger = () => {
   /////////////////////////////////////////// VARIABLES ////////////////////////////////////////////
-  const location = useLocation()
-  const dispatch = useDispatch()
-  const { leadId } = useParams()
-  const { currentLead: lead } = useSelector(state => state.lead)
-  const { sales, isFetching: salesFetching, error: salesError } = useSelector(state => state.sale)
-  const { cashbooks, isFetching: cashbookFetching, error: cashbookError } = useSelector(state => state.cashbook)
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { leadId } = useParams();
+  const { currentLead: lead } = useSelector((state) => state.lead);
+  const {
+    sales,
+    isFetching: salesFetching,
+    error: salesError,
+  } = useSelector((state) => state.sale);
+  const {
+    cashbooks,
+    isFetching: cashbookFetching,
+    error: cashbookError,
+  } = useSelector((state) => state.cashbook);
 
   const SalesColumns = [
     {
-      field: "_id",
+      field: "uid",
       headerName: "ID",
       headerClassName: "super-app-theme--header",
-      width: 65,
+      width: 70,
       renderCell: (params) => {
-        <div className="font-primary">{params.row._id}</div>;
+        <div className="font-primary">{params.row.uid}</div>;
       },
     },
     {
@@ -36,7 +44,9 @@ const Ledger = () => {
       headerClassName: "super-app-theme--header",
       width: 120,
       renderCell: (params) => {
-        <div className="font-primary">{params.row.staff}</div>;
+        <Tooltip >
+          <div className="font-primary capitalize">{params.row.staff}</div>
+        </Tooltip>;
       },
     },
     {
@@ -48,7 +58,6 @@ const Ledger = () => {
         <div className="font-primary">{params.row.clientName}</div>;
       },
     },
-
     {
       field: "net",
       headerName: "Net Worth",
@@ -82,19 +91,19 @@ const Ledger = () => {
       headerClassName: "super-app-theme--header",
       width: 200,
       renderCell: (params) => {
-        <div className="font-primary"></div>;
+        <div className="font-primary">{params.row.top}</div>;
       },
     },
   ];
 
   const LedgerColumns = [
     {
-      field: "_id",
+      field: "uid",
       headerName: "ID",
       headerClassName: "super-app-theme--header",
-      width: 65,
+      width: 70,
       renderCell: (params) => {
-        <div className="font-primary">{params.row._id}</div>;
+        <div className="font-primary">{params.row.uid}</div>;
       },
     },
     {
@@ -103,7 +112,7 @@ const Ledger = () => {
       headerClassName: "super-app-theme--header",
       width: 120,
       renderCell: (params) => {
-        <div className="font-primary">{params.row.staff}</div>;
+        <div className="font-primary capitalize">{params.row.staff}</div>;
       },
     },
     {
@@ -115,16 +124,13 @@ const Ledger = () => {
         <div className="font-primary">{params.row.clientName}</div>;
       },
     },
-
     {
       field: "remarks",
       headerName: "Remarks",
       headerClassName: "super-app-theme--header",
       width: 300,
       renderCell: (params) => {
-        <Tooltip title="">
-          <div className="font-primary">{params.row.remarks}</div>;
-        </Tooltip>;
+        <div className="font-primary">{params.row.remarks}</div>;
       },
     },
     {
@@ -133,7 +139,7 @@ const Ledger = () => {
       headerClassName: "super-app-theme--header",
       width: 170,
       renderCell: (params) => {
-        <div className="font-primary">{params.row.top}</div>;
+        <div style={{ fontFamily: "'Montserrat', sans-serif", textTransform: "capitalize" }}>{params.row.top}</div>;
       },
     },
     {
@@ -142,7 +148,7 @@ const Ledger = () => {
       headerClassName: "super-app-theme--header",
       width: 140,
       renderCell: (params) => {
-        <div className="font-primary">{params.row.amount}</div>;
+        <div style={{ fontFamily: "'Montserrat', sans-serif", textTransform: "capitalize" }}>{params.row.amount}</div>;
       },
     },
     {
@@ -159,34 +165,27 @@ const Ledger = () => {
 
   /////////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////
   useEffect(() => {
-    lead?._id && dispatch(getLeadSales(lead?._id))
-    lead?._id && dispatch(getLeadCashbooks(lead?._id))
-  }, [lead])
+    lead?._id && dispatch(getLeadSales(lead?._id));
+    lead?._id && dispatch(getLeadCashbooks(lead?._id));
+  }, [lead]);
   useEffect(() => {
-    dispatch(getLead(leadId))
-  }, [leadId])
+    dispatch(getLead(leadId));
+  }, [leadId]);
 
   /////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////
 
   return (
-    <div className="w-full">
+    <div className="w-full font-primary">
       <LedgerTopbar />
       <Table
         rows={cashbooks}
+        isFetching={cashbookFetching}
         columns={LedgerColumns}
         rowsPerPage={5}
-        isFetching={cashbookFetching}
-        error={cashbookError}
       />
 
       <LedgerSalesTopbar />
-      <Table
-        rows={sales}
-        columns={SalesColumns}
-        rowsPerPage={5}
-        isFetching={salesFetching}
-        error={salesError}
-      />
+      <Table rows={sales} isFetching={salesFetching} columns={SalesColumns} rowsPerPage={5} />
     </div>
   );
 };

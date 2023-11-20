@@ -15,7 +15,6 @@ export const getDeductions = async (req, res, next) => {
     try {
         const deductions = await Deduction.find();
         res.status(200).json({ result: deductions, message: 'deductions fetched successfully', success: true })
-        console.log(deductions)
     } catch (err) {
         next(createError(500, err.message))
     }

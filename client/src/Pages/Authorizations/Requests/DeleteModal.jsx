@@ -10,10 +10,10 @@ const DeleteModal = ({ open, setOpen, approvalId }) => {
 
   ////////////////////////////////////// FUNCTIONS ///////////////////////////////////////
   const handleClose = () => {
-    dispatch(deleteApproval(approvalId))
     setOpen(false)
   }
   const handleDelete = () => {
+    dispatch(deleteApproval(approvalId, "voucher"))
     setOpen(false)
   }
 

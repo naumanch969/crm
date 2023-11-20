@@ -105,16 +105,19 @@ const CreateFollowUps = ({ setOpen, open, scroll }) => {
                     type="text"
                     size="small"
                     fullWidth>
-                    <MenuItem value="closedLost">Closed (Lost)</MenuItem>
-                    <MenuItem value="FollowedUpCall">Followed Up (Call)</MenuItem>
-                    <MenuItem value="ContactedCallAttempt">Contacted Client (Call Attempt)</MenuItem>
-                    <MenuItem value="ContactedCall">Contacted Client (Call)</MenuItem>
-                    <MenuItem value="FollowedUpEmail">Followed Up (Email)</MenuItem>
-                    <MenuItem value="ContactedEmail">Contacted Client (Email)</MenuItem>
-                    <MenuItem value="New">New</MenuItem>
-                    <MenuItem value="MeetingDone">Meeting (Done)</MenuItem>
-                    <MenuItem value="ClosedWon">Closed (Won)</MenuItem>
-                    <MenuItem value="MeetingAttempt">Meeting (Attempt)</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="New Lead">New Lead</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Call Not Answer">Call Not Answer</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Deal Done">Deal Done</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Keen Interested">Keen Interested</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Visit Done">Visit Done</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Contact in Future">Contact in Future</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Visit Schedule">Visit Schedule</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Archived">Archived</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Wrong Number">Wrong Number</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Busy">Busy</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Number Off">Number Off</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Call back Later">Call Back Later</MenuItem>
+                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Interested">Interested</MenuItem>
                   </Select>
                 </td>
               </tr>
@@ -128,12 +131,7 @@ const CreateFollowUps = ({ setOpen, open, scroll }) => {
                     type="date"
                     size="small"
                     fullWidth
-                    />
-                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DatePicker label="Select Date" onChange={(date) => setFollowUpData({ ...followUpData, followUpDate: date.$d })} />
-                    </DemoContainer>
-                  </LocalizationProvider> */}
+                  />
                 </td>
               </tr>
               <tr>

@@ -97,15 +97,6 @@ export const getIncomeAndExpenses = async (req, res, next) => {
                 },
             },
             {
-                $project: {
-                    _id: 0,
-                    year: "$_id.year",
-                    month: "$_id.month",
-                    income: 1,
-                    expense: 1,
-                },
-            },
-            {
                 $match: {
                     $or: [
                         { year: requestedYear },

@@ -18,6 +18,7 @@ export const getProjects = () => async (dispatch) => {
         dispatch(start())
         const { data } = await api.getProjects()
         dispatch(getProjectsReducer(data.result))
+        console.log(data.result)
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

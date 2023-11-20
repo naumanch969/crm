@@ -9,12 +9,12 @@ router.get('/get/single/:transcriptId', verifyToken, verifyEmployee, getTranscri
 router.get('/get/all', verifyToken, verifySuperAdmin, getTranscripts, verifyManager)
 
 // POST
-router.post('/create', createtranscript)
+router.post('/create', verifyToken, verifyManager, verifySuperAdmin, createtranscript)
 
 // PUT
 router.put('/update/:transcriptId', verifyToken, verifyManager, verifySuperAdmin, updateTranscript)
 
 // DELETE
-router.delete('/delete/:transcriptId', verifyToken, verifyManager, verifySuperAdmin, deleteTranscript)
+router.delete('/delete/:transcriptId', deleteTranscript)
 
 export default router

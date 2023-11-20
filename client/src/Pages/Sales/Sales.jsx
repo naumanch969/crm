@@ -12,6 +12,7 @@ import { IoOpenOutline } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import FilterDrawer from "./Filter";
 import { getSaleReducer, getSalesReducer } from "../../redux/reducer/sale";
+import moment from "moment";
 
 function Sales() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
@@ -49,9 +50,9 @@ function Sales() {
       field: "createdAt",
       headerClassName: "super-app-theme--header",
       headerName: "Created At",
-      width: 130,
+      width: 150,
       renderCell: (params) => (
-        <div className="font-primary">{new Date(params.row.createdAt).toLocaleDateString()}</div>
+        <div className="font-primary">{moment(params.row?.createdAt).format("DD-MM-YYYY")}</div>
       ),
     },
     {
@@ -65,7 +66,7 @@ function Sales() {
       field: "received",
       headerClassName: "super-app-theme--header",
       headerName: "Amount Received",
-      width: 180,
+      width: 200,
       renderCell: (params) => <div className="font-primary">{params.row.received}</div>,
     },
 
@@ -73,7 +74,7 @@ function Sales() {
       field: "top",
       headerClassName: "super-app-theme--header",
       headerName: "Type of Payment",
-      width: 130,
+      width: 200,
       renderCell: (params) => <div className="font-primary">{params.row.top}</div>,
     },
     {

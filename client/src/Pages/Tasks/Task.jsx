@@ -16,7 +16,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const Task = ({ open, setOpen }) => {
   /////////////////////////////////////// VARIABLES //////////////////////////////////////
   const { currentTask: task, isFetching, error } = useSelector((state) => state.task);
-  console.log(task);
 
   /////////////////////////////////////// STATES //////////////////////////////////////
 

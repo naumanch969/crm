@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose'
 
 const notificationSchema = Schema({
     title: { type: String, required: false },
-    type: { type: String, required: true, enum: ['urgent-task', 'refund-approval'] },
+    type: { type: String, required: true, enum: ['urgent-task', 'refund-approval', 'voucher-approval', ] },
     description: { type: String, required: true },
     isRead: { type: Boolean, default: false },
     data: { type: Object, required: false },

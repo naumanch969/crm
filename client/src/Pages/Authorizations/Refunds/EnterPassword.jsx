@@ -14,7 +14,6 @@ import { updateLead } from "../../../redux/action/lead";
 import { PiXLight } from "react-icons/pi";
 import { Loader } from "../../../utils";
 import { rejectRefundApproval } from "../../../redux/action/approval";
-import { deleteApproval } from "../../../redux/action/approval";
 import { acceptRefund, rejectRefund } from "../../../redux/action/refund";
 
 

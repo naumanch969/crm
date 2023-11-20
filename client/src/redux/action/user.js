@@ -6,6 +6,7 @@ export const register = (userData, navigate) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.register(userData)
+        console.log('register data',data)
         dispatch(registerReducer(data.result))
         navigate('/auth/login')
         dispatch(end())
@@ -32,6 +33,35 @@ export const changePassword = (passwordData, navigate) => async (dispatch) => {
         const { data } = await api.changePassword(passwordData)
         dispatch(loginReducer(data.result))
         navigate('/')
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const forget_password = (email) => async (dispatch) => {
+    try {
+        dispatch(start())
+        await api.forget_password(email)
+        localStorage.setItem('otpSendToEmail', JSON.stringify(email))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
+export const newpassword = ({otp, password}, navigate) => async (dispatch) => {
+    try {
+        dispatch(start())
+        const emailObject = localStorage.getItem('otpSendToEmail')
+        const emailObject2 = JSON.parse(emailObject)
+        const email = emailObject2.email
+
+        const data1 = localStorage.setItem('Email', email)
+        const data2 = localStorage.setItem('otp', JSON.stringify(otp))
+        const data3 = localStorage.setItem('password', JSON.stringify(password))
+        console.log(data1, data2, data3)
+        await api.newpassword({email, otp, password})
+        localStorage.removeItem('otpSendToEmail')
+        navigate('/auth/login')
         dispatch(end())
     } catch (err) {
         dispatch(error(err.message))

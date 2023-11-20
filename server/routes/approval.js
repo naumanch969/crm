@@ -1,7 +1,7 @@
 import express from 'express'
 
-import { getApproval, getApprovals, createRequestApproval, createVoucherApproval, createReceiptApproval, createRefundApproval, rejectRequestApproval, deleteApproval, deleteWholeCollection } from '../controllers/approval.js'
-import { verifyToken, verifyEmployee } from '../middleware/auth.js'
+import { getApproval, getApprovals, createRequestApproval, createVoucherApproval,  createRefundApproval, rejectRequestApproval, deleteApproval, deleteWholeCollection, acceptVoucherApproval, rejectVoucherApproval } from '../controllers/approval.js'
+import { verifyToken, verifyEmployee, verifyManager } from '../middleware/auth.js'
 const router = express.Router()
 
 // GET
@@ -10,8 +10,11 @@ router.get('/get/all', getApprovals)
 
 // POST
 router.post('/create/request', verifyToken, verifyEmployee, createRequestApproval)
+
 router.post('/create/voucher', verifyToken, verifyEmployee, createVoucherApproval)
-router.post('/create/receipt', verifyToken, verifyEmployee, createReceiptApproval)
+router.post('/accept/voucher/:approvalId', verifyToken, verifyManager, acceptVoucherApproval)
+router.post('/reject/voucher/:approvalId', verifyToken, verifyManager, rejectVoucherApproval)
+
 router.post('/create/refund', verifyToken, verifyEmployee, createRefundApproval)
 router.post('/reject/request', verifyToken, verifyEmployee, rejectRequestApproval)
 

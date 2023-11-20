@@ -1,182 +1,115 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getLead } from "../../redux/action/lead";
-import { format } from "timeago.js";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { Divider, Dialog, DialogContent, DialogTitle, Slide, Tooltip } from "@mui/material";
+import { useParams } from "react-router-dom";
 import { Loader } from "../../utils";
-import {
-  PiCalendar,
-  PiEnvelopeSimple,
-  PiGenderMaleDuotone,
-  PiGitBranch,
-  PiHandCoins,
-  PiHouseLine,
-  PiIdentificationCard,
-  PiMapPinLine,
-  PiPhone,
-  PiRuler,
-  PiSealQuestion,
-  PiUser,
-  PiUserFocus,
-  PiXLight,
-} from "react-icons/pi";
-import { Divider, Dialog, DialogContent, DialogTitle, Slide } from "@mui/material";
+import moment  from "moment";
+import FollowUps from "./FollowUps/FollowUps";
+import Ledger from "./Ledger/Ledger";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="down" ref={ref} {...props} />;
-});
-
-const Lead = ({ open, setOpen, leadId, scroll }) => {
+const Lead = () => {
   //////////////////////////////////// States ////////////////////////////////////////
 
   //////////////////////////////////// Variables /////////////////////////////////////
-  // const { leadId } = useParams();
+  const { leadId } = useParams();
   const dispatch = useDispatch();
   const { currentLead, isFetching } = useSelector((state) => state.lead);
+  const date = moment(currentLead?.createdAt).format("DD-MM-YYYY");
+
   //////////////////////////////////// UseEffects /////////////////////////////////////
   useEffect(() => {
-    if (leadId) {
-      dispatch(getLead(leadId));
-    }
+    dispatch(getLead(leadId));
   }, [leadId]);
 
   //////////////////////////////////// Functions /////////////////////////////////////
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
-    <div>
-      <Dialog
-        open={open}
-        scroll={scroll}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        fullWidth="sm"
-        maxWidth="md"
-        aria-describedby="alert-dialog-slide-description">
-        <DialogTitle className="flex items-center justify-end">
-          <div className="cursor-pointer" onClick={handleClose}>
-            <PiXLight className="text-[25px]" />
+    <div className="w-full font-primary">
+      <h1 className="text-primary-blue text-[32px] capitalize font-light">Lead Details</h1>
+
+      {isFetching && (
+        <div className="w-full h-[11rem] flex justify-center items-center ">
+          <Loader />
+        </div>
+      )}
+
+    {!isFetching && (
+        
+      <div className="bg-white rounded-lg w-full p-4 my-4">
+        <div>
+          <div className="text-[20px] text-primary-red">Client Details</div>
+          <div className="my-2">
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Name</TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Phone</TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>CNIC</TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>City</TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Email</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.clientName} arrow>{currentLead?.clientName}</Tooltip></TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.clientPhone} arrow>{currentLead?.clientPhone}</Tooltip></TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.client?.CNIC} arrow>{currentLead?.client?.CNIC}</Tooltip></TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.client?.city} arrow>{currentLead?.client?.city}</Tooltip></TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.client?.email} arrow>{currentLead?.client?.email}</Tooltip></TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
           </div>
-        </DialogTitle>
-        <DialogContent>
-          <div className="md:flex text-[#67757c] font-primary">
-            <div className="bg-white md:w-[65%] w-full h-full px-4">
-              <div className="text-2xl flex justify-center">Lead Details</div>
+        </div>
 
-              <div className="flex items-center pt-6 pb-2 gap-3 text-[20px]">
-                <PiHouseLine className="text-[25px]" />
-                Property Details
-              </div>
-              <Divider />
-              <div className="pt-2 text-lg font-[350]">
-                Project :{" "}
-                <span className="text-black font-normal">{currentLead?.property.title}</span>
-              </div>
-              <div className="text-lg font-[350]">
-                Priority :{" "}
-                <span className="text-black font-normal capitalize">{currentLead?.priority}</span>
-              </div>
-
-              <div className="flex items-center pt-4 pb-2 gap-3 text-[20px]">
-                <PiMapPinLine className="text-[25px]" />
-                Location
-              </div>
-              <Divider />
-              <div className="pt-2 text-lg font-[350]">
-                Required City : <span className="text-black font-normal">{currentLead?.city}</span>
-              </div>
-
-              <div className="flex items-center pt-4 pb-2 gap-3 text-[20px]">
-                <PiRuler className="text-[25px]" />
-                Details
-              </div>
-              <Divider />
-
-              <div className="text-lg font-[350] pt-2">
-                Source :{" "}
-                <span className="text-black font-normal capitalize">{currentLead?.source}</span>
-              </div>
-
-              <div className="flex items-center pt-4 pb-2 gap-3 text-[20px]">
-                <PiHandCoins className="text-[25px]" />
-                Description
-              </div>
-              <Divider />
-              <div className="pt-2 text-lg font-[350]">
-                <span className="text-black font-normal">{currentLead?.description}</span>
-              </div>
-            </div>
-
-            <div className="flex flex-col">
-              <div className="bg-[#ebf2f5] w-full h-full md:mt-0 mt-8 px-4 py-4 flex flex-col justify-between gap-4 rounded-md">
-                <div className="text-xl">Customer Details</div>
-                <div className="bg-[#d1dfe4] p-1 w-full rounded-lg text-black flex justify-center text-lg capitalize">
-                  {currentLead?.client?.username == "" ? "Null" : currentLead?.client?.username}
-                </div>
-                <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <PiIdentificationCard className="text-gray-700" /> CNIC :{" "}
-                    <span className="text-black">
-                      {currentLead?.client?.CNIC == "" ? "Null" : currentLead?.client?.CNIC}
-                    </span>
-                  </div>
-                </div>
-                <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <PiPhone className="text-gray-700" /> Phone :{" "}
-                    <span className="text-black">{currentLead?.client?.phone}</span>
-                  </div>
-                </div>
-                <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <PiEnvelopeSimple className="text-gray-700" /> Email:{" "}
-                    <span className="text-black">
-                      {currentLead?.client?.email == "" ? "Null" : currentLead?.client?.email}
-                    </span>
-                  </div>
-                </div>
-                <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <PiCalendar className="text-gray-700" /> Created :{" "}
-                    <span className="text-black">{format(currentLead?.createdAt)}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-[#ebf2f5] w-full h-full mt-4 px-4 py-4 flex flex-col justify-between gap-4 rounded-md">
-                <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <PiUserFocus className="text-gray-700" />
-                    <div>Allocated Persons </div>
-                  </div>
-                  {currentLead?.allocatedTo.length < 1 ? (
-                    <div className="flex items-center justify-center gap-2">
-                      <span className="text-black capitalize">
-                        {currentLead?.allocatedTo[0]?.username}
-                      </span>
-                    </div>
-                  ) : (
-                    currentLead?.allocatedTo.map((person) => (
-                      <div>
-                        <div className="flex items-center gap-2 text-black">{">"} {person.username}</div>
-                      </div>
-                    ))
-                  )}
-                </div>
-                <div className="bg-[#d1dfe4] px-2 py-1 w-full rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <PiSealQuestion className="text-gray-700" /> Status :{" "}
-                    <span className="text-black capitalize">{currentLead?.status}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div>
+          <div className="text-[20px] text-primary-red mt-10">Lead Details</div>
+          <div className="my-2">
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Country</TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Degree</TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Major</TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Visa</TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Created</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip className="capitalize" title={currentLead?.country} arrow>{currentLead?.country}</Tooltip></TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.degree == 'other' ? currentLead?.degreeName : currentLead?.degree} arrow>{currentLead?.degree == 'other' ? currentLead?.degreeName : currentLead?.degree}</Tooltip></TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.major} arrow>{currentLead?.major}</Tooltip></TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.visa} arrow>{currentLead?.visa}</Tooltip></TableCell>
+                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={date} arrow>{date}</Tooltip></TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      </div>
+    )}
+
+      <div className="p-4 bg-white w-full">
+        <FollowUps />
+      </div>
+
+      <div className="p-4 mt-4 bg-white w-full">
+        <Ledger />
+      </div>
+
     </div>
   );
 };

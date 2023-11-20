@@ -42,6 +42,8 @@ export const deleteImage = (filename) => API.delete(`/delete_image/${filename}`)
 export const register = (userData) => API.post(`/auth/register`, userData)
 export const login = (userData) => API.post(`/auth/login`, userData)
 export const changePassword = (passwordData) => API.put(`/auth/change_password`, passwordData)
+export const forget_password = (passwordData) => API.put(`/auth/forget_password`, passwordData)
+export const newpassword = (passwordData) => API.put(`/auth/newpassword`, passwordData)
 
 
 // USER
@@ -64,74 +66,6 @@ export const filterTask = (filters) => API.get(`/task/filter?${objectToQueryStri
 export const createTask = (taskData) => API.post(`/task/create`, taskData)
 export const updateTask = (taskId, taskData) => API.put(`/task/update/${taskId}`, taskData)
 export const deleteTask = (taskId) => API.delete(`/task/delete/${taskId}`)
-
-
-// SALE
-export const getSales = () => API.get(`/sale/get/all`)
-export const getLeadSales = (leadId) => API.get(`/sale/get/lead?leadId=${leadId}`)
-export const getSale = (saleId) => API.get(`/sale/get/single/${saleId}`)
-export const createSale = (saleData) => API.post(`/sale/create`, saleData)
-export const updateSale = (saleId, saleData) => API.put(`/sale/update/${saleId}`, saleData)
-export const deleteSale = (saleId) => API.delete(`/sale/delete/${saleId}`)
-
-
-// NOTIFICATIONS
-export const getNotifications = () => API.get(`/notification/get/all`)
-export const getNotification = (notificationId) => API.get(`/notification/get/single/${notificationId}`)
-export const createRequestNotification = (notificationData) => API.get(`/notification/create/request`, notificationData)
-export const deleteNotification = (notificationId) => API.delete(`/notification/delete/${notificationId}`)
-
-
-// MEETING
-export const getEvents = () => API.get(`/event/get/all`)
-export const getEvent = (eventId) => API.get(`/event/get/single/${eventId}`)
-export const createEvent = (eventData) => API.post(`/event/create`, eventData)
-export const updateEvent = (eventId, eventData) => API.put(`/event/update/${eventId}`, eventData)
-export const deleteEvent = (eventId) => API.delete(`/event/delete/${eventId}`)
-
-
-// APROVAL
-export const getApprovals = (type, leadId) => API.get(`/approval/get/all?type=${type}&leadId=${leadId}`)
-export const getApproval = () => API.get(`/approval/get/single/${approvalId}`)
-export const createRequestApproval = (data) => API.post(`/approval/create/request`, data)
-export const rejectRequestApproval = (email) => API.post(`/approval/reject/request`, { email })
-export const createVoucherApproval = (data) => API.post(`/approval/create/voucher`, data)
-export const createReceiptApproval = (data) => API.post(`/approval/create/receipt`, data)
-export const createRefundApproval = (data) => API.post(`/approval/create/refund`, data)
-export const deleteApproval = (approvalId, password) => API.delete(`/approval/delete/${approvalId}?password=${password}`,)
-
-
-// LEAD 
-export const getLead = (leadId) => API.get(`/lead/get/single/${leadId}`)
-export const getLeads = () => API.get(`/lead/get/all`)
-export const getEmployeeLeads = () => API.get(`/lead/get/employee`)
-export const getLeadsStat = (type) => API.get(`/lead/get/stats?type=${type}`)
-export const searchLead = (searchTerm) => API.get(`/lead/search?searchTerm=${searchTerm}`)
-export const filterLead = (filters) => API.get(`/lead/filter?${objectToQueryString(filters)}`)
-export const createLead = (leadData) => API.post(`/lead/create`, leadData)
-export const createOnsiteLead = (leadData) => API.post(`/lead/create/onsite`, leadData)
-export const createOnlineLead = (leadData) => API.post(`/lead/create/online`, leadData)
-export const updateLead = (leadId, leadData) => API.put(`/lead/update/${leadId}`, leadData)
-export const shiftLead = (leadId, shiftTo) => API.put(`/lead/update/shift/${leadId}`, { shiftTo })
-export const shareLead = (leadId, shareWith) => API.put(`/lead/update/share/${leadId}`, { shareWith })
-export const archiveLead = (leadId) => API.put(`/lead/archive/${leadId}`)
-export const deleteLead = (leadId) => API.delete(`/lead/delete/${leadId}`)
-
-// FOLLOW UPS
-export const getFollowUp = (followUpId) => API.get(`/followUp/get/single/${followUpId}`)
-export const getFollowUps = (leadId) => API.get(`/followUp/get/all/${leadId}`)
-export const createFollowUp = (followUpData) => API.post(`/followUp/create`, followUpData)
-export const deleteFollowUp = (followUpId) => API.delete(`/followUp/delete/${followUpId}',`)
-
-// REFUND
-export const getRefund = (refundId) => API.get(`/refund/get/single/${refundId}`)
-export const getRefunds = () => API.get(`/refund/get/all`)
-export const getLeadRefunds = (leadId) => API.get(`/refund/get/lead?leadId=${leadId}`)
-export const createRefund = (refundData) => API.post(`/refund/create`, refundData)
-export const updateRefund = (refundId, refundData) => API.put(`/refund/update/${refundId}`, refundData)
-export const acceptRefund = (refundId, cashbookData) => API.put(`/refund/accept/${refundId}`, cashbookData) // on successful approval, cashbook out should be generated
-export const rejectRefund = (refundId, password) => API.put(`/refund/reject/${refundId}`, { password })
-export const deleteRefund = (refundId) => API.delete(`/refund/delete/${refundId}`)
 
 // PROJECT
 export const getProject = (projectId) => API.get(`/project/get/single/${projectId}`)
@@ -160,6 +94,77 @@ export const createInventory = (inventoryData) => API.post(`/inventory/create`, 
 export const updateInventory = (inventoryId, inventoryData) => API.put(`/inventory/update/${inventoryId}`, inventoryData)
 export const deleteInventory = (inventoryId) => API.delete(`/inventory/delete/${inventoryId}`)
 
+// SALE
+export const getSales = () => API.get(`/sale/get/all`)
+export const getLeadSales = (leadId) => API.get(`/sale/get/lead?leadId=${leadId}`)
+export const getSale = (saleId) => API.get(`/sale/get/single/${saleId}`)
+export const createSale = (saleData) => API.post(`/sale/create`, saleData)
+export const updateSale = (saleId, saleData) => API.put(`/sale/update/${saleId}`, saleData)
+export const deleteSale = (saleId) => API.delete(`/sale/delete/${saleId}`)
+
+
+// NOTIFICATIONS
+export const getNotifications = () => API.get(`/notification/get/all`)
+export const getNotification = (notificationId) => API.get(`/notification/get/single/${notificationId}`)
+export const createRequestNotification = (notificationData) => API.get(`/notification/create/request`, notificationData)
+export const deleteNotification = (notificationId) => API.delete(`/notification/delete/${notificationId}`)
+
+
+// MEETING
+export const getEvents = () => API.get(`/event/get/all`)
+export const getEvent = (eventId) => API.get(`/event/get/single/${eventId}`)
+export const createEvent = (eventData) => API.post(`/event/create`, eventData)
+export const updateEvent = (eventId, eventData) => API.put(`/event/update/${eventId}`, eventData)
+export const deleteEvent = (eventId) => API.delete(`/event/delete/${eventId}`)
+
+
+// APROVAL
+export const getApprovals = (type, leadId) => API.get(`/approval/get/all?type=${type}`)
+export const getApproval = () => API.get(`/approval/get/single/${approvalId}`)
+export const createRequestApproval = (data) => API.post(`/approval/create/request`, data)
+export const rejectRequestApproval = (email) => API.post(`/approval/reject/request`, { email })
+export const createVoucherApproval = (data) => API.post(`/approval/create/voucher`, data)
+export const acceptVoucherApproval = (approvalId, password) => API.post(`/approval/accept/voucher/${approvalId}`, { password })
+export const rejectVoucherApproval = (approvalId, password) => API.post(`/approval/reject/voucher/${approvalId}`, { password })
+export const createReceiptApproval = (data) => API.post(`/approval/create/receipt`, data)
+export const createRefundApproval = (data) => API.post(`/approval/create/refund`, data)
+export const deleteApproval = (approvalId) => API.delete(`/approval/delete/${approvalId}`,)
+
+
+// LEAD 
+export const getLead = (leadId) => API.get(`/lead/get/single/${leadId}`)
+export const getLeadByPhone = (phone) => API.get(`/lead/get/phone/${phone}`)
+export const getLeads = () => API.get(`/lead/get/all`)
+export const getEmployeeLeads = () => API.get(`/lead/get/employee`)
+export const getLeadsStat = (type) => API.get(`/lead/get/stats?type=${type}`)
+export const searchLead = (searchTerm) => API.get(`/lead/search?searchTerm=${searchTerm}`)
+export const filterLead = (filters) => API.get(`/lead/filter?${objectToQueryString(filters)}`)
+export const createLead = (leadData) => API.post(`/lead/create`, leadData)
+export const updateLead = (leadId, leadData) => API.put(`/lead/update/${leadId}`, leadData)
+export const shiftLead = (leadId, shiftTo) => API.put(`/lead/update/shift/${leadId}`, { shiftTo })
+export const shareLead = (leadId, shareWith) => API.put(`/lead/update/share/${leadId}`, { shareWith })
+export const archiveLead = (leadId) => API.put(`/lead/archive/${leadId}`)
+export const deleteLead = (leadId) => API.delete(`/lead/delete/${leadId}`)
+
+// FOLLOW UPS
+export const getFollowUp = (followUpId) => API.get(`/followUp/get/single/${followUpId}`)
+export const getFollowUps = (leadId) => API.get(`/followUp/get/all/${leadId}`)
+export const getEmployeeFollowUps = (leadId) => API.get(`/followUp/get/employee/${leadId}`)
+export const getFollowUpsStats = () => API.get(`/followUp/get/stats`)
+export const getEmployeeFollowUpsStats = () => API.get(`/followUp/get/stats/employee`)
+export const createFollowUp = (followUpData) => API.post(`/followUp/create`, followUpData)
+export const deleteFollowUp = (followUpId) => API.delete(`/followUp/delete/${followUpId}',`)
+
+// REFUND
+export const getRefund = (refundId) => API.get(`/refund/get/single/${refundId}`)
+export const getRefunds = () => API.get(`/refund/get/all`)
+export const getLeadRefunds = (leadId) => API.get(`/refund/get/lead?leadId=${leadId}`)
+export const createRefund = (refundData) => API.post(`/refund/create`, refundData)
+export const updateRefund = (refundId, refundData) => API.put(`/refund/update/${refundId}`, refundData)
+export const acceptRefund = (refundId, cashbookData) => API.put(`/refund/accept/${refundId}`, cashbookData) // on successful approval, cashbook out should be generated
+export const rejectRefund = (refundId, password) => API.put(`/refund/reject/${refundId}`, { password })
+export const deleteRefund = (refundId) => API.delete(`/refund/delete/${refundId}`)
+
 // CASHBOOK
 export const getCashbook = (cashbookId) => API.get(`/cashbook/get/single/${cashbookId}`)
 export const getIncomeAndExpenses = (year) => API.get(`/cashbook/get/income_and_expenses`, { year })
@@ -174,6 +179,7 @@ export const deleteCashbook = (cashbookId) => API.delete(`/cashbook/delete/${cas
 // VOUCHER
 export const getVoucher = (voucherId) => API.get(`/voucher/get/single/${voucherId}`)
 export const getVouchers = () => API.get(`/voucher/get/all`)
+export const getEmployeeVouchers = () => API.get(`/voucher/get/employee`)
 export const createVoucher = (voucherData) => API.post(`/voucher/create`, voucherData)
 export const deleteVoucher = (voucherId) => API.delete(`/voucher/delete/${voucherId}`)
 

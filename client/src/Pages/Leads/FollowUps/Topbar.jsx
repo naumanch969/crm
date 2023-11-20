@@ -41,29 +41,12 @@ const Topbar = () => {
   };
 
   return (
-    <div className="flex flex-col tracking-wide pb-8 font-primary">
-      <div className="w-full text-[14px]">
-        <Path />
-      </div>
+    <div className="tracking-wide pb-4 font-primary">
 
-      <div className="md:flex justify-between items-center flex-none">
-        <h1 className="text-primary-blue text-[32px] capitalize font-light">Follow Ups</h1>
+      <div className="flex justify-between w-full items-center">
+        <h1 className="text-primary-red flex justify-end text-[20px]">All Follow Ups History</h1>
 
-        <div className="flex items-center justify-end gap-2 md:mt-0 mt-4">
-          {/* <div className="bg-[#ebf2f5] hover:bg-[#dfe6e8] p-1 pl-2 pr-2 rounded-md w-48">
-            <FormControl>
-              <Input
-                name="search"
-                placeholder="Search Follow Ups"
-                onChange={(e) => handleSearch(e.target.value)}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <PiMagnifyingGlass className="text-[25px]" />
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-          </div> */}
+        <div className="gap-2 flex justify-start md:mt-0 mt-4">
           <div>
             <Tooltip title="Add New Follow Up" placement="top" arrow>
               <div onClick={handleCreateopen("body")}>

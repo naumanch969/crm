@@ -54,7 +54,7 @@ const TranscriptPage = ({ }) => {
   return (
     <div ref={pdfRef} className="completePdfPage w-full my-4 font-primary">
       <div className="flex justify-center">
-        <img className="h-12" src="/favicon/GrowLOGO.png" alt="" />
+        <img className="h-12" src="/background/A-consultant-logo.png" alt="" />
       </div>
       <div className="my-10 flex justify-center">
         <table className="flex flex-col gap-4">

@@ -5,18 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { filterLead } from "../../redux/action/lead";
 import { FiFilter } from "react-icons/fi";
 import { PiFunnelLight, PiXLight } from "react-icons/pi";
-import { pakistanCities } from "../../constant";
+import { countries, pakistanCities } from "../../constant";
 import { DatePicker, DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { filterLeadReducer } from "../../redux/reducer/lead";
-import { getProjects } from "../../redux/action/project";
 
 const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
 
   //////////////////////////////// VARIABLES ///////////////////////////////////////////////////
   const dispatch = useDispatch()
-  const { projects } = useSelector(state => state.project)
   const { leads } = useSelector(state => state.lead)
   const priorities = [
     { name: "Very Cold", value: 'veryCold' },
@@ -48,14 +46,22 @@ const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
     "Direct Call",
     "Referral",
   ];
-  const initialFilterState = { city: '', startingDate: '', endingDate: '', status: '', priority: '', property: '', }
+  const degrees = [
+    "Bacholers",
+    "Masters",
+    "PHD",
+    "Other"
+  ]
+  const visa = [
+    "Student Visa",
+    "Visit Visa"
+  ]
+  const initialFilterState = { city: '', startingDate: '', endingDate: '', status: '', priority: '', country: '', degree: '', visa: ''}
   //////////////////////////////// STATES ///////////////////////////////////////////////////
   const [filters, setFilters] = useState(initialFilterState)
 
   //////////////////////////////// USE EFFECTS ///////////////////////////////////////////////////
-  useEffect(() => {
-    dispatch(getProjects())
-  }, [])
+
   //////////////////////////////// FUNCTIONS ///////////////////////////////////////////////////
   const handleFilter = () => {
     dispatch(filterLeadReducer(filters))
@@ -131,18 +137,39 @@ const FilterDrawer = ({ open, setOpen, setIsFiltered }) => {
               </div>
             </div>
           </div>
-          <Select
-            name="property"
-            type="text"
-            onChange={(e) => handleChange('property', e.target.value)}
+          <Autocomplete
             size="small"
-            fullWidth>
-            <MenuItem value={''} >None</MenuItem>
-            {projects.map((project, index) => (
-              <MenuItem value={project._id} key={index}>{project.title}{" "}</MenuItem>
-            ))}
-          </Select>
-
+            disablePortal
+            id="combo-box-demo"
+            options={countries.map((country) => country.name)}
+            onSelect={(e) => handleChange('country', e.target.value)}
+            className="w-full"
+            renderInput={(params) => (
+              <TextField {...params} autoComplete="false" fullWidth label="Country" />
+            )}
+          />
+          <Autocomplete
+            size="small"
+            disablePortal
+            id="combo-box-demo"
+            options={degrees}
+            onSelect={(e) => handleChange('degree', e.target.value)}
+            className="w-full"
+            renderInput={(params) => (
+              <TextField {...params} autoComplete="false" fullWidth label="Degree" />
+            )}
+          />
+          <Autocomplete
+            size="small"
+            disablePortal
+            id="combo-box-demo"
+            options={visa}
+            onSelect={(e) => handleChange('visa', e.target.value)}
+            className="w-full"
+            renderInput={(params) => (
+              <TextField {...params} autoComplete="false" fullWidth label="Visa" />
+            )}
+          />
           <Autocomplete
             size="small"
             disablePortal

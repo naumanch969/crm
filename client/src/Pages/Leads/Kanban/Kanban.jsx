@@ -114,17 +114,17 @@ const Kanban = ({ options, setOptions }) => {
         </div>
       ) : (
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="flex justify-start gap-[1rem] w-full min-h-[30rem] h-fit pb-[1rem] overflow-x-scroll ">
-            <Board leads={closedLost} title='closedLost' _id='1' />
-            <Board leads={followedUpCall} title="followedUpCall" _id="2" />
-            <Board leads={contactedCallAttempt} title="contactedCallAttempt" _id="3" />
-            <Board leads={contactedCall} title="Under contactedCall" _id="4" />
-            <Board leads={followedUpEmail} title="followedUpEmail" _id="5" />
-            <Board leads={contactedEmail} title="contactedEmail" _id="6" />
+          <div className="flex justify-start gap-[1rem] w-full min-h-[30rem] h-fit pb-[1rem] overflow-x-scroll capitalize">
+            <Board leads={closedLost} title='closed Lost' _id='1' />
+            <Board leads={followedUpCall} title="followed Up Call" _id="2" />
+            <Board leads={contactedCallAttempt} title="contacted Call Attempt" _id="3" />
+            <Board leads={contactedCall} title="contacted Call" _id="4" />
+            <Board leads={followedUpEmail} title="followed Up Email" _id="5" />
+            <Board leads={contactedEmail} title="contacted Email" _id="6" />
             <Board leads={newLeads} title="new" _id="7" />
-            <Board leads={meetingDone} title="Under meetingDone" _id="8" />
-            <Board leads={closedWon} title="closedWon" _id="9" />
-            <Board leads={meetingAttempt} title="meetingAttempt" _id="10" />
+            <Board leads={meetingDone} title="meeting Done" _id="8" />
+            <Board leads={closedWon} title="closed Won" _id="9" />
+            <Board leads={meetingAttempt} title="meeting Attempt" _id="10" />
           </div>
         </DragDropContext>
       )}

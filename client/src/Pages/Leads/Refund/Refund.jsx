@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getLead } from "../../../redux/action/lead";
-import { createRefundApproval, getApprovals } from "../../../redux/action/approval";
+import { createRefundApproval } from "../../../redux/action/approval";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "../../../utils";
 import Topbar from "./Topbar";

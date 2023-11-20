@@ -2,20 +2,24 @@ import { generateUniqueIdentifier } from '../utils/utils.js'
 import { Schema, model } from 'mongoose'
 
 const voucherSchema = Schema({
-    branch: { type: String },
     issuingDate: { type: String },
+    allocatedTo: { type: Schema.Types.ObjectId, ref:'User' },
     dueDate: { type: String },
     clientName: { type: String },
     CNIC: { type: Number },
     phone: { type: Number },
     email: { type: String },
-    type: { type: String, enum: ['cash', 'cheque', 'creditCard', 'online',] },
-    total: { type: Number },
-    propertyType: { type: String },
-    area: { type: String },
-    project: { type: Schema.Types.ObjectId, ref: 'Project', },
-    paid: { type: Number },
-    remained: { type: Number },
+    type: { type: String, enum: ['cash', 'cheque', 'creditCard', 'card', 'online',] },
+    total: { type: String },
+    degree: { type: String },
+    degreeName: { type: String, default: '' },
+    country: { type: String },
+    visa: { type: String },
+    major: { type: String },
+    paid: { type: String },
+    remained: { type: String },
+    note: { type: String },
+    status: { type: String, default: 'underProcess' },   // under process, declined, accepted
     uid: { type: String },
 }, { timestamps: true })
 

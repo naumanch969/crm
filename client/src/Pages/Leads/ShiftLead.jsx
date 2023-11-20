@@ -38,7 +38,7 @@ const ShiftLead = ({ open, setOpen, from }) => {
     if (employees.length === 0) {
       dispatch(getEmployees());
     }
-  }, [employees]);
+  }, []);
 
   ////////////////////////////////////// FUNCTIONS  /////////////////////////////////////
   const handleSubmit = (e) => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table } from "../../../Components";
 import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteApproval, getApprovals } from "../../../redux/action/approval";
+import { deleteApproval } from "../../../redux/action/approval";
 import { getApprovalReducer } from "../../../redux/reducer/approval";
 import { rejectRefundApproval } from "../../../redux/action/approval";
 import { createCashbook } from "../../../redux/action/cashbook";
@@ -14,7 +14,7 @@ import EnterPassword from "./EnterPassword";
 import { getRefunds } from "../../../redux/action/refund";
 import { getRefundsReducer } from "../../../redux/reducer/refund";
 
-function RequestApprovals() {
+function RefundApprovals() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
   const { refunds, allRefunds, isFetching, error } = useSelector(state => state.refund);
@@ -145,4 +145,4 @@ function RequestApprovals() {
   );
 }
 
-export default RequestApprovals;
+export default RefundApprovals;

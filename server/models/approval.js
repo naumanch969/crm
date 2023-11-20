@@ -6,7 +6,7 @@ const approvalSchema = Schema({
     description: { type: String, required: true },
     dueDate: { type: Date, required: false },
     type: { type: String, required: true, enum: ['request', 'voucher', 'receipt', 'refund'] },
-    leadId: { type: Schema.Types.ObjectId, ref: 'Lead' },  // for refund
+    leadId: { type: Schema.Types.ObjectId, ref: 'Lead', required: false },  // for refund
     status: { type: String, default: 'underProcess', enum: ['accepted', 'rejected', 'underProcess'] },  // for refund
     data: { type: Object, required: false, default: {} },
     uid: { type: String }

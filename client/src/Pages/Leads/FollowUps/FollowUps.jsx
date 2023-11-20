@@ -1,16 +1,18 @@
 import React from "react";
 import Topbar from "./Topbar";
 import { Table } from "../../../Components";
-import { getFollowUps } from "../../../redux/action/followUp";
+import { getFollowUps, getEmployeeFollowUps } from "../../../redux/action/followUp";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { format } from "timeago.js";
+import moment from "moment";
 
 const FollowUps = () => {
 
   /////////////////////////////////////////// VARIABLES //////////////////////////////////////////// 
-  const { followUps, error, isFetching } = useSelector(state => state.followUp)
+  const { followUps } = useSelector(state => state.followUp)
+  const { loggedUser } = useSelector(state => state.user)
+  console.log(followUps)
   const { leadId } = useParams()
   const dispatch = useDispatch()
 
@@ -20,13 +22,13 @@ const FollowUps = () => {
       headerName: "ID",
       headerClassName: "super-app-theme--header",
       width: 100,
-      renderCell: (params) => <div className="font-primary font-light">{params.row._id}</div>,
+      renderCell: (params) => <div className="font-primary font-light">{params.row.uid}</div>,
     },
     {
       field: "status",
       headerName: "Current Status",
       headerClassName: "super-app-theme--header",
-      width: 300,
+      width: 200,
       renderCell: (params) => <div className="font-primary font-light">{params.row.status}</div>,
     },
     {
@@ -34,44 +36,45 @@ const FollowUps = () => {
       headerName: "Next Follow Up Date",
       headerClassName: "super-app-theme--header",
       width: 200,
-      renderCell: (params) => <div className="font-primary font-light">{params.row.followUpDate}</div>,
+      renderCell: (params) => <div className="font-primary font-light">{moment(params.row?.followUpDate).format("DD-MM-YYYY")}</div>,
     },
     {
       field: "remarks",
       headerName: "Remarks",
       headerClassName: "super-app-theme--header",
-      width: 450,
+      width: 400,
       renderCell: (params) => <div className="font-primary font-light">{params.row.remarks}</div>,
     },
     {
       field: "createdat",
       headerName: "Created At",
       headerClassName: "super-app-theme--header",
-      width: 200,
-      renderCell: (params) => <div className="font-primary font-light">{format(params.row.createdAt)}</div>,
+      width: 180,
+      renderCell: (params) => <div className="font-primary font-light">{moment(params.row?.createdAt).format("DD-MM-YYYY")}</div>,
     },
   ];
 
 
   /////////////////////////////////////////// STATES //////////////////////////////////////////// 
 
-
   /////////////////////////////////////////// USE EFFECTS //////////////////////////////////////////// 
   useEffect(() => {
-    dispatch(getFollowUps(leadId))
+    loggedUser.role == 'employee'
+      ?
+      dispatch(getEmployeeFollowUps(leadId))
+      :
+      dispatch(getFollowUps(leadId))
   }, [])
 
   /////////////////////////////////////////// FUNCTIONS //////////////////////////////////////////// 
 
 
   return (
-    <div>
+    <div className="w-full h-fit bg-inherit flex flex-col">
       <Topbar />
       <Table
         rows={followUps}
         columns={columns}
-        isFetching={isFetching}
-        error={error}
         rowsPerPage={10}
       />
     </div>

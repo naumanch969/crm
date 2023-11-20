@@ -118,13 +118,6 @@ const Clients = () => {
       width: "200",
       renderCell: (params) => <div className="capitalize font-primary">{params.row.username}</div>,
     },
-    // {
-    //   field: "email",
-    //   headerName: "Client Email",
-    //   headerClassName: "super-app-theme--header",
-    //   width: "200",
-    //   renderCell: (params) => <div className="font-primary">{params.row.email}</div>,
-    // },
     {
       field: "phone",
       headerName: "Phone",
@@ -133,11 +126,11 @@ const Clients = () => {
       renderCell: (params) => <div className="font-primary">{params.row.phone}</div>,
     },
     {
-      field: "project",
-      headerName: "Project",
+      field: "email",
+      headerName: "Email",
       headerClassName: "super-app-theme--header",
       width: "220",
-      renderCell: (params) => <div className="font-primary">{params.row.project?.title}</div>,
+      renderCell: (params) => <div className="font-primary">{params.row?.email}</div>,
     },
     {
       field: "action",

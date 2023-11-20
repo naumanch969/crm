@@ -5,7 +5,7 @@ import { createLead, getLeads } from "../../redux/action/lead";
 import Topbar from "./Topbar";
 import { register } from "../../redux/action/user";
 import { CFormSelect } from "@coreui/react";
-import { pakistanCities } from "../../constant";
+import { pakistanCities, countries } from "../../constant";
 import {
   Divider,
   Dialog,
@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { getProjects } from "../../redux/action/project";
+import { getProjectsReducer } from "../../redux/reducer/project";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -32,19 +33,14 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isFetching } = useSelector((state) => state.lead);
-  const { projects } = useSelector((state) => state.project);
-  const projectsTitles = projects.map(({ _id, title }) => ({ _id, title }));
+  const { allProjects } = useSelector((state) => state.project);
+  console.log(allProjects)
   let initialLeadState = {
-    firstName: "",
-    lastName: "",
-    username: "",
-    phone: "",
-    CNIC: "",
-    clientCity: "",
-    email: "",
-    city: "",
+    clientName: "",
+    clientPhone: "",
     priority: "",
-    property: "",
+    project: "",
+    city: "",
     status: "",
     source: "",
     description: "",
@@ -63,7 +59,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     { name: "Contacted Client (Call)", value: "contactedCall" },
     { name: "Followed Up (Email)", value: "followedUpEmail" },
     { name: "Contacted Client (Email)", value: "contactedEmail" },
-    { name: "New<", value: "new" },
+    { name: "New", value: "new" },
     { name: "Meeting (Done)", value: "meetingDone" },
     { name: "Closed (Won)", value: "closedWon" },
     { name: "Meeting (Attempt)", value: "meetingAttempt" },
@@ -92,32 +88,16 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const {
-      firstName,
-      lastName,
-      username,
-      phone,
-      clientCity,
-      city,
+      clientName,
+      clientPhone,
+      country,
       priority,
-      property,
-      status,
+      city,
+      project,
       source,
       description,
     } = leadData;
-    if (
-      !firstName ||
-      !lastName ||
-      !username ||
-      !phone ||
-      !clientCity ||
-      !city ||
-      !priority ||
-      !property ||
-      !status ||
-      !source ||
-      !description
-    )
-      return alert("Make sure to provide all the fields");
+
     dispatch(
       createLead({ ...leadData, count: leadCountsToCreate < 1 ? 1 : leadCountsToCreate }, navigate)
     );
@@ -162,36 +142,13 @@ const CreateLead = ({ setOpen, open, scroll }) => {
             <Divider />
             <table className="mt-4">
               <tr>
-                <td className="pb-4 text-lg">First Name </td>
+                <td className="pb-4 text-lg">Client Name </td>
                 <td className="pb-4">
                   <TextField
+                    name="clientName"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}
-                    value={leadData.firstName}
-                    onChange={(e) => handleChange("firstName", e.target.value)}
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Last Name </td>
-                <td className="pb-4">
-                  <TextField
-                    name="lastName"
-                    value={leadData.lastName}
-                    onChange={(e) => handleChange("lastName", e.target.value)}
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Username </td>
-                <td className="pb-4">
-                  <TextField
-                    name="username"
-                    value={leadData.username}
-                    onChange={(e) => handleChange("username", e.target.value)}
+                    value={leadData.clientName}
+                    onChange={(e) => handleChange("clientName", e.target.value)}
                     size="small"
                     fullWidth
                   />
@@ -201,56 +158,11 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                 <td className="pb-4 text-lg">Phone </td>
                 <td className="pb-4">
                   <TextField
-                    name="phone"
-                    onChange={(e) => handleChange("phone", e.target.value)}
-                    value={leadData.phone}
+                    name="clientPhone"
+                    onChange={(e) => handleChange("clientPhone", e.target.value)}
+                    value={leadData.clientPhone}
                     type="number"
                     size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">CNIC </td>
-                <td className="pb-4">
-                  <TextField
-                    name="CNIC"
-                    onChange={(e) => handleChange("CNIC", e.target.value)}
-                    value={leadData.CNIC}
-                    type="number"
-                    placeholder="Optional"
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Client City </td>
-                <td className="pb-4">
-                  <CFormSelect
-                    value={leadData.clientCity}
-                    onChange={(e) => handleChange("clientCity", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                    <option value="">Select an Option</option>
-
-                    {pakistanCities.map((city, key) => (
-                      <option key={key} value={city}>
-                        {city}
-                      </option>
-                    ))}
-                  </CFormSelect>
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Email </td>
-                <td className="pb-4">
-                  <TextField
-                    type="email"
-                    onChange={(e) => handleChange("email", e.target.value)}
-                    value={leadData.email}
-                    name="email"
-                    size="small"
-                    placeholder="Optional"
                     fullWidth
                   />
                 </td>
@@ -266,6 +178,24 @@ const CreateLead = ({ setOpen, open, scroll }) => {
             <Divider />
             <table className="mt-4">
               <tr>
+                <td className="pb-4 text-lg">Project </td>
+                <td className="pb-4">
+                  <CFormSelect
+                    value={leadData.project}
+                    onChange={(e) => handleChange("project", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select an Option</option>
+                    {
+                      allProjects?.map((item, key) => (
+                        <option key={key} value={item._id}>
+                          {item.title}
+                        </option>
+                      ))
+                    }
+                  </CFormSelect>
+                </td>
+              </tr>
+              <tr>
                 <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
                   <CFormSelect
@@ -273,29 +203,13 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                     onChange={(e) => handleChange("city", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
                     <option value="">Select an Option</option>
-
-                    {pakistanCities.map((city, key) => (
-                      <option key={key} value={city}>
-                        {city}
-                      </option>
-                    ))}
-                  </CFormSelect>
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Project </td>
-                <td className="pb-4">
-                  <CFormSelect
-                    value={leadData.property}
-                    onChange={(e) => handleChange("property", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                    <option value="">Select an Option</option>
-
-                    {projects.map((project, key) => (
-                      <option key={key} value={project._id}>
-                        {project.title}
-                      </option>
-                    ))}
+                    {
+                      pakistanCities?.map((item, key) => (
+                        <option key={key} value={item}>
+                          {item}
+                        </option>
+                      ))
+                    }
                   </CFormSelect>
                 </td>
               </tr>

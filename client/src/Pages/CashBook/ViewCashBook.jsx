@@ -6,72 +6,116 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import React, { useEffect, useState } from "react";
 import { Button, IconButton, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { Table } from '../../Components'
-import { getSpecificDateCashbook } from '../../redux/action/cashbook'
+import { Table } from "../../Components";
+import { getSpecificDateCashbook } from "../../redux/action/cashbook";
 import DeleteModal from "./DeleteModal";
 import Topbar from "./Topbar";
-import { format } from 'timeago.js'
+import { format } from "timeago.js";
+import { PiTrashThin } from "react-icons/pi";
 
 const ViewCashBook = () => {
-
   ////////////////////////////////////// VARIABLES /////////////////////////////////////
-  const dispatch = useDispatch()
-  const { cashbooksIn, cashbooksOut, isFetching, error } = useSelector(state => state.cashbook)
+  const dispatch = useDispatch();
+  const { cashbooksIn, cashbooksOut, isFetching, error } = useSelector((state) => state.cashbook);
 
   const columns = [
-    { field: "_id", headerName: "ID", width: 70 },
-    { field: "clientName", headerName: "Customer Name", width: 140 },
     {
-      field: "createdAt", headerName: "Time", width: 120, renderCell: (params) => (
-        <>{format(params.row.createdAt)}</>
-      )
+      field: "_id",
+      headerName: "ID",
+      width: 70,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => <div className="font-primary font-light">{params.row?._id}</div>,
     },
-    { field: "paymentType", headerName: "Type", width: 120 },
-    { field: "paymentDetail", headerName: "Payment details", width: 250 },
-    { field: "amountPaid", headerName: "Amount In", width: 140 },
-    { field: "branch", headerName: "Branch", width: 190 },
+    {
+      field: "clientName",
+      headerName: "Customer Name",
+      width: 140,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <div className="font-primary font-light">{params.row?.clientName}</div>
+      ),
+    },
+    {
+      field: "createdAt",
+      headerName: "Time",
+      width: 120,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => <>{format(params.row.createdAt)}</>,
+    },
+    {
+      field: "paymentType",
+      headerName: "Type",
+      width: 120,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <div className="font-primary font-light">{params.row?.paymentType}</div>
+      ),
+    },
+    {
+      field: "paymentDetail",
+      headerName: "Payment details",
+      width: 250,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <div className="font-primary font-light">{params.row?.paymentDetails}</div>
+      ),
+    },
+    {
+      field: "amountPaid",
+      headerName: "Amount In",
+      width: 140,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => (
+        <div className="font-primary font-light">{params.row?.amountPaid}</div>
+      ),
+    },
+    {
+      field: "branch",
+      headerName: "Branch",
+      width: 190,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) => <div className="font-primary font-light">{params.row?.branch}</div>,
+    },
     {
       field: "action",
       headerName: "Action",
       width: 100,
+      headerClassName: "super-app-theme--header",
       renderCell: () => (
         <div className="flex gap-[4px] ">
-          <Tooltip placement="top" title="Delete">
-            <IconButton onClick={handleOpenDeleteModal} className="hover:text-red-500">
-              <DeleteOutline />
-            </IconButton>
-          </Tooltip>
+          {
+            loggedUser?.role != 'employee' &&
+            <Tooltip arrow placement="top" title="Delete">
+              <PiTrashThin onClick={() => handleOpenDeleteModal(params.row._id)} className="text-red-500 text-[23px] cursor-pointer" />
+            </Tooltip>
+          }
         </div>
       ),
     },
   ];
 
   ////////////////////////////////////// STATES ///////////////////////////////////////
-  const [openDeleteModal, setOpenDeleteModal] = useState(false)
-  const [cashbookId, setCashbookId] = useState('')
-  const [selectedDate, setSelectedDate] = useState(new Date())
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [cashbookId, setCashbookId] = useState("");
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////////
   useEffect(() => {
-    dispatch(getSpecificDateCashbook(selectedDate))
-  }, [])
+    dispatch(getSpecificDateCashbook(selectedDate));
+  }, []);
 
   ////////////////////////////////////// FUCNTIONS ///////////////////////////////////////
   const handleOpenDeleteModal = (cId) => {
     setOpenDeleteModal(true);
-    setCashbookId(cId)
-  }
+    setCashbookId(cId);
+  };
   const handleGetCashbook = () => {
-    dispatch(getSpecificDateCashbook(selectedDate))
-  }
-
+    dispatch(getSpecificDateCashbook(selectedDate));
+  };
 
   return (
     <div className="w-full h-full">
-
       <DeleteModal open={openDeleteModal} setOpen={setOpenDeleteModal} cashbookId={cashbookId} />
-
-
 
       <Topbar />
 
@@ -85,13 +129,16 @@ const ViewCashBook = () => {
             </LocalizationProvider>
           </div>
           <div className="mt-6 flex justify-center">
-            <Button onClick={handleGetCashbook} className="w-80" variant="contained" color="primary">
+            <Button
+              onClick={handleGetCashbook}
+              className="w-80"
+              variant="contained"
+              color="primary">
               View This Date's CashBook
             </Button>
           </div>
         </div>
       </div>
-
 
       {/* Cashbook Tables */}
       <div className="mt-6">
@@ -121,8 +168,6 @@ const ViewCashBook = () => {
           />
         </div>
       </div>
-
-
     </div>
   );
 };

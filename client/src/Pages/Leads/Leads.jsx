@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
-import { getEmployeeLeads, getLeads } from "../../redux/action/lead";
+import { getEmployeeLeads, getLead, getLeads } from "../../redux/action/lead";
 import EditModal from "./EditModal";
 import DeleteModal from "./DeleteModal";
 import { Tooltip } from "@mui/material";
@@ -22,6 +22,9 @@ import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base
 import Lead from "./Lead";
 import { Link, useNavigate } from "react-router-dom";
 import Attachments from "./Attachments/Attachments";
+import moment from "moment";
+import { getProjectReducer } from "../../redux/reducer/project";
+import { getProject } from "../../redux/action/project";
 
 const blue = {
   100: "#DAECFF",
@@ -98,8 +101,9 @@ function Leads({ type, showSidebar }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { leads, allLeads, isFetching, error } = useSelector((state) => state.lead);
-  const archivedLeads = leads.filter(lead => lead.isArchived)
-  const unarchivedLeads = leads.filter(lead => !lead.isArchived)
+  const { currentProject } = useSelector((state) => state.project);
+  const archivedLeads = leads.filter((lead) => lead.isArchived);
+  const unarchivedLeads = leads.filter((lead) => !lead.isArchived);
   const { loggedUser } = useSelector((state) => state.user);
   const role = loggedUser.role;
   const columns = [
@@ -111,36 +115,34 @@ function Leads({ type, showSidebar }) {
       renderCell: (params) => <div className="font-primary font-light">{params.row?.uid}</div>,
     },
     {
-      field: "client.username",
-      headerName: "Client Username",
+      field: "clientName",
+      headerName: "Client Name",
       headerClassName: "super-app-theme--header",
-      width: 180,
+      width: 140,
       renderCell: (params) => (
         <div
           className={`text-[#20aee3] hover:text-[#007bff] capitalize cursor-pointer font-primary font-light`}
           onClick={() => handleOpenViewModal(params.row?._id)}>
-          {params.row?.client?.username}
+          {params.row?.clientName}
         </div>
       ),
     },
     {
-      field: "client?.phone",
+      field: "clientPhone",
       headerName: "Client Phone",
       headerClassName: "super-app-theme--header",
-      width: 180,
+      width: 150,
       renderCell: (params) => (
-        <div className={`font-primary font-light`}>
-          {params.row?.client?.phone}
-        </div>
+        <div className={`font-primary font-light`}>{params.row?.client?.phone || params.row?.clientPhone }</div>
       ),
     },
     {
       field: "createdAt",
-      headerName: "Date",
-      width: 120,
+      headerName: "Created",
+      width: 110,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <div className="font-primary font-light">{format(params.row?.createdAt)}</div>
+        <div className="font-primary font-light">{moment(params.row?.createdAt).format("DD-MM-YYYY")}</div>
       ),
     },
     {
@@ -156,24 +158,41 @@ function Leads({ type, showSidebar }) {
       field: "status",
       headerName: "Status",
       headerClassName: "super-app-theme--header",
-      width: 200,
+      width: 150,
       renderCell: (params) => (
         <span
-          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize font-primary font-medium ${params.row?.status == "successful" ? "border-green-500 text-green-500" : ""
-            } ${params.row?.status == "remaining" ? "border-sky-400 text-sky-400" : ""} ${params.row?.status == "declined" ? "border-red-400 text-red-400" : ""
-            } ${params.row?.status == "underProcess" ? "border-yellow-500 text-yellow-500" : ""} ${params.row?.status == "unsuccessful" ? "border-orange-500 text-orange-500" : ""
-            }`}>
-          {params.row?.status == "underProcess" && <span>Under Process</span>}
-          {params.row?.status != "underProcess" && <span>{params.row?.status}</span>}
+          className={`border-[1px] px-[8px] py-[4px] rounded-full capitalize font-primary font-medium 
+          ${params.row?.status == "closedWon" ? "border-green-500 text-green-500" : ""} 
+          ${params.row?.status == "closedLost" ? "border-red-400 text-red-400" : ""} 
+          ${params.row?.status == "followedUpCall" ? "border-sky-400 text-sky-400" : ""}
+          ${params.row?.status == "contactedCallAttempt" ? "border-orange-400 text-orange-400" : ""} 
+          ${params.row?.status == "contactedCall" ? "border-yellow-500 text-yellow-500" : ""}
+          ${params.row?.status == "followedUpEmail" ? "border-lime-400 text-lime-500" : ""} 
+          ${params.row?.status == "contactedEmail" ? "border-teal-400 text-teal-500" : ""} 
+          ${params.row?.status == "meetingDone" ? "border-indigo-400 text-indigo-500" : ""}
+          ${params.row?.status == "meetingAttempt" ? "border-pink-400 text-pink-500" : ""}
+          ${params.row?.status == "new" ? "border-rose-700 text-rose-700" : ""}`}>
+          <span>
+            {params.row?.status == "closedWon" ? <div>Closed Won</div> : <div></div>}
+            {params.row?.status == "closedLost" ? <div>Closed Lost</div> : <div></div>}
+            {params.row?.status == "followedUpCall" ? <div>Followed Up Call</div> : <div></div>}
+            {params.row?.status == "contactedCallAttempt" ? <div>Contacted Call Attempt</div> : <div></div>}
+            {params.row?.status == "contactedCall" ? <div>Contacted Call</div> : <div></div>}
+            {params.row?.status == "followedUpEmail" ? <div>Followed Up Email</div> : <div></div>}
+            {params.row?.status == "contactedEmail" ? <div>Contacted Email</div> : <div></div>}
+            {params.row?.status == "meetingDone" ? <div>Meeting Done</div> : <div></div>}
+            {params.row?.status == "meetingAttempt" ? <div>Meeting Attempt</div> : <div></div>}
+            {params.row?.status == "new" ? <div>New</div> : <div></div>}
+          </span>
         </span>
       ),
     },
     {
-      field: "project",
-      headerName: "Project",
-      width: 170,
+      field: "property",
+      headerName: "Property",
+      width: 150,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary font-light">{params.row?.property?.title}</div>,
+      renderCell: (params) => <div className="font-primary font-light capitalize">{params.row?.project}</div>,
     },
     {
       field: "actions",
@@ -182,8 +201,7 @@ function Leads({ type, showSidebar }) {
       width: 160,
       renderCell: (params) => (
         <div className="flex gap-[10px] items-center transition-all">
-          {
-            loggedUser?.role != 'employee' &&
+          {loggedUser?.role != "employee" && (
             <Tooltip placement="top" title="Delete">
               {" "}
               <PiTrashLight
@@ -191,7 +209,7 @@ function Leads({ type, showSidebar }) {
                 className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
               />
             </Tooltip>
-          }
+          )}
           <Tooltip placement="top" title="View">
             <div className="cursor-pointer" onClick={() => handleOpenViewModal(params.row?._id)}>
               <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
@@ -223,7 +241,9 @@ function Leads({ type, showSidebar }) {
                 onClick={() => handleOpenShiftLeadModal(params.row)}>
                 Shift Lead
               </StyledMenuItem>
-              <StyledMenuItem className="text-gray-600 flex font-primary" onClick={() => handleOpenShareLeadModal(params.row)}>
+              <StyledMenuItem
+                className="text-gray-600 flex font-primary"
+                onClick={() => handleOpenShareLeadModal(params.row)}>
                 Share Lead
               </StyledMenuItem>
               <StyledMenuItem
@@ -232,15 +252,9 @@ function Leads({ type, showSidebar }) {
                 Refunds
               </StyledMenuItem>
               <StyledMenuItem
-                onClick={() => navigateToFollowUps(params.row._id)}
+                onClick={() => handleOpenAttachmentModal(params.row._id)}
                 className="text-gray-600 flex font-primary">
-                Follow Ups
-              </StyledMenuItem>
-              <StyledMenuItem onClick={() => handleOpenAttachmentModal(params.row._id)} className="text-gray-600 flex font-primary">
                 Attachments
-              </StyledMenuItem>
-              <StyledMenuItem onClick={() => navigateToLedger(params.row._id)} className="text-gray-600 flex font-primary">
-                Ledger
               </StyledMenuItem>
             </Menu>
           </Dropdown>
@@ -264,7 +278,7 @@ function Leads({ type, showSidebar }) {
   const [openShareLeadModal, setOpenShareLeadModal] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState(null);
-  const [isFiltered, setIsFiltered] = useState(false)
+  const [isFiltered, setIsFiltered] = useState(false);
   const [options, setOptions] = useState({
     isKanbanView: false,
     showEmployeeLeads: false,
@@ -272,14 +286,19 @@ function Leads({ type, showSidebar }) {
   });
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
-    // dispatch(getLeads()); 
-     dispatch(getEmployeeLeads()); // only find my leads (of one who is logged in)
+    loggedUser.role == 'employee'
+      ?
+      dispatch(getEmployeeLeads())
+      :
+      dispatch(getLeads());
   }, []);
+
   useEffect(() => {
     if (!isFiltered) {
-      dispatch(getLeadsReducer(allLeads))
+      dispatch(getLeadsReducer(allLeads));
     }
-  }, [isFiltered])
+  }, [isFiltered]);
+
 
   ////////////////////////////////////// FUNCTION //////////////////////////////
   const handleOpenAttachmentModal = (leadId) => {
@@ -306,10 +325,9 @@ function Leads({ type, showSidebar }) {
     setOpenDeleteModal(true);
     setSelectedLeadId(leadId);
   };
-
   const handleOpenViewModal = (leadId) => {
-    setSelectedLeadId(leadId);
-    setOpenViewModal(true);
+    dispatch(getLeadReducer(leadId));
+    navigate(`/leads/${leadId}`);
   };
   const navigateToRefund = (lead) => {
     if (lead.isAppliedForRefund) {
@@ -319,14 +337,6 @@ function Leads({ type, showSidebar }) {
     }
   };
 
-  const navigateToFollowUps = (leadId) => {
-    navigate(`/leads/followups/${leadId}`);
-  };
-
-  const navigateToLedger = (leadId) => {
-    navigate(`/leads/ledger/${leadId}`);
-  }
-
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
@@ -335,8 +345,11 @@ function Leads({ type, showSidebar }) {
       <ShiftLeadModal open={openShiftLeadModal} setOpen={setOpenShiftLeadModal} />
       <ShareLeadModal open={openShareLeadModal} setOpen={setOpenShareLeadModal} />
       <Filter open={openFilters} setOpen={setOpenFilters} setIsFiltered={setIsFiltered} />
-      <Lead open={openViewModal} setOpen={setOpenViewModal} leadId={selectedLeadId} />
-      <Attachments open={openAttachmentModal} setOpen={setOpenAttachmentModal} leadId={selectedLeadId} />
+      <Attachments
+        open={openAttachmentModal}
+        setOpen={setOpenAttachmentModal}
+        leadId={selectedLeadId}
+      />
 
       <Topbar
         options={options}
@@ -355,7 +368,6 @@ function Leads({ type, showSidebar }) {
             columns={modifiedColumns}
             rowsPerPage={10}
             isFetching={isFetching}
-            error={error}
             showSidebar={showSidebar}
           />
         </CCallout>

@@ -23,7 +23,7 @@ const Employees = memo(() => {
     {
       field: "uid",
       headerName: "ID",
-      width: 70,
+      width: 120,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
@@ -35,11 +35,9 @@ const Employees = memo(() => {
       field: "Employee Name",
       headerName: "Employee Name",
       headerClassName: "super-app-theme--header",
-      width: "200",
+      width: 220,
       renderCell: (params) => (
-        <div
-          className="text-[#20aee3] capitalize cursor-pointer font-primary font-light hover:text-[#007bff]"
-          onClick={() => handleClickOpen()}>
+        <div className="text-[#20aee3] capitalize font-primary font-light">
           {params.row.firstName} {params.row.lastName}
         </div>
       ),
@@ -48,41 +46,29 @@ const Employees = memo(() => {
       field: "username",
       headerName: "Username",
       headerClassName: "super-app-theme--header",
-      width: "170",
+      width: 200,
       renderCell: (params) => (
-        <div className="capitalize font-primary" onClick={() => handleClickOpen()}>
+        <div className="font-primary capitalize">
           {params.row.username}
         </div>
       ),
     },
+
     {
-      field: "city",
-      headerName: "City",
+      field: "email",
+      headerName: "Email",
       headerClassName: "super-app-theme--header",
-      width: "220",
+      width: 200,
       renderCell: (params) => (
-        <div className="font-primary" onClick={() => handleClickOpen()}>
-          {params.row.city}
-        </div>
+        <div className="text-[#20aee3] capitalize font-primary font-light">{params.row.email}</div>
       ),
     },
     {
       field: "phone",
       headerName: "Phone",
       headerClassName: "super-app-theme--header",
-      width: "170",
-      renderCell: (params) => (
-        <div className="font-primary" onClick={() => handleClickOpen()}>
-          {params.row.phone}
-        </div>
-      ),
-    },
-    {
-      field: "salaryType",
-      headerName: "Salary Type",
-      headerClassName: "super-app-theme--header",
       width: 200,
-      renderCell: (params) => <div className="font-primary">{params.row.salaryType}</div>,
+      renderCell: (params) => <div className="font-primary">{params.row.phone}</div>,
     },
     {
       field: "action",
@@ -120,13 +106,15 @@ const Employees = memo(() => {
 
   /////////////////////////////////////// USE EFFECTS ////////////////////////////////////
   useEffect(() => {
-    dispatch(getEmployees());
+    if (employees.length === 0) {
+      dispatch(getEmployees());
+    }
   }, []);
   useEffect(() => {
     if (!isFiltered) {
-      dispatch(getEmployeesReducer(allEmployees))
+      dispatch(getEmployeesReducer(allEmployees));
     }
-  }, [isFiltered])
+  }, [isFiltered]);
 
   /////////////////////////////////////// FUNCTIONS /////////////////////////////////////
   const hanldeOpenViewModal = (taskId) => {
@@ -148,7 +136,12 @@ const Employees = memo(() => {
       <DeleteEmployee open={openDeleteModal} setOpen={setOpenDeleteModal} userId={selectedUserId} />
       <User open={openView} setOpen={setOpenViewk} />
 
-      <Topbar openFilters={openFilters} setOpenFilters={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
+      <Topbar
+        openFilters={openFilters}
+        setOpenFilters={setOpenFilters}
+        isFiltered={isFiltered}
+        setIsFiltered={setIsFiltered}
+      />
 
       <Table
         rows={employees}
