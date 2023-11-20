@@ -45,7 +45,6 @@ export const getEmployeeFollowUpsStats = () => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.getEmployeeFollowUpsStats()
-        cosnole.log('data getFollowUpsSta',data)
         dispatch(getFollowUpsStatsReducer(data.result))
         dispatch(end())
     } catch (err) {

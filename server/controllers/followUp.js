@@ -47,7 +47,7 @@ export const getEmployeeFollowUps = async (req, res, next) => {
         const allFollowUps = await FollowUp.find({ leadId }).populate('leadId');
 
         const employeeFollowUps = allFollowUps.filter((followUp) => followUp.leadId?.allocatedTo?.findIndex(allocatedTo => allocatedTo.toString() == req.user._id.toString()) != -1)
-        
+
         res.status(200).json({ result: employeeFollowUps, message: 'FollowUps retrieved successfully', success: true });
     } catch (err) {
         next(createError(500, err.message));
@@ -108,6 +108,14 @@ export const getEmployeeFollowUpsStats = async (req, res, next) => {
                 }
             },
             {
+                $lookup: {
+                    from: 'projects',
+                    localField: 'followUps.lead.property',
+                    foreignField: '_id',
+                    as: 'followUps.lead.property',
+                },
+            },
+            {
                 $group: {
                     _id: '$date',
                     followUps: { $push: '$followUps' }
@@ -128,7 +136,8 @@ export const getFollowUpsStats = async (req, res, next) => {
             .populate({
                 path: 'leadId',
                 populate: {
-                    path: 'client'
+                    path: 'client',
+                    path: 'property',
                 }
             });
 

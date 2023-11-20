@@ -52,7 +52,7 @@ const AllFollowUpsTable = () => {
 
   const currentDate = new Date();
   const sortedRow = rows
-    .filter((item) => moment(item.date, "DD/MM/YYYY").isSameOrBefore(currentDate, "day")) // Filter out dates greater than current date
+    // .filter((item) => moment(item.date, "DD/MM/YYYY").isSameOrBefore(currentDate, "day")) // Filter out dates greater than current date
     .sort((a, b) => moment(a.date, "DD/MM/YYYY").diff(moment(b.date, "DD/MM/YYYY"))) // Sort by date
     .reverse(); // Reverse the order so that latest date comes first
 
@@ -92,24 +92,24 @@ const AllFollowUpsTable = () => {
       ),
     },
     {
-      field: "leadId?.major",
-      headerName: "Major",
+      field: "leadId?.city",
+      headerName: "City",
       headerClassName: "super-app-theme--header",
       width: 100,
       renderCell: (params) => (
-        <Tooltip title={params.row.leadId?.major} placement="top">
-          <div className="font-primary font-light capitalize">{params.row.leadId?.major}</div>
+        <Tooltip title={params.row.leadId?.city} placement="top">
+          <div className="font-primary font-light capitalize">{params.row.leadId?.city}</div>
         </Tooltip>
       ),
     },
     {
-      field: "leadId?.country",
+      field: "leadId?.property?.title",
       headerName: "Country",
       headerClassName: "super-app-theme--header",
       width: 100,
       renderCell: (params) => (
-        <Tooltip title={params.row.leadId?.country} placement="top">
-          <div className="font-primary font-light capitalize">{params.row.leadId?.country}</div>
+        <Tooltip title={params.row.leadId?.property?.title} placement="top">
+          <div className="font-primary font-light capitalize">{params.row.leadId?.property?.title}</div>
         </Tooltip>
       ),
     },
