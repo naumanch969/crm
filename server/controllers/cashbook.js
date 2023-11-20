@@ -97,6 +97,15 @@ export const getIncomeAndExpenses = async (req, res, next) => {
                 },
             },
             {
+                $project: {
+                    _id: 0,
+                    year: "$_id.year",
+                    month: "$_id.month",
+                    income: 1,
+                    expense: 1,
+                },
+            },
+            {
                 $match: {
                     $or: [
                         { year: requestedYear },
@@ -108,7 +117,6 @@ export const getIncomeAndExpenses = async (req, res, next) => {
                 $sort: { year: 1, month: 1 },
             },
         ];
-
         const result = await Cashbook.aggregate(pipeline);
         const allMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         const mergedArray = allMonths.map(month => {
@@ -120,7 +128,6 @@ export const getIncomeAndExpenses = async (req, res, next) => {
             };
         });
         res.json({ result: mergedArray, message: 'Income and Expense fetched successfully', success: true });
-
     } catch (err) {
         next(createError(500, err.message))
     }
@@ -210,7 +217,7 @@ export const getLeadCashbooks = async (req, res, next) => {
 export const createCashbook = async (req, res, next) => {
     try {
 
-        const { clientName, top, remarks, amount, type, staff,  leadId } = req.body
+        const { clientName, top, remarks, amount, type, staff, leadId } = req.body
         if (!clientName || !top || !remarks || !amount || !type || !staff)
             return next(createError(400, 'Make sure to provide all the fields'))
 

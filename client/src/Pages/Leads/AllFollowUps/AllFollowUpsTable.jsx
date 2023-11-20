@@ -25,7 +25,6 @@ const AllFollowUpsTable = () => {
 
   /////////////////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////////
   useEffect(() => {
-    console.log('in useEffect')
     loggedUser.role == "employee"
       ? dispatch(getEmployeeFollowUpsStats())
       : dispatch(getFollowUpsStats());

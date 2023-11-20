@@ -277,16 +277,7 @@ export const filterLead = async (req, res, next) => {
 
 export const createLead = async (req, res, next) => {
     try {
-        const {
-            username,
-            city, priority, property, status, source, description, count, clientName, clientPhone,
-        } = req.body;
-
-        const foundClient = await User.findOne({ username });
-
-        if (Boolean(foundClient)) {
-            return next(createError(400, 'Username is already exist'));
-        }
+        const {city, priority, property, status, source, description, count, clientName, clientPhone,} = req.body;
 
         const foundLead = await User.findOne({ phone: clientPhone });
 

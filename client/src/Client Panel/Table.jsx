@@ -16,7 +16,6 @@ const Table = () => {
   const dispatch = useDispatch();
   const { leads, isFetching, error } = useSelector((state) => state.lead);
   const { loggedUser } = useSelector((state) => state.user);
-  console.log(leads)
   const phoneNumber = loggedUser?.phone;
 
   const columns = [
@@ -139,7 +138,6 @@ const Table = () => {
 
   //////////////////////////////////////// USEEFFECTS //////////////////////////////////
   useEffect(() => {
-    console.log('phone',phoneNumber)
     dispatch(getLeadByPhone(phoneNumber));
   }, []);
 

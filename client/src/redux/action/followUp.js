@@ -34,7 +34,6 @@ export const getEmployeeFollowUps = (leadId) => async (dispatch) => {
 export const getFollowUpsStats = () => async (dispatch) => {
     try {
         dispatch(start())
-        console.log('te')
         const { data } = await api.getFollowUpsStats()
         cosnole.log('data getFollowUpsStats',data)
         dispatch(getFollowUpsStatsReducer(data.result))
@@ -46,7 +45,6 @@ export const getFollowUpsStats = () => async (dispatch) => {
 export const getEmployeeFollowUpsStats = () => async (dispatch) => {
     try {
         dispatch(start())
-        console.log('there')
         const { data } = await api.getEmployeeFollowUpsStats()
         cosnole.log('data getFollowUpsSta',data)
         dispatch(getFollowUpsStatsReducer(data.result))

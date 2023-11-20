@@ -16,11 +16,13 @@ import EditSociety from "./EditSociety";
 import SocietyFilter from "./SocietyFilter";
 import { Loader } from "../../../utils";
 import { Archive, Unarchive } from "@mui/icons-material";
+import { useLocation } from "react-router-dom";
 
 function Societies() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const descriptionElementRef = React.useRef(null);
   const dispatch = useDispatch();
+  const { pathname } = useLocation()
   const { societies, allSocieties, isFetching, error } = useSelector((state) => state.society);
   const { loggedUser } = useSelector((state) => state.user);
   const columns = [
@@ -135,7 +137,7 @@ function Societies() {
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
     dispatch(getSocieties());
-  }, [options.showArchivedSocieties]);
+  }, [options.showArchivedSocieties, pathname]);
   useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;

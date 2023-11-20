@@ -52,12 +52,14 @@ const CreateInventory = ({ open, setOpen, scroll }) => {
   const [inventoryData, setInventoryData] = useState(InventoryinitialState);
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
-
+ 
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createInventory(inventoryData, navigate));
+    const project = projects.find(p => p.title == inventoryData.project)
+    let inventory = { ...inventoryData, project: project._id }
+    dispatch(createInventory(inventory, navigate));
     dispatch(deleteAllImagesReducer());
     setInventoryData(InventoryinitialState);
     setOpen(false);

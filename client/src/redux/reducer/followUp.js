@@ -16,7 +16,7 @@ const followUpSlice = createSlice({
         error: (state, action) => { state.isFetching = false; state.error = action.payload; },
         getFollowUpReducer: (state, action) => { state.currentFollowUp = action.payload },
         getFollowUpsReducer: (state, action) => { state.followUps = action.payload; state.allFollowUps = action.payload },
-        getFollowUpsStatsReducer: (state, action) => { console.log('action',action.payload); state.followUpsStats = action.payload },
+        getFollowUpsStatsReducer: (state, action) => {  state.followUpsStats = action.payload },
         searchFollowUpReducer: (state, action) => {
             const { allFollowUps } = state;
             const { payload: searchTerm } = action;

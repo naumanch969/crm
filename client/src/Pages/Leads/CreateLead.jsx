@@ -21,6 +21,8 @@ import {
   Checkbox,
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
+import { getProjects } from "../../redux/action/project";
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -31,18 +33,15 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isFetching } = useSelector((state) => state.lead);
+  const { projects } = useSelector((state) => state.project);
   let initialLeadState = {
     clientName: "",
     clientPhone: "",
+    city: "",
+    description: "",
     priority: "",
-    country: "",
-    degree: "",
-    major: "",
-    degreeName: "",
-    visa: "",
     status: "",
     source: "",
-    description: "",
   };
   const priorities = [
     { name: "Very Cold", value: "veryCold" },
@@ -72,18 +71,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     { name: "Google", value: "google" },
     { name: "Referral", value: "referral" },
   ];
-  const degrees = [
-    { name: "Bacholers", value: "bacholers" },
-    { name: "Masters", value: "masters" },
-    { name: "PHD", value: "phd" },
-    { name: "Language", value: "language" },
-    { name: "Diploma", value: "diploma" },
-    { name: "Other", value: "other" },
-  ];
-  const Visa = [
-    { name: "Student Visa", value: "studentVisa" },
-    { name: "Visit Visa", value: "visitVisa" },
-  ];
+ 
 
   //////////////////////////////////////// STATES ////////////////////////////////////
   const [leadData, setLeadData] = useState(initialLeadState);
@@ -91,6 +79,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   const [leadCountsToCreate, setLeadCountsToCreate] = useState(1);
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
+  useEffect(() => {
+    dispatch(getProjects());
+  }, []);
 
   //////////////////////////////////////// FUNCTIONS //////////////////////////////////
   const handleSubmit = (e) => {
@@ -98,12 +89,9 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     const {
       clientName,
       clientPhone,
-      country,
+      city,
       priority,
       status,
-      degree,
-      major,
-      visa,
       source,
       description,
     } = leadData;
@@ -188,76 +176,33 @@ const CreateLead = ({ setOpen, open, scroll }) => {
             <Divider />
             <table className="mt-4">
               <tr>
-                <td className="pb-4 text-lg">Country </td>
+                <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={leadData.country}
-                    onChange={(e) => handleChange("country", e.target.value)}
+                    value={leadData.city}
+                    onChange={(e) => handleChange("city", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
                     <option value="">Select an Option</option>
-                    {countries.map((country, key) => (
-                      <option key={key} value={country.name}>
-                        {country.name}
+
+                    {pakistanCities.map((city, key) => (
+                      <option key={key} value={city}>
+                        {city}
                       </option>
                     ))}
                   </CFormSelect>
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Degree </td>
+                <td className="pb-4 text-lg">Project </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={leadData.degree}
-                    onChange={(e) => handleChange("degree", e.target.value)}
+                    value={leadData.property}
+                    onChange={(e) => handleChange("property", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
                     <option value="">Select an Option</option>
-                    {degrees.map((degree, key) => (
-                      <option key={key} value={degree.value}>
-                        {degree.name}
-                      </option>
-                    ))}
-                  </CFormSelect>
-                </td>
-              </tr>
-              {leadData.degree == "other" && (
-                <tr>
-                  <td className="pb-4 text-lg">Degree Name </td>
-                  <td className="pb-4">
-                    <TextField
-                      onChange={(e) => handleChange("degreeName", e.target.value)}
-                      value={leadData.degreeName}
-                      name="degreeName"
-                      type="text"
-                      size="small"
-                      fullWidth
-                    />
-                  </td>
-                </tr>
-              )}
-              <tr>
-                <td className="pb-4 text-lg">Major </td>
-                <td className="pb-4">
-                  <TextField
-                    name="major"
-                    style={{ fontFamily: "'Montserrat', sans-serif" }}
-                    value={leadData.major}
-                    onChange={(e) => handleChange("major", e.target.value)}
-                    size="small"
-                    fullWidth
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="pb-4 text-lg">Visa </td>
-                <td className="pb-4">
-                  <CFormSelect
-                    value={leadData.visa}
-                    onChange={(e) => handleChange("visa", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                    <option value="">Select an Option</option>
-                    {Visa.map((index, key) => (
-                      <option key={key} value={index.value}>
-                        {index.name}
+                    {projects.map((project, key) => (
+                      <option key={key} value={project._id}>
+                        {project.title}
                       </option>
                     ))}
                   </CFormSelect>

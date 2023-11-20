@@ -1,7 +1,7 @@
-// export const baseURL = 'http://localhost:4000/api/v1'
-export const baseURL = 'https://student-consultant-crm.glitch.me/api/v1'
-// export const rootURL = 'http://localhost:4000'
-export const rootURL = 'https://student-consultant-crm.glitch.me'
+export const baseURL = 'http://localhost:4000/api/v1'
+// export const baseURL = 'https://student-consultant-crm.glitch.me/api/v1'
+export const rootURL = 'http://localhost:4000'
+// export const rootURL = 'https://student-consultant-crm.glitch.me'
 export const pakistanCities = [
   "Abbottabad",
   "Adilpur",
