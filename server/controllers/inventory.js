@@ -20,7 +20,6 @@ export const getInventory = async (req, res, next) => {
 export const getInventories = async (req, res, next) => {
     try {
 
-
         const findedInventory = await Inventory.find({ isArchived: false }).populate('project').exec()
         res.status(200).json({ result: findedInventory, message: 'inventories fetched successfully', success: true })
 

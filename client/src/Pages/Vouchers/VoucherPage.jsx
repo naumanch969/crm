@@ -10,9 +10,7 @@ const VoucherPage = ({ }) => {
 
   ////////////////////////////////////// VARIABLES ///////////////////////////////////
   const { state } = useLocation()
-  console.log('state', state)
   const voucher = state?.voucher
-  console.log('voucher', voucher)
   const navigate = useNavigate()
   const pdfRef = useRef()
 

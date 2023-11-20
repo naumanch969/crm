@@ -101,8 +101,6 @@ const App = () => {
                   <Route path="/leads/refund/:leadId" element={<LeadRefunds />} />
                   <Route path="/tasks" element={<Tasks />} />
                   <Route path="/employees" element={<Employees />} />
-                  <Route path="/societies" element={<Employees />} />
-                  <Route path="/projects" element={<Employees />} />
                   <Route path="/inventories" element={<Inventories />} />
                   <Route path="/societies" element={<Societies />} />
                   <Route path="/projects" element={<Projects />} />

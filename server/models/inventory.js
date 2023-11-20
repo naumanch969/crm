@@ -9,7 +9,7 @@ const inventorySchema = Schema({
     sellerCity: { type: String, required: true },
     project: { type: Schema.Types.ObjectId, ref: 'Project' },
     propertyStreetNumber: { type: String, required: true },
-    propertyNumber: { type: Number, required: true },       // Plot/Shop/Appartment Number
+    propertyNumber: { type: String, required: true },       // Plot/Shop/Appartment Number
     price: { type: String, required: true },
     remarks: { type: String },
     status: { type: String, default: 'unsold', enum: ['sold', 'unsold', 'underProcess'] },

@@ -9,13 +9,13 @@ import { Tooltip } from "@mui/material";
 import { IoOpenOutline } from "react-icons/io5";
 import { getLeadReducer } from "../../../redux/reducer/lead";
 import { useNavigate } from "react-router-dom";
+import { Loader } from "../../../utils";
 
 const AllFollowUpsTable = () => {
   /////////////////////////////////////////////////// VARIABLES ////////////////////////////////////////////////
   const dispatch = useDispatch();
   const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const { followUpsStats } = useSelector((state) => state.followUp);
-  cosnole.log('followUpsStats',followUpsStats)
+  const { followUpsStats, isFetching } = useSelector((state) => state.followUp);
   const { loggedUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
@@ -25,7 +25,6 @@ const AllFollowUpsTable = () => {
 
   /////////////////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////////
   useEffect(() => {
-    console.log('in useEffect')
     loggedUser.role == "employee"
       ? dispatch(getEmployeeFollowUpsStats())
       : dispatch(getFollowUpsStats());
@@ -44,14 +43,12 @@ const AllFollowUpsTable = () => {
   const rows = followUpsStats?.map((stat) => {
     const dateParts = stat.date.split("/");
     const year = parseInt(dateParts[2]);
-    const month = parseInt(dateParts[0]) - 1; // Months in JavaScript are zero-based
-    const day = parseInt(dateParts[1]);
+    const month = parseInt(dateParts[1]) - 1; // Months in JavaScript are zero-based
+    const day = parseInt(dateParts[0]);
     const date = new Date(year, month, day);
 
     return createData(stat.date, DAYS[date.getDay()], stat.followUps);
   });
-
-  console.log('rows',rows)
 
   const currentDate = new Date();
   const sortedRow = rows
@@ -59,8 +56,10 @@ const AllFollowUpsTable = () => {
     .sort((a, b) => moment(a.date, "DD/MM/YYYY").diff(moment(b.date, "DD/MM/YYYY"))) // Sort by date
     .reverse(); // Reverse the order so that latest date comes first
 
-    console.log('this')
-  console.log('sortedRow',sortedRow);
+  // const sortedRow = rows
+  // .filter(item => new Date(item.date) <= currentDate) // Filter out dates greater than current date
+  // .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by date
+  // .reverse()  // Reverse the order so that latest date comes first
 
   const columns = [
     {
@@ -82,23 +81,13 @@ const AllFollowUpsTable = () => {
       ),
     },
     {
-      field: "leadId?.degree",
-      headerName: "Degree",
+      field: "leadId?.property",
+      headerName: "Project",
       headerClassName: "super-app-theme--header",
-      width: 100,
+      width: 130,
       renderCell: (params) => (
-        <Tooltip
-          title={
-            params.row.leadId?.degree == "other"
-              ? params.row.leadId?.degreeName
-              : params.row.leadId?.degree
-          }
-          placement="top">
-          <div className="font-primary font-light capitalize">
-            {params.row.leadId?.degree == "other"
-              ? params.row.leadId?.degreeName
-              : params.row.leadId?.degree}
-          </div>
+        <Tooltip title={params.row?.leadId?.project?.title} placement="top">
+          <div className="font-primary font-light capitalize">{params.row?.leadId?.property}</div>
         </Tooltip>
       ),
     },
@@ -176,7 +165,9 @@ const AllFollowUpsTable = () => {
       renderCell: (params) => (
         <div>
           <Tooltip placement="top" title="View">
-            <div className="cursor-pointer" onClick={() => handleOpenViewModal(params.row?.leadId?._id)}>
+            <div
+              className="cursor-pointer"
+              onClick={() => handleOpenViewModal(params.row?.leadId?._id)}>
               <IoOpenOutline className="cursor-pointer text-orange-500 text-[23px] hover:text-orange-400" />
             </div>
           </Tooltip>
@@ -192,14 +183,22 @@ const AllFollowUpsTable = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {sortedRow.map((row) => (
-        <div className="flex flex-col gap-2 ">
-          <h2 className="text-primary-red text-[24px] capitalize font-light">
-            {row.date} {row.day}
-          </h2>
-          <Table rows={row.followUps} columns={columns} rowsPerPage={10} />
+      {isFetching ? (
+        <div className="w-full h-[11rem] flex justify-center items-center ">
+          <Loader />
         </div>
-      ))}
+      ) : (
+        <>
+          {sortedRow.map((row) => (
+            <div className="flex flex-col gap-2 ">
+              <h2 className="text-primary-red text-[24px] capitalize font-light">
+                {row.date} {row.day}
+              </h2>
+              <Table rows={row.followUps} columns={columns} rowsPerPage={10} />
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 };

@@ -8,7 +8,6 @@ const ViewAttachments = ({ open, setOpen, leadId }) => {
   ////////////////////////////////////// VARIABLES ///////////////////////////////////////
   const dispatch = useDispatch();
   const { currentLead, isFetching } = useSelector((state) => state.lead);
-  console.log(currentLead);
 
   ////////////////////////////////////// USE EFFECTS ///////////////////////////////////////
   useEffect(() => {

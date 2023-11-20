@@ -32,7 +32,6 @@ const ResetPassword = () => {
     navigate("/auth/login");
   };
 
-  console.log(OTP)
 
   return (
     <div className="font-primary">

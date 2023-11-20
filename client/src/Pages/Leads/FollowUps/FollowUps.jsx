@@ -10,9 +10,8 @@ import moment from "moment";
 const FollowUps = () => {
 
   /////////////////////////////////////////// VARIABLES //////////////////////////////////////////// 
-  const { followUps } = useSelector(state => state.followUp)
+  const { followUps, isFetching } = useSelector(state => state.followUp)
   const { loggedUser } = useSelector(state => state.user)
-  console.log(followUps)
   const { leadId } = useParams()
   const dispatch = useDispatch()
 
@@ -74,6 +73,7 @@ const FollowUps = () => {
       <Topbar />
       <Table
         rows={followUps}
+        isFetching={isFetching}
         columns={columns}
         rowsPerPage={10}
       />

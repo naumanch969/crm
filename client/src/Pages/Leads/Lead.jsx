@@ -11,7 +11,7 @@ import Paper from "@mui/material/Paper";
 import { Divider, Dialog, DialogContent, DialogTitle, Slide, Tooltip } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { Loader } from "../../utils";
-import moment  from "moment";
+import moment from "moment";
 import FollowUps from "./FollowUps/FollowUps";
 import Ledger from "./Ledger/Ledger";
 
@@ -41,66 +41,66 @@ const Lead = () => {
         </div>
       )}
 
-    {!isFetching && (
-        
-      <div className="bg-white rounded-lg w-full p-4 my-4">
-        <div>
-          <div className="text-[20px] text-primary-red">Client Details</div>
-          <div className="my-2">
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Name</TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Phone</TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>CNIC</TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>City</TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Email</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.clientName} arrow>{currentLead?.clientName}</Tooltip></TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.clientPhone} arrow>{currentLead?.clientPhone}</Tooltip></TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.client?.CNIC} arrow>{currentLead?.client?.CNIC}</Tooltip></TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.client?.city} arrow>{currentLead?.client?.city}</Tooltip></TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.client?.email} arrow>{currentLead?.client?.email}</Tooltip></TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-        </div>
+      {!isFetching && (
 
-        <div>
-          <div className="text-[20px] text-primary-red mt-10">Lead Details</div>
-          <div className="my-2">
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Country</TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Degree</TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Major</TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Visa</TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Created</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip className="capitalize" title={currentLead?.country} arrow>{currentLead?.country}</Tooltip></TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.degree == 'other' ? currentLead?.degreeName : currentLead?.degree} arrow>{currentLead?.degree == 'other' ? currentLead?.degreeName : currentLead?.degree}</Tooltip></TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.major} arrow>{currentLead?.major}</Tooltip></TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.visa} arrow>{currentLead?.visa}</Tooltip></TableCell>
-                    <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={date} arrow>{date}</Tooltip></TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
+        <div className="bg-white rounded-lg w-full p-4 my-4">
+          <div>
+            <div className="text-[20px] text-primary-red">Client Details</div>
+            <div className="my-2">
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Name</TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Phone</TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>CNIC</TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>City</TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Email</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.clientName} arrow>{currentLead?.clientName}</Tooltip></TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.clientPhone} arrow>{currentLead?.clientPhone}</Tooltip></TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.client?.CNIC} arrow>{currentLead?.client?.CNIC}</Tooltip></TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.client?.city} arrow>{currentLead?.client?.city}</Tooltip></TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.client?.email} arrow>{currentLead?.client?.email}</Tooltip></TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+          </div>
+
+          <div>
+            <div className="text-[20px] text-primary-red mt-10">Lead Details</div>
+            <div className="my-2">
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Client Name</TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Client Phone</TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Property</TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>City</TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", color: 'rgb(32 174 227)', fontSize: '16px' }}>Created</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.clientName} arrow>{currentLead?.clientName}</Tooltip></TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.clientPhone} arrow>{currentLead?.clientPhone}</Tooltip></TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={currentLead?.visa} arrow>{currentLead?.property?.title}</Tooltip></TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip className="capitalize" title={currentLead?.city} arrow>{currentLead?.city}</Tooltip></TableCell>
+                      <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}><Tooltip title={date} arrow>{date}</Tooltip></TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
 
       <div className="p-4 bg-white w-full">
         <FollowUps />

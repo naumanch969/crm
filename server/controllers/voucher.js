@@ -35,13 +35,14 @@ export const getEmployeeVouchers = async (req, res, next) => {
         next(createError(500, err.message));
     }
 }
-
 export const createVoucher = async (req, res, next) => {
     try {
 
-        const { visa, degree, degreeName, major, issuingDate, dueDate, clientName, CNIC, phone, type, total, paid, country, remained, note } = req.body
+        const { branch, propertyType, area, project, issuingDate, dueDate, clientName, CNIC, phone, type, total, paid, } = req.body
+        if (!branch || !propertyType || !area || !project, !issuingDate || !issuingDate || !dueDate || !clientName || !phone || !type || !total || !paid)
+            return next(createError(400, 'Make sure to provide all thee fields.'))
 
-        const newVoucher = await Voucher.create({ allocatedTo: req.user?._id, major, visa, degree, degreeName, issuingDate, dueDate, clientName, country, CNIC, phone, type, total, paid, remained, note })
+        const newVoucher = await Voucher.create({ branch, propertyType, area, project, issuingDate, dueDate, clientName, CNIC, phone, type, total, paid, remained: total - paid, })
         res.status(200).json({ result: newVoucher, message: 'voucher created successfully', success: true })
 
     } catch (err) {
@@ -52,9 +53,9 @@ export const createVoucher = async (req, res, next) => {
 export const updateVoucher = async (req, res, next) => {
     try {
 
-        const { issuingDate, dueDate, clientName, CNIC, phone, type, total, paid, remained, degreeName, country, note } = req.body
+        const { branch, issuingDate, dueDate, clientName, CNIC, phone, type, total, paid, remained, } = req.body
 
-        const newVoucher = await Voucher.create({ issuingDate, dueDate, clientName, CNIC, phone, type, total, paid, remained, degreeName, country, note })
+        const newVoucher = await Voucher.create({ branch, issuingDate, dueDate, clientName, CNIC, phone, type, total, paid, remained, })
         res.status(200).json({ result: newVoucher, message: 'voucher created successfully', success: true })
 
     } catch (err) {

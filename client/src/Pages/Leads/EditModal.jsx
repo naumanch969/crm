@@ -129,7 +129,6 @@ const EditModal = ({ open, setOpen, scroll, leadId }) => {
     setOpen(false);
   };
 
-  console.log(currentLead);
 
   return (
     <div>

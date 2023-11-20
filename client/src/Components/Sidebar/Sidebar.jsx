@@ -256,7 +256,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             {!showSidebar ? (
               ""
             ) : (
-              <img className="h-[40px]" src="/background/A-consultant-logo.png" />
+              <img className="w-[100px]" src="/images/adotmarketinglogo.png" />
             )}
           </div>
         </a>

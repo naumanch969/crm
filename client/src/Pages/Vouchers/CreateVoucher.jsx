@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 // import pdfFonts from "pdfmake/build/vfs_fonts";
 import { createVoucher } from "../../redux/action/voucher";
 import { getClients } from "../../redux/action/user";
+import { getProjects } from "../../redux/action/project";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -27,6 +28,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
   ////////////////////////////////////// VARIBALES ///////////////////////////////////
   const { isFetching } = useSelector(state => state.voucher)
+  const { projects } = useSelector(state => state.project)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const initialVoucherState = {
@@ -54,6 +56,7 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
   ////////////////////////////////////// Use Effects ///////////////////////////////////////////
   useEffect(() => {
     dispatch(getClients());
+    dispatch(getProjects());
   }, [open]);
 
   ////////////////////////////////////// FUNCTIONS ////////////////////////////////////////
@@ -96,7 +99,7 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
     // )
     //   return alert("Make sure to provide all the fields");
 
-   
+
     dispatch(createVoucher(voucherData, setOpen));
   };
 
@@ -115,8 +118,8 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
   ];
 
   const handleRemainingAmount = () => {
-    const [number1, postfix1] =  voucherData.total.split(" ");
-    const [number2, postfix2] =  voucherData.paid.split(" ");
+    const [number1, postfix1] = voucherData.total.split(" ");
+    const [number2, postfix2] = voucherData.paid.split(" ");
     const total = parseInt(number1);
     const paid = parseInt(number2);
     const remained = total - paid;
@@ -214,80 +217,64 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Country </td>
+                <td className="pb-4 text-lg">Project </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={voucherData.country}
+                    value={voucherData.project}
+                    onChange={(e) => { handleChange("project", e.target.value) }}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                    onChange={(e) => {
-                      handleChange("country", e.target.value);
-                    }}>
+                  >
                     <option value={""}>None</option>
-                    {countries.map((project, key) => (
-                      <option key={key} value={project.name}>
-                        {project.name}
+                    {projects.map((project, key) => (
+                      <option key={key} value={project._id}>
+                        {project.title}
                       </option>
                     ))}
                   </CFormSelect>
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Degree </td>
-                <td className="pb-4">
-                  <CFormSelect
-                    value={voucherData.degree}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
-                    onChange={(e) => {
-                      handleChange("degree", e.target.value);
-                    }}>
-                    <option value={""}>None</option>
-                    {degrees.map((project, key) => (
-                      <option key={key} value={project.value}>
-                        {project.name}
-                      </option>
-                    ))}
-                  </CFormSelect>
-                </td>
-              </tr>
-              {voucherData.degree === "other" && (
-                <tr>
-                  <td className="pb-4 text-lg">Degree Name </td>
-                  <td className="pb-4">
-                    <TextField
-                      name="degreeName"
-                      value={voucherData.degreeName}
-                      onChange={(e) => handleChange("degreeName", e.target.value)}
-                      size="small"
-                      type="text"
-                      fullWidth
-                    />
-                  </td>
-                </tr>
-              )}
-              <tr>
-                <td className="pb-4 text-lg">Major </td>
+                <td className="pb-4 text-lg">Area </td>
                 <td className="pb-4">
                   <TextField
-                    name="major"
-                    value={voucherData.major}
-                    onChange={(e) => handleChange("major", e.target.value)}
+                    name="Area"
+                    value={voucherData.area}
+                    onChange={(e) => handleChange("area", e.target.value)}
                     size="small"
-                    type="text"
+                    type="number"
                     fullWidth
+                    placeholder="Area in Marla"
                   />
                 </td>
               </tr>
               <tr>
-                <td className="pb-4 text-lg">Visa </td>
+                <td className="pb-4 text-lg">Branch </td>
+                <td className="pb-4">
+                  <TextField
+                    name="branch"
+                    value={voucherData.branch}
+                    onChange={(e) => handleChange("branch", e.target.value)}
+                    size="small"
+                    type="text"
+                    fullWidth
+                    placeholder="Branch"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Porperty Type </td>
                 <td className="pb-4">
                   <CFormSelect
-                    value={voucherData.visa}
-                    onChange={(e) => handleChange("visa", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    value={voucherData.propertyType}
+                    onChange={(e) => handleChange("propertyType", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black"
+                  >
                     <option value={""}>None</option>
-                    <option value="studentVisa">Student Visa</option>
-                    <option value="VisitVisa">Visit Visa</option>
-                    <option value="WorkVisa">Work Visa</option>
+                    <option value={"residential"}>Residential</option>
+                    <option value={"commercial"}>Commercial</option>
+                    <option value={"industrial"}>Industrial</option>
+                    <option value={"agricultural"}>Agricultural</option>
+                    <option value={"other"}>Other</option>
                   </CFormSelect>
                 </td>
               </tr>

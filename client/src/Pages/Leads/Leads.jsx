@@ -192,7 +192,7 @@ function Leads({ type, showSidebar }) {
       headerName: "Property",
       width: 150,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => <div className="font-primary font-light capitalize">{params.row?.project}</div>,
+      renderCell: (params) => <div className="font-primary font-light capitalize">{params.row?.project || params.row?.property}</div>,
     },
     {
       field: "actions",

@@ -22,7 +22,6 @@ import {
 } from "@mui/material";
 import { PiNotepad, PiUser, PiXLight } from "react-icons/pi";
 import { getProjects } from "../../redux/action/project";
-import { getProjectsReducer } from "../../redux/reducer/project";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -33,17 +32,16 @@ const CreateLead = ({ setOpen, open, scroll }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isFetching } = useSelector((state) => state.lead);
-  const { allProjects } = useSelector((state) => state.project);
-  console.log(allProjects)
+  const { projects } = useSelector((state) => state.project);
   let initialLeadState = {
     clientName: "",
     clientPhone: "",
-    priority: "",
-    project: "",
     city: "",
+    description: "",
+    property: "",
+    priority: "",
     status: "",
     source: "",
-    description: "",
   };
   const priorities = [
     { name: "Very Cold", value: "veryCold" },
@@ -73,6 +71,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     { name: "Google", value: "google" },
     { name: "Referral", value: "referral" },
   ];
+ 
 
   //////////////////////////////////////// STATES ////////////////////////////////////
   const [leadData, setLeadData] = useState(initialLeadState);
@@ -90,11 +89,11 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     const {
       clientName,
       clientPhone,
-      country,
-      priority,
       city,
-      project,
+      priority,
+      status,
       source,
+      property,
       description,
     } = leadData;
 
@@ -178,24 +177,6 @@ const CreateLead = ({ setOpen, open, scroll }) => {
             <Divider />
             <table className="mt-4">
               <tr>
-                <td className="pb-4 text-lg">Project </td>
-                <td className="pb-4">
-                  <CFormSelect
-                    value={leadData.project}
-                    onChange={(e) => handleChange("project", e.target.value)}
-                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
-                    <option value="">Select an Option</option>
-                    {
-                      allProjects?.map((item, key) => (
-                        <option key={key} value={item._id}>
-                          {item.title}
-                        </option>
-                      ))
-                    }
-                  </CFormSelect>
-                </td>
-              </tr>
-              <tr>
                 <td className="pb-4 text-lg">City </td>
                 <td className="pb-4">
                   <CFormSelect
@@ -203,13 +184,28 @@ const CreateLead = ({ setOpen, open, scroll }) => {
                     onChange={(e) => handleChange("city", e.target.value)}
                     className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
                     <option value="">Select an Option</option>
-                    {
-                      pakistanCities?.map((item, key) => (
-                        <option key={key} value={item}>
-                          {item}
-                        </option>
-                      ))
-                    }
+
+                    {pakistanCities.map((city, key) => (
+                      <option key={key} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </CFormSelect>
+                </td>
+              </tr>
+              <tr>
+                <td className="pb-4 text-lg">Project </td>
+                <td className="pb-4">
+                  <CFormSelect
+                    value={leadData.property}
+                    onChange={(e) => handleChange("property", e.target.value)}
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select an Option</option>
+                    {projects.map((project, key) => (
+                      <option key={project?._id} value={project?._id}>
+                        {project?.title}
+                      </option>
+                    ))}
                   </CFormSelect>
                 </td>
               </tr>

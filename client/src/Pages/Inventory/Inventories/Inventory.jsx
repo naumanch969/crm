@@ -95,7 +95,6 @@ function Inventory() {
   const dispatch = useDispatch();
   const { inventories, allInventories, isFetching, error } = useSelector((state) => state.inventory);
   const { loggedUser } = useSelector(state => state.user)
-  console.log(inventories)
   const columns = [
     {
       field: "uid",
@@ -148,7 +147,7 @@ function Inventory() {
       width: 180,
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize">{console.log(params.row.project?.title)}</span>
+          <span className="font-primary capitalize">{params.row.project?.title}</span>
         </Tooltip>
       ),
     },
