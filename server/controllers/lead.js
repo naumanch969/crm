@@ -3,6 +3,7 @@ import User from '../models/user.js';
 import Project from '../models/project.js';
 import { createError, isValidDate } from '../utils/error.js';
 import projectModel from '../models/project.js';
+import userModel from '../models/user.js';
 
 export const getLead = async (req, res, next) => {
     try {

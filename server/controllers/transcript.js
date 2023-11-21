@@ -30,9 +30,9 @@ export const getTranscripts = async (req, res, next) => {
 export const createtranscript = async (req, res, next) => {
     try {
 
-        const { employeeName, designation, phone, salaryMonth, totalSalary, lateArrivals, halfDays, dayOffs, netSalary } = req.body
+        const { employeeName, designation, phone, salaryMonth, totalSalary, lateArrivals, halfDays, dayOffs, netSalary, amountPerDayOff } = req.body
         
-        const newTranscript = new Transript({  employeeName, designation, phone, salaryMonth, totalSalary, lateArrivals, halfDays, dayOffs, netSalary  })
+        const newTranscript = new Transript({  employeeName, designation, phone, salaryMonth, totalSalary, lateArrivals, halfDays, dayOffs, netSalary, amountPerDayOff  })
         await newTranscript.save()
 
         res.status(200).json({ result: newTranscript, message: 'Transcript created successfully', success: true })
@@ -46,9 +46,9 @@ export const updateTranscript = async (req, res, next) => {
     try {
 
         const { TransriptId } = req.params
-        const { employeeName, designation, phone, salaryMonth, totalSalary, lateArrivals, halfDays, dayOffs, netSalary } = req.body
+        const { employeeName, designation, phone, salaryMonth, totalSalary, lateArrivals, halfDays, dayOffs, netSalary, amountPerDayOff } = req.body
         
-        const updatedTranscript = await Transript.findByIdAndUpdate(TransriptId, { employeeName, designation, phone, salaryMonth, totalSalary, lateArrivals, halfDays, dayOffs, netSalary }, { new: true })
+        const updatedTranscript = await Transript.findByIdAndUpdate(TransriptId, { employeeName, designation, phone, salaryMonth, totalSalary, amountPerDayOff, lateArrivals, halfDays, dayOffs, netSalary }, { new: true })
         res.status(200).json({ result: updatedTranscript, message: 'Transcript updated successfully', success: true })
 
     } catch (err) {

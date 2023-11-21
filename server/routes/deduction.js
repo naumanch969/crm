@@ -9,7 +9,7 @@ router.get('/get/single/:deductionId', verifyToken, verifyEmployee, getDeduction
 router.get('/get/all', verifyToken, verifySuperAdmin, getDeductions, verifyManager)
 
 // POST
-router.post('/create', verifyToken, verifyManager, verifySuperAdmin, createDeduction)
+router.post('/create', createDeduction)
 
 // PUT
 router.put('/update/:deductionId', verifyToken, verifyManager, verifySuperAdmin, updateDeduction)

@@ -105,13 +105,19 @@ export const acceptVoucherApproval = async (req, res, next) => {
 
         const { approvalId } = req.params;
         const { password } = req.body;
+        const { adminID } = req.query;
+
+        console.log(adminID)
 
         const approval = await Approval.findById(approvalId)
+        console.log(approval)
 
         const admin = await User.findById(req.user._id)
+        console.log(admin)
         const inputPassword = password;
         const savedPassword = admin?.password
         const isPasswordCorrect = await bcrypt.compare(inputPassword, savedPassword)
+
         if (!isPasswordCorrect) return next(createError(401, 'Incorrect Password'))
 
         const voucher = await Voucher.findOne({ uid: approval.data.uid })
@@ -231,7 +237,6 @@ export const updateRefundApproval = async (req, res, next) => {
         next(createError(500, err.message))
     }
 }
-
 
 export const deleteApproval = async (req, res, next) => {
     try {

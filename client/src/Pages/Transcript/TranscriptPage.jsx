@@ -92,7 +92,7 @@ const TranscriptPage = ({ }) => {
           </tr>
           <tr className="border-b-[1px] border-gray-700 px-10 pt-2 flex justify-between ">
             <td className="text-lg pb-4">Day Offs</td>
-            <td className="text-lg pb-4">-{currentTranscript?.dayOffs * deductions[0]?.dayOffs}</td>
+            <td className="text-lg pb-4">-{currentTranscript?.dayOffs * currentTranscript?.amountPerDayOff}</td>
           </tr>
           <tr className="border-b-[1px] border-gray-700 px-10 pt-9 flex justify-between pb-4"></tr>
           <tr className="border-b-[1px] border-gray-700 px-10 pt-2 flex justify-between">

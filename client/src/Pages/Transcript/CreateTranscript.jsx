@@ -35,6 +35,7 @@ const CreateTranscript = ({ open, setOpen, scroll }) => {
     lateArrivals: "",
     halfDays: "",
     dayOffs: "",
+    amountPerDayOff: deductions[0]?.dayOffs,
     netSalary: "",
   };
 
@@ -213,17 +214,25 @@ const CreateTranscript = ({ open, setOpen, scroll }) => {
               </tr>
               <tr>
                 <td className="pb-4 text-lg">Day Offs </td>
-                <td className="pb-4">
+                <td className="pb-4 flex items-center gap-4">
                   <TextField
                     onChange={(e) => handleChange("dayOffs", e.target.value)}
                     value={transcriptData.dayOffs}
+                    placeholder="Number of Day Offs"
                     name="dayOffs"
                     size="small"
                     type="number"
                     fullWidth
-                    InputProps={{
-                      endAdornment: <div style={{ marginRight: 8, opacity: 0.5 }}>X&nbsp;{deductions[0]?.dayOffs}</div>,
-                    }}
+                  />
+                  <div>X</div>
+                  <TextField
+                    onChange={(e) => handleChange("amountPerDayOff", e.target.value)}
+                    value={transcriptData.amountPerDayOff}
+                    placeholder="Amount Per Day Off"
+                    name="amountPerDayOff"
+                    size="small"
+                    type="number"
+                    fullWidth
                   />
                 </td>
               </tr>
@@ -237,7 +246,7 @@ const CreateTranscript = ({ open, setOpen, scroll }) => {
                         transcriptData.totalSalary -
                         transcriptData.lateArrivals * deductions[0]?.lateArrivals -
                         transcriptData.halfDays * deductions[0]?.halfDays -
-                        transcriptData.dayOffs * deductions[0]?.dayOffs)
+                        transcriptData.dayOffs * transcriptData.amountPerDayOff)
                     }
                     name="netSalary"
                     size="small"

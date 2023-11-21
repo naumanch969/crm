@@ -11,7 +11,6 @@ const userSchema = Schema({
     CNIC: { type: String, required: false },
     email: { type: String, required: false, default: '' },
     role: { type: String, required: true, default: 'client', enum: ['client', 'employee', 'manager', 'super_admin'] },
-    // below fields are not related to client (rather to employee,manager)
     uid: { type: String },
 }, { timestamps: true })
 

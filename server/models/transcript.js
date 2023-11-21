@@ -34,6 +34,10 @@ const transcriptSchema = Schema({
         type: Number,
         required: false
     },
+    amountPerDayOff: {
+        type: Number,
+        required: false
+    },
     netSalary: {
         type: Number,
         required: false
