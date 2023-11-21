@@ -4,6 +4,9 @@ import { Add } from "@mui/icons-material";
 import { Droppable } from "react-beautiful-dnd";
 
 const Board = ({ tasks, title, _id }) => {
+
+  console.log('tasks',tasks, title, _id)
+
   return (
     <div
       className={`bg-[#ebf2f5] border-t-[2px] ${title == "Completed" ? "border-t-green-500" : ""}${
@@ -26,17 +29,18 @@ const Board = ({ tasks, title, _id }) => {
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
-              className={`relative flex-1 flex flex-col gap-[1rem] p-[12px] h-full ${
-                snapshot.isDraggingOver ? "bg-gray-300" : ""
-              }`}>
-              {tasks?.map((task, index) => (
-                <React.Fragment key={index}>
-                  <KanbanTask key={task._id} task={task} index={index} />
-                  {snapshot.draggingOverWith == task._id && (
-                    <div className="custom-placeholder">{provided.placeholder}</div>
-                  )}
-                </React.Fragment>
-              ))}
+              className={`relative flex-1 flex flex-col gap-[1rem] p-[12px] h-full ${snapshot.isDraggingOver ? "bg-gray-300" : ""}`}
+            >
+              {
+                tasks?.map((task, index) => (
+                  <React.Fragment key={index}>
+                    <KanbanTask key={task._id} task={task} index={index} />
+                    {snapshot.draggingOverWith == task._id && (
+                      <div className="custom-placeholder">{provided.placeholder}</div>
+                    )}
+                  </React.Fragment>
+                ))
+              }
             </div>
           )}
         </Droppable>

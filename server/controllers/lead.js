@@ -1,5 +1,6 @@
 import Lead from '../models/lead.js';
 import User from '../models/user.js';
+import FollowUp from '../models/followUp.js';
 import Project from '../models/project.js';
 import { createError, isValidDate } from '../utils/error.js';
 import projectModel from '../models/project.js';
@@ -277,6 +278,7 @@ export const filterLead = async (req, res, next) => {
 export const createLead = async (req, res, next) => {
     try {
         const {city, priority, property, status, source, description, count, clientName, clientPhone} = req.body;
+        const { followUpStatus, followUpDate, remarks } = req.body  // for followup
 
         const foundLead = await User.findOne({ phone: clientPhone });
 
@@ -296,6 +298,9 @@ export const createLead = async (req, res, next) => {
                 description,
                 allocatedTo: [req.user?._id],
             });
+
+            await FollowUp.create({ status: followUpStatus, followUpDate, remarks, leadId: newLead._id })
+
 
             const populatedLead = await Lead.findById(newLead._id)
                 .populate('client')

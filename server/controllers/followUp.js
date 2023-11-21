@@ -138,6 +138,7 @@ export const getFollowUpsStats = async (req, res, next) => {
                 populate: {
                     path: 'client',
                     path: 'property',
+                    path: 'allocatedTo',
                 }
             });
 
@@ -147,7 +148,7 @@ export const getFollowUpsStats = async (req, res, next) => {
             if (!result.find(item => item.date === followUpDate)) {
                 result.push({ date: followUpDate, followUps: [] });
             }
-
+ 
             result.forEach(item => {
                 if (item.date === followUpDate) {
                     item.followUps.push(followUp);

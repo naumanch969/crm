@@ -298,7 +298,7 @@ function Tasks() {
     setSelectedTaskId(taskId);
     setOpenDeleteModal(true);
   };
-
+console.log('that')
   return (
     <div className="w-full h-fit bg-inherit flex flex-col">
       <EditModal open={openEditModal} setOpen={setOpenEditModal} />
