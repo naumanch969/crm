@@ -29,7 +29,7 @@ const Board = ({ tasks, title, _id }) => {
               className={`relative flex-1 flex flex-col gap-[1rem] p-[12px] h-full ${
                 snapshot.isDraggingOver ? "bg-gray-300" : ""
               }`}>
-              {tasks.map((task, index) => (
+              {tasks?.map((task, index) => (
                 <React.Fragment key={index}>
                   <KanbanTask key={task._id} task={task} index={index} />
                   {snapshot.draggingOverWith == task._id && (

@@ -10,7 +10,7 @@ const voucherSchema = Schema({
     CNIC: { type: Number },
     phone: { type: Number },
     email: { type: String },
-    type: { type: String, enum: ['cash', 'cheque', 'creditCard', 'card', 'online',] },
+    type: { type: String,  },
     propertyType: { type: String },
     area: { type: String },
     project: { type: Schema.Types.ObjectId, ref: 'Project', },

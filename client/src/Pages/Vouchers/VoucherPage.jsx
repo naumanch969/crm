@@ -47,7 +47,7 @@ const VoucherPage = ({ }) => {
 
         <div className="flex justify-between items w-full relative py-[1rem] ">
         <div className="flex justify-start">
-          <img src="/background/A-consultant-logo.png" className="h-20 mb-5" />
+          <img src="/images/adotmarketinglogo.png" className="h-20 mb-5" />
         </div>
           <div className=" ">
             <table className="border-[1px] border-black w-full " >

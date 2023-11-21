@@ -39,9 +39,7 @@ export const createVoucher = async (req, res, next) => {
     try {
 
         const { branch, propertyType, area, project, issuingDate, dueDate, clientName, CNIC, phone, type, total, paid, } = req.body
-        if (!branch || !propertyType || !area || !project, !issuingDate || !issuingDate || !dueDate || !clientName || !phone || !type || !total || !paid)
-            return next(createError(400, 'Make sure to provide all thee fields.'))
-
+        
         const newVoucher = await Voucher.create({ branch, propertyType, area, project, issuingDate, dueDate, clientName, CNIC, phone, type, total, paid, remained: total - paid, })
         res.status(200).json({ result: newVoucher, message: 'voucher created successfully', success: true })
 

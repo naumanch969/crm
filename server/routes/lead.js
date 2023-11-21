@@ -1,6 +1,6 @@
 import express from 'express'
 import { createLead, getLeadByPhone, getLead, getEmployeeLeads, getLeadsStat, getLeads, filterLead, updateLead, shiftLead, shareLead, archiveLead, deleteLead, deleteWholeCollection, searchLead, } from '../controllers/lead.js'
-import { verifyEmployee, verifyManager, verifyToken } from '../middleware/auth.js'
+import { verifyEmployee, verifyManager, verifySuperAdmin, verifyToken } from '../middleware/auth.js'
 import Lead from '../models//lead.js'
 import { createError } from '../utils/error.js'
 
@@ -37,7 +37,7 @@ router.put('/update/shift/:leadId', verifyToken, verifyEmployee, shiftLead)
 router.put('/update/share/:leadId', verifyToken, verifyEmployee, shareLead)
 
 // DELETE
-router.delete('/delete/:leadId', verifyToken, verifyEmployee, verifyIsAllocatedTo, deleteLead)
+router.delete('/delete/:leadId', verifyToken, verifySuperAdmin, verifyManager, deleteLead)
 router.delete('/delete-whole-collection', deleteWholeCollection)
 
 export default router

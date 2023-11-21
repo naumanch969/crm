@@ -29,7 +29,7 @@ function Projects() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize">{params.row.uid}</span>
+          <span className="font-primary capitalize">{params.row?.uid}</span>
         </Tooltip>
       ),
     },
@@ -40,7 +40,7 @@ function Projects() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize">{params.row.title}</span>
+          <span className="font-primary capitalize">{params.row?.title}</span>
         </Tooltip>
       ),
     },
@@ -51,7 +51,7 @@ function Projects() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize">{params.row.description}</span>
+          <span className="font-primary capitalize">{params.row?.description}</span>
         </Tooltip>
       ),
     },
@@ -62,7 +62,7 @@ function Projects() {
       width: 140,
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize">{params.row.society?.title}</span>
+          <span className="font-primary capitalize">{params.row?.society?.title}</span>
         </Tooltip>
       ),
     },
@@ -73,7 +73,7 @@ function Projects() {
       width: 120,
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize">{params.row.city}</span>
+          <span className="font-primary capitalize">{params.row?.city}</span>
         </Tooltip>
       ),
     },
@@ -84,7 +84,7 @@ function Projects() {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize">{params.row.status}</span>
+          <span className="font-primary capitalize">{params.row?.status}</span>
         </Tooltip>
       ),
     },
@@ -95,7 +95,7 @@ function Projects() {
       width: 150,
       renderCell: (params) => (
         <Tooltip title={""}>
-          <span className="font-primary capitalize">{format(params.row.createdAt)}</span>
+          <span className="font-primary capitalize">{format(params.row?.createdAt)}</span>
         </Tooltip>
       ),
     },
@@ -111,7 +111,7 @@ function Projects() {
             <Tooltip arrow placement="top" title="Delete">
               {" "}
               <PiTrashLight
-                onClick={() => handleOpenDeleteModal(params.row._id)}
+                onClick={() => handleOpenDeleteModal(params.row?._id)}
                 className="cursor-pointer text-red-500 text-[23px] hover:text-red-400"
               />
             </Tooltip>
@@ -210,16 +210,13 @@ function Projects() {
       <ProjectFilter open={openFilters} setOpen={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
 
       <div className="flex justify-center items-center ">
-        {isFetching ? (
-          <Loader />
-        ) : (
           <Table
             rows={options.showArchivedProjects ? archivedProjects : unarchivedProjects}
             columns={columns}
             rowsPerPage={10}
+            isFetching={isFetching}
             error={error}
           />
-        )}
       </div>
     </div>
   );

@@ -55,7 +55,7 @@ const Kanban = ({ options, setOptions }) => {
       case '2':
         return { unarchivedTasks: inProgress, title: 'inProgress' };
       case '3':
-        return { unarchivedTasks: completed, title: 'completed' };
+        return { unarchivedTasks: completed, title: 'successful' };
       case '4':
         return { unarchivedTasks: overDue, title: 'overDue' };
       default:

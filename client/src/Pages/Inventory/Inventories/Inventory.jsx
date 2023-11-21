@@ -305,18 +305,13 @@ function Inventory() {
           <Kanban options={options} setOptions={setOptions} />
           :
           <div className="flex justify-center items-center " >
-            {
-              isFetching
-                ?
-                <Loader />
-                :
                 <Table
                   rows={options.showArchivedInventories ? archivedInventories : unarchivedInventories}
                   columns={columns}
                   rowsPerPage={10}
+                  isFetching={isFetching}
                   error={error}
                 />
-            }
           </div>
       }
     </div>
