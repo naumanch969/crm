@@ -99,8 +99,7 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
     // )
     //   return alert("Make sure to provide all the fields");
 
-
-    dispatch(createVoucher(voucherData, setOpen));
+    dispatch(createVoucher(voucherData, setOpen, projects));
   };
 
   const handleClose = () => {
@@ -301,7 +300,7 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
                     value={voucherData.total}
                     onChange={(e) => handleChange("total", e.target.value)}
                     size="small"
-                    type="text"
+                    type="number"
                     fullWidth
                   />
                 </td>
@@ -314,7 +313,7 @@ const CreateVoucher = ({ open, setOpen, scroll, downloadPdf, loader }) => {
                     value={voucherData.paid}
                     onChange={(e) => handleChange("paid", e.target.value)}
                     size="small"
-                    type="text"
+                    type="number"
                     fullWidth
                   />
                 </td>

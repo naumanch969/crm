@@ -33,12 +33,13 @@ export const getEmployeeVouchers = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const createVoucher = (voucherData, setOpen) => async (dispatch) => {
+export const createVoucher = (voucherData, setOpen, projects) => async (dispatch) => {
     try {
         dispatch(start())
         const { data } = await api.createVoucher(voucherData)
         dispatch(createVoucherReducer(data.result))
-        const { data: approvalData } = await api.createVoucherApproval(data.result)
+        const project = projects.filter(p => String(p._id) == String(voucherData.project))
+        const { data: approvalData } = await api.createVoucherApproval({ ...data.result, project: project[0] })
         dispatch(createVoucherApprovalReducer(approvalData.result))
         if (approvalData.notification) {
             dispatch(createNotificationReducer(approvalData.notification))

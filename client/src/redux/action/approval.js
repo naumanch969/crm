@@ -24,26 +24,6 @@ export const getApprovals = (type) => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
-export const createRequestApproval = (userData) => async (dispatch) => {
-    try {
-        dispatch(start())
-        const { data } = await api.createRequestApproval(userData)  // userData = { firstName, lastName, username, phone, email, password}
-        dispatch(createRequestApprovalReducer(data.result))
-        dispatch(end())
-    } catch (err) {
-        dispatch(error(err.message))
-    }
-}
-export const rejectRequestApproval = (email) => async (dispatch) => {
-    try {
-        dispatch(start())
-        const { data } = await api.rejectRequestApproval(email)  // userData = { firstName, lastName, username, phone, email, password}
-        dispatch(rejectRequestApprovalReducer(data.result))
-        dispatch(end())
-    } catch (err) {
-        dispatch(error(err.message))
-    }
-}
 export const createVoucherApproval = (data) => async (dispatch) => {
     try {
         dispatch(start())

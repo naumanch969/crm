@@ -7,6 +7,7 @@ const inventorySchema = Schema({
     sellerEmail: { type: String },
     sellerCompamyName: { type: String },
     sellerCity: { type: String, required: true },
+    employeeId: { type: Schema.Types.ObjectId, ref: 'User' },
     project: { type: Schema.Types.ObjectId, ref: 'Project' },
     propertyStreetNumber: { type: String, required: true },
     propertyNumber: { type: String, required: true },       // Plot/Shop/Appartment Number

@@ -20,7 +20,18 @@ export const getInventory = async (req, res, next) => {
 export const getInventories = async (req, res, next) => {
     try {
 
-        const findedInventory = await Inventory.find({ isArchived: false }).populate('project').exec()
+        const findedInventory = await Inventory.find({ isArchived: false }).populate('project').populate('employeeId').exec()
+        res.status(200).json({ result: findedInventory, message: 'inventories fetched successfully', success: true })
+
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
+
+export const getEmployeeInventories = async (req, res, next) => {
+    try {
+
+        const findedInventory = await Inventory.find({ isArchived: false, employeeId: req.user._id }).populate('project').exec()
         res.status(200).json({ result: findedInventory, message: 'inventories fetched successfully', success: true })
 
     } catch (err) {
@@ -121,7 +132,8 @@ export const createInventory = async (req, res, next) => {
         if (!sellerName || !sellerPhone || !sellerCity || !project || !propertyStreetNumber || !propertyNumber || !price || !remarks)
             return next(createError(400, 'Make sure to provide all the fields'))
 
-        const newInventory = await Inventory.create(req.body)
+        const createdInventory = await Inventory.create({ ...req.body, employeeId: req.user._id })
+        const newInventory = await Inventory.findById(createdInventory._id).populate('project').exec();
         res.status(200).json({ result: newInventory, message: 'inventory created successfully', success: true })
 
     } catch (err) {

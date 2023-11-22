@@ -99,7 +99,8 @@ export const createProject = async (req, res, next) => {
         const { title, description, city, society } = req.body
         if (!title || !description || !city || !society) return next(createError(400, 'Make sure to provide all the fields'))
 
-        const newProject = await Project.create(req.body)
+        const createdProject = await Project.create(req.body)
+        const newProject = await Project.findById(createdProject._id).populate('society').exec();
         res.status(200).json({ result: newProject, message: 'project created successfully', success: true })
 
     } catch (err) {

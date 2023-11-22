@@ -4,17 +4,14 @@ import Topbar from './Topbar'
 import DeleteModal from './DeleteModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getApprovals } from '../../../redux/action/approval'
-import { getApprovalReducer } from '../../../redux/reducer/approval'
-import { rejectRequestApproval } from '../../../redux/action/approval'
-import { register } from '../../../redux/action/user'
-import Request from './Request'
+import Request from './VoucherRequest'
 import EnterPassword from './EnterPassword'
 
 function VoucherApprovals() {
 
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch()
-  const { voucherApprovals: approvals, isFetching, error } = useSelector(state => state.approval)
+  const { voucherApprovals, isFetching, error } = useSelector(state => state.approval)
   const columns = [
     {
       field: "uid",
@@ -143,7 +140,7 @@ function VoucherApprovals() {
 
       <Topbar view={view} setView={setView} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
       <Table
-        rows={approvals}
+        rows={voucherApprovals}
         columns={columns}
         rowsPerPage={5}
         isFetching={isFetching}

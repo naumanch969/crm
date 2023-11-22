@@ -121,8 +121,6 @@ export const deleteEvent = (eventId) => API.delete(`/event/delete/${eventId}`)
 // APROVAL
 export const getApprovals = (type, leadId) => API.get(`/approval/get/all?type=${type}`)
 export const getApproval = () => API.get(`/approval/get/single/${approvalId}`)
-export const createRequestApproval = (data) => API.post(`/approval/create/request`, data)
-export const rejectRequestApproval = (email) => API.post(`/approval/reject/request`, { email })
 export const createVoucherApproval = (data) => API.post(`/approval/create/voucher`, data)
 export const acceptVoucherApproval = (approvalId, password) => API.post(`/approval/accept/voucher/${approvalId}`, { password })
 export const rejectVoucherApproval = (approvalId, password) => API.post(`/approval/reject/voucher/${approvalId}`, { password })

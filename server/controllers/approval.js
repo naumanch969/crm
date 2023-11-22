@@ -34,48 +34,6 @@ export const getApprovals = async (req, res, next) => {
     }
 }
 
-export const createRequestApproval = async (req, res, next) => {
-    try {
-
-        const { firstName, lastName, username, phone, email, password } = req.body
-        if (!firstName || !lastName || !username || !email || !password) return next(createError(400, 'Make sure to provide all the fields'))
-        if (!validator.isEmail(email)) return next(createError(400, 'Invalid Email Address'))
-
-        const findedApproval = await Approval.findOne({ 'data.email': { $exists: true }, 'data.email': email })
-        if (Boolean(findedApproval)) return res.status(201).json({ result: findedApproval, message: 'Your registeration request has already been sent to the admin for approval', success: true })
-
-        const result = await Approval.create({
-            title: 'Registeration Approval',
-            type: 'request',
-            description: 'Need approval for the registeration',
-            data: { firstName, lastName, username, phone, email, password }
-        })
-
-        await Notification.create({
-            title: 'Registeration Approval',
-            type: 'registeration-approval',
-            description: 'Need approval for the registeration',
-            data: { firstName, lastName, username, phone, email, password }
-        })
-
-        res.status(200).json({ result, message: 'Registeration request has been sent to the admin for approval', success: true })
-
-    } catch (err) {
-        next(createError(500, err.message))
-    }
-}
-export const rejectRequestApproval = async (req, res, next) => {
-    try {
-        const { email } = req.body
-
-        // sendMail(email, 'Registeration Rejected', 'Your registeration has been denied')
-
-        res.status(200).json({ message: 'Refund request has been sent to the admin for approval', success: true })
-
-    } catch (err) {
-        next(createError(500, err.message))
-    }
-}
 export const createVoucherApproval = async (req, res, next) => {
     try {
 
@@ -107,13 +65,10 @@ export const acceptVoucherApproval = async (req, res, next) => {
         const { password } = req.body;
         const { adminID } = req.query;
 
-        console.log(adminID)
 
         const approval = await Approval.findById(approvalId)
-        console.log(approval)
 
         const admin = await User.findById(req.user._id)
-        console.log(admin)
         const inputPassword = password;
         const savedPassword = admin?.password
         const isPasswordCorrect = await bcrypt.compare(inputPassword, savedPassword)
