@@ -23,6 +23,16 @@ export const getInventories = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
+export const getEmployeeInventories = () => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getEmployeeInventories()
+        dispatch(getInventoriesReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
 export const getUsers = () => async (dispatch) => {
     try {
         dispatch(start())

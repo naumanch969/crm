@@ -88,6 +88,7 @@ export const deleteSociety = (societyId) => API.delete(`/society/delete/${societ
 // INVENTORY
 export const getInventory = (inventoryId) => API.get(`/inventory/get/single/${inventoryId}`)
 export const getInventories = () => API.get(`/inventory/get/all`)
+export const getEmployeeInventories = () => API.get(`/inventory/get/employee`)
 export const searchInventory = (searchTerm, isArchived) => API.get(`/inventory/search?searchTerm=${searchTerm}`, { isArchived })
 export const filterInventory = (filters) => API.get(`/inventory/filter?${objectToQueryString(filters)}`)
 export const createInventory = (inventoryData) => API.post(`/inventory/create`, inventoryData)
