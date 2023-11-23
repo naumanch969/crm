@@ -108,6 +108,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     dispatch(createLead({ ...leadData, count: leadCountsToCreate < 1 ? 1 : leadCountsToCreate, ...followUpData }, navigate));
 
     setLeadData(initialLeadState);
+    setFollowUpData(initialFollowUpState);
     setCreateMultiple(false);
     setLeadCountsToCreate(1);
     setOpen(false);

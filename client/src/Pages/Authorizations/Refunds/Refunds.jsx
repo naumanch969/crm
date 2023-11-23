@@ -137,7 +137,7 @@ function RefundApprovals() {
       <Table
         rows={refunds}
         columns={columns}
-        rowsPerPage={5}
+        rowsPerPage={10}
         isFetching={isFetching || cashbookIsFetching}
         error={error || cashbookError}
       />

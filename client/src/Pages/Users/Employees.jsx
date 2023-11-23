@@ -60,7 +60,7 @@ const Employees = memo(() => {
       headerClassName: "super-app-theme--header",
       width: 200,
       renderCell: (params) => (
-        <div className="text-[#20aee3] capitalize font-primary font-light">{params.row.email}</div>
+        <div className="text-[#20aee3] font-primary font-light">{params.row.email}</div>
       ),
     },
     {

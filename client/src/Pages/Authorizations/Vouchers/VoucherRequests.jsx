@@ -142,7 +142,7 @@ function VoucherApprovals() {
       <Table
         rows={voucherApprovals}
         columns={columns}
-        rowsPerPage={5}
+        rowsPerPage={10}
         isFetching={isFetching}
         error={error}
       />

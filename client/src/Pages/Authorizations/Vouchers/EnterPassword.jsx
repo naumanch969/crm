@@ -30,10 +30,11 @@ const EnterPassword = ({ open, setOpen, type, approval, approvalId }) => {
     setOpen(false)
     setPassword('')
   };
-
+  
   const handleReject = () => {
     dispatch(rejectVoucherApproval(approval._id, password, setOpen));
     setOpen(false)
+    setPassword('')
   };
 
 
@@ -68,7 +69,7 @@ const EnterPassword = ({ open, setOpen, type, approval, approvalId }) => {
                     <TextField
                       onChange={(e) => setPassword(e.target.value)}
                       value={password}
-                      type="text"
+                      type="password"
                       size="small"
                       fullWidth
                     />

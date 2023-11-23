@@ -150,7 +150,7 @@ const ViewCashBook = () => {
           <Table
             rows={cashbooksIn}
             columns={columns}
-            rowsPerPage={5}
+            rowsPerPage={10}
             isFetching={isFetching}
             error={error}
           />
@@ -163,7 +163,7 @@ const ViewCashBook = () => {
           <Table
             rows={cashbooksOut}
             columns={columns}
-            rowsPerPage={5}
+            rowsPerPage={10}
             isFetching={isFetching}
             error={error}
           />

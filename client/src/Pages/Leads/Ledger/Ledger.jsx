@@ -181,11 +181,11 @@ const Ledger = () => {
         rows={cashbooks}
         isFetching={cashbookFetching}
         columns={LedgerColumns}
-        rowsPerPage={5}
+        rowsPerPage={10}
       />
 
       <LedgerSalesTopbar />
-      <Table rows={sales} isFetching={salesFetching} columns={SalesColumns} rowsPerPage={5} />
+      <Table rows={sales} isFetching={salesFetching} columns={SalesColumns} rowsPerPage={10} />
     </div>
   );
 };

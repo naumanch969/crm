@@ -139,7 +139,7 @@ function Sales() {
       <FilterDrawer open={openFilters} setOpen={setOpenFilters} setIsFiltered={setIsFiltered} />
       <Topbar view={view} setView={setView} open={openFilters} setOpen={setOpenFilters} isFiltered={isFiltered} setIsFiltered={setIsFiltered} />
 
-      <Table rows={sales} columns={columns} rowsPerPage={5} isFetching={isFetching} error={error} />
+      <Table rows={sales} columns={columns} rowsPerPage={10} isFetching={isFetching} error={error} />
     </div>
   );
 }

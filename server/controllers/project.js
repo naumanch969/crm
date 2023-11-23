@@ -20,7 +20,7 @@ export const getProject = async (req, res, next) => {
 export const getProjects = async (req, res, next) => {
     try {
 
-        const findedProject = await Project.find({ isArchived: false }).populate('society').exec()
+        const findedProject = await Project.find().populate('society').exec()
         res.status(200).json({ result: findedProject, message: 'projects fetched successfully', success: true })
 
     } catch (err) {
