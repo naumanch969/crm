@@ -26,6 +26,24 @@ export const getSales = async (req, res, next) => {
         next(createError(500, err.message))
     }
 }
+export const getEmployeeSales = async (req, res, next) => {
+    try {
+
+        let allSales = await Sale.find({})
+        const employeeLeads = await Lead.find({ allocatedTo: { $in: req.user?._id }, isArchived: false })
+            .populate('client').populate('allocatedTo')
+            .exec();
+
+        allSales = allSales.filter((sale) => {
+            return employeeLeads.findIndex(lead => lead._id.toString() == sale.leadId.toString()) != -1
+        })
+
+        res.status(200).json({ result: allSales, message: 'sales fetched successfully', success: true })
+
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
 export const getLeadSales = async (req, res, next) => {
     try {
 

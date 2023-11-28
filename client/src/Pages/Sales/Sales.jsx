@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table } from "../../Components";
 import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
-import { getSales } from "../../redux/action/sale";
+import { getSales, getEmployeeSales } from "../../redux/action/sale";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import EditModal from "./EditModal";
@@ -18,6 +18,7 @@ function Sales() {
   ////////////////////////////////////// VARIABLES //////////////////////////////
   const dispatch = useDispatch();
   const { sales, allSales, isFetching, error } = useSelector((state) => state.sale);
+  const { loggedUser } = useSelector((state) => state.user);
   const columns = [
     {
       field: "uid",
@@ -114,7 +115,11 @@ function Sales() {
 
   ////////////////////////////////////// USE EFFECTS //////////////////////////////
   useEffect(() => {
-    dispatch(getSales());
+    loggedUser.role == 'employee'
+      ?
+      dispatch(getEmployeeSales())
+      :
+      dispatch(getSales())
   }, []);
   useEffect(() => {
     if (!isFiltered) {

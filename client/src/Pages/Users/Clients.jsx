@@ -3,7 +3,7 @@ import Topbar from "./Topbar";
 import { Table } from "../../Components";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getClients } from "../../redux/action/user";
+import { getClients, getEmployeeClients } from "../../redux/action/user";
 import { getClientsReducer, getUserReducer } from "../../redux/reducer/user";
 import { Tooltip, styled } from "@mui/material";
 import { PiDotsThreeOutlineThin, PiTrashLight } from "react-icons/pi";
@@ -163,7 +163,11 @@ const Clients = () => {
 
   ////////////////////////////////////// USE EFFECTS ////////////////////////////////////
   useEffect(() => {
-    dispatch(getClients());
+    loggedUser.role == 'employee'
+      ?
+      dispatch(getEmployeeClients())
+      :
+      dispatch(getClients());
   }, []);
 
   ////////////////////////////////////// FUNCTIONS //////////////////////////////////////////

@@ -1,4 +1,5 @@
 import User from '../models/user.js'
+import Lead from '../models/lead.js'
 import { createError } from '../utils/error.js'
 import bcrypt from 'bcryptjs'
 
@@ -76,6 +77,22 @@ export const getClients = async (req, res, next) => {
 
     }
 }
+
+export const getEmployeeClients = async (req, res, next) => {
+    try {
+        let allClients = await User.find({ role: 'client' })
+        const employeeLeads = await Lead.find({ allocatedTo: { $in: req.user?._id }, isArchived: false })
+
+        // Filter clients based on the condition
+        allClients = allClients.filter((client) => {
+            return employeeLeads.findIndex(lead => lead.clientPhone.toString() === client.phone.toString()) !== -1
+        });
+
+        res.status(200).json({ result: allClients, message: 'clients fetched successfully', success: true });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
+};
 
 export const getEmployees = async (req, res, next) => {
     try {

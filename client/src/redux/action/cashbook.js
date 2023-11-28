@@ -25,6 +25,16 @@ export const getCashbooks = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
+export const getEmployeeCashbooks = () => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getEmployeeCashbooks()
+        dispatch(getCashbooksReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
 export const getLeadCashbooks = (leadId) => async (dispatch) => {
     try {
         dispatch(start())

@@ -1,5 +1,5 @@
 import express from 'express'
-import { getUsers, getUser,filterUser, createClient, createEmployee, updateRole, updateUser, deleteUser, getClients, getEmployees, deleteWholeCollection } from '../controllers/user.js'
+import { getUsers, getUser, getEmployeeClients,filterUser, createClient, createEmployee, updateRole, updateUser, deleteUser, getClients, getEmployees, deleteWholeCollection } from '../controllers/user.js'
 import { verifyManager, verifyEmployee, verifyToken, verifySuperAdmin } from '../middleware/auth.js'
 import { createError } from '../utils/error.js'
 
@@ -19,6 +19,7 @@ const verifyIsSameUser = (req, res, next) => {
 router.get('/get/all', verifyToken, verifyManager, getUsers)
 router.get('/get/single/:userId', verifyToken, verifyIsSameUser, getUser)
 router.get('/get/clients', verifyToken, verifyEmployee, getClients)
+router.get('/get/clients/employee', verifyToken, verifyEmployee, getEmployeeClients)
 router.get('/get/employees', verifyToken, verifyEmployee, getEmployees)
 router.get('/filter', verifyToken, verifyEmployee, filterUser)
 

@@ -5,7 +5,7 @@ import { Table } from "../../Components";
 import { Link } from "react-router-dom";
 import Topbar from "./Topbar";
 import { useDispatch, useSelector } from "react-redux";
-import { getCashbooks } from "../../redux/action/cashbook";
+import { getCashbooks,getEmployeeCashbooks } from "../../redux/action/cashbook";
 import DeleteModal from "./DeleteModal";
 import { format } from "timeago.js";
 import { PiTrashLight, PiTrashThin } from "react-icons/pi";
@@ -99,7 +99,11 @@ function CashBook() {
 
   ///////////////////////////////////// USE EFFECTS //////////////////////////////////////
   useEffect(() => {
-    dispatch(getCashbooks());
+    loggedUser.role == 'employee'
+      ?
+      dispatch(getEmployeeCashbooks())
+      :
+      dispatch(getCashbooks());
   }, []);
 
   ///////////////////////////////////// FUNCTIONS //////////////////////////////////////

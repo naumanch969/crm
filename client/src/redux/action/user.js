@@ -93,6 +93,16 @@ export const getClients = () => async (dispatch) => {
         dispatch(error(err.message))
     }
 }
+export const getEmployeeClients = () => async (dispatch) => {
+    try {
+        dispatch(start())
+        const { data } = await api.getEmployeeClients()
+        dispatch(getClientsReducer(data.result))
+        dispatch(end())
+    } catch (err) {
+        dispatch(error(err.message))
+    }
+}
 export const getEmployees = () => async (dispatch) => {
     try {
         dispatch(start())

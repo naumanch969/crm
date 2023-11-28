@@ -1,7 +1,6 @@
 import Cashbook from '../models/cashbook.js'
-import User from '../models/user.js'
+import Lead from '../models/lead.js'
 import { createError } from '../utils/error.js'
-import bcrypt from 'bcryptjs'
 
 export const getCashbooks = async (req, res, next) => {
     try {
@@ -14,6 +13,30 @@ export const getCashbooks = async (req, res, next) => {
                 : await Cashbook.find()
 
         res.status(200).json({ result: findedCashbooks, message: 'cashbooks fetched successfully', success: true })
+
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
+export const getEmployeeCashbooks = async (req, res, next) => {
+    try {
+
+        const { type } = req.query
+
+        let allCashbooks =
+            type != 'undefined'
+                ? await Cashbook.find({ type })
+                : await Cashbook.find()
+
+        const employeeLeads = await Lead.find({ allocatedTo: { $in: req.user?._id }, isArchived: false })
+            .populate('client').populate('allocatedTo')
+            .exec();
+
+        allCashbooks = allCashbooks.filter((cashbook) => {
+            return employeeLeads.findIndex(lead => lead?._id?.toString() == cashbook?.leadId?.toString()) != -1
+        })
+
+        res.status(200).json({ result: allCashbooks, message: 'cashbooks fetched successfully', success: true })
 
     } catch (err) {
         next(createError(500, err.message))

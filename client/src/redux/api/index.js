@@ -50,6 +50,7 @@ export const newpassword = (passwordData) => API.put(`/auth/newpassword`, passwo
 export const getUsers = () => API.get(`/user/get/all`)
 export const getClients = () => API.get(`/user/get/clients`)
 export const getEmployees = () => API.get(`/user/get/employees`)
+export const getEmployeeClients = () => API.get(`/user/get/clients/employee`)
 export const getUser = (userId) => API.get(`/user/get/single/${userId}`)
 export const createClient = (clientData) => API.post(`/user/create/client`, clientData)
 export const createEmployee = (employeeData) => API.post(`/user/create/employee`, employeeData)
@@ -97,6 +98,7 @@ export const deleteInventory = (inventoryId) => API.delete(`/inventory/delete/${
 
 // SALE
 export const getSales = () => API.get(`/sale/get/all`)
+export const getEmployeeSales = () => API.get(`/sale/get/employee`)
 export const getLeadSales = (leadId) => API.get(`/sale/get/lead?leadId=${leadId}`)
 export const getSale = (saleId) => API.get(`/sale/get/single/${saleId}`)
 export const createSale = (saleData) => API.post(`/sale/create`, saleData)
@@ -113,6 +115,7 @@ export const deleteNotification = (notificationId) => API.delete(`/notification/
 
 // MEETING
 export const getEvents = () => API.get(`/event/get/all`)
+export const getEmployeeEvents = () => API.get(`/event/get/employee`)
 export const getEvent = (eventId) => API.get(`/event/get/single/${eventId}`)
 export const createEvent = (eventData) => API.post(`/event/create`, eventData)
 export const updateEvent = (eventId, eventData) => API.put(`/event/update/${eventId}`, eventData)
@@ -170,6 +173,7 @@ export const getIncomeAndExpenses = (year) => API.get(`/cashbook/get/income_and_
 export const getSpecificDateCashbook = (date) => API.get(`/cashbook/get/date/${date}`)
 export const getPayments = () => API.get(`/cashbook/get/payments`)
 export const getCashbooks = (type) => API.get(`/cashbook/get/all?type=${type}`)
+export const getEmployeeCashbooks = (type) => API.get(`/cashbook/get/employee?type=${type}`)
 export const getLeadCashbooks = (leadId) => API.get(`/cashbook/get/lead?leadId=${leadId}`)
 export const createCashbook = (cashbookData) => API.post(`/cashbook/create`, cashbookData)
 export const deleteCashbook = (cashbookId) => API.delete(`/cashbook/delete/${cashbookId}`)

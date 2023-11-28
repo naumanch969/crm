@@ -28,6 +28,15 @@ export const getEvents = async (req, res, next) => {
     }
 }
 
+export const getEmployeeEvents = async (req, res, next) => {
+    try {
+        const events = await Event.find({ userId: req.user._id }).populate('userId').exec()
+        res.status(200).json({ result: events, message: 'events fetched seccessfully', success: true })
+    } catch (err) {
+        next(createError(500, err.message))
+    }
+}
+
 export const createEvent = async (req, res, next) => {
     try {
 
