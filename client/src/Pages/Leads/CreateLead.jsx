@@ -78,7 +78,7 @@ const CreateLead = ({ setOpen, open, scroll }) => {
     { name: "Google", value: "google" },
     { name: "Referral", value: "referral" },
   ];
- 
+
 
   //////////////////////////////////////// STATES ////////////////////////////////////
   const [leadData, setLeadData] = useState(initialLeadState);
@@ -316,27 +316,29 @@ const CreateLead = ({ setOpen, open, scroll }) => {
               <tr>
                 <td className="pb-4 text-lg flex mt-1 items-start">Current Status </td>
                 <td className="pb-4">
-                  <Select
+                  <CFormSelect
                     onChange={(e) => setFollowUpData({ ...followUpData, followUpStatus: e.target.value })}
                     value={followUpData.followUpStatus}
                     name="followUpStatus"
                     type="text"
                     size="small"
-                    fullWidth>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="New Lead">New Lead</MenuItem>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Call Not Answer">Call Not Answer</MenuItem>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Deal Done">Deal Done</MenuItem>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Keen Interested">Keen Interested</MenuItem>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Visit Done">Visit Done</MenuItem>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Contact in Future">Contact in Future</MenuItem>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Visit Schedule">Visit Schedule</MenuItem>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Archived">Archived</MenuItem>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Wrong Number">Wrong Number</MenuItem>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Busy">Busy</MenuItem>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Number Off">Number Off</MenuItem>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Call back Later">Call Back Later</MenuItem>
-                    <MenuItem sx={{ fontFamily: "'Montserrat', sans-serif" }} value="Interested">Interested</MenuItem>
-                  </Select>
+                    className="border-[1px] p-2 rounded-md w-full border-[#c1c1c1] cursor-pointer text-black">
+                    <option value="">Select an Option</option>
+                    <option value="New Lead">New Lead</option>
+                    <option value="Call Not Answer">Call Not Answer</option>
+                    <option value="Deal Done">Deal Done</option>
+                    <option value="Keen Interested">Keen Interested</option>
+                    <option value="Visit Done">Visit Done</option>
+                    <option value="Contact in Future">Contact in Future</option>
+                    <option value="Visit Schedule">Visit Schedule</option>
+                    <option value="Archived">Archived</option>
+                    <option value="Wrong Number">Wrong Number</option>
+                    <option value="Busy">Busy</option>
+                    <option value="Number Off">Number Off</option>
+                    <option value="Call back Later">Call Back Later</option>
+                    <option value="Interested">Interested</option>
+                  </CFormSelect>
+                
                 </td>
               </tr>
               <tr>

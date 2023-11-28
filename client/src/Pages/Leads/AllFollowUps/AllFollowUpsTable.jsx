@@ -25,7 +25,6 @@ const AllFollowUpsTable = () => {
 
   /////////////////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////////
   useEffect(() => {
-    console.log('loff', loggedUser)
     loggedUser.role == "employee"
       ? dispatch(getEmployeeFollowUpsStats())
       : dispatch(getFollowUpsStats());
@@ -43,19 +42,35 @@ const AllFollowUpsTable = () => {
 
   const rows = followUpsStats?.map((stat) => {
     const dateParts = stat.date.split("/");
+    const month = parseInt(dateParts[0]) - 1; // Months in JavaScript are zero-based
+    const day = parseInt(dateParts[1]);
     const year = parseInt(dateParts[2]);
-    const month = parseInt(dateParts[1]) - 1; // Months in JavaScript are zero-based
-    const day = parseInt(dateParts[0]);
-    const date = new Date(year, month, day);
+    const inputDate = new Date(year, month, day);
 
-    return createData(stat.date, DAYS[date.getDay()], stat.followUps);
+    return createData(stat.date, DAYS[inputDate.getDay()], stat.followUps);
   });
 
-  const currentDate = new Date();
-  const sortedRow = rows
-    // .filter((item) => moment(item.date, "DD/MM/YYYY").isSameOrBefore(currentDate, "day")) // Filter out dates greater than current date
-    .sort((a, b) => moment(a.date, "DD/MM/YYYY").diff(moment(b.date, "DD/MM/YYYY"))) // Sort by date
-    .reverse(); // Reverse the order so that latest date comes first
+  const sortedRows = rows
+    .sort((a, b) => moment(a.date, "MM/DD/YYYY").diff(moment(b.date, "MM/DD/YYYY"))) // Sort by date
+
+  const filteredRows = sortedRows.filter((stat) => {
+    const dateParts = stat.date.split("/");
+    const month = parseInt(dateParts[0]) - 1; // Months in JavaScript are zero-based
+    const day = parseInt(dateParts[1]);
+    const year = parseInt(dateParts[2]);
+    const inputDate = new Date(year, month, day);
+
+    // Extract the date parts of the current date
+    const currentDate = new Date();
+    const currentDateWithoutTime = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+
+    // Compare dates without time
+    return inputDate >= currentDateWithoutTime;
+  });
 
   // const sortedRow = rows
   // .filter(item => new Date(item.date) <= currentDate) // Filter out dates greater than current date
@@ -68,7 +83,7 @@ const AllFollowUpsTable = () => {
       headerName: "ID",
       headerClassName: "super-app-theme--header",
       width: 70,
-      renderCell: (params) => <div className="font-primary font-light">{params.row.uid}</div>,
+      renderCell: (params) => <div className="font-primary font-light">{params.row?.uid}</div>,
     },
     {
       field: "leadId?.source",
@@ -76,8 +91,8 @@ const AllFollowUpsTable = () => {
       headerClassName: "super-app-theme--header",
       width: 100,
       renderCell: (params) => (
-        <Tooltip title={params.row.leadId?.source} arrow placement="bottom">
-          <div className="font-primary font-light capitalize">{params.row.leadId?.source}</div>
+        <Tooltip title={params.row?.leadId?.source} arrow placement="bottom">
+          <div className="font-primary font-light capitalize">{params.row?.leadId?.source}</div>
         </Tooltip>
       ),
     },
@@ -98,8 +113,8 @@ const AllFollowUpsTable = () => {
       headerClassName: "super-app-theme--header",
       width: 100,
       renderCell: (params) => (
-        <Tooltip title={params.row.leadId?.city} arrow placement="bottom">
-          <div className="font-primary font-light capitalize">{params.row.leadId?.city}</div>
+        <Tooltip title={params.row?.leadId?.city} arrow placement="bottom">
+          <div className="font-primary font-light capitalize">{params.row?.leadId?.city}</div>
         </Tooltip>
       ),
     },
@@ -109,8 +124,8 @@ const AllFollowUpsTable = () => {
       headerClassName: "super-app-theme--header",
       width: 110,
       renderCell: (params) => (
-        <Tooltip title={params.row.leadId?.clientPhone} arrow placement="bottom">
-          <div className="font-primary font-light capitalize">{params.row.leadId?.clientPhone}</div>
+        <Tooltip title={params.row?.leadId?.clientPhone} arrow placement="bottom">
+          <div className="font-primary font-light capitalize">{params.row?.leadId?.clientPhone}</div>
         </Tooltip>
       ),
     },
@@ -120,8 +135,8 @@ const AllFollowUpsTable = () => {
       headerClassName: "super-app-theme--header",
       width: 130,
       renderCell: (params) => (
-        <Tooltip title={params.row.leadId?.clientName} arrow placement="bottom">
-          <div className="font-primary font-light capitalize">{params.row.leadId?.clientName}</div>
+        <Tooltip title={params.row?.leadId?.clientName} arrow placement="bottom">
+          <div className="font-primary font-light capitalize">{params.row?.leadId?.clientName}</div>
         </Tooltip>
       ),
     },
@@ -132,7 +147,7 @@ const AllFollowUpsTable = () => {
       width: 150,
       renderCell: (params) => (
         <Tooltip title={params.row?.status} arrow placement="bottom">
-          <div className="font-primary font-light">{params.row.status}</div>
+          <div className="font-primary font-light">{params.row?.status}</div>
         </Tooltip>
       ),
     },
@@ -190,12 +205,12 @@ const AllFollowUpsTable = () => {
         </div>
       ) : (
         <>
-          {sortedRow.map((row) => (
+          {filteredRows.map((row) => (
             <div className="flex flex-col gap-2 ">
               <h2 className="text-primary-red text-[24px] capitalize font-light">
-                {row.date} {row.day}
+                {row?.date} {row?.day}
               </h2>
-              <Table rows={row.followUps} columns={columns} rowsPerPage={10} />
+              <Table rows={row?.followUps} columns={columns} rowsPerPage={10} />
             </div>
           ))}
         </>
