@@ -39,6 +39,7 @@ export const getLeadByPhone = async (req, res, next) => {
         const findedLead = await Lead.find({ client: findedUser?._id })
             .populate('client')
             .populate('allocatedTo')
+            .populate('property')
             .exec();
 
         res.status(200).json({ result: findedLead, message: 'Lead fetched successfully', success: true });

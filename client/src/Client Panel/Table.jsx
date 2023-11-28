@@ -15,6 +15,7 @@ const Table = () => {
 
   const dispatch = useDispatch();
   const { leads, isFetching, error } = useSelector((state) => state.lead);
+  console.log('leads', leads)
   const { loggedUser } = useSelector((state) => state.user);
   const phoneNumber = loggedUser?.phone;
 
@@ -54,45 +55,23 @@ const Table = () => {
     },
     {
       field: "leads?.degree",
-      headerName: "Degree",
+      headerName: "Property City",
       width: 160,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <Tooltip arrow placement="bottom" title={params.row?.degree}>
-          <div className="font-primary font-light capitalize">{params.row?.degree}</div>
+        <Tooltip arrow placement="bottom" title={params.row?.property?.city}>
+          <div className="font-primary font-light capitalize">{params.row?.property?.city}</div>
         </Tooltip>
       ),
     },
     {
       field: "major",
-      headerName: "Major",
+      headerName: "Title",
       width: 160,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <Tooltip arrow placement="bottom" title={params.row?.major}>
-          <div className="font-primary font-light capitalize">{params.row?.major}</div>
-        </Tooltip>
-      ),
-    },
-    {
-      field: "country",
-      headerName: "Country",
-      width: 160,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <Tooltip arrow placement="bottom" title={params.row?.country}>
-          <div className="font-primary font-light capitalize">{params.row?.country}</div>
-        </Tooltip>
-      ),
-    },
-    {
-      field: "visa",
-      headerName: "Visa",
-      width: 160,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <Tooltip arrow placement="bottom" title={params.row?.visa}>
-          <div className="font-primary font-light capitalize">{params.row?.visa}</div>
+        <Tooltip arrow placement="bottom" title={params.row?.property?.title}>
+          <div className="font-primary font-light capitalize">{params.row?.property?.title}</div>
         </Tooltip>
       ),
     },

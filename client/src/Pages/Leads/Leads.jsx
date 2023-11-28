@@ -101,6 +101,7 @@ function Leads({ type, showSidebar }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { leads, allLeads, isFetching, error } = useSelector((state) => state.lead);
+  console.log('leads', leads)
   const { currentProject } = useSelector((state) => state.project);
   const archivedLeads = leads.filter((lead) => lead.isArchived);
   const unarchivedLeads = leads.filter((lead) => !lead.isArchived);
@@ -113,6 +114,25 @@ function Leads({ type, showSidebar }) {
       headerClassName: "super-app-theme--header",
       width: 70,
       renderCell: (params) => <div className="font-primary font-light">{params.row?.uid}</div>,
+    },
+    {
+      field: "allocatedTo",
+      headerName: "Allocated To",
+      headerClassName: "super-app-theme--header",
+      width: 140,
+      renderCell: (params) => (
+        <div
+          className={`capitalize font-primary font-light`}
+          onClick={() => handleOpenViewModal(params.row?._id)}>
+          {
+            params.row?.allocatedTo?.length > 0
+              ?
+              params.row?.allocatedTo?.map((user) => <span className="text-[#20aee3] hover:text-[#007bff] cursor-pointer " >{user?.username} </span>)
+              :
+              <span >Not Allocated</span>
+          }
+        </div>
+      ),
     },
     {
       field: "clientName",
@@ -133,7 +153,7 @@ function Leads({ type, showSidebar }) {
       headerClassName: "super-app-theme--header",
       width: 150,
       renderCell: (params) => (
-        <div className={`font-primary font-light`}>{params.row?.client?.phone || params.row?.clientPhone }</div>
+        <div className={`font-primary font-light`}>{params.row?.client?.phone || params.row?.clientPhone}</div>
       ),
     },
     {
@@ -244,7 +264,7 @@ function Leads({ type, showSidebar }) {
               <StyledMenuItem
                 className="text-gray-600 flex font-primary"
                 onClick={() => handleOpenShareLeadModal(params.row)}>
-                Share Lead
+                {params.row?.allocatedTo?.length > 0 ? 'Share Lead' : 'Allocate Lead'}
               </StyledMenuItem>
               <StyledMenuItem
                 className="text-gray-600 flex font-primary"
@@ -262,7 +282,7 @@ function Leads({ type, showSidebar }) {
       ),
     },
   ];
-
+  const filteredColumns = () => { }
   let modifiedColumns = columns;
   if (role == "employee" && type == "all") {
     modifiedColumns = modifiedColumns.filter((column) => column.field != "allocatedTo");
@@ -271,7 +291,6 @@ function Leads({ type, showSidebar }) {
   ////////////////////////////////////// STATES //////////////////////////////
   const [openAttachmentModal, setOpenAttachmentModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [openViewModal, setOpenViewModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openStatusModal, setOpenStatusModal] = useState(false);
   const [openShiftLeadModal, setOpenShiftLeadModal] = useState(false);

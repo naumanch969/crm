@@ -110,7 +110,6 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
   /////////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////
   useEffect(() => {
     var timer = setInterval(() => setDate(new Date()), 1000);
-
     return function cleanup() {
       clearInterval(timer);
     };
@@ -155,65 +154,69 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
           <div className="flex gap-[20px] ">
             {/* icons */}
             <div className="sm:flex items-center hidden gap-[10px] ">
-              <Dropdown>
-                <MenuButton>
-                  <Tooltip title="Notifications" arrow placement="bottom">
-                    <IconButton
-                      className="h-fit hover:text-sky-400 inline-block relative"
-                      size="small"
-                      aria-label="menu">
-                      <PiBell
-                        className={`text-[25px] animate-none ${
-                          notifications.length > 0 ? "text-sky-400" : ""
-                        }`}
-                      />
-                      {notifications.length > 0 && (
-                        <span className="animate-ping absolute top-1.5 right-2 block h-1 w-1 rounded-full ring-2 ring-sky-400 bg-sky-600"></span>
-                      )}
-                    </IconButton>
-                  </Tooltip>
-                </MenuButton>
-                <Menu slots={{ listbox: StyledListbox }}>
-                  {notifications.length > 0 ? (
-                    <div className="flex flex-col gap-[8px]">
-                      <div className="w-full bg-sky-400 font-primary text-2xl text-white p-4">
-                        Notifications
+
+              {/* Notification */}
+              {
+                loggedUser.role != 'employee' &&
+                <Dropdown>
+                  <MenuButton>
+                    <Tooltip title="Notifications" arrow placement="bottom">
+                      <IconButton
+                        className="h-fit hover:text-sky-400 inline-block relative"
+                        size="small"
+                        aria-label="menu">
+                        <PiBell
+                          className={`text-[25px] animate-none ${notifications.length > 0 ? "text-sky-400" : ""
+                            }`}
+                        />
+                        {notifications.length > 0 && (
+                          <span className="animate-ping absolute top-1.5 right-2 block h-1 w-1 rounded-full ring-2 ring-sky-400 bg-sky-600"></span>
+                        )}
+                      </IconButton>
+                    </Tooltip>
+                  </MenuButton>
+                  <Menu slots={{ listbox: StyledListbox }}>
+                    {notifications.length > 0 ? (
+                      <div className="flex flex-col gap-[8px]">
+                        <div className="w-full bg-sky-400 font-primary text-2xl text-white p-4">
+                          Notifications
+                        </div>
+                        {notifications.slice(0, 5).map((notification, index) => (
+                          <React.Fragment key={index}>
+                            <StyledMenuItem
+                              onClick={() => navigate("/authorization/refund")}
+                              className="text-gray-600 flex items-center gap-2">
+                              <div>
+                                <Avatar />
+                              </div>
+                              <div className="font-primary">
+                                <span className="text-lg font-light text-sky-400 font-primary">
+                                  {notification.title}
+                                </span>
+                                <br />
+                                {notification.description}
+                                <br />
+                              </div>
+                            </StyledMenuItem>
+                          </React.Fragment>
+                        ))}
+                        {notifications.length > 5 && (
+                          <Link to="/notifications" className="hover:underline text-blue-500 ">
+                            More
+                          </Link>
+                        )}
                       </div>
-                      {notifications.slice(0, 5).map((notification, index) => (
-                        <React.Fragment key={index}>
-                          <StyledMenuItem
-                            onClick={() => navigate("/authorization/refund")}
-                            className="text-gray-600 flex items-center gap-2">
-                            <div>
-                              <Avatar />
-                            </div>
-                            <div className="font-primary">
-                              <span className="text-lg font-light text-sky-400 font-primary">
-                                {notification.title}
-                              </span>
-                              <br />
-                              {notification.description}
-                              <br />
-                            </div>
-                          </StyledMenuItem>
-                        </React.Fragment>
-                      ))}
-                      {notifications.length > 5 && (
-                        <Link to="/notifications" className="hover:underline text-blue-500 ">
-                          More
-                        </Link>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="z-1000 flex flex-col items-center p-2">
-                      <img className="p-4" src="/images/notifications.png" />
-                      <div className="font-primary text-lg font-light">
-                        No Notifications Yet
+                    ) : (
+                      <div className="z-1000 flex flex-col items-center p-2">
+                        <img className="p-4" src="/images/notifications.png" />
+                        <div className="font-primary text-lg font-light">
+                          No Notifications Yet
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </Menu>
-              </Dropdown>
+                    )}
+                  </Menu>
+                </Dropdown>
+              }
 
               <Dropdown>
                 <MenuButton>
