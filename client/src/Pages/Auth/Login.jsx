@@ -27,7 +27,7 @@ const Login = () => {
   const { isFetching, error } = useSelector((state) => state.user);
 
   /////////////////////////////////// STATES /////////////////////////////////////
-  const [userData, setUserData] = useState({ username: "", password: "" });
+  const [userData, setUserData] = useState({ username: "super_admin", password: "password" });
   const [inputError, setInputError] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordButton, setShowPasswordButton] = useState(PasswordButtonInitialStyle);

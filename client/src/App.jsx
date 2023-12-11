@@ -66,11 +66,7 @@ const App = () => {
               <Route exact path="/auth/forgot_password" element={<ForgotPassword />} />
               <Route exact path="/auth/newpassword" element={<ResetPassword />} />
               <Route exact path="/auth/forgot_password/enter_code" element={<InputCode />} />
-              <Route
-                exact
-                path="/auth/change_password"
-                element={<Navigate to="/auth/register" />}
-              />
+              <Route exact path="/auth/change_password" element={<Navigate to="/auth/register" />} />
               <Route path="/" element={<Navigate to="/auth/login" />} />
               <Route path="/:anyotherRoutes" element={<Navigate to="/auth/login" />} />
             </Routes>
