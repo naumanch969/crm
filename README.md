@@ -30,7 +30,7 @@ GrowCRM is a comprehensive management system designed to streamline the processe
 
 ## Live Demo
 
-Check out the live demo of my personal portfolio website [here](https://growmarketing.netlify.app/).
+Check out the live demo of crm [here](https://growmarketing.netlify.app/).
 
 
 ## Installation and Setup
