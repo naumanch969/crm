@@ -40,19 +40,30 @@ Check out the live demo of crm [here](https://growmarketing.netlify.app/).
    git clone https://github.com/naumanch969/crm.git
    ```
 
-2. **Install Dependencies**:
-   - Navigate to the cloned repository directory:
-     ```bash
-     cd growcrm
-     ```
-   - Install the required dependencies:
-     ```bash
-     npm install
-     ```
+2. Install Dependencies
+There are two main directories inside this project: client for the frontend and server for the backend. You'll need to install dependencies for both.
 
-3. **Configure Environment Variables**:
-   - Create a `.env` file in the root directory.
-   - Define environment variables such as database connection settings, API keys, and other configurations.
+a. Frontend (Client)
+
+Navigate to the client directory:
+cd crm/client
+Install the required dependencies using npm:
+npm install --legacy-peer-deps
+Start the frontend development server:
+npm run dev
+
+b. Backend (Server)
+
+Navigate to the server directory:
+cd crm/server
+Install the backend dependencies:
+npm install --legacy-peer-deps
+Start the backend development server:
+npm run dev
+
+3. Configure Environment Variables
+In both the client and server directories, create a .env file in the root directory.
+Define the necessary environment variables for both the frontend and backend. Samples can be found in .env.example file
 
 4. **Start the Development Server**:
    - After installing dependencies and configuring environment variables, start the development server:
