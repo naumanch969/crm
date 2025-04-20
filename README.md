@@ -46,20 +46,32 @@ There are two main directories inside this project: client for the frontend and 
 a. Frontend (Client)
 
 Navigate to the client directory:
-cd crm/client
+   ```bash
+   cd crm/client
+   ```
 Install the required dependencies using npm:
-npm install --legacy-peer-deps
+   ```bash
+   npm install --legacy-peer-deps
+   ```
 Start the frontend development server:
-npm run dev
+   ```bash
+   npm run dev
+   ```
 
 b. Backend (Server)
 
 Navigate to the server directory:
-cd crm/server
+   ```bash
+   cd crm/server
+   ```
 Install the backend dependencies:
-npm install --legacy-peer-deps
+   ```bash
+   npm install --legacy-peer-deps
+   ```
 Start the backend development server:
-npm run dev
+   ```bash
+   npm run dev
+   ```
 
 3. Configure Environment Variables
 In both the client and server directories, create a .env file in the root directory.
