@@ -9,13 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getLeadByPhone } from "../redux/action/lead";
 import { format } from "timeago.js";
 import ViewAttachments from "./ViewAttachments";
+import { Empty } from "../Components";
 
-const Table = () => {
-  //////////////////////////////////////// VARIABLES ///////////////////////////////////
+const ClientLeads = () => {
+  /////////////////////////////////////////////////////////////////// VARIABLES ///////////////////////////////////////////////////////////////////
 
   const dispatch = useDispatch();
   const { leads, isFetching, error } = useSelector((state) => state.lead);
-  console.log('leads', leads)
+
   const { loggedUser } = useSelector((state) => state.user);
   const phoneNumber = loggedUser?.phone;
 
@@ -104,7 +105,7 @@ const Table = () => {
     },
   ];
 
-  //////////////////////////////////////// STATES //////////////////////////////////////
+  /////////////////////////////////////////////////////////////////// STATES ///////////////////////////////////////////////////////////////////
   const [searchValue, setSearchValue] = useState("");
   const [selectedLeadId, setSelectedLeadId] = useState(null);
   const [openAttachments, setOpenAttachments] = useState(false);
@@ -115,12 +116,12 @@ const Table = () => {
   });
   const { vertical, horizontal, open } = state;
 
-  //////////////////////////////////////// USEEFFECTS //////////////////////////////////
+  /////////////////////////////////////////////////////////////////// USE EFFECTS ///////////////////////////////////////////////////////////////
   useEffect(() => {
     dispatch(getLeadByPhone(phoneNumber));
   }, []);
 
-  //////////////////////////////////////// FUNCTIONS ///////////////////////////////////
+  /////////////////////////////////////////////////////////////////// FUNCTIONS ///////////////////////////////////////////////////////////////////
   const handleClick = (newState) => () => {
     setState({ ...newState, open: true });
   };
@@ -134,6 +135,8 @@ const Table = () => {
     setOpenAttachments(true);
   };
 
+
+  /////////////////////////////////////////////////////////////////// RENDER ///////////////////////////////////////////////////////////////
   return (
     <div className="w-full">
       {isFetching && (
@@ -152,36 +155,44 @@ const Table = () => {
           />
         </Box>
       )}
-      {!isFetching && (
-        <div className="flex flex-col gap-[8px]">
-          <Box
-            sx={{
-              justifyContent: "center",
-              boxShadow: "none",
-              border: "1px solid #f6f9fa",
-              "& .super-app-theme--header": {
-                color: "#20aee3",
-                fontFamily: "Montserrat, sans-serif",
-              },
-            }}>
-            <DataGrid
-              className="bg-white rounded-[6px] p-[15px]"
-              rows={leads}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: { pageSize: 5 },
-                },
-              }}
-              getRowId={(row) => row._id}
-              pageSizeOptions={[5, 10]}
-              disableRowSelectionOnClick
-              disableColumnMenu
-              disableSelectionOnClick
-            />
-          </Box>
-        </div>
-      )}
+      {
+        isFetching
+          ?
+          <div className="w-full h-[11rem] flex justify-center items-center ">
+            <Loader />
+          </div>
+          // :
+          // leads?.length === 0 ? (
+          //   <Empty title='No leads found.' />
+          // )
+          :
+          (
+            <div className="flex flex-col gap-[8px]">
+              <Box
+                sx={{
+                  justifyContent: "center",
+                  boxShadow: "none",
+                  border: "1px solid #f6f9fa",
+                  "& .super-app-theme--header": {
+                    color: "#20aee3",
+                    fontFamily: "Montserrat, sans-serif",
+                  },
+                }}>
+                <DataGrid
+                  className="bg-white rounded-[6px] p-[15px]"
+                  rows={leads}
+                  columns={columns}
+                  initialState={{ pagination: { paginationModel: { pageSize: 5 }, }, }}
+                  getRowId={(row) => row._id}
+                  pageSizeOptions={[5, 10]}
+                  disableRowSelectionOnClick
+                  disableColumnMenu
+                  disableSelectionOnClick
+                />
+              </Box>
+            </div>
+          )
+      }
 
       <ViewAttachments
         open={openAttachments}
@@ -193,4 +204,4 @@ const Table = () => {
   );
 };
 
-export default Table;
+export default ClientLeads;

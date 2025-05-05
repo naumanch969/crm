@@ -1,6 +1,6 @@
 import React from "react";
 import ClientNavbar from "./ClientNavbar";
-import Table from "./Table";
+import ClientLeads from "./ClientLeads";
 import Topbar from "./Topbar";
 
 const Home = () => {
@@ -11,7 +11,7 @@ const Home = () => {
         <Topbar />
       </div>
       <div className="mx-[2%] shadow-lg mt-[-10px]">
-        <Table />
+        <ClientLeads />
       </div>
     </div>
   );

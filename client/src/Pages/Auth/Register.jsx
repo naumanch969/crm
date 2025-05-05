@@ -1,22 +1,13 @@
-import {
-  Alert,
-  Button,
-  FormControl,
-  IconButton,
-  Input,
-  InputAdornment,
-  Snackbar,
-  InputLabel,
-} from "@mui/material";
+import { FormControl, Input, InputAdornment, } from "@mui/material";
 import { CFormSelect } from "@coreui/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/action/user";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import validator from "email-validator";
-import { PiEyeSlashThin, PiEyeThin, PiX } from "react-icons/pi";
+import { PiEyeSlashThin, PiEyeThin } from "react-icons/pi";
 import { pakistanCities } from "../../constant";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const PasswordButtonInitialStyle = {
@@ -26,7 +17,7 @@ const Signup = () => {
   /////////////////////////////////// VARIABLES /////////////////////////////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isFetching, error } = useSelector((state) => state.user);
+  const { isFetching } = useSelector((state) => state.user);
 
   /////////////////////////////////// STATES /////////////////////////////////////
   const [userData, setUserData] = useState({
@@ -48,8 +39,6 @@ const Signup = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordButton, setShowPasswordButton] = useState(PasswordButtonInitialStyle);
-  const [showSnackbar, setShowSnackbar] = useState(false);
-  const [selectedValue, setSelectedValue] = React.useState("");
 
   //////////////////////////////////////// USE EFFECTS ////////////////////////////////
 
@@ -69,41 +58,64 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (validateForm()) { return; }
+
+    dispatch(register(userData, navigate))
+      .then(() => {
+        toast.success("Account Created Successfully. Please Login");
+      })
+  };
+
+  const validateForm = () => {
     const { firstName, lastName, username, email, phone, password } = userData;
 
-    if (!firstName)
-      return setInputError((pre) => ({ ...pre, firstName: "First Name is required" }));
-    if (firstName.length < 3)
-      return setInputError((pre) => ({
-        ...pre,
-        firstName: "First Name should be atleast of 3 characters",
-      }));
-    if (!lastName) return setInputError((pre) => ({ ...pre, lastName: "Last Name is required" }));
-    if (lastName.length < 3)
-      return setInputError((pre) => ({
-        ...pre,
-        lastName: "Last Name should be atleast of 3 characters",
-      }));
-    if (!username) return setInputError((pre) => ({ ...pre, username: "Username is required" }));
-    if (username.length < 3)
-      return setInputError((pre) => ({
-        ...pre,
-        username: "Username should be atleast of 3 characters",
-      }));
-    if (email && !validator.validate(email))
-      return setInputError((pre) => ({ ...pre, email: "Make sure to provide a valid email" }));
-    if (!phone) return setInputError((pre) => ({ ...pre, phone: "Phone Number is required" }));
-    if (phone.length < 0)
-      return setInputError((pre) => ({ ...pre, phone: "Please provide a valid phone number" }));
-    if (!password) return setInputError((pre) => ({ ...pre, password: "Password is required" }));
-    if (password.length < 6)
-      return setInputError((pre) => ({
-        ...pre,
-        password: "Password must be of atleast 6 characters",
-      }));
-
-    dispatch(register(userData, navigate));
-  };
+    if (!firstName) {
+      toast.error('First Name is required')
+      return false;
+    }
+    if (firstName.length < 3) {
+      toast.error('First Name should be atleast of 3 characters')
+      return false;
+    }
+    if (!lastName) {
+      toast.error('Last Name is required')
+      return false;
+    }
+    if (lastName.length < 3) {
+      toast.error('Last Name should be atleast of 3 characters')
+      return false;
+    }
+    if (!username) {
+      toast.error('Username is required')
+      return false;
+    }
+    if (username.length < 3) {
+      toast.error('Username should be atleast of 3 characters')
+      return false;
+    }
+    if (email && !validator.validate(email)) {
+      toast.error('Make sure to provide a valid email')
+      return false;
+    }
+    if (!phone) {
+      toast.error('Phone Number is required')
+      return false;
+    }
+    if (phone.length < 0) {
+      toast.error('Please provide a valid phone number')
+      return false;
+    }
+    if (!password) {
+      toast.error('Password is required')
+      return false;
+    }
+    if (password.length < 6) {
+      toast.error('Password must be of atleast 6 characters')
+      return false;
+    }
+    return true;
+  }
 
   const handleToggleVisibility = (e) => {
     e.preventDefault();
@@ -111,20 +123,11 @@ const Signup = () => {
   };
 
   const changeBackgroundColor = () => {
-    setShowPasswordButton({
-      ...showPasswordButton,
-      opacity: 1,
-    });
+    setShowPasswordButton({ ...showPasswordButton, opacity: 1, });
   };
 
-  const handleOpenSnackbar = () => {
-    setShowSnackbar(true);
-  };
 
-  const handleCloseSnackbar = () => {
-    setShowSnackbar(false);
-  };
-
+  ////////////////////////////////////////////////////////// RENDER //////////////////////////////////////////////////////
   return (
     <div className="font-primary w-full h-full bg-[#F6F9FA]">
       <div className="md:opacity-100 opacity-0 left-0 bottom-[-4%] absolute h-[52%] w-[25%]">
@@ -156,23 +159,6 @@ const Signup = () => {
                   className="w-[20rem] h-[40px] px-[8px]"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
-                {inputError.firstName && (
-                  <Snackbar position="top" open={showSnackbar} autoHideDuration={1000}>
-                    <Alert
-                      className="flex items-center justify-between"
-                      severity="error"
-                      sx={{ width: "100%" }}>
-                      {inputError.firstName}
-                      <IconButton
-                        onClick={handleCloseSnackbar}
-                        aria-label="close"
-                        color="inherit"
-                        sx={{ p: 0.5, ml: 10 }}>
-                        <PiX />
-                      </IconButton>
-                    </Alert>
-                  </Snackbar>
-                )}
                 {/* lastname */}
                 <Input
                   type="text"
@@ -183,23 +169,6 @@ const Signup = () => {
                   className="w-[20rem] h-[40px] px-[8px]"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
-                {inputError.lastName && (
-                  <Snackbar open={showSnackbar} autoHideDuration={1000}>
-                    <Alert
-                      className="flex items-center justify-between"
-                      severity="error"
-                      sx={{ width: "100%" }}>
-                      {inputError.lastName}
-                      <IconButton
-                        onClick={handleCloseSnackbar}
-                        aria-label="close"
-                        color="inherit"
-                        sx={{ p: 0.5, ml: 10 }}>
-                        <PiX />
-                      </IconButton>
-                    </Alert>
-                  </Snackbar>
-                )}
                 {/* username */}
                 <Input
                   type="text"
@@ -210,23 +179,6 @@ const Signup = () => {
                   className="w-[20rem] h-[40px] px-[8px]"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
-                {inputError.username && (
-                  <Snackbar open={showSnackbar} autoHideDuration={1000}>
-                    <Alert
-                      className="flex items-center justify-between"
-                      severity="error"
-                      sx={{ width: "100%" }}>
-                      {inputError.username}
-                      <IconButton
-                        onClick={handleCloseSnackbar}
-                        aria-label="close"
-                        color="inherit"
-                        sx={{ p: 0.5, ml: 10 }}>
-                        <PiX />
-                      </IconButton>
-                    </Alert>
-                  </Snackbar>
-                )}
                 {/* city */}
                 <FormControl>
                   <CFormSelect
@@ -252,23 +204,6 @@ const Signup = () => {
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                   className="w-[20rem] h-[40px] px-[8px]"
                 />
-                {inputError.phone && (
-                  <Snackbar open={showSnackbar} autoHideDuration={1000}>
-                    <Alert
-                      className="flex items-center justify-between"
-                      severity="error"
-                      sx={{ width: "100%" }}>
-                      {inputError.phone}
-                      <IconButton
-                        onClick={handleCloseSnackbar}
-                        aria-label="close"
-                        color="inherit"
-                        sx={{ p: 0.5, ml: 10 }}>
-                        <PiX />
-                      </IconButton>
-                    </Alert>
-                  </Snackbar>
-                )}
                 {/* email */}
                 <Input
                   type="email"
@@ -279,23 +214,6 @@ const Signup = () => {
                   className="w-[20rem] h-[40px] px-[8px]"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
-                {inputError.email && (
-                  <Snackbar open={showSnackbar} autoHideDuration={1000}>
-                    <Alert
-                      className="flex items-center justify-between"
-                      severity="error"
-                      sx={{ width: "100%" }}>
-                      {inputError.email}
-                      <IconButton
-                        onClick={handleCloseSnackbar}
-                        aria-label="close"
-                        color="inherit"
-                        sx={{ p: 0.5, ml: 10 }}>
-                        <PiX />
-                      </IconButton>
-                    </Alert>
-                  </Snackbar>
-                )}
                 <FormControl>
                   <Input
                     type={showPassword ? "text" : "password"}
@@ -324,49 +242,13 @@ const Signup = () => {
                 </FormControl>
               </div>
 
-              {inputError.password && (
-                <Snackbar open={showSnackbar} autoHideDuration={1000}>
-                  <Alert
-                    className="flex items-center justify-between"
-                    severity="error"
-                    sx={{ width: "100%" }}>
-                    {inputError.password}
-                    <IconButton
-                      onClick={handleCloseSnackbar}
-                      aria-label="close"
-                      color="inherit"
-                      sx={{ p: 0.5, ml: 10 }}>
-                      <PiX />
-                    </IconButton>
-                  </Alert>
-                </Snackbar>
-              )}
-
               <button
-                onClick={handleOpenSnackbar}
                 type="submit"
-                className={`w-[20rem]  hover:bg-[#45b8e2] mt-4 p-[6px] rounded-lg transition-all text-white font-medium tracking-wider ${isFetching ? "bg-[#17a2b8]  cursor-not-allowed" : "bg-[#20aee3]"
-                  }`}
+                className={`w-[20rem]  hover:bg-[#45b8e2] mt-4 p-[6px] rounded-lg transition-all text-white font-medium tracking-wider ${isFetching ? "bg-[#17a2b8]  cursor-not-allowed" : "bg-[#20aee3]"}`}
                 variant="contained">
                 {isFetching ? "Submitting..." : "Sign Up"}
               </button>
-              {error && (
-                <Snackbar open={showSnackbar} autoHideDuration={1000}>
-                  <Alert
-                    className="flex items-center justify-between"
-                    severity="error"
-                    sx={{ width: "100%" }}>
-                    {error}
-                    <IconButton
-                      onClick={handleCloseSnackbar}
-                      aria-label="close"
-                      color="inherit"
-                      sx={{ p: 0.5, ml: 10 }}>
-                      <PiX />
-                    </IconButton>
-                  </Alert>
-                </Snackbar>
-              )}
+
               <p className="font-Mulish font-light text-slate-500 pl-10">
                 Already have an account?
                 <Link to="/auth/login" className="text-sky-400 hover:text-sky-600">

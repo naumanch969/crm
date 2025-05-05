@@ -34,7 +34,7 @@ import { Navbar, Sidebar } from "./Components";
 import { useSelector } from "react-redux";
 import LeadRefunds from "./Pages/Leads/Refund/Refund";
 import VoucherPage from "./Pages/Vouchers/VoucherPage";
-import Home from "./Client Panel/Home";
+import Home from "./ClientPanel/Home";
 import TranscriptPage from "./Pages/Transcript/TranscriptPage";
 
 const App = () => {
@@ -73,8 +73,7 @@ const App = () => {
           </div>
         ) : loggedUser.role != "client" ? (
           <div
-            className={`flex h-screen font-primary ${`${pathname.includes("/client/") || pathname.includes("download") ? "hidden" : "visible"
-              }`}`}>
+            className={`flex h-screen font-primary ${`${pathname.includes("/client/") || pathname.includes("download") ? "hidden" : "visible"}`}`}>
             <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
             <div
               className={`${showSidebar ? "w-full " : "w-full "} flex flex-col overflow-y-scroll `}>

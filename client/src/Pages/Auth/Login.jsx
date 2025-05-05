@@ -1,20 +1,10 @@
-import {
-  Alert,
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  IconButton,
-  Input,
-  InputAdornment,
-  Snackbar,
-} from "@mui/material";
+import { Checkbox, FormControl, FormControlLabel, FormGroup, Input, InputAdornment, } from "@mui/material";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/action/user";
 import { PiEyeSlashThin, PiEyeThin, PiX } from "react-icons/pi";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const PasswordButtonInitialStyle = {
@@ -31,12 +21,6 @@ const Login = () => {
   const [inputError, setInputError] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordButton, setShowPasswordButton] = useState(PasswordButtonInitialStyle);
-  const [showSnackbar, setShowSnackbar] = useState({
-    open: false,
-    vertical: "top",
-    horizontal: "center",
-  });
-  const { vertical, horizontal, open } = showSnackbar;
 
   /////////////////////////////////// USE EFFECTS ////////////////////////////////
 
@@ -49,11 +33,23 @@ const Login = () => {
     e.preventDefault();
     const { username, password } = userData;
 
-    if (!username) return setInputError((pre) => ({ ...pre, username: "Username is required" }));
-    if (!password) return setInputError((pre) => ({ ...pre, password: "Password is required" }));
+    if (!validateForm()) return;
 
     dispatch(login(userData, navigate));
   };
+
+  const validateForm = () => {
+    const { username, password } = userData;
+    if (!username) {
+      toast.error("Username is required");
+      return false;
+    }
+    if (!password) {
+      toast.error("Password is required");
+      return false;
+    }
+    return true;
+  }
 
   const changeBackgroundColor = () => {
     setShowPasswordButton({
@@ -67,13 +63,7 @@ const Login = () => {
     setShowPassword((pre) => !pre);
   };
 
-  const handleOpenSnackbar = (newState) => () => {
-    setShowSnackbar({ ...newState, open: true });
-  };
 
-  const handleCloseSnackbar = () => {
-    setShowSnackbar({ ...showSnackbar, open: false });
-  };
   return (
     <div className="font-primary">
       <div className="md:opacity-100 opacity-0 left-0 bottom-10 absolute h-[53%] w-[28%]">
@@ -101,28 +91,6 @@ const Login = () => {
                   className="w-[20rem] h-[40px] px-[8px] font-primary"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
-                {inputError.username && (
-                  <Snackbar
-                    onClose={handleCloseSnackbar}
-                    anchorOrigin={{ vertical, horizontal }}
-                    key={vertical + horizontal}
-                    open={showSnackbar}
-                    autoHideDuration={2}>
-                    <Alert
-                      className="flex items-center justify-between"
-                      severity="error"
-                      sx={{ width: "100%" }}>
-                      {inputError.username}
-                      <IconButton
-                        onClick={handleCloseSnackbar}
-                        aria-label="close"
-                        color="inherit"
-                        sx={{ p: 0.5, ml: 10 }}>
-                        <PiX />
-                      </IconButton>
-                    </Alert>
-                  </Snackbar>
-                )}
                 <FormControl>
                   <Input
                     type={showPassword ? "text" : "password"}
@@ -163,60 +131,12 @@ const Login = () => {
                 Forgot Password
               </Link>
 
-              {inputError.password && (
-                <Snackbar
-                  anchorOrigin={{ vertical, horizontal }}
-                  key={vertical + horizontal}
-                  open={showSnackbar}
-                  autoHideDuration={2}
-                  onClose={handleCloseSnackbar}>
-                  <Alert
-                    className="flex items-center justify-between"
-                    severity="error"
-                    sx={{ width: "100%" }}>
-                    {inputError.password}
-                    <IconButton
-                      onClick={handleCloseSnackbar}
-                      aria-label="close"
-                      color="inherit"
-                      sx={{ p: 0.5, ml: 10 }}>
-                      <PiX />
-                    </IconButton>
-                  </Alert>
-                </Snackbar>
-              )}
-
               <button
-                onClick={handleOpenSnackbar({ vertical: "top", horizontal: "left" })}
                 type="submit"
-                className={`w-[20rem]  hover:bg-[#45b8e2] p-2 rounded-lg transition-all text-white font-medium tracking-wider ${
-                  isFetching ? "bg-[#17a2b8] cursor-not-allowed" : "bg-[#20aee3]"
-                }`}
+                className={`w-[20rem]  hover:bg-[#45b8e2] p-2 rounded-lg transition-all text-white font-medium tracking-wider ${isFetching ? "bg-[#17a2b8] cursor-not-allowed" : "bg-[#20aee3]"}`}
                 variant="contained">
                 {isFetching ? "Submitting..." : "Continue"}
               </button>
-              {error && (
-                <Snackbar
-                  anchorOrigin={{ vertical, horizontal }}
-                  key={vertical + horizontal}
-                  open={showSnackbar}
-                  autoHideDuration={2}
-                  onClick={handleCloseSnackbar}>
-                  <Alert
-                    className="flex items-center justify-between"
-                    severity="error"
-                    sx={{ width: "100%" }}>
-                    {error}
-                    <IconButton
-                      onClick={handleCloseSnackbar}
-                      aria-label="close"
-                      color="inherit"
-                      sx={{ p: 0.5, ml: 10 }}>
-                      <PiX />
-                    </IconButton>
-                  </Alert>
-                </Snackbar>
-              )}
               <div className="font-Mulish font-light text-slate-500 flex justify-center p-2 pr-7">
                 Don't have account?&nbsp;
                 <Link to="/auth/register" className="text-sky-400 hover:text-sky-600">

@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import * as api from '../api'
 import { createVoucherApprovalReducer } from '../reducer/approval'
 import { createNotificationReducer } from '../reducer/notification'
@@ -10,6 +11,8 @@ export const getVoucher = () => async (dispatch) => {
         dispatch(getVoucherReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -20,6 +23,8 @@ export const getVouchers = () => async (dispatch) => {
         dispatch(getVouchersReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -30,6 +35,8 @@ export const getEmployeeVouchers = () => async (dispatch) => {
         dispatch(getVouchersReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -47,6 +54,8 @@ export const createVoucher = (voucherData, setOpen, projects) => async (dispatch
         setOpen(false)
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -57,6 +66,8 @@ export const deleteVoucher = (voucherId) => async (dispatch) => {
         dispatch(deleteVoucherReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

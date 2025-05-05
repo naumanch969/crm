@@ -34,7 +34,7 @@ export const register = async (req, res, next) => {
         const newUser = await User.create({ firstName, lastName, username, email, phone, password: hashedPassword, city, role })
 
         if (findedLead) {
-            await Lead.findByIdAndUpdate(findedLead._id, { $set: { client: newUser._id } }, { new: true }).populate('client').populate('allocatedTo').exec()
+            await Lead.findByIdAndUpdate(findedLead._id, { $set: { client: newUser._id } }, { new: true });
         }
 
         res.status(200).json({ result: newUser, message: 'User created successfully', success: true })

@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import * as api from '../api'
 import { start, end, error, registerReducer, loginReducer, logoutReducer, getUserReducer, getClientsReducer, getUsersReducer, getEmployeesReducer, createClientReducer, createEmployeeReducer, updateUserReducer, deleteUserReducer, } from '../reducer/user'
 import Cookies from 'js-cookie'
@@ -10,6 +11,8 @@ export const register = (userData, navigate) => async (dispatch) => {
         navigate('/auth/login')
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -23,6 +26,8 @@ export const login = (userData, navigate) => async (dispatch) => {
         navigate('/')
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -34,6 +39,8 @@ export const changePassword = (passwordData, navigate) => async (dispatch) => {
         navigate('/')
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -44,21 +51,25 @@ export const forget_password = (email) => async (dispatch) => {
         localStorage.setItem('otpSendToEmail', JSON.stringify(email))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
-export const newpassword = ({otp, password}, navigate) => async (dispatch) => {
+export const newpassword = ({ otp, password }, navigate) => async (dispatch) => {
     try {
         dispatch(start())
         const emailObject = localStorage.getItem('otpSendToEmail')
         const emailObject2 = JSON.parse(emailObject)
         const email = emailObject2.email
 
-        await api.newpassword({email, otp, password})
+        await api.newpassword({ email, otp, password })
         localStorage.removeItem('otpSendToEmail')
         navigate('/auth/login')
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -70,6 +81,8 @@ export const logout = (navigate) => async (dispatch) => {
         navigate('/auth/login')
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -80,6 +93,8 @@ export const getUsers = () => async (dispatch) => {
         dispatch(getUsersReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -90,6 +105,8 @@ export const getClients = () => async (dispatch) => {
         dispatch(getClientsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -100,6 +117,8 @@ export const getEmployeeClients = () => async (dispatch) => {
         dispatch(getClientsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -110,6 +129,8 @@ export const getEmployees = () => async (dispatch) => {
         dispatch(getEmployeesReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -120,6 +141,8 @@ export const getUser = (userId) => async (dispatch) => {
         dispatch(getUserReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -131,6 +154,8 @@ export const createClient = (clientData) => async (dispatch) => {
         navigate('/clients')
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -142,6 +167,8 @@ export const createEmployee = (employeeData, setOpen) => async (dispatch) => {
         setOpen(false)
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -153,6 +180,8 @@ export const updateRole = (userId, role) => async (dispatch) => {
 
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -163,6 +192,8 @@ export const updateUser = (userId, userData, role) => async (dispatch) => {
         dispatch(updateUserReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -173,6 +204,8 @@ export const deleteUser = (userId) => async (dispatch) => {
         dispatch(deleteUserReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

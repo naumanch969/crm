@@ -53,7 +53,12 @@ const ChangePassword = ({ open, setOpen }) => {
         firstName: "New password length should contain atleast 6 characters.",
       }));
 
-    dispatch(changePassword(passwordData, navigate));
+    dispatch(changePassword(passwordData, navigate))
+      .then(() => {
+        setPasswordData({ newPassword: "", oldPassword: "" });
+        setInputError({ newPassword: "", oldPassword: "" });
+        setOpen(false);
+      })
     setOpen(false);
   };
 
