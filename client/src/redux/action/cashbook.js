@@ -1,8 +1,6 @@
+import toast from 'react-hot-toast'
 import * as api from '../api'
 import { start, end, error, getCashbookReducer, getCashbooksReducer, getSpecificDateCashbookReducer, getIncomeAndExpensesReducer, getPaymentsReducer, createCashbookReducer, deleteCashbookReducer, } from '../reducer/cashbook'
-import { deleteApproval } from './approval'
-import { updateLead } from './lead'
-import { deleteRefund, updateRefund } from './refund'
 
 
 export const getCashbook = (cashbookId) => async (dispatch) => {
@@ -12,6 +10,8 @@ export const getCashbook = (cashbookId) => async (dispatch) => {
         dispatch(getCashbookReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -22,6 +22,8 @@ export const getCashbooks = () => async (dispatch) => {
         dispatch(getCashbooksReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -32,6 +34,8 @@ export const getEmployeeCashbooks = () => async (dispatch) => {
         dispatch(getCashbooksReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -42,6 +46,8 @@ export const getLeadCashbooks = (leadId) => async (dispatch) => {
         dispatch(getCashbooksReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -52,6 +58,8 @@ export const getSpecificDateCashbook = (type) => async (dispatch) => {
         dispatch(getSpecificDateCashbookReducer({ cashIn: data.result.cashIn, cashOut: data.result.cashOut }))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -62,6 +70,8 @@ export const getIncomeAndExpenses = (year) => async (dispatch) => {
         dispatch(getIncomeAndExpensesReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -72,6 +82,8 @@ export const getPayments = () => async (dispatch) => {
         dispatch(getPaymentsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -82,6 +94,8 @@ export const createCashbook = (cashbookData) => async (dispatch) => {
         dispatch(createCashbookReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -92,6 +106,8 @@ export const deleteCashbook = (cashbookId) => async (dispatch) => {
         dispatch(deleteCashbookReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

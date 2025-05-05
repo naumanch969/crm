@@ -1,13 +1,6 @@
-import {
-    start,
-    error,
-    end,
-    uploadImageReducer,
-    deleteImageReducer,
-
-} from "../reducer/upload";
+import { start, error, end, uploadImageReducer, deleteImageReducer, } from "../reducer/upload";
 import * as api from '../api/index'
-import { rootURL } from "../../constant";
+import toast from "react-hot-toast";
 
 
 export const uploadImage = (formData, isMultiple) => async (dispatch) => {
@@ -17,6 +10,8 @@ export const uploadImage = (formData, isMultiple) => async (dispatch) => {
         dispatch(uploadImageReducer({ result: data.result, isMultiple }))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -29,6 +24,8 @@ export const deleteImage = (filename, isMultiple) => async (dispatch) => {
         dispatch(deleteImageReducer({ filename, isMultiple }))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

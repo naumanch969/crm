@@ -1,5 +1,6 @@
+import toast from 'react-hot-toast'
 import * as api from '../api'
-import { start, end, error, getFollowUpReducer, getFollowUpsReducer,getFollowUpsStatsReducer, createFollowUpReducer, deleteFollowUpReducer, } from '../reducer/followUp'
+import { start, end, error, getFollowUpReducer, getFollowUpsReducer, getFollowUpsStatsReducer, createFollowUpReducer, deleteFollowUpReducer, } from '../reducer/followUp'
 
 export const getFollowUp = (followUpId) => async (dispatch) => {
     try {
@@ -8,6 +9,8 @@ export const getFollowUp = (followUpId) => async (dispatch) => {
         dispatch(getFollowUpReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -18,6 +21,8 @@ export const getFollowUps = (leadId) => async (dispatch) => {
         dispatch(getFollowUpsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -28,6 +33,8 @@ export const getEmployeeFollowUps = (leadId) => async (dispatch) => {
         dispatch(getFollowUpsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -38,6 +45,8 @@ export const getFollowUpsStats = () => async (dispatch) => {
         dispatch(getFollowUpsStatsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -48,6 +57,8 @@ export const getEmployeeFollowUpsStats = () => async (dispatch) => {
         dispatch(getFollowUpsStatsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -58,6 +69,8 @@ export const createFollowUp = (followUpData) => async (dispatch) => {
         dispatch(createFollowUpReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -68,6 +81,8 @@ export const deleteFollowUp = () => async (dispatch) => {
         dispatch(deleteFollowUpReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

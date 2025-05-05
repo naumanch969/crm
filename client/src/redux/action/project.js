@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import * as api from '../api'
 import { start, end, error, getProjectReducer, getProjectsReducer, createProjectReducer, updateProjectReducer, deleteProjectReducer, } from '../reducer/project'
 import { getUsersReducer } from '../reducer/user'
@@ -10,6 +11,8 @@ export const getProject = (projectId) => async (dispatch) => {
         dispatch(getProjectReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -21,6 +24,8 @@ export const getProjects = () => async (dispatch) => {
         console.log(data.result)
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -32,6 +37,8 @@ export const getUsers = () => async (dispatch) => {
         dispatch(getUsersReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -42,6 +49,8 @@ export const searchProject = (searchTerm, isArchived) => async (dispatch) => {
         dispatch(getProjectsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -52,6 +61,8 @@ export const filterProject = (filters) => async (dispatch) => {
         dispatch(getProjectsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -63,6 +74,8 @@ export const createProject = (projectData, navigate) => async (dispatch) => {
         navigate('/projects')
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -73,6 +86,8 @@ export const updateProject = (projectId, projectData) => async (dispatch) => {
         dispatch(updateProjectReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -83,6 +98,8 @@ export const deleteProject = (projectId) => async (dispatch) => {
         dispatch(deleteProjectReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

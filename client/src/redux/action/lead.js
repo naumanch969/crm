@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import * as api from '../api'
 import { start, end, error, getLeadsReducer, getLeadReducer, getLeadsStatReducer, createLeadReducer, updateLeadReducer, deleteLeadReducer, } from '../reducer/lead'
+import toast from 'react-hot-toast'
 
 
 export const getLeads = () => async (dispatch) => {
@@ -10,6 +11,8 @@ export const getLeads = () => async (dispatch) => {
         dispatch(getLeadsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -21,6 +24,8 @@ export const getEmployeeLeads = () => async (dispatch) => {
         dispatch(getLeadsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -32,6 +37,8 @@ export const getLead = (leadId) => async (dispatch) => {
         dispatch(getLeadReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -42,6 +49,8 @@ export const getLeadByPhone = (phone) => async (dispatch) => {
         dispatch(getLeadsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -52,6 +61,8 @@ export const getLeadsStat = (type) => async (dispatch) => {
         dispatch(getLeadsStatReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -62,6 +73,8 @@ export const searchLead = (searchTerm) => async (dispatch) => {
         dispatch(getLeadsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -72,6 +85,8 @@ export const filterLead = (filters) => async (dispatch) => {
         dispatch(getLeadsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -84,16 +99,18 @@ export const createLead = (leadData, navigate) => async (dispatch) => {
         dispatch(createLeadReducer(data.result))
         navigate('/leads')
 
-        const {loggedUser} = useSelector(state=>state.user)
-        if(loggedUser.role == 'employee'){
+        const { loggedUser } = useSelector(state => state.user)
+        if (loggedUser.role == 'employee') {
             dispatch(getEmployeeLeads())
         }
-        else{
+        else {
             dispatch(getLeads())
         }
 
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -105,6 +122,8 @@ export const updateLead = (leadId, leadData, options) => async (dispatch) => {
         dispatch(updateLeadReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -115,6 +134,8 @@ export const shiftLead = (leadId, shiftTo) => async (dispatch) => {
         dispatch(updateLeadReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -125,6 +146,8 @@ export const shareLead = (leadId, shareWith) => async (dispatch) => {
         dispatch(updateLeadReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -135,6 +158,8 @@ export const archiveLead = (leadId) => async (dispatch) => {
         dispatch(updateLeadReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -145,6 +170,8 @@ export const deleteLead = (leadId) => async (dispatch) => {
         dispatch(deleteLeadReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

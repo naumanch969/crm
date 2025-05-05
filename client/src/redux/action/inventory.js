@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import * as api from '../api'
 import { start, end, error, getInventoryReducer, getInventoriesReducer, createInventoryReducer, updateInventoryReducer, deleteInventoryReducer, } from '../reducer/inventory'
 import { getUsersReducer } from '../reducer/user'
@@ -10,6 +11,8 @@ export const getInventory = (inventoryId) => async (dispatch) => {
         dispatch(getInventoryReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -20,6 +23,8 @@ export const getInventories = () => async (dispatch) => {
         dispatch(getInventoriesReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -30,6 +35,8 @@ export const getEmployeeInventories = () => async (dispatch) => {
         dispatch(getInventoriesReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -40,6 +47,8 @@ export const getUsers = () => async (dispatch) => {
         dispatch(getUsersReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -50,6 +59,8 @@ export const searchInventory = (searchTerm, isArchived) => async (dispatch) => {
         dispatch(getInventoriesReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -60,6 +71,8 @@ export const filterInventory = (filters) => async (dispatch) => {
         dispatch(getInventoriesReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -71,6 +84,8 @@ export const createInventory = (inventoryData, navigate) => async (dispatch) => 
         navigate('/inventories')
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -81,6 +96,8 @@ export const updateInventory = (inventoryId, inventoryData) => async (dispatch) 
         dispatch(updateInventoryReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -91,6 +108,8 @@ export const deleteInventory = (inventoryId) => async (dispatch) => {
         dispatch(deleteInventoryReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

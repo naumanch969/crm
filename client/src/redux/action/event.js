@@ -1,5 +1,6 @@
+import toast from 'react-hot-toast'
 import * as api from '../api'
-import event, { start, end, error, getEventReducer, getEventsReducer, createEventReducer, updateEventReducer, deleteEventReducer, } from '../reducer/event'
+import { start, end, error, getEventReducer, getEventsReducer, createEventReducer, updateEventReducer, deleteEventReducer, } from '../reducer/event'
 
 export const getEvent = (eventId) => async (dispatch) => {
     try {
@@ -8,6 +9,8 @@ export const getEvent = (eventId) => async (dispatch) => {
         dispatch(getEventReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -19,6 +22,8 @@ export const getEvents = () => async (dispatch) => {
         dispatch(getEventsReducer(result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -30,6 +35,8 @@ export const getEmployeeEvents = () => async (dispatch) => {
         dispatch(getEventsReducer(result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -41,6 +48,8 @@ export const createEvent = (eventData) => async (dispatch) => {
         dispatch(getEvents())
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -52,6 +61,8 @@ export const updateEvent = (eventId, eventData) => async (dispatch) => {
         dispatch(getEvents())
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -63,6 +74,8 @@ export const deleteEvent = (eventId) => async (dispatch) => {
         dispatch(deleteEventReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

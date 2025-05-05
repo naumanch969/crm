@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import * as api from '../api'
 import { start, end, error, getTasksReducer, getTaskReducer, createTaskReducer, updateTaskReducer, deleteTaskReducer, } from '../reducer/task'
 
@@ -9,6 +10,8 @@ export const getTasks = () => async (dispatch) => {
         dispatch(getTasksReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -19,6 +22,8 @@ export const getTask = (taskId) => async (dispatch) => {
         dispatch(getTaskReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -30,6 +35,8 @@ export const createTask = (taskData, setOpen) => async (dispatch) => {
         dispatch(createTaskReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -40,6 +47,8 @@ export const searchTask = (searchTerm) => async (dispatch) => {
         dispatch(getTasksReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -50,6 +59,8 @@ export const filterTask = (filters) => async (dispatch) => {
         dispatch(getTasksReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -60,6 +71,8 @@ export const updateTask = (taskId, taskData, options) => async (dispatch) => {
         dispatch(updateTaskReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -70,6 +83,8 @@ export const deleteTask = (taskId) => async (dispatch) => {
         dispatch(deleteTaskReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import * as api from '../api'
 import { start, end, error, getRefundReducer, getRefundsReducer, createRefundReducer, updateRefundReducer, deleteRefundReducer, } from '../reducer/refund'
 
@@ -8,6 +9,8 @@ export const getRefund = (refundId) => async (dispatch) => {
         dispatch(getRefundReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -18,6 +21,8 @@ export const getRefunds = () => async (dispatch) => {
         dispatch(getRefundsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -28,6 +33,8 @@ export const getLeadRefunds = (leadId) => async (dispatch) => {
         dispatch(getRefundsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -39,6 +46,8 @@ export const createRefund = (refundData, setOpen) => async (dispatch) => {
         setOpen(false)
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -49,6 +58,8 @@ export const updateRefund = (refundId, refundData) => async (dispatch) => {
         dispatch(updateRefundReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -59,6 +70,8 @@ export const acceptRefund = (refundId, cashbookData) => async (dispatch) => {
         dispatch(updateRefundReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -69,6 +82,8 @@ export const rejectRefund = (refundId, password) => async (dispatch) => {
         dispatch(updateRefundReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -79,6 +94,8 @@ export const deleteRefund = (refundId) => async (dispatch) => {
         dispatch(deleteRefundReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import * as api from '../api'
 import { start, end, error, getSocietyReducer, getSocietiesReducer, createSocietyReducer, updateSocietyReducer, deleteSocietyReducer, } from '../reducer/society'
 import { getUsersReducer } from '../reducer/user'
@@ -10,6 +11,8 @@ export const getSociety = (societyId) => async (dispatch) => {
         dispatch(getSocietyReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -20,6 +23,8 @@ export const getSocieties = () => async (dispatch) => {
         dispatch(getSocietiesReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -30,6 +35,8 @@ export const getUsers = () => async (dispatch) => {
         dispatch(getUsersReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -40,6 +47,8 @@ export const searchSociety = (searchTerm, isArchived) => async (dispatch) => {
         dispatch(getSocietiesReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -50,6 +59,8 @@ export const filterSociety = (filters) => async (dispatch) => {
         dispatch(getSocietiesReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -61,6 +72,8 @@ export const createSociety = (societyData, navigate) => async (dispatch) => {
         navigate('/societies')
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -71,6 +84,8 @@ export const updateSociety = (societyId, societyData) => async (dispatch) => {
         dispatch(updateSocietyReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -81,6 +96,8 @@ export const deleteSociety = (societyId) => async (dispatch) => {
         dispatch(deleteSocietyReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

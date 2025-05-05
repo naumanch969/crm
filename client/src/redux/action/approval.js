@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import * as api from '../api'
 import { start, end, error, getApprovalReducer, getApprovalsReducer, createRequestApprovalReducer, rejectRequestApprovalReducer, createVoucherApprovalReducer, acceptVoucherApprovalReducer, rejectVoucherApprovalReducer, createReceiptApprovalReducer, createRefundApprovalReducer, rejectRefundApprovalReducer, deleteApprovalReducer, } from '../reducer/approval'
 import { createNotificationReducer } from '../reducer/notification'
@@ -11,6 +12,8 @@ export const getApproval = () => async (dispatch) => {
         dispatch(getApprovalReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -21,6 +24,8 @@ export const getApprovals = (type) => async (dispatch) => {
         dispatch(getApprovalsReducer({ result: data.result, type }))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -31,6 +36,8 @@ export const createVoucherApproval = (data) => async (dispatch) => {
         dispatch(createVoucherApprovalReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -42,6 +49,8 @@ export const acceptVoucherApproval = (approvalId, password, setOpen) => async (d
         setOpen(false)
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -53,6 +62,8 @@ export const rejectVoucherApproval = (approvalId, password, setOpen) => async (d
         setOpen(false)
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -63,6 +74,8 @@ export const createReceiptApproval = () => async (dispatch) => {
         dispatch(createReceiptApprovalReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -77,6 +90,8 @@ export const createRefundApproval = (approvalData, navigate) => async (dispatch)
         navigate(`/leads`)
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -87,6 +102,8 @@ export const rejectRefundApproval = (approvalId) => async (dispatch) => {
         dispatch(rejectRefundApprovalReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -97,6 +114,8 @@ export const deleteApproval = (approvalId, type) => async (dispatch) => {
         dispatch(deleteApprovalReducer({ type, result: data.result }))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }

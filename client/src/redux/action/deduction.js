@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import * as api from '../api'
 import { start, end, error, createDeductionReducer, deleteDeductionReducer, getDeductionsReducer, updateDeductionReducer, getDeductionReducer } from '../reducer/deduction'
 
@@ -5,11 +6,13 @@ import { start, end, error, createDeductionReducer, deleteDeductionReducer, getD
 
 export const getDeduction = (deductionId) => async (dispatch) => {
     try {
-        dispatch(start()) 
+        dispatch(start())
         const { data } = await api.getDeduction(deductionId)
         dispatch(getDeductionReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -21,6 +24,8 @@ export const getDeductions = () => async (dispatch) => {
         dispatch(getDeductionsReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -32,6 +37,8 @@ export const createDeduction = (deduction) => async (dispatch) => {
         dispatch(createDeductionReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -43,6 +50,8 @@ export const updateDeduction = (deductionId, deduction) => async (dispatch) => {
         dispatch(updateDeductionReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
@@ -54,6 +63,8 @@ export const deleteDeduction = (deductionId) => async (dispatch) => {
         dispatch(deleteDeductionReducer(data.result))
         dispatch(end())
     } catch (err) {
+        const message = err?.response?.data?.message || err?.message || "Something went wrong"
+        toast.error(message)
         dispatch(error(err.message))
     }
 }
